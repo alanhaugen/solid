@@ -1,5 +1,0 @@
-source/primitives.cpp
-source/primitives.h
-Makefile
-source/main.cpp
-project.json

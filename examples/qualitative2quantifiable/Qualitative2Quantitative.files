@@ -1,9 +1,0 @@
-basicscript/basicscript.cpp
-basicscript/basicscript.h
-basicscript/wc.cpp
-basicscript/wc.l
-source/main.cpp
-project.json
-basicscript/Makefile
-basicscript/calc.l
-basicscript/calc.y
