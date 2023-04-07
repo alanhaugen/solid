@@ -4,6 +4,8 @@ Licensed under Apache License 2.0
 
 MinGW-w64 from Git for Windows recommended for the Windows platform.
 
+> mingw32-make.exe all
+
 Macos 10.13 is the last supported release at the moment, since OpenGL was removed from newer releases of macos.
 
 > make all
