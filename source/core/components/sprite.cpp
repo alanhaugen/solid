@@ -1,0 +1,168 @@
+#include "sprite.h"
+#include "core/x-platform/pixmap.h"
+
+void Sprite::Init(const float x_, const float y_, const float scaleX_, const float scaleY_, const int textureWidth_, const int textureHeight_)
+{
+    tag = "Sprite";
+
+    x = x_;
+    y = y_;
+
+    scaleX = scaleX_;
+    scaleY = scaleY_;
+
+    if (textureWidth_ != 0)
+    {
+        width = textureWidth_;
+    }
+    else
+    {
+        width = textures[0]->width;
+    }
+
+    if (textureHeight_ != 0)
+    {
+        height = textureHeight_;
+    }
+    else
+    {
+        height = textures[0]->height;
+    }
+
+    halfWidth  = textureWidth_ / 2;
+    halfHeight = textureHeight_ / 2;
+
+    Array<IDrawable::Vertex> vertices;
+    Array<unsigned int> indices;
+    Array<String> shaders(2);
+
+    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f, -1.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f,  1.0f)));
+
+    vertices[0].textureCoordinates = glm::vec2(1, 1);
+    vertices[1].textureCoordinates = glm::vec2(0, 1);
+    vertices[2].textureCoordinates = glm::vec2(1, 0);
+    vertices[3].textureCoordinates = glm::vec2(1, 0);
+    vertices[4].textureCoordinates = glm::vec2(0, 1);
+    vertices[5].textureCoordinates = glm::vec2(0, 0);
+
+    indices.Add(0);
+    indices.Add(1);
+    indices.Add(2);
+    indices.Add(3);
+    indices.Add(4);
+    indices.Add(5);
+
+    IFile *simpleVertShader = filesystem->Open(URL("data/gui.vert"), PLAIN_TEXT);
+    IFile *simpleFragShader = filesystem->Open(URL("data/gui.frag"), PLAIN_TEXT);
+
+    shaders.Insert(simpleVertShader->Read(), VERTEX_SHADER);
+    shaders.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
+
+    delete simpleVertShader;
+    delete simpleFragShader;
+
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, &textures);
+    drawable->hasDepth    = false;
+    drawable->sendToFront = true;
+    drawable->uniformData = uniforms;
+
+    // Hack for scale...
+    Uniform("scaleX", static_cast<float>(scaleX));
+    Uniform("scaleY", static_cast<float>(scaleY));
+
+    // Hack for scale...
+    Uniform("width", static_cast<float>(width));
+    Uniform("height", static_cast<float>(height));
+
+    // To get graphics placed correctly, the resolution is sent to the shader program
+    Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
+    Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
+
+    // 1.0f will use entire texture, used for spritesheets.. Maybe replace with just width+height and index?
+    Uniform("s", static_cast<float>(1.0f));
+    Uniform("t", static_cast<float>(1.0f));
+}
+
+Sprite::Sprite(String textureFilePath, const float _x, const float _y, const float scaleX_, const float scaleY_, const int _textureWidth, const int _textureHeight)
+{
+    textures.Add(new Pixmap(textureFilePath));
+
+    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight);
+}
+
+Sprite::Sprite(Pixmap *texture, const float _x, const float _y, const int _textureWidth, const int _textureHeight)
+{
+    textures.Add(texture);
+
+    Init(_x, _y, 1.0f, 1.0f, _textureWidth, _textureHeight);
+}
+
+Sprite::~Sprite()
+{
+    renderer->RemoveDrawable(drawable);
+}
+
+void Sprite::Update()
+{
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(x, y)));
+    Uniform("index", static_cast<int>(index));
+
+    renderer->Draw(drawable);
+}
+
+void Sprite::UpdateAfterPhysics()
+{
+}
+
+void Sprite::AddAnimation(int anim, int frames[], int frames_length, int framerate, bool looping)
+{
+    int col = index % columns;
+    int row = rows - 1 - index / rows;
+    float s = (float)col / (float)columns;
+    float t = (float)row / (float)rows;
+
+    Uniform("s", static_cast<float>(s));
+    Uniform("t", static_cast<float>(t));
+}
+
+void Sprite::PlayAnimation(int anim, bool reset)
+{
+
+}
+
+void Sprite::FlipHorizontal()
+{
+
+}
+
+void Sprite::FlipVertical()
+{
+
+}
+
+void Sprite::Show()
+{
+    isVisible = true;
+    drawable->visible = true;
+}
+
+void Sprite::Hide()
+{
+    isVisible = false;
+    drawable->visible = false;
+}
+
+void Sprite::Rotate(int radians)
+{
+
+}
+
+void Sprite::Scale(const float scale, bool x, bool y)
+{
+
+}

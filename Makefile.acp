@@ -1,0 +1,137 @@
+#############################################################################
+# Asset Conditioning Pipeline
+#
+# This program will find the data to be included in the project automatically
+# and prepare them according to platform-specific requirements
+# The program will also make sure only the required data is included in the
+# deployed program
+#
+# Usage: 
+#
+# Type
+# > make acp
+# to activate
+# 
+# All the files detected as part of the project will be prepared according
+# to the platform setup and get converted to the directory ./intermediate
+# After conversion, the converted files will be moved next to the binary
+#
+# Type
+# > make print
+# to see what files the ACP has detected as part of the project
+#############################################################################
+
+ENDIANNESS ?= <
+
+#############################################################################
+# Setup (this section is not used yet, can be skipped)
+#############################################################################
+
+CONVERT_FORMATS = 3FR|A|AAI|AI|ART|ARW|AVI|AVS|B|BIE|BMP|BMP2|BMP3|C|CAL|CALS|CANVAS|CIN|CIP|CLIP|CMYK|CMYKA|CR2|CRW|CUR|CUT|DCM|DICOM|DCR|DCX|DDS|DFONT|DNG|DPX|Digital|EPDF|EPI|EPS|EPS2|EPS3|EPSF|EPSI|EPT|EPT2|EPT3|ERF|FAX|FAX|they|FAX|FITS|FRACTAL|FTS|G|G3|GIF|GIF87|GRADIENT|GRAY|GROUP4|HALD|HDR|HISTOGRAM|HRZ|HTM|HTML|ICB|ICO|ICON|INFO|INLINE|IPL|J2C|J2K|JBG|JBIG|JNG|JP2|JPC|JPEG|JPG|JPX|K|K25|KDC|LABEL|M|M2V|M4V|MAC|MAP|MAT|MATTE|MEF|MIFF|MNG|See|MONO|MOV|MP4|MPC|MPEG|MPG|MRW|MSL|MSVG|MTV|MVG|NEF|NRW|NULL|O|ORF|OTB|OTF|PAL|PALM|PAM|PANGO|PATTERN|PBM|PCD|PCDS|PCL|PCT|PCX|PDB|PDF|PDFA|PEF|PES|PFA|PFB|PFM|PGM|PGX|PICON|PICT|PIX|PJPEG|PLASMA|PNG|PNG24|PNG32|PNG8|PNM|PPM|PREVIEW|PS2|PS3|PSB|PSD|PTIF|PWP|R|RADIAL-GRADIENT|RAF|RAS|RGB|RGBA|RGBO|RLA|RLE|SCR|SCT|SFW|SGI|SHTML|SR2|SRF|STEGANO|SUN|SVG|SVGZ|TGA|THUMBNAIL|TIFF|TIFF64|TILE|TIM|TTC|TTF|UIL|UYVY|VDA|VICAR|VID|VIFF|VST|WBMP|WMV|WPG|X3F|XBM|XC|XCF|XPM|XPS|XV|Y|YCbCr|YCbCrA|YUV
+ASSIMP_FORMATS = fbx|dae|gltf|glb|blend|3ds|ase|obj|ifc|xgl|zgl|ply|dxf|lwo|lws|lxo|stl|x|ac|ms3d|cob|scn|ogex|x3d|3mf|bvh|csm|xml|irrmesh|irr|mdl|md2|md3|pk3|mdc|md5|smd|vta|ogex|3d|b3d|q3d|q3s|nff|nff|off|raw|ter|mdl|hmp|ndo
+AUDIO_FORMATS = wav|aiff|pcm|ogg|flac|mp2|mp3
+VIDEO_FORMATS = mkv
+#FFMPEG_FORMATS = 012v|4xm|8bps|aasc|agm|aic|alias_pix|amv|anm|ansi|apng|arbc|asv1|asv2|aura|Aura2|Libdav1d|Libaom-av1|Avrn|Avrp|Avs|Avui|Ayuv|Bethsoftvid|Bfi|Binkvideo|Bintext|Bitpacked|Bmp|Bmv_video|Brender_pix|C93|Cavs|Cdgraphics|Cdtoons|Cdxl|Cfhd|Cinepak|Clearvideo|Cljr|Cllc|Eacmv|Cpia|Camstudio|Cyuv|Dds|Dfa|Dirac|Dnxhd|Dpx|Dsicinvideo|Dvvideo|Dxa|Dxtory|Dxv|Escape124|Escape130|Exr|Ffv1|Ffvhuff|Fic|Fits|Flashsv|Flashsv2|Flic|Flv|Flv1|Fmvc|Fraps|Frwu|G2m|Gdv|Gif|H261|H263|H263i|H263p|H264|Hap|Hevc|Hnm4video|Hq_hqa|Hqx|Huffyuv|Hymt|Idcinvideo|Idf|Iff|Imm4|Imm5|Indeo2|Indeo3|Indeo4|Indeo5|Interplayvideo|Jpeg2000|Libopenjpeg|Jpegls|Jv|Kgv1|Kmvc|Lagarith|Loco|Lscr|M101|Eamad|Magicyuv|Mdec|Mimic|Mjpeg|Mjpegb|Mmvideo|Motionpixels|Mpeg1video|Mpeg2video|Mpegvideo|Mpeg4|Msa1|Mscc|Msmpeg4v1|Msmpeg4v2|Msmpeg4|Msrle|Mss1|Mss2|Msvideo1|Mszh|Mts2|Mv30|Mvc1|Mvc2|Mvdv|Mvha|Mwsc|Mxpeg|Notchlc|Nuv|Paf_video|Pam|Pbm|Pcx|Pfm|Pgm|Pgmyuv|Pictor|Pixlet|Png|Ppm|Prores|Prosumer|Psd|Ptx|Qdraw|Qpeg|Qtrle|R10k|R210|Rasc|Rawvideo|Rl2|Roqvideo|Rpza|Rscc|Rv10|Rv20|Rv30|Rv40|Sanm|Scpr|Screenpresso|Sgi|Sgirle|Sheervideo|Smackvid|Smc|Smvjpeg|Snow|Sp5x|Speedhq|Srgc|Sunrast|Svq1|Svq3|Targa|Targa_y216|Tdsc|Eatgq|Eatgv|Theora|Thp|Tiertexseqvideo|Tiff|Tmv|Eatqi|Truemotion1|Truemotion2|Truemotion2rt|Camtasia|Tscc2|Txd|Ultimotion|Utvideo|V210|V210x|V308|V408|V410|Vb|Vble|Vc1|Vc1image|Vcr|Xl|Vmdvideo|Vmnc|Vp3|Vp4|Vp5|Vp6|Vp6a|Vp6f|Vp7|Vp8|Libvpx|Vp9|Libvpx-vp9|Wcmv|Webp|Wmv1|Wmv2|Wmv3|Wmv3image|Wnv1|Wrapped_avframe|Vqavideo|Decws_vqa|Xan_wc3|Xan_wc4|Xbin|Xbm|Xface|Xpm|Xwd|Y41p|Ylc|Yop|Yuv4|Zerocodec|Zlib|Zmbv|8svx_exp|8svx_fib|Aac|Aac_fixed|Aac_at|Aac_latm|Ac3|Ac3_fixed|Ac3_at|Adpcm_4xm|Adpcm_adx|Adpcm_afc|Adpcm_agm|Adpcm_aica|Adpcm_argo|Adpcm_ct|Adpcm_dtk|Adpcm_ea|Adpcm_ea_maxis_xa|Adpcm_ea_r1|Adpcm_ea_r2|Adpcm_ea_r3|Adpcm_ea_xas|G722|G726|G726le|Adpcm_ima_alp|Adpcm_ima_amv|Adpcm_ima_apc|Adpcm_ima_apm|Adpcm_ima_cunning|Adpcm_ima_dat4|Adpcm_ima_dk3|Adpcm_ima_dk4|Adpcm_ima_ea_eacs|Adpcm_ima_ea_sead|Adpcm_ima_iss|Adpcm_ima_mtf|Adpcm_ima_oki|Adpcm_ima_qt|Adpcm_ima_qt_at|Adpcm_ima_rad|Adpcm_ima_smjpeg|Adpcm_ima_ssi|Adpcm_ima_wav|Adpcm_ima_ws|Adpcm_ms|Adpcm_mtaf|Adpcm_psx|Adpcm_sbpro_2|Adpcm_sbpro_3|Adpcm_sbpro_4|Adpcm_swf|Adpcm_thp|Adpcm_thp_le|Adpcm_vima|Adpcm_xa|Adpcm_yamaha|Adpcm_zork|Alac|Alac_at|Amrnb|Amr_nb_at|Libopencore_amrnb|R_nb)|Amrwb|Libopencore_amrwb|Wb)|Ape|Aptx|Aptx_hd|Atrac1|Atrac3|Atrac3al|Ssless)|Atrac3plus|C3p)|Atrac3plusal|Lossless)(codecatra|Atrac9|On2avc|Binkaudio_dct|Binkaudio_rdft|Bmv_audio|Comfortnoise|Cook|Derf_dpcm|Dolby_e|Dsd_lsbf|Dsd_lsbf_planar|Lanar|Dsd_msbf|Dsd_msbf_planar|Anar|Dsicinaudio|Dss_sp|Dst|Dca|Dvaudio|Eac3|Eac3_at|Evrc|Flac|G723_1|G729|Gremlin_dpcm|Gsm|Gsm_ms|Gsm_ms_at|Hca|Hcom|Iac|Ilbc|Ilbc_at|Imc|Interplay_dpcm|Interplayacm|Mace3|Mace6|Metasound|Mlp|Mp1|Mp1float|Mp1_at|Mp2|Mp2float|Mp2_at|Mp3float|Mp3|Mp3_at|Mp3adufloat|Mp3adu)|Mp3adu|Mp3on4float|Mp3on4|Als|Mpc7|Mpc8|Nellymoser|Opus|Libopus|Paf_audio|Pcm_alaw|Pcm_alaw_at|Pcm_bluray|Pcm_dvd|Pcm_f16le|Pcm_f24le|Pcm_f32be|Pcm_f32le|Pcm_f64be|Pcm_f64le|Pcm_lxf|Pcm_mulaw|Pcm_mulaw_at|Pcm_s16be|Pcm_s16be_planar|Pcm_s16le|Pcm_s16le_planar|Pcm_s24be|Pcm_s24daud|Pcm_s24le|Pcm_s24le_planar|Pcm_s32be|Pcm_s32le|Pcm_s32le_planar|Pcm_s64be|Pcm_s64le|Pcm_s8|Pcm_s8_planar|Pcm_u16be|Pcm_u16le|Pcm_u24be|Pcm_u24le|Pcm_u32be|Pcm_u32le|Pcm_u8|Pcm_vidc|Qcelp|Qdm2|Qdm2_at|Qdmc|Qdmc_at|Real_144|Real_288|Ralf|Roq_dpcm|S302m|Sbc|Sdx2_dpcm|Shorten|Sipr|Siren|Smackaud|Sol_dpcm|Sonic|Libspeex|Tak|Truehd|Truespeech|Tta|Twinvq|Vmdaudio|Vorbis|Libvorbis|Wavesynth|Wavpack|Ws_snd1|Wmalossless|Wmapro|Wmav1|Wmav2|Wmavoice|Xan_dpcm|Xma1|Xma2|Ssa|Ass|Dvbsub|Dvdsub|Cc_dec|Pgssub|Subtitle)|Jacosub|Microdvd|Mov_text|Mpl2|Pjs|Realtext|Sami|Stl|Srt|Subrip|Subviewer|Subviewer1|Text|Vplayer|Webvtt|Xsub
+
+TEXT_EXTENSIONS = vert|frag|json
+
+#############################################################################
+# Formats to search for, in effect the only code relevant in this section
+#############################################################################
+
+#FORMATS = $(CONVERT_FORMATS)|$(ASSIMP_FORMATS)|$(AUDACITY_FORMATS)|$(TEXT_EXTENSIONS)
+FORMATS = vert|frag|json|blend|wav|mkv|png|jpg
+
+#PROJECT_FILES ?= $(SOURCES)
+
+#############################################################################
+# Search for the data files used in the project
+#############################################################################
+
+ifneq ($(PROJECT_FILES),)
+    SEARCH_FILES = $(PROJECT_FILES) $(shell egrep -iho "\".*\.json\"" $(PROJECT_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
+
+    BLEND_FILES   := $(shell egrep -iho "\".*\.blend\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
+    TEXTURE_FILES := $(patsubst %.blend,%.blend_textures.json,$(BLEND_FILES))
+
+    SEARCH_FILES += $(TEXTURE_FILES)
+
+#############################################################################
+# Files which will be processed by the ACP 
+#
+# Maybe one should ignore this and simply do a
+#
+# PROJECT_FILES = # Nothing 
+# FILES += ... # All your data files added manually
+#
+# in the project Makefile
+#############################################################################
+
+    FILES = $(shell egrep -iho "\".*\.($(FORMATS))\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/icon :  /data\//'|sed -E 's/ //g')
+    FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/8bit_font.png data/gnsh-bitmapfont.png
+endif
+
+DATA = $(subst data,intermediate,$(FILES))
+
+#############################################################################
+# TODO functions for conversions?
+#############################################################################
+
+#############################################################################
+# Rules to process files 
+#############################################################################
+
+print:
+	@echo $(FILES)
+
+intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
+	@mkdir -p $@/..
+	@touch $@
+	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) "$(ENDIANNESS)" 
+
+intermediate/%.wav: data/%.wav
+	@mkdir -p $@/..
+	@touch $@
+	./$(TOOLS_DIR)/audacity $< --output-dir=intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+
+intermediate/%.mkv: data/%.mkv
+	@mkdir -p $@/..
+	@touch $@
+	./$(TOOLS_DIR)/ffmpeg -i $< -c:v libtheora -q:v 7 -c:a libvorbis -q:a 4 -f ogg -max_muxing_queue_size 1024 intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+#	./$(TOOLS_DIR)/ffmpeg -i $< -vn -acodec copy intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+
+intermediate/%.jpg: data/%.jpg 
+	@mkdir -p $@/..
+	@touch $@
+	./$(TOOLS_DIR)/convert$(EXE) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+
+intermediate/%.png: data/%.png 
+	@mkdir -p $@/..
+	@touch $@
+	./$(TOOLS_DIR)/convert$(EXE) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+
+intermediate/%.3dformat: data/%.blend
+	@mkdir -p $@/..
+	@touch $@
+	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) "$(ENDIANNESS)"
+
+intermediate/%.json: data/%.json
+	@mkdir -p $@/..
+	@touch $@
+	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+
+intermediate/%.frag: data/%.frag
+	@mkdir -p $@/..
+	@touch $@
+	@cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+
+intermediate/%.vert: data/%.vert
+	@mkdir -p $@/..
+	@touch $@
+	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+
+intermediate/%.wav: data/%.wav
+	@mkdir -p $@/..
+	@touch $@
+	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+

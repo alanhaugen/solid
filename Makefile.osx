@@ -1,0 +1,18 @@
+#############################################################################
+# Setup libraries and compiler for this platform
+# Type make PLATFORM=darwin to use, don't change filename
+#############################################################################
+
+PROCESSOR_ARCH = x86_64
+
+CC = clang++
+
+include $(SOLIDCORE)/Makefile.generic
+
+#############################################################################
+# Add platform specific dependencies
+#############################################################################
+
+LIBS += -lm -liconv -framework CoreMIDI -framework CoreFoundation -framework AudioToolbox -framework CoreAudio -framework Carbon -framework ForceFeedback -framework CoreVideo -framework AppKit -framework OpenGL -framework IOKit -framework Cocoa 
+
+CFLAGS += -D__MACOSX_CORE__

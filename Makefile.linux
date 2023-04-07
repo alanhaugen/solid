@@ -1,0 +1,18 @@
+#############################################################################
+# Setup libraries and compiler for this platform
+# Type make PLATFORM=linux to use, don't change filename
+#############################################################################
+
+include $(SOLIDCORE)/Makefile.generic
+
+#############################################################################
+# Add platform specific dependencies
+#############################################################################
+
+LIBS += -lm -ldl -lpthread -Wl,-rpath=$(SOLIDCORE)/lib/$(OUTPUT_DIR)
+#############################################################################
+# Add platform specific CFLAGS
+#############################################################################
+
+CFLAGS += -DLINUX
+

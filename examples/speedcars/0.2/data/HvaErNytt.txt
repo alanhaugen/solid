@@ -1,0 +1,13 @@
+		Hva er nytt	Speed Cars Demo
+
+0,2: Det er ikke en så veldig stor forskjell fra 0,1 til 0,2, men 0,2 er mye mer "fullført" enn 0,1. I 0,1 var det et parr feil med måten bilen traff banen på. Disse feilene har blitt rettet på i 0,2. Også "tiden" og noen av teksturene har blitt oppgradert. Det eneste som er nytt i 0,2 er "highscore" listen og "options" menyen!
+
+
+			For neste versjon av Speed Cars
+
+0.3 :	- Delt skjerm "multiplayer"
+	- Flere baner
+	- Nytt design
+	- Datastyrte "spøkelser" (Ghosts)
+	- Flere språk (blant annet Norsk!)
+	+ Mer!

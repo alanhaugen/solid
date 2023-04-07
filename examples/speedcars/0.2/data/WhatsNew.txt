@@ -1,0 +1,12 @@
+			What's New?	Speed Cars Demo
+
+0,2 : There is not a big diffirence from SCD 0,1 to 0,2 but 0,2 is a more finished	version of 0,1. In 0,1 there were a few bugs with the collisions. Most of these bugs have now been "patched". Also the "time" and a few of the textures have been upgraded. The only new thing in 0,2 is the "Highscore" and the options menu!
+
+			In the next version of Speed Cars:
+
+0,3 : - Split screen multiplayer
+      - Several tracks (at least three!)
+      - New design
+      - Ghosts
+      - More languages
+      + More!

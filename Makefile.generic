@@ -1,0 +1,168 @@
+#############################################################################
+# Setup libraries and compiler for a generic platform
+#############################################################################
+
+ifndef CC
+    CC ?= g++
+    CFLAGS += -Wno-strict-aliasing
+endif
+
+DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
+
+#############################################################################
+# Default modules and platform
+#############################################################################
+
+PLATFORM   ?= SDLApplication
+AUDIO      ?= PortaudioAudio
+RENDERER   ?= GLES2Renderer
+#PHYSICS    ?= BulletPhysics
+#SCRIPT     ?= AngelScript
+#FILESYSTEM ?= ZlibFileSystem
+PHYSICS    ?= NullPhysics
+SCRIPT     ?= NullScript
+FILESYSTEM ?= StdFileSystem
+
+PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
+AUDIO_HEADER      ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+RENDERER_HEADER   ?= "modules/renderer/gles2/gles2renderer.h"
+PHYSICS_HEADER    ?= "modules/physics/null/nullphysics.h"
+SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
+FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
+
+#############################################################################
+# Keymap first key for SDL platform
+#############################################################################
+
+KEYMAP_FIRSTKEY ?= 97
+
+#############################################################################
+# Libs
+#############################################################################
+
+LIBPATH = -L$(SOLIDCORE)/lib/$(OUTPUT_DIR) -L/usr/lib
+
+ifeq ($(PLATFORM),SDLApplication)
+    LIBS += -lSDL2
+endif
+
+ifeq ($(AUDIO),fmod)
+    LIBS += ./source/3rdparty/fmod/api/lowlevel/lib/$(PROCESSOR_ARCH)/libfmod.so
+    INCLUDE += -I./source/3rdparty/fmod/lowlevel/inc
+endif
+
+ifeq ($(AUDIO),PortaudioAudio)
+    LIBS += -lvorbisenc -lvorbisfile -lvorbis -logg -lportaudioaudio -lportaudio_static -lsndfile 
+endif
+
+ifeq ($(RENDERER),GLES2Renderer)
+    LIBS += -lgles2renderer
+endif
+ifeq ($(RENDERER),SoftwareRenderer)
+    LIBS += -lgles2renderer -lsoftwarerenderer
+endif
+
+ifeq ($(FILESYSTEM),ZlibFileSystem)
+    FILESYSTEM_HEADER ?= "modules/filesystem/zlib/zlibfilesystem.h"
+    LIBS += -lzlibfilesystem
+else ifeq ($(FILESYSTEM),StdFileSystem)
+    LIBS += -lstdfilesystem
+endif
+
+ifneq ($(COMPILE_PLATFORM),webasm)
+LIBS += \
+    -ltheora \
+    -ltheoradec \
+    -ltheoraenc
+endif
+
+LIBS += \
+    -lnullscript \
+    -lnullaudio \
+    -lnullrenderer \
+    -lnullfilesystem \
+    -lnullphysics
+
+#############################################################################
+# File Formats for Assets
+#############################################################################
+
+IMAGE_FORMAT    = png #tga
+GEOMETRY_FORMAT = 3dformat #obj #glb
+AUDIO_FORMAT    = wav #ogg
+VIDEO_FORMAT    = ogv
+
+INTERMEDIATE_DIR = intermediate
+TOOLS_DIR        = $(SOLIDCORE)/tools/$(COMPILE_PLATFORM)
+
+include $(SOLIDCORE)/Makefile.acp
+
+#############################################################################
+# Source files
+#############################################################################
+
+PLATFORM_SOURCES ?= \
+    source/3rdparty/RtMidi.cpp \
+    source/core/platforms/sdl/gl.cpp \
+    source/core/platforms/sdl/sdlapplication.cpp \
+    source/core/platforms/sdl/sdldebug.cpp \
+    source/core/platforms/sdl/sdltime.cpp \
+    source/core/platforms/sdl/sdlrender.cpp
+
+#############################################################################
+# CFlags and LDFlags
+#############################################################################
+
+# Remember to configure asan with ASAN_OPTIONS env var when using it.
+# -fsanitize=address
+CFLAGS += -Wall -MD $(INCLUDE) -DKEYMAP_FIRSTKEY=$(KEYMAP_FIRSTKEY) -DPLATFORM=$(PLATFORM) -DPLATFORM_HEADER=$(PLATFORM_HEADER) -DAUDIO=$(AUDIO) -DAUDIO_HEADER=$(AUDIO_HEADER) -DRENDERER=$(RENDERER) -DRENDERER_HEADER=$(RENDERER_HEADER) -DPHYSICS=$(PHYSICS) -DPHYSICS_HEADER=$(PHYSICS_HEADER) -DSCRIPT=$(SCRIPT) -DSCRIPT_HEADER=$(SCRIPT_HEADER) -DFILESYSTEM=$(FILESYSTEM) -DFILESYSTEM_HEADER=$(FILESYSTEM_HEADER)
+
+ifndef MSVC2019
+    ifneq ($(COMPILE_PLATFORM),webasm)
+        CFLAGS += -DTHEORA 
+    endif
+endif
+
+ifdef MSVC2019
+    CFLAGS += -std:c++latest -Fo./build/ -DTILTFIVE # msvc++
+    INCLUDE += -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/shared -I/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Community/VC/Tools/MSVC/14.28.29910/include -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/ucrt -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/um -I/c/Program\ Files\ \(x86\)/Microsoft\ DirectX\ SDK\ \(June\ 2010\)/Include
+else
+    CFLAGS += -Wno-strict-aliasing -std=c++11 # g++
+endif
+
+DEBUGCFLAGS = -g
+LDFLAGS += $(LIBPATH) $(LIBS) -fPIC
+
+ifdef MULTITHREADED
+    CFLAGS += -DMULTITHREADED
+endif
+
+release: CFLAGS += -O3 -DNDEBUG
+debug: CFLAGS += $(DEBUGCFLAGS)
+
+acp: $(DATA)
+
+all: $(DEPS)
+	@$(MAKE) debug
+	@$(MAKE) release
+
+ifeq ($(COMPILE_PLATFORM),webasm)
+bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): $(OBJS) $(DATA) $(LIB_DIR)/$(OUTPUT_DIR)/libcore.a
+	$(shell mkdir -p bin/$(OUTPUT_DIR))
+	$(shell cp $(INTERMEDIATE_DIR)/* bin/$(OUTPUT_DIR))
+	$(CC) $(LDFLAGS) -o bin/$(OUTPUT_DIR)/$(TARGET)$(EXE) $(OBJS) $(CFLAGS) 
+else
+bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): $(OBJS) $(DATA) $(LIB_DIR)/$(OUTPUT_DIR)/libcore.a
+	$(shell mkdir -p bin/$(OUTPUT_DIR))
+	$(shell cp $(INTERMEDIATE_DIR)/* bin/$(OUTPUT_DIR))
+	$(CC) -o bin/$(OUTPUT_DIR)/$(TARGET)$(EXE) $(OBJS) $(CFLAGS) $(LDFLAGS)
+endif
+
+$(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).a: $(OBJS)
+	@echo "LINKING $(TARGET)"
+	$(shell mkdir -p $(LIB_DIR)/$(OUTPUT_DIR))
+	$(shell ar cr $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).a $(OBJS))
+
+run: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
+	cd ./bin/$(OUTPUT_DIR)/ && ./$(TARGET)$(EXE)
+

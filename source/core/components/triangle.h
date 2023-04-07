@@ -1,0 +1,19 @@
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
+
+#include "core/components/component.h"
+
+class Triangle : public IComponent
+{
+public:
+    Triangle();
+    Triangle(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex v3);
+
+    void Update();
+    void UpdateAfterPhysics();
+
+private:
+    IDrawable *drawable;
+};
+
+#endif // TRIANGLE_H

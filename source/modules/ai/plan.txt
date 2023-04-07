@@ -1,0 +1,81 @@
+AI Caliber 1) Artificial Narrow Intelligence (ANI): Sometimes referred to as Weak AI, Artificial Narrow Intelligence is AI that specializes in one area. There’s AI that can beat the world chess champion in chess, but that’s the only thing it does. Ask it to figure out a better way to store data on a hard drive, and it’ll look at you blankly.
+
+AI Caliber 2) Artificial General Intelligence (AGI): Sometimes referred to as Strong AI, or Human-Level AI, Artificial General Intelligence refers to a computer that is as smart as a human across the board—a machine that can perform any intellectual task that a human being can. Creating AGI is a much harder task than creating ANI, and we’re yet to do it. Professor Linda Gottfredson describes intelligence as “a very general mental capability that, among other things, involves the ability to reason, plan, solve problems, think abstractly, comprehend complex ideas, learn quickly, and learn from experience.” AGI would be able to do all of those things as easily as you can.
+
+AI Caliber 3) Artificial Superintelligence (ASI): Oxford philosopher and leading AI thinker Nick Bostrom defines superintelligence as “an intellect that is much smarter than the best human brains in practically every field, including scientific creativity, general wisdom and social skills.” Artificial Superintelligence ranges from a computer that’s just a little smarter than a human to one that’s trillions of times smarter—across the board. ASI is the reason the topic of AI is such a spicy meatball and why the words “immortality” and “extinction” will both appear in these posts multiple times.
+
+https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-1.html
+
+
+George Bool introduced boolean algebra in The Laws of Thought (1854) which can be used to make a robot. To state ideas formally you use symbolic logic, also known as Boolean algebra, though deductive reasoning was understood by ad-hoc methods before Boole.
+
+Boolean algebra can be used to make computers more cognizant.
+
+Syllogisms may have different strengths. Deduction (apodeixis) is strong, induction (epagoge) is weak.
+
+Given two propositions, A and B, it may happen that one is true if and only if the other is true; they have the same truth value. This may be by tautology. Or after immense mathematical labor.
+
+Two propositions with the same truth value are equally likely.
+
+A = B does not mean that A is equal to be, in Boolean algebra, but that A and B have the same truth value. Tripple bar, A ¿ B, means 'equals by definition', as usual.
+
+Denial of a proposition is indicated by a bar (macron) or ¬.
+
+¿ ¿ A is false
+¬A ¿ A is false
+
+The relation between A, ¿ is a reciprocal one
+
+A = ¿ is false
+
+Further, notice the difference between logical sum and logical product
+
+¬(AB) = AB is false
+¬(AB) = A + B
+
+¬A ¬B = both A and B are false
+
+Idempotence
+    AA = A
+    A + A = A
+
+Commutativity
+    AB = BA
+    A + B = B + A
+
+Associativity
+    A(BC) = (AB)C = ABC
+    A + (B + C) = (A + B) + C = A + B + C
+
+
+Distributivity
+    A(B + C) = AB + AC
+    A + (BC) = (A + B)(A + C)
+
+Duality
+    If C = AB, then ¬C = ¬A + ¬B
+    If D = A + B, then ¬D = ¬A ¬B
+
+But by their application one can prove any number of further relations, some highly nontrivial. Consider this rather elementary theorem
+
+if ¬B = AD then A ¬B = ¬B and B ¬A = ¬A
+
+Implication
+
+A ¿ B
+A = AB
+
+"A implies B". It says A ¬B is false or, the same thing, (¬A + B) is true.
+
+Implication is a poor word. A = AB is false only when A is true and B is false. It is otherwise true.
+
+A = true  =  1
+B = false = -1
+
+A = AB = true = 1 - 1
+         1    = 0
+A = AB = true = 1 + 1
+         1    = 2
+A = AB = false  = -1 + 1
+         -1    = 0
+

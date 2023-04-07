@@ -1,0 +1,179 @@
+#############################################################################
+# Setup the configuration
+#############################################################################
+
+FLEX  ?= flex
+BISON ?= bison
+
+ASSIMP ?= assimp 
+
+INSTALL_DIR      ?= /usr/local
+COMPILE_PLATFORM ?= $(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 's/\//_/g')
+PROCESSOR_ARCH   ?= $(shell uname -m | sed -e s/AMD64/x86_64/ | sed -e s/i.86/x86/ | sed -e s/v7l/hf/)
+BLENDER          ?= blender
+
+LIBRARY_EXTENSION = a
+
+ifeq ($(OS),Windows_NT)
+    FLEX  = $(SOLIDCORE)/tools/mingw32/win_flex.exe
+    BISON = $(SOLIDCORE)/tools/mingw32/win_bison.exe
+    
+    BLENDER = ./$(TOOLS_DIR)/blender-2.93.0/blender.exe
+    
+    ifdef VSCMD_ARG_HOST_ARCH
+        COMPILE_PLATFORM = mingw32
+        MSVC2019 = 1
+    endif
+    ifneq ($(COMPILE_PLATFORM),cygwin)
+        COMPILE_PLATFORM = mingw32
+    endif
+else ifeq ($(PROCESSOR_ARCH),armhf)
+    COMPILE_PLATFORM = raspberrypi
+else
+    UNAME := $(shell uname -s)
+    ifeq ($(UNAME),Darwin)
+        BLENDER = /Applications/Blender.app/Contents/MacOS/Blender
+    endif
+endif
+
+#############################################################################
+# Setup everything else, all code beyond this point should be left alone
+#############################################################################
+
+.PHONY: default all install debug release lib sharedlib executable run doc test clean nullaudio nullscript nullfilesystem nullphysics nullrenderer gles2renderer solid acp
+
+default: debug
+
+ifeq ($(MAKECMDGOALS),release)
+    BUILD = release
+    BUILD_TYPE = NDEBUG
+else
+    BUILD = debug
+endif
+
+OUTPUT_DIR = $(BUILD)/$(COMPILE_PLATFORM)/$(PROCESSOR_ARCH)
+BUILD_DIR  = build/$(OUTPUT_DIR)
+LIB_DIR    = $(SOLIDCORE)/lib
+
+GENERATED_SOURCES = $(PARSERS:.y=.tab.cpp) $(SCANNERS:.l=.cpp) 
+SOURCES += $(GENERATED_SOURCES)
+
+ifdef MSVC2019
+OBJS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.obj))
+else
+OBJS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.o))
+endif
+
+INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(COMPILE_PLATFORM)
+
+#############################################################################
+# Set target platform libs and compiler
+#############################################################################
+
+ifeq ($(COMPILE_PLATFORM),cygwin)
+    include $(SOLIDCORE)/Makefile.cafe
+else ifeq ($(COMPILE_PLATFORM),webasm)
+    include $(SOLIDCORE)/Makefile.webasm
+else ifeq ($(COMPILE_PLATFORM),mingw32)
+    include $(SOLIDCORE)/Makefile.mingw-w64
+else ifeq ($(COMPILE_PLATFORM),darwin)
+    include $(SOLIDCORE)/Makefile.osx
+else ifeq ($(COMPILE_PLATFORM),raspberrypi)
+    include $(SOLIDCORE)/Makefile.raspberrypi
+else ifeq ($(COMPILE_PLATFORM),linux)
+    ifeq ($(PLATFORM),ndk)
+        include $(SOLIDCORE)/Makefile.ndk
+    else ifeq ($(PLATFORM),mingw32)
+        include $(SOLIDCORE)/Makefile.mingw-w64
+    else
+        include $(SOLIDCORE)/Makefile.linux
+    endif
+endif
+
+#############################################################################
+# Setup rules for the lexical analyser and the syntactic analyser
+#############################################################################
+
+%.tab.cpp: %.y
+	$(BISON) -o $*.tab.cpp -d $<
+
+%.cpp: %.l 
+	$(FLEX) -o $*.cpp $*.l
+
+#############################################################################
+# Default targets all
+#############################################################################
+
+default install: all
+
+#############################################################################
+# Rules for module compilation targets
+#############################################################################
+
+nullaudio:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/audio/null 
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/audio/null 
+
+nullfilesystem:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/filesystem/null
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/filesystem/null
+
+stdfilesystem:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/filesystem/std
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/filesystem/std
+
+nullphysics:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/physics/null
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/physics/null
+
+nullscript:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/script/null
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/script/null
+
+nullrenderer:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/renderer/null
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/renderer/null
+
+gles2renderer:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/renderer/gles2
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/renderer/gles2
+
+portaudioaudio:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/audio/portaudioaudio
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/audio/portaudioaudio
+
+solid:
+	$(MAKE) debug -C $(SOLIDCORE)
+	$(MAKE) release -C $(SOLIDCORE)
+
+#############################################################################
+# Main targets
+#############################################################################
+
+install:
+	cp $(SOLIDCORE)/lib/$(OUTPUT_DIR)/* $(INSTALL_DIR)/lib
+
+sharedlib: $(OBJS)
+	$(shell mkdir -p lib/$(OUTPUT_DIR))
+	$(CC) -shared -o $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).so $(CFLAGS) $(OBJS) $(LDFLAGS)
+
+test: executable
+	./bin/$(OUTPUT_DIR)/$(TARGET) --test-run
+
+doc:
+	cd docs && doxygen
+
+$(BUILD_DIR)/%.o: %.cpp
+	@$(shell mkdir -p $@.dummy)
+	$(CC) $(CFLAGS) -c $*.cpp -o $@ $(MD)
+	@echo $*.cpp
+
+clean:
+	find . -name build -exec rm -rf {} \;
+	find $(SOLIDCORE) -name build -exec rm -rf {} \;
+	rm $(TARGET).rpx
+
+ifndef MSVC2019
+# TODO: Check if this is actually working! 
+-include $(OBJS:.o=.d)
+endif

@@ -1,0 +1,101 @@
+#############################################################################
+# Setup libraries and compiler for this platform
+# Type make PLATFORM=mingw32 to use, don't change filename
+#############################################################################
+
+PROCESSOR_ARCH = x86
+
+DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
+
+ifdef MSVC2019
+    CC = cl.exe
+    LIB_MSVC = lib.exe
+    LINK_MSVC = link.exe
+    PROCESSOR_ARCH = x86_64
+    #COMPILE_PLATFORM = msvc
+    LIBRARY_EXTENSION = LIB
+    AUDIO = NullAudio
+    AUDIO_HEADER = "modules/audio/null/nullaudio.h"
+endif
+ 
+PLATFORM ?= WinApplication
+PLATFORM_HEADER ?= "core/platforms/win/winapplication.h"
+
+#############################################################################
+# Keymap first key for Win32 platform and add file extension
+#############################################################################
+
+KEYMAP_FIRSTKEY = 65
+
+EXE := .exe
+
+#############################################################################
+# Change compiler
+#############################################################################
+
+ifndef MSVC2019
+    ifeq ($(PROCESSOR_ARCH),x86_64)
+        CC = x86_64-w64-mingw32-g++
+        m  = -m64
+    else
+        CC = i686-w64-mingw32-g++
+        m  = -m32
+    endif
+
+    CFLAGS += -mwindows $(m) -DGCC
+endif
+
+#############################################################################
+# Change platform sources and headers
+#############################################################################
+
+ifeq ($(PLATFORM),WinApplication)
+    PLATFORM_SOURCES = \
+        source/3rdparty/RtMidi.cpp \
+        source/core/platforms/win/gl.cpp \
+        source/core/platforms/win/wgl.cpp \
+        source/core/platforms/win/winapplication.cpp \
+        source/core/platforms/win/winrenderer.cpp \
+        source/core/platforms/win/windebug.cpp \
+        source/core/platforms/win/wintime.cpp
+endif
+
+#############################################################################
+# Add CFlags and LDFlags
+#############################################################################
+
+LDFLAGS += -static -static-libgcc -static-libstdc++ 
+
+ifeq ($(BUILD_TYPE), NDEBUG)
+    LDFLAGS += -Wl,-subsystem,windows # Removes console
+endif
+
+bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): CFLAGS += data/app.res $(shell windres data/app.rc -O coff -F pe-i386 -o data/app.res) 
+
+include $(SOLIDCORE)/Makefile.generic
+
+#############################################################################
+# Add platform specific libraries
+#############################################################################
+
+LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
+
+#############################################################################
+# Build rules for MSVC2019
+#############################################################################
+
+$(BUILD_DIR)/%.obj: %.cpp
+	@$(shell mkdir -p $@.dummy)
+	$(CC) $(CFLAGS) -c $*.cpp -Fo$@ $(MD)
+	@echo $*.cpp
+
+$(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).LIB: $(OBJS)
+	@echo "LINKING $(TARGET)"
+	$(LIB_MSVC) $(CFLAGS) -OUT:$(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).LIB $(OBJS)
+
+ifdef MSVC2019
+bin/$(OUTPUT_DIR)/$(TARGET).exe: $(OBJS)
+	@$(shell mkdir -p $@)
+	$(LINK_MSVC) -LIBPATH:$(LIB_DIR)/$(OUTPUT_DIR) -LIBPATH:/c/Program\ Files\ \(x86\)/Microsoft\ DirectX\ SDK\ \(June\ 2010\)/Lib/x64 -SUBSYSTEM:CONSOLE -OUT:$(TARGET).EXE $(OBJS) libcore.LIB libgles2renderer.LIB libnullaudio.LIB libnullfilesystem.LIB libnullfilesystem.LIB libnullphysics.LIB libnullrenderer.LIB libnullscript.LIB libstdfilesystem.LIB opengl32.lib gdi32.lib winmm.lib hid.lib setupapi.lib kernel32.lib user32.lib comdlg32.lib TiltFiveNative.dll.if.lib openvino.lib openvino_tensorflow_frontend.lib -DEBUG # libportaudioaudio.LIB
+endif
+

@@ -1,0 +1,484 @@
+====================
+| Mach's Principle |
+====================
+
+ * Gravity from other bodies affect how things spin and move.
+ * Ernst Mach, Østerrike
+ * Newton thought space had only absolute coordinates
+ * Mach believed space had only relative coordinates
+ * Inspired by Gottfried Leibniz, the guy behind Newton's mathematics
+ * Mass is the sum of the Mm (molecular mass) of all the atoms in an object
+ * Albert Einstein discovered that mass is energy: E = mc^2
+ * Galileo Galilei proposed inertia in the 17th centuary
+ * Inertia is Newton's first law, F1.
+ * F1: If the sum of all forces on an object is equal to 0 => velocity will be unchanged
+ * A universe with only one object, inertia loses its meaning
+ * The universe probably exists of subatomic particles which are continually created and destroyed
+
+===========================
+| Newton's laws of motion |
+===========================
+
+ * Isaac Newton was influential and contentious
+ * Used calculus to explain gravity
+ * Discovored white light is made up of all visible colours
+ * Motorcicles can mount a vertical wall of death
+ * Cyclists can race on inclined tracks
+ * Newton began by reading great works of mathematics
+ * F1: Sum of forces acting on a object = 0 => constant speed
+ * A force supplies an acceleration
+ * A force changes the acceleration of an object
+ * Acceleration is a change in speed over some time
+ * Heavy objects need a greater force to change acceleration greatly
+ * Weight is the same as inertia
+ * F2: F = ma (which explains 1kg cannonball or 1 kg feather with no atmosphere experiment...)
+ * F3: F = 'F
+
+=================
+| Kepler's laws |
+=================
+
+ * Johannes Kepler looked for patterns
+ * Discovered the laws which govern the orbits of planets
+ * Planets follow elliptical orbits and move faster close to the sun
+ * Lays foundation for Newton's law of gravity
+ * Kepler thought the world was made up of polygons
+ * Nicolas Copernicus proposed posthumously that the Sun was the centre of the Universe
+ * Ptolemy was an ancient greek who popularised the idea of the Earth being the centre
+ * Kepler believed in Copernius's heliocentric idea
+ * Planet is from greek where it means 'wanderer'
+ * K1: Orbits are elliptical and the sun is at one focus
+ * K2: "A planet sweeps out equal areas in equal times as it orbits the Sun"
+ * K3: "the orbital periods scale wit hellipse size, such that the period squared is proportionmal to the semi-major axis length cubed
+
+===============================
+| Newton's law of gravitation |
+===============================
+
+ * All bodies attract each-other with the force if gravity
+ * That force drops off with distance^2
+ * Planets move more quickly close to the Sun because of the law of gravitation
+ * All objects exerts a gravitational force in proportion to its mass
+ * Archaeologists sometimes use tiny gravity changes on earth to spot buried settlements
+ * Newton wrote about gravity in Philosophiae naturalis principia mathematica (Principia, 1687)
+ * Principia explains the motions of most things; of planets, moons, projectiles, pendulums, apples etc.
+ * Newton could explain the orbits of comets, formation of tides and the wobbling of Earth's axis
+ * General relativity by Einstein succeeds the law of gravity
+
+==========================
+| Conservation of energy |
+==========================
+
+ * Energy is an animating force, it makes things move or change
+ * Energy may be a change in speed, or a change in height
+ * Energy is conserved, it will never be created or destroyed
+ * Energy may be travelling electromagnetic waves or vibrations of atoms (heat)
+ * Energy can change form, called metamorphosis
+ * Physicists do not know what energy is
+ * Energy is a property of matter and space
+ * Energy can create, move or change
+ * Since the greeks energy is considered an essence which gives life to objects
+ * Galileo discovered that energy can metamporphose
+ * When moving on earth you usually use gravitational potential energy (PE) and kinetic energy (KE)
+ * PE: E = mgh
+ * KE: E = (mv^2)/2
+ * Energy can be temporarily stored in many different ways (compressed spring, heat)
+ * Energy can be transmitted in many different ways (electromagnetic waves, chemical energy released by chemical reactions)
+ * Destroying atoms releases energy: E = mc^2
+ * Sun energy is more than enough to power our needs if we find a way to harness it
+ * Energy used to be called life force or "vis viva" (Leibniz)
+ * Thomas Young introduced to word energy
+ * Momentum is also conserved. There is linear momentum and angular momentum. Momentum has a vector and size, angular momentum is linear momentum + rotation point
+
+==========================
+| Simple harmonic motion |
+==========================
+
+ * Vibration can be a simple harmonic motion
+ * Add small extra forces to an harmonic mation and it may precipitate disaster, it is otherwise very predictable. Watch out for resonance
+ * Jump on a bed, pluck a guitar, swing a light cord; they are all harmonic motions
+ * The earth's rotation affects pendulums
+
+===============
+| Hooke's law |
+===============
+
+ * Shows how materials deform when forcse are applied
+ * Hook also named the cell in biology
+ * H: F = -kx
+ * Materials that obey Hooke's law are also elastic
+ * Elastic materials will always return to their original shape after a force has stopped working on it
+ * Many materials will be elastic, but can break or fail if the force is too great
+ * Stiffness is called elastic modulus
+ * The stiffer the material, the greater force is needed to change it
+ * Diamond, silicon carbide and tungsten are very stiff
+ * Aluminium alloy and woord are very pliable, the opposite of stiff
+ * A material being streched is under strain
+ * The force applied per unit area is called stress
+ * How stiff material is must be taken into account when making a building
+ * Hooke's law is used at sea to help in navigation, accurate timetelling with a chromometer and the longtitude of the Sun or stars in the sky you can pinpoint your position
+
+=================
+| Ideal gas law |
+=================
+
+ * Pressure, volume and temperature of a gas are linked
+ * pV = nRT
+ * A pressure cooker is sealed and increase in pressure will allow the temperature of water get above 100 degrees centigrade
+ * An ideal gas follows the ideal gas law
+ * An ideal gas has small molecules or atoms compared to the distance between them
+ * An ideal gas has no electrical charges between atoms and they bounce off each other cleanly
+ * Noble gasses behave like ideal gases
+ * When you climb a mountain the pressure decreases and water will cook at lower than 100 degrees. Food will not cook well without a pressure cooker
+ * There is no such thing as a vacuum
+
+================================
+| Second law of thermodynamics |
+================================
+
+ * T2: Heat travels from hot bodies to cold bodies
+ * Heat is a measure of disorder; entropy
+ * Entropy will always increase in an isolated system
+ * T2: Entropoy increases; never decreases (in a bounded system)
+ * Life is to fight entropy
+ * James Clark Maxwell envisioned a demon machine, Maxwell's demon snatch fast molecules from one box and into another, and otherwise be closed...
+
+=================
+| Absolute zero |
+=================
+
+ * t = T + 273.15
+ * 0*C = 273.15 K
+ * -273.15*C = 0 K
+
+===================
+| Brownian motion |
+===================
+
+ * Particles jiggle because of invisible molecules and water
+ * Botanist Robert Brown first spotted it as the twitching of pollen particles on his microscope slides
+ * Albert Einstein was the first to describe it mathematically
+ * Brownian motion describes many random processess
+ * Brownian motion is a fractal
+ * Brownian motion can be used to create terrain in video-games
+
+================
+| Chaos theory |
+================
+
+ * Small changes can have major ramifications
+ * A tiny wind eddy can seed a large hurricane on the other side of the planet; the butterfly effect
+ * Chaos is not literally chaotic, it creates patterns
+ * Similar starting points may create very different outcomes
+
+======================
+| Bernoulli equation |
+======================
+
+ * There is a relationship between speed and pressure in flowing fluids
+ * Bernoulli's equation governs aeroplanes, blood flows, fuel injected into engines, etc
+ * The faster the fluid flows, the lower the pressure
+
+=============================
+| Newton's theory of colour |
+=============================
+
+ * White light shun at a prism spreads the rays into a rainbow of colours
+ * Colour is not a proporty of an object, instead an object will reflect certain colours, hence why you see something as a certain colour
+ * Light behaves a little like water, bending around obstacles like sea waves around a harbour wall
+ * A prism bends light depending on the wavelength of the light
+ * Shadows often take the opposite colour of the illuminated object
+ * The colour wheel was invented by Newton and improved by Goethe, the primary colours are red, blue, yellow and magenta
+
+======================
+| Huygens' principle |
+======================
+
+ * Imagine every point on a wavefront is a new ripple source
+ * A new ripple source has the same frequency and phase as the wavefront
+ * Waves always move forwards, the backwards wave, behind the back side of a wavefront, is ignored
+
+===============
+| Snell's law |
+===============
+
+ * Light travels at different speeds in different materials, which will make the rays bend
+ * This also explains road mirages
+ * Light can refract (Snell's law), reflect, diffract (bounce back, Snell's law) or interfere (with other light rays)
+ * Materials have a refractive index
+ * Farmat's least time says light uses the least time to get through any substance
+ * An Opal is a natural meta-material, a material designed to look a certain way based on physical structure rather than its chemistry...
+
+===============
+| Bragg's law |
+===============
+
+ * B: 2d(istance) sin theta (angle of incidence of the light) = n lambda
+ * Explains diffraction and interference of light
+ * X-rays shot through a crystal creates patterns of dots explained by light travelling as a wave interfering with other rays
+ * X-ray crystallography is used to determine the structure of new materials
+ * Chemists and biologists use it to reaveal molecular arcitectures, for example DNA
+
+==========================
+| Fraunhofer diffraction |
+==========================
+
+ * Light rays are always percieved blurred
+ * Franhofer diffraction, also called far-field diffraction, describes this blurring, at least for parallell lines
+ * There is a diffraction limit for all images, it explains how clear an image can become
+ * The more you open your eyes, the more light comes in but the more blurred it will be
+ * Images taken with a larger arperture or lens are clearer, blue light is always clearer since the diffraction depends on wavelength
+ * Light spreads out when it goes through a narrow opening, the narrower the more it spreads
+ * A round arperture creates round rings named Airy rings after Scottish physicist George Airy
+ * The first gratings were made by Fraunhofer to study inergerence
+
+==================
+| Doppler effect |
+==================
+
+ * Change of pitch as things move past you
+ * High pitch on approach, low pitch as it recedes
+ * The Doppler effect applies to any objects moving relative to one another
+ * Used to catch speeding drivers, and to measure blood flow
+ * Doppler effect also affects planets which move towards us (and become blue shifted) and away from us (which become red shifted)
+
+=============
+| Ohm's law |
+=============
+
+ * O: V= IR
+ * Electricity is the movement of electric charge
+ * Electric charge, like energy, is consevered; it can not be created or destroyed, it can however be moved around
+ * Robert Millikan measered the negative charge of electrons in 1909
+ * In a storm, molecules in the clouds build up a lot of negative charge
+ * Electric current is a flow of charge
+ * Metals are said to be conductors of electricity, electrons in metal are not tied to particular atomic nuclei
+ * Electrons move through metals like water through a pipe
+ * Isolators do not let electricity flow through them
+ * Semiconductors allow electricity to flow them only under certain conditions
+ * Current is similar to flow speed, voltage like the pressure of water and resistance is like to width or arperture restrictions
+
+=============================
+| Fleming's right hand rule |
+=============================
+
+ * Electromagnetic induction: A magnet and a coil of wire, spin the magnet inside the coil of wire and you get an electrical current
+ * The direction of the induced current is given by Fleming's right hand rule
+ * The right hand rule is named after Scottish engineer John Ambrose Fleming
+ * Move the magnet more quickly, or wind the coils more tightly; the current increases
+ * Electromagnetic induction was discovered by Michael Faraday
+ * Charge can be stored in capacitors
+ * Transformer: A magnetic ring with two separated wire coils wrapped around it, one field induces a current in a nearby coil by induction, used to lower voltage (?)
+
+=======================
+| Maxwell's equations |
+=======================
+
+ * M1: a dot b = p  (Gauss's law, shape and strength of electric fields generated by a charged object)
+ * M2: a cross H = J + (delta d/delta t)  (describes shape and strength of an electric field around a magnet)
+ * M3: a dot B = O  (electromagnetic induction)
+ * M4: a cross e = -(delta B/delta t)  (electromagnetic induction)
+ * Maxwell's equations are the best equations since the universal law of gravitation
+ * The equations describe how electric and magnetic fields are two sides of the same coin
+ * Electric and magnetic fields are electromagnetic waves
+ * The equations describe the entire field of electricity and magnetism
+ * Light is electromagnetic waves, they travel at 3*10^8 m/s
+ * An electromagnetic wave has a wavelength, radio waves are the longest (km), visible light are about as long sa the space between atoms, x-rays are the shortest
+ * f = c/lambda  (the shorter the wavelength, the greater the frequency and the greater the energy it carries)
+ * Fields are the way forces are transmitted across a distance
+ * Eienstein took Maxwell's equations and managed to truly, properly unite magnetism and electricity
+
+================
+| Planck's law |
+================
+
+ * Max Planck explained why metals go through the visible colours from those of long wavelengths to those of short wavelengths when heated up
+ * Planck described light and heat statistically instead of thinking of it as a wave
+ * This was the start of quantum physics
+ * The spread of colours (many colours at once) when heating something is called the black-body curve, it peaks at a bluish colour
+ * The hotter the star on the sky, the bluer it becomes
+ * Black objects absorb and release heat better than white objects. A white object will cool down, such as the ice caps cooling down our planet
+ * P: E = hv (v is frequency of the light)
+ * Planck's units are called quanta: "how much"
+ * Released his law explaining the black-body spectrum in 1901
+
+========================
+| Photoelectric effect |
+========================
+
+ * Eienstein showed how light could behave like a stream of photons and as a continous wave
+ * Metals generate electric currents when blue or ultraviolet light is shun on them, but not by light of longer wavelengths
+ * The treshold of the light which can generate electricity in metals varies from metal to metal
+ * The treshold needs to be reached before electricity is generated or released
+ * Electromagnetic waves and moving charges seemed to be two different things, Einstein helped unite them
+ * Einstein applied Planck's theory to light instead of atoms...
+ * Light quanta: Photons
+ * All bodies have a wavelength, all matter has a particle-wave duality
+ * Large objects have such tiny wavelengths they can not be observed
+
+===============================
+| Schrödinger's wave equation |
+===============================
+
+ * Equation which describes how a wave moves while behaving as a wave
+ * Described energy levels of electrons in atoms and started modern chemistry and quantum mechanics
+ * White light shun through a cold gas will be partially absorbed by the electrons in the gas and will be blacked out
+ * Schrödinger's equation can describe how the orbitals looks like, they look like donuts and dumb-bells
+
+======================================
+| Heisenberg's uncertainty principle |
+======================================
+
+ * Particles are not deterministic
+ * The more accurate measurement of position, the less accurate the measure of momentum
+ * Heisenberg described quantum systems with matrices, while Schrödinger used wave theory
+ * Quantum mechanics is a joint venture of both systems
+
+==============================
+| Copenhaugen interpretation |
+==============================
+
+ * Niels Bohr unified the matrix system and the wave system, mentioned above
+ * Light is both a wave and a particle, think different
+
+==============================
+| Copenhaugen interpretation |
+==============================
+
+ * Schrödinger's cat is both dead and alive at the same time
+ * It was an absurd argument, to show how silly the copenhagen interpretation is
+ * The cat will be in a fuzzy blend of states, just like light is a wave and a particle according to Niels Bohr
+ * Many say Scrödinger must simply accept the quantum world is weird
+
+===================
+| The EPR paradox |
+===================
+
+ * Eienstein Porolsky and Nathan Rosen did not believe in entanglement either, that a particle can have many states at once, to be "fuzzy"
+ * Eienstein proved to be wrong here
+ * Entanglement is real and might be used to make quantum computers...
+
+===============================
+| Pauli's exclusion principle |
+===============================
+
+ * Two electrons can not have the same wave, or quantum numbers
+ * This is why you don't fall through things
+
+=====================
+| Superconductivity |
+=====================
+
+ * A material with no resistance is a superconductor
+ * Mercury is a superconductor at 4.2 K
+ * The energy in a superconductor is never lost and a current flows forever
+
+=====================
+| Rutherford's atom |
+=====================
+
+ * Atoms are not the smallest building lblocks
+ * Josepth John Thomson discovered electrons and thought they were part of the nucleus
+ * Ernest Rutherford discovered electrons are not part of the nucleus and invented the term nucleus
+ * The hard core, the nucleus from Greek meaning kernel, consists of protons and neutrons
+
+==============
+| Antimatter |
+==============
+
+ * All particles have antimatter, where the quantum numbers have the opposite sign...
+ * There is more matter than antimatter, for some reason
+
+===================
+| Nuclear fission |
+===================
+
+ * Fission comes from the division of a biological cell
+ * The first fission reactor was made underneath Chicago football stadium by Fermi and colleagues
+
+==================
+| Nuclear fusion |
+==================
+
+ * All matter can be created by fusion
+ * Fusion is a power source used across the universe
+
+==================
+| Standard model |
+==================
+
+ * The standard model is all of the particles which are known to man
+ * Atoms consist of electrons, neutrinos, protons and neutrons
+ * Protons consist of quarks
+ * Quark: From the book Finnegans Wake meaning seagull cheer
+ * Gravity is not part of the standard model, such a model would be called the grand unified theory (GUT)
+
+====================
+| Feynman Diagrams |
+====================
+
+ * Feynman diagrams describe how particles interact, much simpler than mathematics
+
+====================
+| The God particle |
+====================
+
+ * Peter Higgs thought of the Higgs particle
+ * Higgs particles give matter mass
+
+=================
+| String theory |
+=================
+
+ * Alternative to the standard model
+ * Popular in the media because of its name
+
+======================
+| Special relativity |
+======================
+
+ * Describes what happens in reference frames moving at constant speeds relative to one another
+ * Since speed = distance / time and c = 3*10^8 m/s, constantly (always), distance and time must compensate when something moves at a speed
+ * Planck read Eiensteins theory and made him famous
+ * Mass grows according to E = mc^2, when something moves at c it will be infinitaly large
+
+======================
+| General relativity |
+======================
+
+ * Incorporate gravity and Newton's physics to special relativity
+ * When someone is falling, a = g
+ * In other words, general relativity is about accelerating reference frames
+
+===============
+| Black holes |
+===============
+
+ * Escape velocity on earth is 44 km/s
+ * A black hole has so much mass its gravitational pull becomes impossible to escape
+ * Used to be called frozen stars
+ * The event horizon is the point of no return, time is observed to stop when something passes the event horizon
+ * A lead ring may save your life if it is so heavy it counteracts the gravity gradient of the hole
+
+===================
+| Olbers' paradox |
+===================
+
+ * Why isn't the sky white at night?
+ * Because the universe isn't infinite => There is a limit to how many stars there are
+ * Also, stars which are far away red-shift, they become invisible eventually
+ * Stars don't last forever, the bigger they are, the shorter their lifespans
+
+================
+| Hubble's law |
+================
+
+ * All galaxies move away from each-other
+ * Rewind time, and they all end up at the same location
+ * Hubble's law: How fast galaxies move away from each-other, they go faster the further away they are
+ * Hubble's constant: Speed of a galaxy devided by distance traveled, about 75 km/s/megaparsec
+ * The universe is expanding
+
+================
+| The big bang |
+================

@@ -1,0 +1,27 @@
+#############################################################################
+# Setup libraries and compiler for this platform
+# Type make COMPILE_PLATFORM=webasm to use, don't change filename
+#############################################################################
+
+CC = emcc
+
+AUDIO ?= NullAudio
+AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"
+
+EXE = .html
+
+DEPS = nullaudio nullscript stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
+
+include $(SOLIDCORE)/Makefile.generic
+
+run: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
+	python3 -m http.server --directory ./bin/debug/webasm/x86_64/ 8000
+
+#############################################################################
+# Add platform specific dependencies
+#############################################################################
+
+DEBUGFLAGS += -sASSERTIONS 
+
+CFLAGS += -D__WEBASM__ -s USE_SDL=2 -s USE_SDL_GFX=2
+LDFLAGS += -sALLOW_MEMORY_GROWTH --preload-file intermediate@/ #--embed-file intermediate@/ -s TOTAL_MEMORY=1073741824 #--preload-file intermediate@/
