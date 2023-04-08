@@ -43,12 +43,12 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f,  1.0f)));
 
-    vertices[0].textureCoordinates = glm::vec2(1, 1);
-    vertices[1].textureCoordinates = glm::vec2(0, 1);
-    vertices[2].textureCoordinates = glm::vec2(1, 0);
-    vertices[3].textureCoordinates = glm::vec2(1, 0);
-    vertices[4].textureCoordinates = glm::vec2(0, 1);
-    vertices[5].textureCoordinates = glm::vec2(0, 0);
+    vertices[0].textureCoordinates = glm::vec2(0, 1);
+    vertices[1].textureCoordinates = glm::vec2(1, 1);
+    vertices[2].textureCoordinates = glm::vec2(0, 0);
+    vertices[3].textureCoordinates = glm::vec2(0, 0);
+    vertices[4].textureCoordinates = glm::vec2(1, 1);
+    vertices[5].textureCoordinates = glm::vec2(1, 0);
 
     indices.Add(0);
     indices.Add(1);
@@ -78,6 +78,10 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     // Hack for scale...
     Uniform("width", static_cast<float>(width));
     Uniform("height", static_cast<float>(height));
+
+    // To get graphics placed correctly, the resolution is sent to the shader program
+    Uniform("totalWidth", static_cast<int>(textures[0]->width));
+    Uniform("totalHeight", static_cast<int>(textures[0]->height));
 
     // To get graphics placed correctly, the resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));

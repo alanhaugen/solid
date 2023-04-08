@@ -1,6 +1,6 @@
 /*! \mainpage Solid Index Page
  *
- *    Copyright 2021 Huldra Technology
+ *    Copyright 2023 Huldra Technology
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * version 1, 2021
+ * version 1, 2023
  *
  * Solid supports textures in common image formats by including ImageMagick by ImageMagick Studio LLC
  *
