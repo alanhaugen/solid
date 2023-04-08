@@ -2,13 +2,8 @@
 #include "core/x-platform/pixmap.h"
 #include "core/x-platform/parserjson.h"
 
-#ifdef CAFE
-Application::Application(int argumentQuantity, char *arguments[])
-    : CafeApplication(), argument(argumentQuantity, arguments)
-#else
 Application::Application(int argumentQuantity, char *arguments[])
     : PLATFORM(), argument(argumentQuantity, arguments)
-#endif
 {
     LoadUserData();
     isAlive = Init();

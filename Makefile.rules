@@ -70,9 +70,7 @@ INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(COMPILE_PLATFORM)
 # Set target platform libs and compiler
 #############################################################################
 
-ifeq ($(COMPILE_PLATFORM),cygwin)
-    include $(SOLIDCORE)/Makefile.cafe
-else ifeq ($(COMPILE_PLATFORM),webasm)
+ifeq ($(COMPILE_PLATFORM),webasm)
     include $(SOLIDCORE)/Makefile.webasm
 else ifeq ($(COMPILE_PLATFORM),mingw32)
     include $(SOLIDCORE)/Makefile.mingw-w64
