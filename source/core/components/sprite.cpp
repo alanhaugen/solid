@@ -76,8 +76,8 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     Uniform("scaleY", static_cast<float>(scaleY));
 
     // Hack for scale...
-    Uniform("width", static_cast<float>(width));
-    Uniform("height", static_cast<float>(height));
+    Uniform("width", static_cast<int>(width));
+    Uniform("height", static_cast<int>(height));
 
     // To get graphics placed correctly, the resolution is sent to the shader program
     Uniform("totalWidth", static_cast<int>(textures[0]->width));
