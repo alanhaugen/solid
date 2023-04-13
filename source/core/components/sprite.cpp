@@ -71,19 +71,19 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     drawable->sendToFront = true;
     drawable->uniformData = uniforms;
 
-    // Hack for scale...
+    // Send scale uniforms
     Uniform("scaleX", static_cast<float>(scaleX));
     Uniform("scaleY", static_cast<float>(scaleY));
 
-    // Hack for scale...
+    // Let shaders know the desired section to be used of the sprite sheet
     Uniform("width", static_cast<int>(width));
     Uniform("height", static_cast<int>(height));
 
-    // To get graphics placed correctly, the resolution is sent to the shader program
+    // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
     Uniform("totalWidth", static_cast<int>(textures[0]->width));
     Uniform("totalHeight", static_cast<int>(textures[0]->height));
 
-    // To get graphics placed correctly, the resolution is sent to the shader program
+    // To get graphics placed correctly, the viewport resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
 
