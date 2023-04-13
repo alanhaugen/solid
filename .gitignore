@@ -2,8 +2,7 @@
 lib/
 lib
 
-# Tools folder and link
-tools/
+# Tools link
 tools
 
 # Standarddata folder and link
