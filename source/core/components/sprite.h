@@ -13,12 +13,25 @@ private:
 
     ITime *timer;
 
-    void Init(const float x_ = 0.0, const float y_ = 0.0, const float scaleX_ = 1.0f, const float scaleY_ = 1.0f, const int textureWidth_ = 0, const int textureHeight_ = 0);
+    void Init(const float x_ = 0.0,
+              const float y_ = 0.0,
+              const float scaleX_ = 1.0f,
+              const float scaleY_ = 1.0f,
+              const int textureWidth_ = 0,
+              const int textureHeight_ = 0,
+              const unsigned int quadQuantity = 1);
 
     Array<Pixmap*> textures;
 
 public:
-    Sprite(String textureFilePath, const float x_ = 0.0, const float y_ = 0.0, const float scaleX_ = 1.0f, const float scaleY_ = 1.0f, const int textureWidth_ = 0, const int textureHeight_ = 0);
+    Sprite(String textureFilePath,
+           const float x_ = 0.0,
+           const float y_ = 0.0,
+           const float scaleX_ = 1.0f,
+           const float scaleY_ = 1.0f,
+           const int textureWidth_ = 0,
+           const int textureHeight_ = 0,
+           const unsigned int quadQuantity = 1);
     Sprite(Pixmap *texture, const float _x = 0.0, const float _y = 0.0, const int _textureWidth = 0, const int _textureHeight = 0);
     ~Sprite();
 

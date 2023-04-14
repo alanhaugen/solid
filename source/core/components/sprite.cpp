@@ -2,7 +2,13 @@
 #include "core/x-platform/pixmap.h"
 #include "core/application.h"
 
-void Sprite::Init(const float x_, const float y_, const float scaleX_, const float scaleY_, const int textureWidth_, const int textureHeight_)
+void Sprite::Init(const float x_,
+                  const float y_,
+                  const float scaleX_,
+                  const float scaleY_,
+                  const int textureWidth_,
+                  const int textureHeight_,
+                  const unsigned int quadQuantity)
 {
     tag = "Sprite";
 
@@ -41,26 +47,32 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     Array<unsigned int> indices;
     Array<String> shaders(2);
 
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f,  1.0f)));
+    for (unsigned int i = 0; i < quadQuantity; i++)
+    {
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f)));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f)));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f)));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f)));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f)));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f,  1.0f)));
+    }
 
-    vertices[0].textureCoordinates = glm::vec2(0, 1);
-    vertices[1].textureCoordinates = glm::vec2(1, 1);
-    vertices[2].textureCoordinates = glm::vec2(0, 0);
-    vertices[3].textureCoordinates = glm::vec2(0, 0);
-    vertices[4].textureCoordinates = glm::vec2(1, 1);
-    vertices[5].textureCoordinates = glm::vec2(1, 0);
+    for (unsigned int i = 0; i < quadQuantity; i++)
+    {
+        vertices[0 + i * 6].textureCoordinates = glm::vec2(0, 1);
+        vertices[1 + i * 6].textureCoordinates = glm::vec2(1, 1);
+        vertices[2 + i * 6].textureCoordinates = glm::vec2(0, 0);
+        vertices[3 + i * 6].textureCoordinates = glm::vec2(0, 0);
+        vertices[4 + i * 6].textureCoordinates = glm::vec2(1, 1);
+        vertices[5 + i * 6].textureCoordinates = glm::vec2(1, 0);
 
-    indices.Add(0);
-    indices.Add(1);
-    indices.Add(2);
-    indices.Add(3);
-    indices.Add(4);
-    indices.Add(5);
+        indices.Add(0 + i * 6);
+        indices.Add(1 + i * 6);
+        indices.Add(2 + i * 6);
+        indices.Add(3 + i * 6);
+        indices.Add(4 + i * 6);
+        indices.Add(5 + i * 6);
+    }
 
     IFile *simpleVertShader = filesystem->Open(URL("data/gui.vert"), PLAIN_TEXT);
     IFile *simpleFragShader = filesystem->Open(URL("data/gui.frag"), PLAIN_TEXT);
@@ -93,14 +105,25 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
 }
 
-Sprite::Sprite(String textureFilePath, const float _x, const float _y, const float scaleX_, const float scaleY_, const int _textureWidth, const int _textureHeight)
+Sprite::Sprite(String textureFilePath,
+               const float _x,
+               const float _y,
+               const float scaleX_,
+               const float scaleY_,
+               const int _textureWidth,
+               const int _textureHeight,
+               const unsigned int quadQuantity)
 {
     textures.Add(new Pixmap(textureFilePath));
 
-    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight);
+    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity);
 }
 
-Sprite::Sprite(Pixmap *texture, const float _x, const float _y, const int _textureWidth, const int _textureHeight)
+Sprite::Sprite(Pixmap *texture,
+               const float _x,
+               const float _y,
+               const int _textureWidth,
+               const int _textureHeight)
 {
     textures.Add(texture);
 
@@ -123,7 +146,7 @@ void Sprite::Update()
         {
             index++;
 
-            if (index > 2)
+            if (index > 50)
                 index = 0;
         }
 
