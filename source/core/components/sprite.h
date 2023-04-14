@@ -9,7 +9,9 @@ class Sprite : public IComponent
 {
 private:
     IDrawable *drawable;
-    int columns, rows, index;
+    int index;
+
+    ITime *timer;
 
     void Init(const float x_ = 0.0, const float y_ = 0.0, const float scaleX_ = 1.0f, const float scaleY_ = 1.0f, const int textureWidth_ = 0, const int textureHeight_ = 0);
 

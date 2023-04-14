@@ -1,5 +1,6 @@
 #include "sprite.h"
 #include "core/x-platform/pixmap.h"
+#include "core/application.h"
 
 void Sprite::Init(const float x_, const float y_, const float scaleX_, const float scaleY_, const int textureWidth_, const int textureHeight_)
 {
@@ -8,7 +9,9 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     x = x_;
     y = y_;
 
-    index = 1;
+    timer = Application::GetTime("animation");
+
+    index = 0;
 
     scaleX = scaleX_;
     scaleY = scaleY_;
@@ -88,10 +91,6 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     // To get graphics placed correctly, the viewport resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
-
-    // 1.0f will use entire texture, used for spritesheets.. Maybe replace with just width+height and index?
-    Uniform("s", static_cast<float>(1.0f));
-    Uniform("t", static_cast<float>(1.0f));
 }
 
 Sprite::Sprite(String textureFilePath, const float _x, const float _y, const float scaleX_, const float scaleY_, const int _textureWidth, const int _textureHeight)
@@ -118,6 +117,19 @@ void Sprite::Update()
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(x, y)));
     Uniform("index", static_cast<int>(index));
 
+    if (timer->TimeSinceStarted() > 1000.0f)
+    {
+        if (width != textures[0]->width || height != textures[0]->height)
+        {
+            index++;
+
+            if (index > 2)
+                index = 0;
+        }
+
+        timer->Reset();
+    }
+
     renderer->Draw(drawable);
 }
 
@@ -127,13 +139,13 @@ void Sprite::UpdateAfterPhysics()
 
 void Sprite::AddAnimation(int anim, int frames[], int frames_length, int framerate, bool looping)
 {
-    int col = index % columns;
+    /*int col = index % columns;
     int row = rows - 1 - index / rows;
     float s = (float)col / (float)columns;
     float t = (float)row / (float)rows;
 
     Uniform("s", static_cast<float>(s));
-    Uniform("t", static_cast<float>(t));
+    Uniform("t", static_cast<float>(t));*/
 }
 
 void Sprite::PlayAnimation(int anim, bool reset)
