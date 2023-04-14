@@ -138,7 +138,7 @@ Sprite::~Sprite()
 void Sprite::Update()
 {
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(x, y)));
-    Uniform("index", static_cast<int>(index));
+    Uniform("index0", static_cast<int>(index));
 
     if (timer->TimeSinceStarted() > 1000.0f)
     {

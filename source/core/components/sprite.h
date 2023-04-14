@@ -9,7 +9,6 @@ class Sprite : public IComponent
 {
 private:
     IDrawable *drawable;
-    int index;
 
     ITime *timer;
 
@@ -62,6 +61,7 @@ public:
     float scaleX, scaleY;
     float width, height;
     bool isVisible;
+    int index;
 };
 
 #endif // SPRITE_H
