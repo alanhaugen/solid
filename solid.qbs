@@ -86,6 +86,7 @@ Project {
             "source/core/components/circle.cpp",
             "source/core/components/command.cpp",
             "source/core/components/component.cpp",
+            "source/core/components/grid.cpp",
             "source/core/components/line.cpp",
             "source/core/components/rectangle.cpp",
             "source/core/components/snowglobecamera.cpp",

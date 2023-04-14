@@ -24,6 +24,7 @@ SOURCES = \
     source/core/components/background.cpp \
     source/core/components/command.cpp \
     source/core/components/cell.cpp \
+    source/core/components/grid.cpp \
     source/core/components/snowglobecamera.cpp \
     source/core/components/fpscamera.cpp \
     source/core/components/arealight.cpp \
