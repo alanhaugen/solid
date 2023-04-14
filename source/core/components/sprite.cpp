@@ -8,6 +8,8 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
     x = x_;
     y = y_;
 
+    index = 1;
+
     scaleX = scaleX_;
     scaleY = scaleY_;
 
@@ -29,8 +31,8 @@ void Sprite::Init(const float x_, const float y_, const float scaleX_, const flo
         height = textures[0]->height;
     }
 
-    halfWidth  = textureWidth_ / 2;
-    halfHeight = textureHeight_ / 2;
+    halfWidth  = width  / 2;
+    halfHeight = height / 2;
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
