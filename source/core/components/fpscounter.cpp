@@ -25,6 +25,7 @@ void FPSCounter::Update()
 
     delete text;
     text = new Text("FPS: " + String(hz));
+    text->Update();
 
     counter->Reset();
 }
