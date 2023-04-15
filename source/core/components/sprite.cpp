@@ -8,7 +8,8 @@ void Sprite::Init(const float x_,
                   const float scaleY_,
                   const int textureWidth_,
                   const int textureHeight_,
-                  const unsigned int quadQuantity)
+                  const unsigned int quadQuantity,
+                  const char *glyphs)
 {
     tag = "Sprite";
 
@@ -49,12 +50,14 @@ void Sprite::Init(const float x_,
 
     for (unsigned int i = 0; i < quadQuantity; i++)
     {
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f)));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f)));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f)));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f)));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f)));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f,  1.0f)));
+        int glyph = glyphs[i];
+
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f,  1.0f), glyph));
     }
 
     for (unsigned int i = 0; i < quadQuantity; i++)
@@ -112,11 +115,12 @@ Sprite::Sprite(String textureFilePath,
                const float scaleY_,
                const int _textureWidth,
                const int _textureHeight,
-               const unsigned int quadQuantity)
+               const unsigned int quadQuantity,
+               const char *glyphs)
 {
     textures.Add(new Pixmap(textureFilePath));
 
-    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity);
+    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
 
 Sprite::Sprite(Pixmap *texture,
@@ -138,7 +142,7 @@ Sprite::~Sprite()
 void Sprite::Update()
 {
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(x, y)));
-    Uniform("index0", static_cast<int>(index));
+    Uniform("index", static_cast<int>(index));
 
     if (timer->TimeSinceStarted() > 1000.0f)
     {

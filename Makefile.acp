@@ -68,7 +68,7 @@ ifneq ($(PROJECT_FILES),)
 #############################################################################
 
     FILES = $(shell egrep -iho "\".*\.($(FORMATS))\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/icon :  /data\//'|sed -E 's/ //g')
-    FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/8bit_font.png data/gnsh-bitmapfont.png
+    FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/8bit_font.png data/textSpritesheet.png data/gnsh-bitmapfont.png
 endif
 
 DATA = $(subst data,intermediate,$(FILES))

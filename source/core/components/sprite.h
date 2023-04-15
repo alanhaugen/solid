@@ -18,7 +18,8 @@ private:
               const float scaleY_ = 1.0f,
               const int textureWidth_ = 0,
               const int textureHeight_ = 0,
-              const unsigned int quadQuantity = 1);
+              const unsigned int quadQuantity = 1,
+              const char *glyphs = "");
 
     Array<Pixmap*> textures;
 
@@ -30,7 +31,8 @@ public:
            const float scaleY_ = 1.0f,
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
-           const unsigned int quadQuantity = 1);
+           const unsigned int quadQuantity = 1,
+           const char *glyphs = "");
     Sprite(Pixmap *texture, const float _x = 0.0, const float _y = 0.0, const int _textureWidth = 0, const int _textureHeight = 0);
     ~Sprite();
 

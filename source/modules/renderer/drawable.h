@@ -49,12 +49,14 @@ public:
         glm::vec2 textureCoordinates;
         glm::vec4 weights;
         glm::ivec4 joints;
+        glm::i32 glyph;
 
         Vertex() { }
-        Vertex(glm::vec3 p) { position = p; weights = glm::vec4(1.0f);  }
-        Vertex(glm::vec2 p) { position = glm::vec3(p, 0.0f); weights = glm::vec4(1.0f);  }
-        Vertex(glm::vec3 p, glm::vec4 c) { position = p; color = c; weights = glm::vec4(1.0f); }
-        Vertex(glm::vec3 p, glm::vec2 texCoord) { position = p; textureCoordinates = texCoord; weights = glm::vec4(1.0f); }
+        Vertex(glm::vec3 p) { position = p; weights = glm::vec4(1.0f); glyph = -1; }
+        Vertex(glm::vec2 p) { position = glm::vec3(p, 0.0f); weights = glm::vec4(1.0f); glyph = -1; }
+        Vertex(glm::vec2 p, glm::i32 g) { position = glm::vec3(p, 0.0f); weights = glm::vec4(1.0f); glyph = g; }
+        Vertex(glm::vec3 p, glm::vec4 c) { position = p; color = c; weights = glm::vec4(1.0f); glyph = -1; }
+        Vertex(glm::vec3 p, glm::vec2 texCoord) { position = p; textureCoordinates = texCoord; weights = glm::vec4(1.0f); glyph = -1; }
     };
 
     int type;

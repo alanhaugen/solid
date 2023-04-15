@@ -98,6 +98,10 @@ GLES2Drawable::GLES2Drawable(
     glEnableVertexAttribArray(5);
     glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, joints));
 
+    // glyphs for text
+    glEnableVertexAttribArray(6);
+    glVertexAttribIPointer(6, 1, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, glyph));
+
     glBindVertexArray(0);
 
     DeActivate();
