@@ -50,7 +50,7 @@ void Sprite::Init(const float x_,
 
     for (unsigned int i = 0; i < quadQuantity; i++)
     {
-        int glyph = glyphs[i];
+        int glyph = glyphs[i] - 32; // 32 is to remove control chars, see an ascii table
 
         vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f), glyph));
         vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
