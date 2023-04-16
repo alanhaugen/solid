@@ -149,7 +149,8 @@ solid:
 #############################################################################
 
 install:
-	cp $(SOLIDCORE)/lib/$(OUTPUT_DIR)/* $(INSTALL_DIR)/lib
+#	cp $(SOLIDCORE)/lib/$(OUTPUT_DIR)/* $(INSTALL_DIR)/lib
+	awk 'NR==1{print; print "SOLIDCORE=$(shell pwd)"} NR!=1' $(SOLIDCORE)/source/tools/solid > $(INSTALL_DIR)/bin/solid # append solid location to script and put it in install dircp $(SOLIDCORE)/lib/$(OUTPUT_DIR)/* $(INSTALL_DIR)/lib
 
 sharedlib: $(OBJS)
 	$(shell mkdir -p lib/$(OUTPUT_DIR))

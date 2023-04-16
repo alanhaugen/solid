@@ -8,8 +8,6 @@ command=$1
 directory=$2
 option=$3
 
-nothing=""
-
 if [ $command ]
         then
                 echo "Processing command $command"
