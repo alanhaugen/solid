@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# This program helps use solid to create and manage new projects
+
+# Think of it as a config tool, a little like rails for ruby on rails
+
+command=$1
+directory=$2
+option=$3
+
+nothing=""
+
+if [ $command ]
+        then
+                echo "Processing command $command"
+        else
+                echo "Usage: solid command project"
+                echo "Commands:"
+                echo "create (creates a directory in working directory with name of project and application template)"
+                echo "module (creates a module for current project or solid with the name of module project and module template)"
+                echo "example: solid create cargame"
+                exit
+fi
+
+if [ $SOLIDCORE ]
+        then
+                echo "active solid dir: $SOLIDCORE"
+        else
+                echo "solid has not been installed properly"
+                echo "Please set variable \$SOLIDCORE by adding the line "export \$SOLIDCORE=/path/to/solid" to ~/.bashrc"
+                exit
+fi 
+
+if [ -d $directory ]
+        then
+                echo "$directory already exists! Quitting."
+                exit
+        else
+                if [ -d ../$directory ]
+                    then
+                            echo "Currently in $directory. Quitting."
+                            exit
+                fi
+
+                echo "Creating project $directory"
+                mkdir $directory
+                echo "Copying files ..."
+                cp -rf $SOLIDCORE/examples/templates/application/* $directory
+                echo "Done"
+fi
+
