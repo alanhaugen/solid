@@ -10,8 +10,6 @@ AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"
 
 EXE = .html
 
-DEPS = nullaudio nullscript stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
-
 include $(SOLIDCORE)/Makefile.generic
 
 run: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)

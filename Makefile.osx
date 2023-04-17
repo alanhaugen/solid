@@ -9,6 +9,9 @@ CC = clang++
 
 include $(SOLIDCORE)/Makefile.generic
 
+AUDIO      ?= PortaudioAudio
+AUDIO_HEADER      ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+
 #############################################################################
 # Add platform specific dependencies
 #############################################################################

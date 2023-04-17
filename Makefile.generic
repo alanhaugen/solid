@@ -7,14 +7,14 @@ ifndef CC
     CFLAGS += -Wno-strict-aliasing
 endif
 
-DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
+DEPS ?= nullaudio nullscript stdfilesystem nullfilesystem nullphysics nullrenderer solid
 
 #############################################################################
 # Default modules and platform
 #############################################################################
 
 PLATFORM   ?= SDLApplication
-AUDIO      ?= PortaudioAudio
+AUDIO      ?= NullAudio
 RENDERER   ?= GLES2Renderer
 #PHYSICS    ?= BulletPhysics
 #SCRIPT     ?= AngelScript
@@ -24,7 +24,7 @@ SCRIPT     ?= NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
-AUDIO_HEADER      ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+AUDIO_HEADER      ?= "modules/audio/null/nullaudio.h"
 RENDERER_HEADER   ?= "modules/renderer/gles2/gles2renderer.h"
 PHYSICS_HEADER    ?= "modules/physics/null/nullphysics.h"
 SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
@@ -53,10 +53,12 @@ endif
 
 ifeq ($(AUDIO),PortaudioAudio)
     LIBS += -lvorbisenc -lvorbisfile -lvorbis -logg -lportaudioaudio -lportaudio_static -lsndfile 
+    DEPS += portaudioaudio  
 endif
 
 ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -lgles2renderer
+    DEPS += gles2renderer  
 endif
 ifeq ($(RENDERER),SoftwareRenderer)
     LIBS += -lgles2renderer -lsoftwarerenderer
@@ -70,10 +72,10 @@ else ifeq ($(FILESYSTEM),StdFileSystem)
 endif
 
 ifneq ($(COMPILE_PLATFORM),webasm)
-LIBS += \
-    -ltheora \
-    -ltheoradec \
-    -ltheoraenc
+#LIBS += \
+#    -ltheora \
+#    -ltheoradec \
+#    -ltheoraenc
 endif
 
 LIBS += \
@@ -119,7 +121,7 @@ CFLAGS += -Wall -MD $(INCLUDE) -DKEYMAP_FIRSTKEY=$(KEYMAP_FIRSTKEY) -DPLATFORM=$
 
 ifndef MSVC2019
     ifneq ($(COMPILE_PLATFORM),webasm)
-        CFLAGS += -DTHEORA 
+        #CFLAGS += -DTHEORA 
     endif
 endif
 
