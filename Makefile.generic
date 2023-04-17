@@ -73,10 +73,10 @@ else ifeq ($(FILESYSTEM),StdFileSystem)
 endif
 
 ifneq ($(COMPILE_PLATFORM),webasm)
-#LIBS += \
-#    -ltheora \
-#    -ltheoradec \
-#    -ltheoraenc
+LIBS += \
+    -ltheora \
+    -ltheoradec \
+    -ltheoraenc
 endif
 
 LIBS += \
@@ -122,7 +122,7 @@ CFLAGS += -Wall -MD $(INCLUDE) -DKEYMAP_FIRSTKEY=$(KEYMAP_FIRSTKEY) -DPLATFORM=$
 
 ifndef MSVC2019
     ifneq ($(COMPILE_PLATFORM),webasm)
-        #CFLAGS += -DTHEORA 
+        CFLAGS += -DTHEORA 
     endif
 endif
 
