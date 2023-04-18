@@ -4,6 +4,7 @@
 #############################################################################
 
 CC = emcc
+NO_THEORA = true
 
 AUDIO ?= NullAudio
 AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"

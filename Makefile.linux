@@ -5,7 +5,11 @@
 
 CC = g++
 
+NO_THEORA = true
+
 include $(SOLIDCORE)/Makefile.generic
+
+DATA = 
 
 #############################################################################
 # Add platform specific dependencies
