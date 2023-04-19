@@ -27,10 +27,13 @@ ifeq ($(OS),Windows_NT)
     ifneq ($(COMPILE_PLATFORM),cygwin)
         COMPILE_PLATFORM = mingw32
     endif
-#else ifeq ($(PROCESSOR_ARCH),armhf)
-#    COMPILE_PLATFORM = raspberrypi
 else
     UNAME := $(shell uname -s)
+
+    ifeq ($(PROCESSOR_ARCH),armhf)
+        CFLAGS += -D__RASPBERRYPI_
+    endif
+
     ifeq ($(UNAME),Darwin)
         BLENDER = /Applications/Blender.app/Contents/MacOS/Blender
     endif

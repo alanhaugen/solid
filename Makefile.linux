@@ -9,8 +9,6 @@ NO_THEORA = true
 
 include $(SOLIDCORE)/Makefile.generic
 
-DATA = 
-
 #############################################################################
 # Add platform specific dependencies
 #############################################################################
@@ -21,5 +19,5 @@ LIBS += -lm -ldl -lpthread -Wl,-rpath=$(SOLIDCORE)/lib/$(OUTPUT_DIR)
 # Add platform specific CFLAGS
 #############################################################################
 
-CFLAGS += -DLINUX
+CFLAGS += -DLINUX -D__RASPBERRYPI__
 
