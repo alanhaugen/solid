@@ -37,5 +37,5 @@ include $(SOLIDCORE)/Makefile.rules
 # Build as executable
 #############################################################################
 
-debug: executable 
-release: executable
+debug: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
+release: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
