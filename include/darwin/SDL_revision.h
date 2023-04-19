@@ -1,2 +1,8 @@
-#define SDL_REVISION "hg-11914:f1084c419f33"
-#define SDL_REVISION_NUMBER 11914
+/* #undef SDL_VENDOR_INFO */
+#define SDL_REVISION_NUMBER 0
+
+#ifdef SDL_VENDOR_INFO
+#define SDL_REVISION "SDL-release-2.26.5-0-gac13ca9ab (" SDL_VENDOR_INFO ")"
+#else
+#define SDL_REVISION "SDL-release-2.26.5-0-gac13ca9ab"
+#endif

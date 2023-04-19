@@ -16,6 +16,6 @@ include $(SOLIDCORE)/Makefile.generic
 # Add platform specific dependencies
 #############################################################################
 
-LIBS += -lm -liconv -framework CoreMIDI -framework CoreFoundation -framework AudioToolbox -framework CoreAudio -framework Carbon -framework ForceFeedback -framework CoreVideo -framework AppKit -framework OpenGL -framework IOKit -framework Cocoa 
+LIBS += -lm -liconv -framework CoreMIDI -framework CoreFoundation -framework AudioToolbox -framework CoreAudio -framework Carbon -framework ForceFeedback -framework CoreVideo -framework AppKit -framework Metal -framework OpenGL -framework IOKit -framework Cocoa 
 
 CFLAGS += -D__MACOSX_CORE__

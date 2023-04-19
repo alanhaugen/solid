@@ -12,9 +12,11 @@ SDLRender::~SDLRender()
 
 bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight)
 {
+#ifdef __RASPBERRYPI__
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+#endif
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     // Turn on double buffering with a 24bit Z buffer.
     // You may need to change this to 16 or 32 for your system

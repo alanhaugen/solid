@@ -56,6 +56,7 @@ Project {
         "CoreVideo",
         "AppKit",
         "OpenGL",
+        "Metal",
         "IOKit",
         "Cocoa"
     ]
