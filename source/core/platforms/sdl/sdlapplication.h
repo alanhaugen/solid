@@ -27,6 +27,9 @@ protected:
 
     SDL_Event event;
 
+    SDLDebug *SDLdebug;
+    SDLRender *SDLrender;
+
     float MainLoop();
     void MessageLoop(SDL_Event event);
 };

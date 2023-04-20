@@ -143,14 +143,14 @@ bool SDLApplication::Exec()
     ITime *runtime = GetTime("Runtime");
 
     // Set display for debug error messages
-    SDLDebug *SDLdebug = dynamic_cast<SDLDebug*>(debug);
-    SDLRender *SDLrender = dynamic_cast<SDLRender*>(renderer);
+    SDLdebug = dynamic_cast<SDLDebug*>(debug);
+    SDLrender = dynamic_cast<SDLRender*>(renderer);
 
     SDLdebug->SetDisplay(SDLrender->GetDisplay());
 
     while (isAlive)
     {
-#ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__OFF
         emscripten_set_main_loop(MainLoop, 0, 1);
 #else
         float sleepMilliseconds = MainLoop();

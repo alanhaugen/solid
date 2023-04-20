@@ -2,6 +2,7 @@
 
 IScene *Services::scene = NULL;
 Array<IScene*> Services::scenes = Array<IScene*>();
+bool Services::isAlive = true;
 
 void Services::SetScene(IScene *_scene)
 {

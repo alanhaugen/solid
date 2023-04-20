@@ -19,11 +19,11 @@ public:
 
     void AddScene(String sceneJSON, int id = -1);
 
-    void Quit();
+    static void Quit();
 
     static IScene *scene;
 
-    bool isAlive;
+    static bool isAlive;
 
     static Array<IScene*> scenes;
 

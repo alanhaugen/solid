@@ -3,7 +3,7 @@
 # Type make COMPILE_PLATFORM=webasm to use, don't change filename
 #############################################################################
 
-CC = emcc
+CC = EMCC_DEBUG=1 emcc
 NO_THEORA = true
 
 AUDIO ?= NullAudio
