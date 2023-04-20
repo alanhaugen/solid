@@ -25,6 +25,9 @@ public:
 protected:
     bool Init();
 
+    SDL_Event event;
+
+    float MainLoop();
     void MessageLoop(SDL_Event event);
 };
 

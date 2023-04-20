@@ -89,10 +89,56 @@ bool SDLApplication::Init()
     return true;
 }
 
+float SDLApplication::MainLoop()
+{
+    float sleepMilliseconds = 0.0f;
+
+    if (SDL_PollEvent(&event))
+    {
+        MessageLoop(event);
+    }
+    else
+    {
+        deltaTime = time->TimeSinceStarted();
+        sleepMilliseconds = 16.6f - deltaTime;
+
+        UpdateServices();
+
+        // Update this to make sure Released and pressed aren't always true
+        input.Mouse.Released = false;
+        input.Mouse.Pressed  = false;
+
+        // Reset mouse movement delta
+        input.Mouse.dx = 0;
+        input.Mouse.dy = 0;
+
+        // Put mouse in center if dragging
+        if (input.Mouse.Dragging)
+        {
+            SDL_WarpMouseInWindow(SDLrender->GetDisplay(),
+                                  renderer->windowWidth / 2,
+                                  renderer->windowHeight / 2);
+
+            input.Mouse.x = (renderer->windowWidth / 2);
+            input.Mouse.y = (renderer->windowHeight / 2);
+        }
+
+        // Show or hide mouse cursor
+        if (input.Mouse.Hidden)
+        {
+            SDL_ShowCursor(SDL_DISABLE);
+        }
+        else
+        {
+            SDL_ShowCursor(SDL_ENABLE);
+        }
+    }
+
+    return sleepMilliseconds;
+}
+
 bool SDLApplication::Exec()
 {
-    SDL_Event event;
-
     // Time since application started
     ITime *runtime = GetTime("Runtime");
 
@@ -104,52 +150,17 @@ bool SDLApplication::Exec()
 
     while (isAlive)
     {
-        if (SDL_PollEvent(&event))
+#ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(MainLoop, 0, 1);
+#else
+        float sleepMilliseconds = MainLoop();
+
+        // Release time back to other apps
+        if (sleepMilliseconds > 0.0f)
         {
-            MessageLoop(event);
+            SDL_Delay(sleepMilliseconds);
         }
-        else
-        {
-            deltaTime = time->TimeSinceStarted();
-            float sleepMilliseconds = 16.6f - deltaTime;
-
-            UpdateServices();
-
-            // Update this to make sure Released and pressed aren't always true
-            input.Mouse.Released = false;
-            input.Mouse.Pressed  = false;
-
-            // Reset mouse movement delta
-            input.Mouse.dx = 0;
-            input.Mouse.dy = 0;
-
-            // Put mouse in center if dragging
-            if (input.Mouse.Dragging)
-            {
-                SDL_WarpMouseInWindow(SDLrender->GetDisplay(),
-                                      renderer->windowWidth / 2,
-                                      renderer->windowHeight / 2);
-
-                input.Mouse.x = (renderer->windowWidth / 2);
-                input.Mouse.y = (renderer->windowHeight / 2);
-            }
-
-            // Show or hide mouse cursor
-            if (input.Mouse.Hidden)
-            {
-                SDL_ShowCursor(SDL_DISABLE);
-            }
-            else
-            {
-                SDL_ShowCursor(SDL_ENABLE);
-            }
-
-            // Release time back to other apps
-            if (sleepMilliseconds > 0.0f)
-            {
-                SDL_Delay(sleepMilliseconds);
-            }
-        }
+#endif
     }
 
     delete runtime;

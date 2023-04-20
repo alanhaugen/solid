@@ -45,7 +45,6 @@ if [ -d $directory ]
                 echo "Copying files ..."
                 cp -rf $SOLIDCORE/examples/templates/application/* $directory
                 cp -rf $SOLIDCORE/standarddata/data $directory
-                sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
                 echo "Done"
 fi
 

@@ -17,7 +17,9 @@ Sphere::Sphere(glm::vec3 pos, float _radius)
 
     tag = "sphere";
 
-    mesh = new Mesh("sphere.obj");
+    // TODO: icosphere or uv sphere? both?
+
+    mesh = NULL;
 }
 
 void Sphere::Update()
