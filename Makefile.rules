@@ -30,10 +30,6 @@ ifeq ($(OS),Windows_NT)
 else
     UNAME := $(shell uname -s)
 
-    ifeq ($(PROCESSOR_ARCH),armhf)
-        CFLAGS += -D__RASPBERRYPI_
-    endif
-
     ifeq ($(UNAME),Darwin)
         BLENDER = /Applications/Blender.app/Contents/MacOS/Blender
     endif
@@ -79,8 +75,6 @@ else ifeq ($(COMPILE_PLATFORM),mingw32)
     include $(SOLIDCORE)/Makefile.mingw-w64
 else ifeq ($(COMPILE_PLATFORM),darwin)
     include $(SOLIDCORE)/Makefile.osx
-else ifeq ($(COMPILE_PLATFORM),raspberrypi)
-    include $(SOLIDCORE)/Makefile.raspberrypi
 else ifeq ($(COMPILE_PLATFORM),linux)
     ifeq ($(PLATFORM),ndk)
         include $(SOLIDCORE)/Makefile.ndk

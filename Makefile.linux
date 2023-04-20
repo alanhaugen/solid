@@ -9,6 +9,8 @@ NO_THEORA = true
 
 include $(SOLIDCORE)/Makefile.generic
 
+CFLAGS += -DES_PROFILE
+
 #############################################################################
 # Add platform specific dependencies
 #############################################################################
