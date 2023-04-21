@@ -7,6 +7,9 @@ CC = g++
 
 NO_THEORA = true
 
+AUDIO        ?= PortaudioAudio
+AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+
 include $(SOLIDCORE)/Makefile.generic
 
 CFLAGS += -DES_PROFILE
@@ -21,5 +24,5 @@ LIBS += -lm -ldl -lpthread -Wl,-rpath=$(SOLIDCORE)/lib/$(OUTPUT_DIR)
 # Add platform specific CFLAGS
 #############################################################################
 
-CFLAGS += -DLINUX -D__RASPBERRYPI__
+CFLAGS += -DLINUX 
 

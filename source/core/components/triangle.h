@@ -1,7 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "core/components/component.h"
+#include "component.h"
 
 class Triangle : public IComponent
 {

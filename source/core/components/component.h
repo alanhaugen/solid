@@ -8,17 +8,20 @@
 
 class IComponent : public Locator
 {
+protected:
+    Array<UniformData*> *uniforms;
+
 public:
     IComponent();
     ~IComponent();
 
     Mat matrix;
     String tag;
-    Array<UniformData*> *uniforms;
 
     virtual void Update() = 0;
     virtual void UpdateAfterPhysics() = 0;
-    //virtual void SetUniforms() = 0; // TODO: implement
+
+    void SetUniforms(Array<UniformData*> *uniforms_ = NULL);
 
     void Uniform(String location, glm::f32   uniform);
     void Uniform(String location, glm::vec2  uniform);

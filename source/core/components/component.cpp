@@ -2,14 +2,27 @@
 
 IComponent::IComponent()
 {
-    uniforms = new Array<UniformData*>(); // FIXME: Major memory leak!!! See mesh.cpp:
-        // drawables[i]->uniformData = uniforms; // TODO: You only need to do this once really at creation... Implement SetUniforms here and in components.h !
+    uniforms = NULL;
+    SetUniforms();
 }
 
 IComponent::~IComponent()
 {
-    // TODO: fix
     delete uniforms;
+}
+
+void IComponent::SetUniforms(Array<UniformData*> *uniforms_)
+{
+    delete uniforms;
+
+    if (uniforms_ == NULL)
+    {
+        uniforms = new Array<UniformData*>();
+    }
+    else
+    {
+        uniforms = uniforms_;
+    }
 }
 
 void IComponent::Uniform(String location, glm::f32 uniform)

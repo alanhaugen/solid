@@ -65,13 +65,11 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     Log("OpenGL " + String(GLAD_VERSION_MAJOR(version)) + "." + String(GLAD_VERSION_MINOR(version)));
 
 #ifndef __WEBASM__ 
-#ifndef __RASPBERRYPI__
     if (GLAD_VERSION_MAJOR(version) < 3)
     {
         LogError("OpenGL core profile failed to load");
         return false;
     }
-#endif
 #endif
 
     return RENDERER::Init(fullscreen, windowTitle, windowLength, windowHeight);

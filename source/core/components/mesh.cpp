@@ -1,11 +1,11 @@
 #include "mesh.h"
-#include "core/application.h"
+#include <core/application.h>
 
-#include "core/x-platform/locator.h"
-#include "core/x-platform/typedefs.h"
-#include "core/x-platform/pixmap.h" // Dont really like having dependency between mesh and pixmap. But what else can we do?
+#include <core/x-platform/locator.h>
+#include <core/x-platform/typedefs.h>
+#include <core/x-platform/pixmap.h> // Dont really like having dependency between mesh and pixmap. But what else can we do?
 
-#include "core/x-platform/parserjson.h"
+#include <core/x-platform/parserjson.h>
 
 #define FAST_OBJ_IMPLEMENTATION	
 #include "3rdparty/fast_obj.h"	
@@ -831,8 +831,8 @@ void Mesh::Update()
 
     for (unsigned int i = 0; i < drawables.Size(); i++)
     {
+        drawables[i]->uniformData = uniforms;
         drawables[i]->matrix = matrix.subMatrix * matrix.matrix;
-        drawables[i]->uniformData = uniforms; // TODO: You only need to do this once really at creation... Implement SetUniforms here and in components.h !
         renderer->Draw(drawables[i]);
     }
 
