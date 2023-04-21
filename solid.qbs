@@ -32,7 +32,7 @@ Project {
         "vorbis",
         "ogg",
         "portaudioaudio",
-//        "portaudio_static",
+        "portaudio_static",
         "sndfile",
         "gles2renderer",
         "stdfilesystem",
