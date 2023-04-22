@@ -5,11 +5,12 @@
 #include "core/x-platform/uniform.h"
 #include "core/containers/array.h"
 #include "core/x-platform/mat.h"
+#include "core/x-platform/ptr.h"
 
 class IComponent : public Locator
 {
 protected:
-    Array<UniformData*> *uniforms;
+    Array<Ptr<UniformData> > *uniforms;
 
 public:
     IComponent();
@@ -21,7 +22,7 @@ public:
     virtual void Update() = 0;
     virtual void UpdateAfterPhysics() = 0;
 
-    void SetUniforms(Array<UniformData*> *uniforms_ = NULL);
+    void SetUniforms(Array<Ptr<UniformData> > *uniforms_ = NULL);
 
     void Uniform(String location, glm::f32   uniform);
     void Uniform(String location, glm::vec2  uniform);

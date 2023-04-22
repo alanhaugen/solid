@@ -16,7 +16,108 @@ public:
 
     ~UniformData()
     {
-        delete data; // TODO: Fix for arrays
+        if (dataType == f32)
+        {
+            glm::f32 *deleteData = static_cast<glm::f32*>(data);
+            delete deleteData;
+        }
+        else if (dataType == vec2)
+        {
+            glm::vec2 *deleteData = static_cast<glm::vec2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == vec4)
+        {
+            glm::vec4 *deleteData = static_cast<glm::vec4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == int32)
+        {
+            glm::int32 *deleteData = static_cast<glm::int32*>(data);
+            delete deleteData;
+        }
+        else if (dataType == ivec2)
+        {
+            glm::ivec2 *deleteData = static_cast<glm::ivec2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == ivec3)
+        {
+            glm::ivec3 *deleteData = static_cast<glm::ivec3*>(data);
+            delete deleteData;
+        }
+        else if (dataType == ivec4)
+        {
+            glm::ivec4 *deleteData = static_cast<glm::ivec4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == uint)
+        {
+            glm::uint *deleteData = static_cast<glm::uint*>(data);
+            delete deleteData;
+        }
+        else if (dataType == uvec2)
+        {
+            glm::uvec2 *deleteData = static_cast<glm::uvec2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == uvec3)
+        {
+            glm::uvec3 *deleteData = static_cast<glm::uvec3*>(data);
+            delete deleteData;
+        }
+        else if (dataType == uvec4)
+        {
+            glm::uvec4 *deleteData = static_cast<glm::uvec4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat2)
+        {
+            glm::mat2 *deleteData = static_cast<glm::mat2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat3)
+        {
+            glm::mat3 *deleteData = static_cast<glm::mat3*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat4)
+        {
+            glm::mat4 *deleteData = static_cast<glm::mat4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat2x3)
+        {
+            glm::mat2x3 *deleteData = static_cast<glm::mat2x3*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat3x2)
+        {
+            glm::mat3x2 *deleteData = static_cast<glm::mat3x2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat2x4)
+        {
+            glm::mat2x4 *deleteData = static_cast<glm::mat2x4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat4x2)
+        {
+            glm::mat4x2 *deleteData = static_cast<glm::mat4x2*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat3x4)
+        {
+            glm::mat3x4 *deleteData = static_cast<glm::mat3x4*>(data);
+            delete deleteData;
+        }
+        else if (dataType == mat4x3)
+        {
+            glm::mat4x3 *deleteData = static_cast<glm::mat4x3*>(data);
+            delete deleteData;
+        }
+
+        data = NULL;
     }
 
     UniformData(String location, glm::f32 &uniform)

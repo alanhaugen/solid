@@ -24,7 +24,8 @@ public:
 
     ~Ptr()
     {
-        delete object;
+        //delete object;
+        object = NULL;
     };
 };
 

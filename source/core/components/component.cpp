@@ -9,15 +9,16 @@ IComponent::IComponent()
 IComponent::~IComponent()
 {
     delete uniforms;
+    uniforms = NULL;
 }
 
-void IComponent::SetUniforms(Array<UniformData*> *uniforms_)
+void IComponent::SetUniforms(Array<Ptr<UniformData> > *uniforms_)
 {
     delete uniforms;
 
     if (uniforms_ == NULL)
     {
-        uniforms = new Array<UniformData*>();
+        uniforms = new Array<Ptr<UniformData> >();
     }
     else
     {
