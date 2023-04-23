@@ -12,6 +12,7 @@
 #include "core/x-platform/string.h"
 #include "core/x-platform/uniform.h"
 #include "core/x-platform/ptr.h"
+#include <memory>
 
 const unsigned int VERTEX_SHADER = 0;
 const unsigned int FRAGMENT_SHADER = 1;
@@ -73,7 +74,7 @@ public:
     unsigned int frame, verticesPerFrameQuantity, lastFrame;
     virtual ~IDrawable() {}
 
-    Array<Ptr<UniformData> > *uniformData;
+    Array<std::shared_ptr<UniformData> > *uniformData;
 
 private:
     virtual void Uniform(String location, glm::f32   uniform) = 0;
