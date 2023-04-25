@@ -73,7 +73,7 @@ public:
     unsigned int frame, verticesPerFrameQuantity, lastFrame;
     virtual ~IDrawable() {}
 
-    Array<Ptr<UniformData> > *uniformData;
+    Array<Ptr<UniformData *> > *uniformData;
 
 private:
     virtual void Uniform(String location, glm::f32   uniform) = 0;

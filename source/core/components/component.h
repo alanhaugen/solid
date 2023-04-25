@@ -10,7 +10,7 @@
 class IComponent : public Locator
 {
 protected:
-    Array<Ptr<UniformData> > *uniforms;
+    Array<Ptr<UniformData *> > *uniforms;
 
 public:
     IComponent();
@@ -22,7 +22,7 @@ public:
     virtual void Update() = 0;
     virtual void UpdateAfterPhysics() = 0;
 
-    void SetUniforms(Array<Ptr<UniformData> > *uniforms_ = NULL);
+    void SetUniforms(Array<Ptr<UniformData *> > *uniforms_ = NULL);
 
     void Uniform(String location, glm::f32   uniform);
     void Uniform(String location, glm::vec2  uniform);
