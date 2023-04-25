@@ -10,62 +10,75 @@ class Ptr
 {
 private:
     bool empty;
-    unsigned int count;
-    T *other;
 
 public:
+    struct Data
+    {
+        T *object;
+        bool isCopied;
+
+        Data(T *object_)
+        {
+            object = object_;
+            isCopied = false;
+        }
+        ~Data()
+        {
+            delete object;
+            object = NULL;
+        }
+    };
+
+    bool isCopy;
+    Data *data;
     T *object;
 
     Ptr()
     {
+        data   = NULL;
         object = NULL;
-        other  = NULL;
+        isCopy = false;
         empty  = true;
-        count  = 0;
     };
 
     Ptr(T *object_)
     {
-        object = object_;
-        other  = NULL;
+        data   = new Data(object_);
+        object = data->object;
+        isCopy = false;
         empty  = false;
-        count  = 0;
     };
 
     Ptr(const T *object_)
     {
-        object = object_;
-        other  = NULL;
+        data   = new Data(object_);
+        object = data->object;
+        isCopy = false;
         empty  = false;
-        count  = 0;
     };
 
     Ptr operator=(const Ptr &o)
     {
-        other = o.object;
-        count++;
-
+        isCopy = true;
+        data = o.data;
+        data->isCopied = true;
+        object = data->object;
         return *this;
     }
 
     ~Ptr()
     {
-        if (count == 0)
+        if (data->isCopied == false)
         {
-            delete object;
-            object = NULL;
-            empty  = true;
+            delete data;
+            data  = NULL;
+            empty = true;
         }
-        else
+        else if (isCopy == true && empty == false)
         {
-            count--;
-
-            if (count < 0)
-            {
-                delete object;
-                object = NULL;
-                empty  = true;
-            }
+            delete data;
+            data  = NULL;
+            empty = true;
         }
     };
 
@@ -76,9 +89,12 @@ public:
 
     void Swap(Ptr &o)
     {
-        T *temp = object;
-        object = o.object;
+        /*T *temp  = object;
+        bool cpy = o.isCopy;
+        object   = o.object;
         o.object = temp;
+        o.isCopy = isCopy;
+        isCopy   = cpy;*/
     }
 };
 
