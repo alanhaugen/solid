@@ -76,12 +76,13 @@ public:
 
     void Swap(Ptr &o)
     {
-        /*T *temp  = object;
-        bool cpy = o.isCopy;
-        object   = o.object;
+        T *temp  = data;
+        data     = o.object;
         o.object = temp;
-        o.isCopy = isCopy;
-        isCopy   = cpy;*/
+
+        bool tempEmpty = empty;
+        empty = o.empty;
+        o.empty = tempEmpty;
     }
 };
 
