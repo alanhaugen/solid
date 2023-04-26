@@ -11,16 +11,15 @@ class Ptr
 private:
     bool empty;
 
-public:
     struct Data
     {
-        T *object;
-        bool isCopied;
+        T object;
+        Ptr *ptrWithDeleteResponsibility;
 
-        Data(T *object_)
+        Data(T object_, Ptr *ptr_)
         {
             object = object_;
-            isCopied = false;
+            ptrWithDeleteResponsibility = ptr_;
         }
         ~Data()
         {
@@ -29,52 +28,40 @@ public:
         }
     };
 
-    bool isCopy;
+public:
     Data *data;
-    T *object;
 
     Ptr()
     {
-        data   = NULL;
-        object = NULL;
-        isCopy = false;
-        empty  = true;
+        data  = NULL;
+        empty = true;
     };
 
-    Ptr(T *object_)
+    Ptr(T object_)
     {
-        data   = new Data(object_);
-        object = data->object;
-        isCopy = false;
-        empty  = false;
+        data  = new Data(object_, this);
+        empty = false;
     };
 
-    Ptr(const T *object_)
+    Ptr operator=(const Ptr &lhs)
     {
-        data   = new Data(object_);
-        object = data->object;
-        isCopy = false;
-        empty  = false;
-    };
+        Ptr *rhs = this;
 
-    Ptr operator=(const Ptr &o)
-    {
-        isCopy = true;
-        data = o.data;
-        data->isCopied = true;
-        object = data->object;
+        // Guard self assignment
+        if (rhs == &lhs)
+            return *this;
+
+        // Take responsibility for object
+        data = lhs.data;
+        data->ptrWithDeleteResponsibility = rhs;
+        empty = false;
+
         return *this;
     }
 
     ~Ptr()
     {
-        if (data->isCopied == false)
-        {
-            delete data;
-            data  = NULL;
-            empty = true;
-        }
-        else if (isCopy == true && empty == false)
+        if (this == data->ptrWithDeleteResponsibility)
         {
             delete data;
             data  = NULL;

@@ -69,16 +69,6 @@ public:
 
     ~Array()
     {
-#if 0
-        if (isArrayOfPointers)
-        {
-            for (unsigned int i = 0; i < size; i++)
-            {
-                delete array[i];
-            }
-        }
-#endif
-
         delete[] array;
     }
 

@@ -140,7 +140,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
     {
         for (unsigned int i = 0; i < uniformData->Size(); i++)
         {
-            UniformData *data = *uniformData->array[i].object;
+            UniformData *data = uniformData->array[i].data->object;
 
             // enum type { f32, vec2, vec3, vec4, int32, ivec2, ivec3, ivec4, uint, uvec2, uvec3, uvec4, mat2, mat3, mat4, mat2x3, mat3x2, mat2x4, mat4x2, mat3x4, mat4x3 };
             if (data->dataType == UniformData::f32)
