@@ -36,6 +36,8 @@ private:
     float scrollX;
     float scrollY;
 
+    float scrollSpeed;
+
     Camera *activeCamera;
 
     void Init();
