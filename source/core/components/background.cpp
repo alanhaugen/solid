@@ -143,6 +143,8 @@ Background::Background(Pixmap texture, float scrollX_, float scrollY_, Camera *c
     scrollX = scrollX_;
     scrollY = scrollY_;
 
+    scrollSpeed = (scrollX + scrollY) / 2;
+
     textures = new Array<Pixmap*>;
     textures->Add(new Pixmap(texture));
 
@@ -180,8 +182,8 @@ void Background::Update()
 {
     if (scrolling)
     {
-        Uniform("scrollX", static_cast<float>(scrollX += scrollX));
-        Uniform("scrollY", static_cast<float>(scrollY += scrollY));
+        Uniform("scrollX", static_cast<float>(scrollX += scrollSpeed));
+        Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
     }
 
     renderer->Draw(drawable);

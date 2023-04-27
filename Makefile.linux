@@ -7,8 +7,8 @@ CC = g++
 
 NO_THEORA = true
 
-AUDIO        ?= PortaudioAudio
-AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+#AUDIO        ?= PortaudioAudio
+#AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
 
 include $(SOLIDCORE)/Makefile.generic
 
