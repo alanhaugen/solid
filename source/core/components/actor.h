@@ -15,7 +15,7 @@ public:
 
     IPhysics::HitBox *hitbox;
 
-    void Add(IComponent *component);
+    void Add(IComponent * component);
 
     IComponent *FindComponent(const char *tag);
 
@@ -29,7 +29,7 @@ public:
 private:
 
 public:
-    Array<IComponent*> components;
+    Array<Ptr<IComponent *> > components;
     //Array<UniformData*> uniforms;
     //Hash<String, UniformData*> uniforms;
 

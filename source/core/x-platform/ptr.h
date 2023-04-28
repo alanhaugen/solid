@@ -43,6 +43,11 @@ public:
         empty = false;
     };
 
+    T operator*()
+    {
+        return data->object;
+    }
+
     Ptr operator=(const Ptr &lhs)
     {
         Ptr *rhs = this;

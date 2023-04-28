@@ -33,9 +33,9 @@ IComponent *Actor::FindComponent(const char *tag)
 {
     for (unsigned int i = 0; i < components.Size(); i++)
     {
-        if (components[i]->tag == tag)
+        if ((*components[i])->tag == tag)
         {
-            return components[i];
+            return *components[i];
         }
     }
 
@@ -48,7 +48,7 @@ void Actor::UpdateAfterPhysics()
     // Update game components after physics update
     for (unsigned int i = 0; i < components.Size(); i++)
     {
-        components[i]->UpdateAfterPhysics();
+        (*components[i])->UpdateAfterPhysics();
     }
 }
 
@@ -57,8 +57,8 @@ void Actor::Update()
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)
     {
-        components[i]->matrix.subMatrix = matrix.matrix;
-        components[i]->Update();
+        (*components[i])->matrix.subMatrix = matrix.matrix;
+        (*components[i])->Update();
         //components[i]->matrix = components[i]->matrix.matrix * glm::affineInverse(matrix.matrix); // pop
     }
 
