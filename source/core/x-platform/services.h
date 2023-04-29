@@ -25,7 +25,7 @@ public:
 
     static bool isAlive;
 
-    static Array<IScene*> scenes;
+    static Array<Ptr<IScene *> > scenes;
 
     static Array<String> sceneJSONs;
 };
