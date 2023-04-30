@@ -40,12 +40,25 @@ if [ -d $directory ]
                             exit
                 fi
 
+                if [ -d $SOLIDCORE ]
+                    then
+                            echo "Currently in $SOLIDCORE. Creating module for solid."
+#                            $directory = $SOLIDCORE/source/modules/$directory
+
+                            exit
+                fi
+
                 echo "Creating project $directory"
                 mkdir $directory
                 echo "Copying files ..."
-                cp -rf $SOLIDCORE/examples/templates/application/* $directory
-                cp -rf $SOLIDCORE/standarddata/data $directory
-                sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
+                if [ $command == "create" ]
+                    cp -rf $SOLIDCORE/examples/templates/application/* $directory
+                    cp -rf $SOLIDCORE/standarddata/data $directory
+                    sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
+                fi
+                if [ $command == "module" ]
+                    cp -rf $SOLIDCORE/examples/templates/module/* $directory
+                    sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
                 echo "Done"
 fi
 
