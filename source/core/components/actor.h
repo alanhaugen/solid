@@ -15,7 +15,7 @@ public:
 
     IPhysics::HitBox *hitbox;
 
-    void Add(IComponent * component);
+    void Add(IComponent *component);
 
     IComponent *FindComponent(const char *tag);
 
