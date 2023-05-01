@@ -1,0 +1,96 @@
+#include "nullrenderer.h"
+
+#include "core/x-platform/pixmap.h"
+#include "core/x-platform/typedefs.h"
+#include "nulldrawable.h"
+
+void NullRenderer::PreRender()
+{
+}
+
+void NullRenderer::PostRender()
+{
+}
+
+bool NullRenderer::Init(
+        bool openWindowed,
+        const char *windowTitle,
+        const unsigned int windowLength,
+        const unsigned int windowHeight)
+{
+    (void)openWindowed;
+    (void)windowTitle;
+    (void)windowLength;
+    (void)windowHeight;
+    return true;
+}
+
+void NullRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
+{
+    (void)projViewMatrixArray;
+    (void)viewBoundsArray;
+}
+
+void NullRenderer::DrawDebugText(float x, float y, const char* str)
+{
+    (void)x;
+    (void)y;
+    (void)str;
+}
+
+IDrawable *NullRenderer::CreateDrawable(
+        Array<IDrawable::Vertex> &vertices,
+        Array<unsigned int> &indices,
+        Array<String> &shaders,
+        Array<Pixmap*> *textures)
+{
+    (void)vertices;
+    (void)indices;
+    (void)shaders;
+    (void)textures;
+
+    NullDrawable *drawable = new NullDrawable();
+
+    return drawable;
+}
+
+void NullRenderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
+{
+    UNUSED(direction);
+    UNUSED(light);
+}
+
+void NullRenderer::ResetDirectionalLight()
+{
+}
+
+ILight *NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light)
+{
+    UNUSED(position);
+    UNUSED(quadricEquation);
+    UNUSED(light);
+    return NULL;
+}
+
+void NullRenderer::RemovePointLight(ILight *light)
+{
+}
+
+void NullRenderer::Draw(IDrawable *drawable)
+{
+    if (drawable->visible)
+    {
+        drawable->draw = true;
+    }
+}
+
+void NullRenderer::RemoveDrawable(IDrawable *drawable)
+{
+    (void)drawable;
+}
+
+void NullRenderer::Resize(int length, int height)
+{
+    (void)length;
+    (void)height;
+}
