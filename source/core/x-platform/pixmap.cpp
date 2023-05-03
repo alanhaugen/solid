@@ -16,6 +16,34 @@ Pixmap::Pixmap()
     Pixmap(8, 8);
 }
 
+Pixmap::Pixmap(int r, int g, int b, int width_, int height_)
+    : filePath("")
+{
+    width = width_;
+    height = height_;
+
+    int red = r;
+    int green = g + 255;
+    int blue = g + (255 * 2);
+
+    int colorCode = red + green + blue;
+
+    channels = RGB;
+    data = new U8[width*height*channels];
+
+    for(int j = 0; j < height; j++)
+    {
+        for(int i = 0; i < width; i++)
+        {
+            int idx = channels * (j*width + i);
+            for(int c=0; c < channels; c++) {
+                data[idx+c] = colorCode;
+            }
+        }
+    }
+
+}
+
 Pixmap::Pixmap(int width_, int height_)
     : filePath("")
 {

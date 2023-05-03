@@ -12,6 +12,7 @@ public:
     ~Pixmap();
     Pixmap();
     Pixmap(int width, int height);
+    Pixmap(int r, int g, int b, int width = 8, int height = 8);
     Pixmap(const String& name, U32 _width, U32 _height, eCHANNELS channels);
     Pixmap(const String& _filePath);
 

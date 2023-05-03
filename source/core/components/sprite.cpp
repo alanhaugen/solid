@@ -134,6 +134,23 @@ Sprite::Sprite(Pixmap *texture,
     Init(_x, _y, 1.0f, 1.0f, _textureWidth, _textureHeight);
 }
 
+Sprite::Sprite(const int red,
+               const int green,
+               const int blue,
+               const float _x,
+               const float _y,
+               const float scaleX_,
+               const float scaleY_,
+               const int _textureWidth,
+               const int _textureHeight,
+               const unsigned int quadQuantity,
+               const char *glyphs)
+{
+    textures.Add(new Pixmap(red, green, blue));
+
+    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
+}
+
 Sprite::~Sprite()
 {
     renderer->RemoveDrawable(drawable);
