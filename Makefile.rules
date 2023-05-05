@@ -39,7 +39,7 @@ endif
 # Setup everything else, all code beyond this point should be left alone
 #############################################################################
 
-.PHONY: default all install debug release lib sharedlib executable run doc test clean nullaudio nullscript nullfilesystem nullphysics nullrenderer gles2renderer solid acp
+.PHONY: default all install debug release lib sharedlib executable run doc test clean nullaudio nullscript nullfilesystem nullphysics nullrenderer gles2renderer dx11renderer solid acp
 
 default: debug
 
@@ -132,6 +132,10 @@ nullrenderer:
 gles2renderer:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/renderer/gles2
 	$(MAKE) release -C $(SOLIDCORE)/source/modules/renderer/gles2
+
+dx11renderer:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/renderer/dx11
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/renderer/dx11
 
 portaudioaudio:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/audio/portaudioaudio
