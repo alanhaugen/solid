@@ -3,10 +3,10 @@
 
 #include "modules/renderer/drawable.h"
 
-class NullDrawable : public IDrawable
+class DX11Drawable : public IDrawable
 {
 public:
-    NullDrawable();
+    DX11Drawable();
 
     void Hide();
 

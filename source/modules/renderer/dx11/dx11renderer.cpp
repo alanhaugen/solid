@@ -2,17 +2,17 @@
 
 #include "core/x-platform/pixmap.h"
 #include "core/x-platform/typedefs.h"
-#include "nulldrawable.h"
+#include "dx11drawable.h"
 
-void NullRenderer::PreRender()
+void DX11Renderer::PreRender()
 {
 }
 
-void NullRenderer::PostRender()
+void DX11Renderer::PostRender()
 {
 }
 
-bool NullRenderer::Init(
+bool DX11Renderer::Init(
         bool openWindowed,
         const char *windowTitle,
         const unsigned int windowLength,
@@ -25,20 +25,20 @@ bool NullRenderer::Init(
     return true;
 }
 
-void NullRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
+void DX11Renderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
 {
     (void)projViewMatrixArray;
     (void)viewBoundsArray;
 }
 
-void NullRenderer::DrawDebugText(float x, float y, const char* str)
+void DX11Renderer::DrawDebugText(float x, float y, const char* str)
 {
     (void)x;
     (void)y;
     (void)str;
 }
 
-IDrawable *NullRenderer::CreateDrawable(
+IDrawable *DX11Renderer::CreateDrawable(
         Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
@@ -49,22 +49,22 @@ IDrawable *NullRenderer::CreateDrawable(
     (void)shaders;
     (void)textures;
 
-    NullDrawable *drawable = new NullDrawable();
+    DX11Drawable *drawable = new DX11Drawable();
 
     return drawable;
 }
 
-void NullRenderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
+void DX11Renderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
 {
     UNUSED(direction);
     UNUSED(light);
 }
 
-void NullRenderer::ResetDirectionalLight()
+void DX11Renderer::ResetDirectionalLight()
 {
 }
 
-ILight *NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light)
+ILight *DX11Renderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light)
 {
     UNUSED(position);
     UNUSED(quadricEquation);
@@ -72,11 +72,11 @@ ILight *NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquatio
     return NULL;
 }
 
-void NullRenderer::RemovePointLight(ILight *light)
+void DX11Renderer::RemovePointLight(ILight *light)
 {
 }
 
-void NullRenderer::Draw(IDrawable *drawable)
+void DX11Renderer::Draw(IDrawable *drawable)
 {
     if (drawable->visible)
     {
@@ -84,13 +84,14 @@ void NullRenderer::Draw(IDrawable *drawable)
     }
 }
 
-void NullRenderer::RemoveDrawable(IDrawable *drawable)
+void DX11Renderer::RemoveDrawable(IDrawable *drawable)
 {
     (void)drawable;
 }
 
-void NullRenderer::Resize(int length, int height)
+void DX11Renderer::Resize(int length, int height)
 {
     (void)length;
     (void)height;
 }
+

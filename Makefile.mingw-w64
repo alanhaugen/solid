@@ -5,8 +5,10 @@
 
 PROCESSOR_ARCH = x86
 
-AUDIO        ?= PortaudioAudio
-AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+RENDERER        ?= DX11Renderer
+RENDERER_HEADER ?= "modules/renderer/dx11/dx1renderer.h"
+AUDIO           ?= PortaudioAudio
+AUDIO_HEADER    ?= "modules/audio/portaudioaudio/portaudioaudio.h"
 
 DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid
 

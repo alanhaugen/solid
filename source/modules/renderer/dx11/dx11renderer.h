@@ -5,7 +5,7 @@
 #include "modules/renderer/renderer.h"
 
 class Pixmap;
-class NullRenderer : public IRenderer
+class DX11Renderer : public IRenderer
 {
 protected:
     void PreRender();
