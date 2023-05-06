@@ -1,0 +1,21 @@
+#############################################################################
+# Setup libraries and compiler for this platform
+# Type make PLATFORM=linux to use, don't change filename
+#############################################################################
+
+BUILDSCRIPT = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build-scripts/androidbuild.sh
+
+CFLAGS += -DES_PROFILE
+
+#############################################################################
+# Add platform specific dependencies
+#############################################################################
+
+LIBS += 
+
+#############################################################################
+# Add platform specific CFLAGS
+#############################################################################
+
+CFLAGS += -DANDROID 
+
