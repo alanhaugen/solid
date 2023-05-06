@@ -6,7 +6,7 @@ Splash::Splash()
 {
     Camera *camera = new Camera();
 
-    components.Add(new Sprite(URL("data/logo_inv_jpg.jpg")));
+    components.Add(new Sprite("data/logo_inv_jpg.jpg"));
     components.Add(camera);
 
     timer = Application::GetTime();
@@ -17,12 +17,6 @@ Splash::Splash()
 
 Splash::~Splash()
 {
-    // Delete pointers in array
-    for (unsigned int i = 0; i < components.Size(); i++)
-    {
-        delete components[i];
-        components[i] = NULL;
-    }
 }
 
 void Splash::Update()

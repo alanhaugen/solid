@@ -44,8 +44,10 @@ Camera::Camera(glm::vec3 _position, glm::vec3 _worldUp, glm::vec3 lookAt, float 
 
 Camera::~Camera()
 {
-//    viewProjections.RemoveAt(viewProjectionPosition);
-//    viewports.RemoveAt(viewportPosition);
+    //viewProjections.RemoveAt(viewProjectionPosition);
+    //viewports.RemoveAt(viewportPosition);
+    viewProjections.Clear();
+    viewports.Clear();
 }
 
 void Camera::UpdateAfterPhysics()

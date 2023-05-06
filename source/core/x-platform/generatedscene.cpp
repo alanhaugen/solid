@@ -151,10 +151,10 @@ void GeneratedScene::Init()
 
 GeneratedScene::~GeneratedScene()
 {
-    for (unsigned int i = 0; i < components.Size(); i++)
+    /*for (unsigned int i = 0; i < components.Size(); i++)
     {
         delete components[i];
-    }
+    }*/ // Handled by Ptr
 
     audio->Stop();
 }
@@ -402,9 +402,9 @@ IComponent *GeneratedScene::FindComponent(String tag)
 {
     for (unsigned int i = 0; i < components.Size(); i++)
     {
-        if (components[i]->tag == tag)
+        if ((*components[i])->tag == tag)
         {
-            return components[i];
+            return *components[i];
         }
     }
 

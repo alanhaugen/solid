@@ -33,7 +33,7 @@ void Services::UpdateServices()
     // Update game components
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
-        scene->components[i]->Update();
+        (*scene->components[i])->Update();
     }
 
     // Run the game logic
@@ -51,7 +51,7 @@ void Services::UpdateServices()
     // Update game components after physics
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
-        scene->components[i]->UpdateAfterPhysics();
+        (*scene->components[i])->UpdateAfterPhysics();
     }
 
     // Update sound system
