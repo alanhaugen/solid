@@ -46,8 +46,8 @@ Camera::~Camera()
 {
     //viewProjections.RemoveAt(viewProjectionPosition);
     //viewports.RemoveAt(viewportPosition);
-    viewProjections.Clear();
-    viewports.Clear();
+    //viewProjections.Clear();
+    //viewports.Clear();
 }
 
 void Camera::UpdateAfterPhysics()
