@@ -78,6 +78,7 @@ void Services::NextScene()
 
 void Services::AddScene(IScene *scene)
 {
+    scene->id = scenes.Size();
     scenes.Add(scene);
 
     // Load the first scene
