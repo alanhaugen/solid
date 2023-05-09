@@ -159,6 +159,11 @@ bool SDLApplication::Exec()
         if (sleepMilliseconds > 0.0f)
         {
             SDL_Delay(sleepMilliseconds);
+
+            if (fullscreen)
+            {
+                SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            }
         }
 #endif
     }
