@@ -55,7 +55,23 @@ public:
         }
     }
 
-    Ptr operator=(const Ptr &rhs)
+    ~Ptr() // I
+    {
+        if (this == data->ptrWithDeleteResponsibility)
+        {
+            delete data;
+            data  = NULL;
+            empty = true;
+        }
+    };
+
+    Ptr(const Ptr &other) // II
+    {
+        data = other.data;
+        empty = false;
+    }
+
+    Ptr operator=(const Ptr &rhs) // III
     {
         Ptr *lhs = this;
 
@@ -70,16 +86,6 @@ public:
 
         return *this;
     }
-
-    ~Ptr()
-    {
-        if (this == data->ptrWithDeleteResponsibility)
-        {
-            delete data;
-            data  = NULL;
-            empty = true;
-        }
-    };
 
     bool isEmpty()
     {

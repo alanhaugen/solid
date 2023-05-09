@@ -5,10 +5,6 @@ IComponent::IComponent()
     uniforms = new Array<Ptr<UniformData *> >();
 }
 
-IComponent::~IComponent()
-{
-}
-
 void IComponent::Uniform(String location, glm::f32 uniform)
 {
     (*uniforms)->Add(new UniformData(location, uniform));
