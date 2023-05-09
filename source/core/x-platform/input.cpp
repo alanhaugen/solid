@@ -112,10 +112,7 @@ bool Input::Released(String controlName)
 
 void Input::OnButton(const unsigned int button, const bool isDown)
 {
-    if (button < KEYS_QUANTITY)
-    {
-        keys[button % KEYS_QUANTITY] = isDown;
-    }
+    keys[button % KEYS_QUANTITY] = isDown;
 }
 
 Input::HeadStruct::HeadStruct()
