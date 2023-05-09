@@ -14,13 +14,11 @@ Project {
     ]
 
     property stringList sdlDefines: [
-        "KEYMAP_FIRSTKEY=97",
         "PLATFORM_HEADER=core/platforms/sdl/sdlapplication.h",
         "PLATFORM=SDLApplication"
     ]
 
     property stringList windowsDefines: [
-        "KEYMAP_FIRSTKEY=65",
         "PLATFORM_HEADER=core/platforms/win/winapplication.h",
         "PLATFORM=WinApplication"
     ]
