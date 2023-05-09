@@ -35,7 +35,7 @@ Input::~Input()
 
 void Input::Define(const String& controlName, unsigned int key)
 {
-    controls.Insert(controlName, key);
+    controls.Insert(controlName, key % KEYS_QUANTITY);
 }
 
 void Input::Update()
@@ -82,7 +82,7 @@ void Input::Update()
 
 bool Input::Held(const unsigned int key)
 {
-    return keys[key];
+    return keys[key % KEYS_QUANTITY];
 }
 
 bool Input::Held(String controlName)
@@ -92,7 +92,7 @@ bool Input::Held(String controlName)
 
 bool Input::Pressed(const unsigned int key)
 {
-    return keyChanges[key] & keys[key];
+    return keyChanges[key % KEYS_QUANTITY] & keys[key % KEYS_QUANTITY];
 }
 
 bool Input::Pressed(String controlName)
@@ -102,7 +102,7 @@ bool Input::Pressed(String controlName)
 
 bool Input::Released(const unsigned int key)
 {
-    return keyChanges[key] | keys[key];
+    return keyChanges[key % KEYS_QUANTITY] | keys[key % KEYS_QUANTITY];
 }
 
 bool Input::Released(String controlName)
@@ -114,7 +114,7 @@ void Input::OnButton(const unsigned int button, const bool isDown)
 {
     if (button < KEYS_QUANTITY)
     {
-        keys[button] = isDown;
+        keys[button % KEYS_QUANTITY] = isDown;
     }
 }
 

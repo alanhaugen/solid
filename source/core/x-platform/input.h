@@ -5,11 +5,7 @@
 #include "core/x-platform/keymap.h"
 #include "core/containers/hash.h"
 
-#if PLATFORM == SDLApplication
-const unsigned int KEYS_QUANTITY = 1073742106; // FIXME: SDL platform has keys going up to 1073742106...
-#else
 const unsigned int KEYS_QUANTITY = 256;
-#endif
 
 //#include "3rdparty/RtMidi.h"
 
