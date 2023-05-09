@@ -153,7 +153,8 @@ Sprite::Sprite(const int red,
 
 Sprite::~Sprite()
 {
-    renderer->RemoveDrawable(drawable);
+    // TODO: Readd!
+    //renderer->RemoveDrawable(drawable);
 }
 
 void Sprite::Update()

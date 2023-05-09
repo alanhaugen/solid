@@ -95,10 +95,13 @@ Mesh::~Mesh()
 {
     //delete emptyAnimation;
 
+    // TODO: Think about and fix
     for (unsigned int i = 0; i < drawables.Size(); i++)
     {
         IDrawable *drawable = drawables[i];
-        renderer->RemoveDrawable(drawable);
+        //renderer->RemoveDrawable(drawable);
+        // TEMP: hack
+        drawable->visible = false;
     }
 
     // TODO: delete textures
