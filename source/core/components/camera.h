@@ -47,6 +47,7 @@ private:
 
     unsigned int viewProjectionPosition;
     unsigned int viewportPosition;
+    glm::vec4 viewport;
 };
 
 #endif // CAMERA_H

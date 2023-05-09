@@ -58,7 +58,9 @@ void Camera::UpdateAfterPhysics()
 void Camera::Update()
 {
     LookAt(right, up, forward);
-    viewProjections[viewProjectionPosition] = getProjectionViewMatrix(); // TODO: Check if this actually makes sense??
+    //viewProjections[viewProjectionPosition] = getProjectionViewMatrix(); // TODO: Check if this actually makes sense??
+    viewProjections[0] = getProjectionViewMatrix();
+    viewports[0] = viewport;
 }
 
 void Camera::LookAt( glm::vec3 right, glm::vec3 up, glm::vec3 forward )
@@ -146,9 +148,15 @@ void Camera::Init()
 
     SetViewPort(glm::vec2(0,0), glm::vec2(renderer->windowWidth, renderer->windowHeight));
 
+    // TODO: FIX hack!!!
+    viewProjections.Clear();
+    viewports.Clear();
+    // hack !!!!
+
     viewProjectionPosition = viewProjections.Size();
     viewProjections.Add(getProjectionViewMatrix());
 
     viewportPosition = viewports.Size();
-    viewports.Add(glm::vec4(getViewPortOffset(), getViewPortSize()));
+    viewport = glm::vec4(getViewPortOffset(), getViewPortSize());
+    viewports.Add(glm::vec4(viewport));
 }
