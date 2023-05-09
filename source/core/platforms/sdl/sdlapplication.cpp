@@ -162,6 +162,7 @@ bool SDLApplication::Exec()
 
             if (fullscreen)
             {
+                // SDL_WINDOW_FULLSCREEN, SDL_WINDOW_FULLSCREEN_DESKTOP or 0
                 SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN_DESKTOP);
             }
         }
