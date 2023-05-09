@@ -11,6 +11,7 @@ class IComponent : public Locator
 {
 public:
     IComponent();
+    virtual ~IComponent() {}
 
     Ptr<Array<Ptr<UniformData *> > *> uniforms;
 
