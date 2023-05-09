@@ -16,7 +16,12 @@ void Services::SetScene(IScene *_scene)
     }
     else
     {
-        delete scene;
+        //delete scene; // Thinking about it, this should not happen...
+
+        // Weird hack to make camera work for now
+        viewProjections.Clear();
+        viewports.Clear();
+
         scene = _scene;
         scene->Init();
     }
