@@ -123,6 +123,12 @@ float SDLApplication::MainLoop()
             input.Mouse.y = (renderer->windowHeight / 2);
         }
 
+        // Fullscreen or not fullscreen
+        if (input.Pressed(input.Key.F) && input.Held(input.Key.LWIN))
+        {
+            fullscreen = !fullscreen;
+        }
+
         // Show or hide mouse cursor
         if (input.Mouse.Hidden)
         {
@@ -164,6 +170,10 @@ bool SDLApplication::Exec()
             {
                 // SDL_WINDOW_FULLSCREEN, SDL_WINDOW_FULLSCREEN_DESKTOP or 0
                 SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            }
+            else
+            {
+                SDL_SetWindowFullscreen(SDLrender->GetDisplay(), 0);
             }
         }
 #endif
