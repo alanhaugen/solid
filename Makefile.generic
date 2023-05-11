@@ -27,7 +27,7 @@ PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
 AUDIO_HEADER      ?= "modules/audio/null/nullaudio.h"
 RENDERER_HEADER   ?= "modules/renderer/gles2/gles2renderer.h"
 #PHYSICS_HEADER    ?= "modules/physics/null/nullphysics.h"
-PHYSICS_HEADER    ?= "modules/physics/bullet3/bulletphysics.h"
+PHYSICS_HEADER    ?= "modules/physics/bullet/bulletphysics.h"
 SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
 FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
 
