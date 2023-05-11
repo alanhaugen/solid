@@ -1,4 +1,5 @@
 #include "portaudiodata.h"
+#include <core/x-platform/url.h>
 // For fun later: https://zserge.com/posts/etude-in-c/
 
 PortaudioData::PortaudioData(const char *filename)
@@ -7,7 +8,7 @@ PortaudioData::PortaudioData(const char *filename)
     localSample = NULL;
 
     // Try to open the file
-    data->sndFile = sf_open(filename, SFM_READ, &data->sfInfo);
+    data->sndFile = sf_open(URL(filename), SFM_READ, &data->sfInfo);
 
     if (!data->sndFile)
     {

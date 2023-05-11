@@ -156,8 +156,6 @@ void SDLApplication::MessageLoop(SDL_Event event)
             break;
         }
         break;
-    case SDL_CONTROLLERAXISMOTION:
-        break;
     }
 }
 
