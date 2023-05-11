@@ -16,17 +16,18 @@ DEPS ?= nullaudio nullscript nullfilesystem nullphysics nullrenderer solid
 PLATFORM   ?= SDLApplication
 AUDIO      ?= NullAudio
 RENDERER   ?= GLES2Renderer
-#PHYSICS    ?= BulletPhysics
+PHYSICS    ?= BulletPhysics
 #SCRIPT     ?= AngelScript
 #FILESYSTEM ?= ZlibFileSystem
-PHYSICS    ?= NullPhysics
+#PHYSICS    ?= NullPhysics
 SCRIPT     ?= NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
 AUDIO_HEADER      ?= "modules/audio/null/nullaudio.h"
 RENDERER_HEADER   ?= "modules/renderer/gles2/gles2renderer.h"
-PHYSICS_HEADER    ?= "modules/physics/null/nullphysics.h"
+#PHYSICS_HEADER    ?= "modules/physics/null/nullphysics.h"
+PHYSICS_HEADER    ?= "modules/physics/bullet3/bulletphysics.h"
 SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
 FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
 
@@ -64,6 +65,11 @@ ifeq ($(FILESYSTEM),ZlibFileSystem)
 else ifeq ($(FILESYSTEM),StdFileSystem)
     LIBS += -lstdfilesystem
     DEPS += stdfilesystem   
+endif
+
+ifeq ($(PHYSICS),BulletPhysics)
+    LIBS += -lBullet3Collision -lBullet3Common -lBullet3Dynamics -lBullet3Geometry -lBullet3OpenCL_clew
+    DEPS += bulletphysics  
 endif
 
 ifndef NO_THEORA
