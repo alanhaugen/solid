@@ -32,6 +32,8 @@ protected:
 
     float MainLoop();
     void MessageLoop(SDL_Event event);
+
+    SDL_GameController *controller;
 };
 
 #endif // SDLAPPLICATION_H
