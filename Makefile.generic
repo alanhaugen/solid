@@ -68,7 +68,7 @@ else ifeq ($(FILESYSTEM),StdFileSystem)
 endif
 
 ifeq ($(PHYSICS),BulletPhysics)
-    LIBS += -lbulletphysics -lBullet3Collision -lBullet3Common -lBullet3Dynamics -lBullet3Geometry -lBullet3OpenCL_clew
+    LIBS += -lbulletphysics -lBulletCollision -lBulletDynamics -lBulletInverseDynamics -lBulletSoftBody -lLinearMath -lBullet3Collision -lBullet3Common -lBullet3Dynamics -lBullet3Geometry -lBullet3OpenCL_clew
     DEPS += bulletphysics  
 endif
 
