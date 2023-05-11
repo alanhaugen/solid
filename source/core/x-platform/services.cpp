@@ -24,14 +24,8 @@ void Services::SetScene(IScene *_scene)
     }
 }
 
-void Services::UpdateServices()
+void Services::UpdateScene(IScene *scene)
 {
-    // Reset frame timer
-    time->Reset();
-
-    // Update Input
-    input.Update();
-
     // Update game components
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
@@ -40,13 +34,10 @@ void Services::UpdateServices()
 
     // Run the game logic
     scene->Update();
+}
 
-    // Render frame
-    renderer->Render(viewProjections, viewports);
-
-    // Update physics simulation
-    physics->Update();
-
+void Services::UpdateSceneAfterPhysics(IScene *scene)
+{
     // Update logic done after physics
     scene->UpdateAfterPhysics();
 
@@ -55,6 +46,27 @@ void Services::UpdateServices()
     {
         (*scene->components[i])->UpdateAfterPhysics();
     }
+}
+
+void Services::UpdateServices()
+{
+    // Reset frame timer
+    time->Reset();
+
+    // Update Input
+    input.Update();
+
+    // Update scene
+    UpdateScene(scene);
+
+    // Render frame
+    renderer->Render(viewProjections, viewports);
+
+    // Update physics simulation
+    physics->Update();
+
+    // Update scene
+    UpdateSceneAfterPhysics(scene);
 
     // Update sound system
     audio->Update();

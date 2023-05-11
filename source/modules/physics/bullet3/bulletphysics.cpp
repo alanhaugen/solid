@@ -1,6 +1,6 @@
 #include "bulletphysics.h"
 
-NullPhysics::NullPhysics()
+BulletPhysics::BulletPhysics()
 {
 }
 
@@ -8,7 +8,7 @@ NullPhysics::NullPhysics()
 #define min(x, y) (((x) < (y)) ? (x) : (y))
 
 //! There are a host of fast algorthims at https://www.realtimerendering.com/intersections.html
-bool NullPhysics::Intersect(const Ray &ray, const HitBox *hitbox)
+bool BulletPhysics::Intersect(const Ray &ray, const HitBox *hitbox)
 {
     // lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
     // ray.orig is origin of ray
@@ -47,7 +47,7 @@ bool NullPhysics::Intersect(const Ray &ray, const HitBox *hitbox)
     return true;
 }
 
-IPhysics::Collider *NullPhysics::Collide(const char *type, HitBox *hitbox)
+IPhysics::Collider *BulletPhysics::Collide(const char *type, HitBox *hitbox)
 {
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
@@ -64,7 +64,7 @@ IPhysics::Collider *NullPhysics::Collide(const char *type, HitBox *hitbox)
     return NULL;
 }
 
-IPhysics::HitBox *NullPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
+IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
 {
     HitBox *hitbox = new HitBox;
     hitbox->dimensions = dimensions;
@@ -78,7 +78,7 @@ IPhysics::HitBox *NullPhysics::CreateHitBox(glm::vec3 dimensions, const char *ty
     return hitbox;
 }
 
-void NullPhysics::Update()
+void BulletPhysics::Update()
 {
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
