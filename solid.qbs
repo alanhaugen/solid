@@ -270,6 +270,18 @@ Project {
     }
 
     Product {
+        name: "dx11renderer"
+        type: "staticlibrary"
+
+        files: [
+            "source/modules/renderer/dx11/dx11renderer.cpp",
+            "source/modules/renderer/dx11/dx11renderer.h",
+            "source/modules/renderer/dx11/dx11drawable.cpp",
+            "source/modules/renderer/dx11/dx11drawable.h",
+        ]
+    }
+
+    Product {
         name: "gles2renderer"
         type: "staticlibrary"
 

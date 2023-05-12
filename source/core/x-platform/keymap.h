@@ -1,7 +1,7 @@
 #ifndef KEYMAP
 #define KEYMAP
 
-#if PLATFORM == SDLApplication
+#ifndef __MINGW32__
 #include <SDL.h>
 struct KeyMap
 {
