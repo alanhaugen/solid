@@ -8,13 +8,13 @@ Random Locator::random = Random(); // default seed
 NullAudio Locator::nullAudio;
 NullFileSystem Locator::nullFileSystem;
 Physics::NullPhysics Locator::nullPhysics;
-NullRenderer Locator::nullRenderer;
+Renderer::NullRenderer Locator::nullRenderer;
 NullScript Locator::nullScript;
 
 IAudio *Locator::audio = &Locator::nullAudio;
 IFileSystem *Locator::filesystem = &Locator::nullFileSystem;
 Physics::IPhysics *Locator::physics = &Locator::nullPhysics;
-IRenderer *Locator::renderer = &Locator::nullRenderer;
+Renderer::IRenderer *Locator::renderer = &Locator::nullRenderer;
 IScript *Locator::script = &Locator::nullScript;
 
 Array<glm::mat4> Locator::viewProjections = Array<glm::mat4>();
@@ -76,7 +76,7 @@ void Locator::SetPhysics(Physics::IPhysics *_physics)
     }
 }
 
-void Locator::SetRenderer(IRenderer *_renderer)
+void Locator::SetRenderer(Renderer::IRenderer *_renderer)
 {
     if (_renderer == NULL)
     {

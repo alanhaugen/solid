@@ -1,18 +1,17 @@
 #include "nullrenderer.h"
 
-#include "core/x-platform/pixmap.h"
 #include "core/x-platform/typedefs.h"
 #include "nulldrawable.h"
 
-void NullRenderer::PreRender()
+void Renderer::NullRenderer::PreRender()
 {
 }
 
-void NullRenderer::PostRender()
+void Renderer::NullRenderer::PostRender()
 {
 }
 
-bool NullRenderer::Init(
+bool Renderer::NullRenderer::Init(
         bool openWindowed,
         const char *windowTitle,
         const unsigned int windowLength,
@@ -25,20 +24,20 @@ bool NullRenderer::Init(
     return true;
 }
 
-void NullRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
+void Renderer::NullRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
 {
     (void)projViewMatrixArray;
     (void)viewBoundsArray;
 }
 
-void NullRenderer::DrawDebugText(float x, float y, const char* str)
+void Renderer::NullRenderer::DrawDebugText(float x, float y, const char* str)
 {
     (void)x;
     (void)y;
     (void)str;
 }
 
-IDrawable *NullRenderer::CreateDrawable(
+IDrawable *Renderer::NullRenderer::CreateDrawable(
         Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
@@ -54,17 +53,17 @@ IDrawable *NullRenderer::CreateDrawable(
     return drawable;
 }
 
-void NullRenderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
+void Renderer::NullRenderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
 {
     UNUSED(direction);
     UNUSED(light);
 }
 
-void NullRenderer::ResetDirectionalLight()
+void Renderer::NullRenderer::ResetDirectionalLight()
 {
 }
 
-ILight *NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light)
+ILight *Renderer::NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light)
 {
     UNUSED(position);
     UNUSED(quadricEquation);
@@ -72,11 +71,11 @@ ILight *NullRenderer::AddPointLight(glm::vec3 position, glm::vec3 quadricEquatio
     return NULL;
 }
 
-void NullRenderer::RemovePointLight(ILight *light)
+void Renderer::NullRenderer::RemovePointLight(ILight *light)
 {
 }
 
-void NullRenderer::Draw(IDrawable *drawable)
+void Renderer::NullRenderer::Draw(IDrawable *drawable)
 {
     if (drawable->visible)
     {
@@ -84,12 +83,12 @@ void NullRenderer::Draw(IDrawable *drawable)
     }
 }
 
-void NullRenderer::RemoveDrawable(IDrawable *drawable)
+void Renderer::NullRenderer::RemoveDrawable(IDrawable *drawable)
 {
     (void)drawable;
 }
 
-void NullRenderer::Resize(int length, int height)
+void Renderer::NullRenderer::Resize(int length, int height)
 {
     (void)length;
     (void)height;

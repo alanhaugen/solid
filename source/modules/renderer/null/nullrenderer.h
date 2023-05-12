@@ -4,7 +4,9 @@
 #include <cstddef>
 #include "modules/renderer/renderer.h"
 
-class Pixmap;
+namespace Renderer
+{
+
 class NullRenderer : public IRenderer
 {
 protected:
@@ -39,5 +41,7 @@ public:
 
     virtual void Resize(int length, int height);
 };
+
+}
 
 #endif

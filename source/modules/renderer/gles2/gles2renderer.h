@@ -1,6 +1,9 @@
 #ifndef GLES2RENDERER_H
 #define GLES2RENDERER_H
 
+//namespace Renderer
+//{
+
 #include "modules/renderer/null/nullrenderer.h"
 #include "modules/renderer/light.h"
 #include "core/x-platform/locator.h"
@@ -8,7 +11,7 @@
 #include "gles2drawable.h"
 
 class Pixmap;
-class GLES2Renderer : public NullRenderer
+class GLES2Renderer : public Renderer::NullRenderer
 {
 protected:
     void GetError();
@@ -37,5 +40,7 @@ public:
 
     ~GLES2Renderer();
 };
+
+//}
 
 #endif // GLES2RENDERER_H
