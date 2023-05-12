@@ -80,13 +80,16 @@ BulletPhysics::BulletPhysics()
 
         dynamicsWorld->addRigidBody(body);
     }
+}
+
+BulletPhysics::~BulletPhysics()
+{
 
     ///-----stepsimulation_end-----
 
     //cleanup in the reverse order of creation/initialization
 
     ///-----cleanup_start-----
-
     //remove the rigidbodies from the dynamics world and delete them
     for (i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
     {
@@ -107,10 +110,7 @@ BulletPhysics::BulletPhysics()
         collisionShapes[j] = 0;
         delete shape;
     }
-}
 
-BulletPhysics::~BulletPhysics()
-{
     //delete dynamics world
     delete dynamicsWorld;
 
