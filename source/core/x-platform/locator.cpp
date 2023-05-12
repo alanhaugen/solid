@@ -7,13 +7,13 @@ Random Locator::random = Random(); // default seed
 
 NullAudio Locator::nullAudio;
 NullFileSystem Locator::nullFileSystem;
-NullPhysics Locator::nullPhysics;
+Physics::NullPhysics Locator::nullPhysics;
 NullRenderer Locator::nullRenderer;
 NullScript Locator::nullScript;
 
 IAudio *Locator::audio = &Locator::nullAudio;
 IFileSystem *Locator::filesystem = &Locator::nullFileSystem;
-IPhysics *Locator::physics = &Locator::nullPhysics;
+Physics::IPhysics *Locator::physics = &Locator::nullPhysics;
 IRenderer *Locator::renderer = &Locator::nullRenderer;
 IScript *Locator::script = &Locator::nullScript;
 
@@ -63,7 +63,7 @@ void Locator::SetFileSystem(IFileSystem *_fileSystem)
     }
 }
 
-void Locator::SetPhysics(IPhysics *_physics)
+void Locator::SetPhysics(Physics::IPhysics *_physics)
 {
     if (_physics == NULL)
     {

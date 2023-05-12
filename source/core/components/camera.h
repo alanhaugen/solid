@@ -20,7 +20,7 @@ public:
     void Update();
     void UpdateAfterPhysics();
     void LookAt(glm::vec3 right, glm::vec3 up, glm::vec3 forward);
-    IPhysics::Ray ScreenPointToRay( float x, float y ) const;
+    Physics::IPhysics::Ray ScreenPointToRay( float x, float y ) const;
     glm::vec2 WorldPointToScreen(glm::vec3 worldPos , bool &culled) const;
 
     glm::mat4 getProjectionMatrix() const;

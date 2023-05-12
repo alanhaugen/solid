@@ -84,7 +84,6 @@ BulletPhysics::BulletPhysics()
 
 BulletPhysics::~BulletPhysics()
 {
-
     ///-----stepsimulation_end-----
 
     //cleanup in the reverse order of creation/initialization
@@ -172,7 +171,7 @@ bool BulletPhysics::Intersect(const Ray &ray, const HitBox *hitbox)
     return true;
 }
 
-IPhysics::Collider *BulletPhysics::Collide(const char *type, HitBox *hitbox)
+Physics::IPhysics::Collider *BulletPhysics::Collide(HitBox *hitbox, const char *type)
 {
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
@@ -189,7 +188,7 @@ IPhysics::Collider *BulletPhysics::Collide(const char *type, HitBox *hitbox)
     return NULL;
 }
 
-IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
+Physics::IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
 {
     HitBox *hitbox = new HitBox;
     hitbox->dimensions = dimensions;
@@ -205,9 +204,9 @@ IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *
 
 void BulletPhysics::Update()
 {
-    /// Do some simulation
+    // Do some simulation
 
-    ///-----stepsimulation_start-----
+    //-----stepsimulation_start-----
     dynamicsWorld->stepSimulation(1.f / 60.f, 10);
 
     //print positions of all objects
@@ -226,31 +225,4 @@ void BulletPhysics::Update()
         }
         printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
     }
-
-    /*
-    for (unsigned int i = 0; i < colliders.Size(); i++)
-    {
-        colliders[i]->collisions.Clear();
-
-        for (unsigned int k = 0; k < colliders.Size(); k++)
-        {
-            // Don't detect collisions against oneself
-            if (i == k)
-            {
-                continue;
-            }
-
-            // Collision detection (wait.. why not just check against the hitboxes???)
-            /*HitBox *hitbox1 = colliders[i]->hitbox;
-            HitBox *hitbox2 = colliders[k]->hitbox;
-
-            if (hitbox1->position->x - hitbox1->dimensions.x < hitbox2->position->x + hitbox2->position->x &&
-                obj1.y > obj2.y - hitbox2.y &&
-                obj1.x > obj2.x + hitbox2.x &&
-                obj1.y < obj2.y + hitbox2.y)
-            {
-                colliders[i]->collisions.Add(colliders[k]->hitbox);
-            }*/
-    /*}
-    }*/
 }

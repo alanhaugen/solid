@@ -71,7 +71,7 @@ void Camera::LookAt( glm::vec3 right, glm::vec3 up, glm::vec3 forward )
     view = glm::lookAtRH(position, position + forward, up);
 }
 
-IPhysics::Ray Camera::ScreenPointToRay(float x, float y) const
+Physics::IPhysics::Ray Camera::ScreenPointToRay(float x, float y) const
 {
     // Thanks to https://antongerdelan.net/opengl/raycasting.html
     float Px = (2.0f * x) / float(renderer->windowWidth) - 1.0f;
@@ -89,7 +89,7 @@ IPhysics::Ray Camera::ScreenPointToRay(float x, float y) const
     glm::vec4 rayWorld = (glm::inverse(view) * rayEye);
     rayWorld = glm::normalize(rayWorld);
 
-    IPhysics::Ray ray(position, glm::vec3(rayWorld.x, rayWorld.y, rayWorld.z));
+    Physics::IPhysics::Ray ray(position, glm::vec3(rayWorld.x, rayWorld.y, rayWorld.z));
     return ray;
 }
 
