@@ -1,29 +1,26 @@
 #include "bulletphysics.h"
 
-#include "btBulletDynamicsCommon.h"
-
 BulletPhysics::BulletPhysics()
 {
     //collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
-    btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+    collisionConfiguration = new btDefaultCollisionConfiguration();
 
     //use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
-    btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+    dispatcher = new btCollisionDispatcher(collisionConfiguration);
 
     //btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
-    btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
+    overlappingPairCache = new btDbvtBroadphase();
 
     //the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
-    btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+    solver = new btSequentialImpulseConstraintSolver;
 
-    btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
     btAlignedObjectArray<btCollisionShape*> collisionShapes;
 
     //create a few basic rigid bodies
-    int i;
 
     //the ground is a cube of side 100 at position y = -56.
     //the sphere will hit it at y = -6, with center at -5
@@ -84,31 +81,6 @@ BulletPhysics::BulletPhysics()
         dynamicsWorld->addRigidBody(body);
     }
 
-    /// Do some simulation
-
-    ///-----stepsimulation_start-----
-    for (i = 0; i < 150; i++)
-    {
-        dynamicsWorld->stepSimulation(1.f / 60.f, 10);
-
-        //print positions of all objects
-        for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
-        {
-            btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[j];
-            btRigidBody* body = btRigidBody::upcast(obj);
-            btTransform trans;
-            if (body && body->getMotionState())
-            {
-                body->getMotionState()->getWorldTransform(trans);
-            }
-            else
-            {
-                trans = obj->getWorldTransform();
-            }
-            printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
-        }
-    }
-
     ///-----stepsimulation_end-----
 
     //cleanup in the reverse order of creation/initialization
@@ -135,7 +107,10 @@ BulletPhysics::BulletPhysics()
         collisionShapes[j] = 0;
         delete shape;
     }
+}
 
+BulletPhysics::~BulletPhysics()
+{
     //delete dynamics world
     delete dynamicsWorld;
 
@@ -230,6 +205,29 @@ IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *
 
 void BulletPhysics::Update()
 {
+    /// Do some simulation
+
+    ///-----stepsimulation_start-----
+    dynamicsWorld->stepSimulation(1.f / 60.f, 10);
+
+    //print positions of all objects
+    for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
+    {
+        btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[j];
+        btRigidBody* body = btRigidBody::upcast(obj);
+        btTransform trans;
+        if (body && body->getMotionState())
+        {
+            body->getMotionState()->getWorldTransform(trans);
+        }
+        else
+        {
+            trans = obj->getWorldTransform();
+        }
+        printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+    }
+
+    /*
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
         colliders[i]->collisions.Clear();
@@ -253,6 +251,6 @@ void BulletPhysics::Update()
             {
                 colliders[i]->collisions.Add(colliders[k]->hitbox);
             }*/
-        }
-    }
+    /*}
+    }*/
 }

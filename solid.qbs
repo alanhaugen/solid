@@ -328,4 +328,14 @@ Project {
             "source/modules/physics/null/nullphysics.h",
         ]
     }
+
+    Product {
+        name: "bulletphysics"
+        type: "staticlibrary"
+
+        files: [
+            "source/modules/physics/bullet/bulletphysics.cpp",
+            "source/modules/physics/bullet/bulletphysics.h",
+        ]
+    }
 }
