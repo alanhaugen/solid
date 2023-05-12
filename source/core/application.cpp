@@ -19,6 +19,13 @@ Application::~Application()
     delete filesystem;
     delete script;
     delete physics;
+
+    filesystem = NULL;
+    renderer = NULL;
+    debug = NULL;
+    audio = NULL;
+    script = NULL;
+    physics = NULL;
 }
 
 void Application::LoadUserData()

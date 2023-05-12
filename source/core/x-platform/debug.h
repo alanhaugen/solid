@@ -7,7 +7,7 @@ protected:
     bool enabled;
 
 public:
-    virtual ~IDebug() {};
+    virtual ~IDebug() { };
     virtual void Write(const char *text) = 0;
     virtual void Error(const char *text) = 0;
     virtual void Warning(const char *text) = 0;

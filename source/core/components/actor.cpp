@@ -24,9 +24,9 @@ void Actor::Add(IComponent *component)
     //components.Append(component);
     //componentsMap.Insert(component->tag, component);
 
-    component->SetUniforms(uniforms);
+    delete *component->uniforms;
+    component->uniforms = uniforms;
     components.Add(component);
-    //return component;
 }
 
 IComponent *Actor::FindComponent(const char *tag)

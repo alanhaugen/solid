@@ -4,6 +4,9 @@
 #include <glm/glm.hpp>
 #include <core/containers/array.h>
 
+namespace Physics
+{
+
 class IPhysics
 {
 public:
@@ -40,10 +43,12 @@ public:
 
 
     virtual ~IPhysics() {}
-    virtual Collider *Collide(const char *type, HitBox *hitbox) = 0;
+    virtual Collider *Collide(HitBox *hitbox, const char *type = "Box Collidable") = 0;
     virtual bool Intersect(const Ray &ray, const HitBox *hitbox) = 0;
     virtual HitBox *CreateHitBox(glm::vec3 dimensions, const char *type = "solid") = 0;
     virtual void Update() = 0;
 };
+
+}
 
 #endif

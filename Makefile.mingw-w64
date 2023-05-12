@@ -27,10 +27,8 @@ PLATFORM ?= WinApplication
 PLATFORM_HEADER ?= "core/platforms/win/winapplication.h"
 
 #############################################################################
-# Keymap first key for Win32 platform and add file extension
+# Win32 platform file extension
 #############################################################################
-
-KEYMAP_FIRSTKEY = 65
 
 EXE := .exe
 

@@ -9,12 +9,11 @@
 
 class IComponent : public Locator
 {
-protected:
-    Array<Ptr<UniformData *> > *uniforms;
-
 public:
     IComponent();
-    ~IComponent();
+    virtual ~IComponent() {}
+
+    Ptr<Array<Ptr<UniformData *> > *> uniforms;
 
     Mat matrix;
     String tag;

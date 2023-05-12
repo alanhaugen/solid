@@ -19,11 +19,17 @@ public:
 
     void AddScene(String sceneJSON, int id = -1);
 
+    void UpdateScene(IScene *scene);
+
+    void UpdateSceneAfterPhysics(IScene *scene);
+
     static void Quit();
 
     static IScene *scene;
 
     static bool isAlive;
+
+    static bool fullscreen;
 
     static Array<Ptr<IScene *> > scenes;
 

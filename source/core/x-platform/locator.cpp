@@ -7,14 +7,14 @@ Random Locator::random = Random(); // default seed
 
 NullAudio Locator::nullAudio;
 NullFileSystem Locator::nullFileSystem;
-NullPhysics Locator::nullPhysics;
-NullRenderer Locator::nullRenderer;
+Physics::NullPhysics Locator::nullPhysics;
+Renderer::NullRenderer Locator::nullRenderer;
 NullScript Locator::nullScript;
 
 IAudio *Locator::audio = &Locator::nullAudio;
 IFileSystem *Locator::filesystem = &Locator::nullFileSystem;
-IPhysics *Locator::physics = &Locator::nullPhysics;
-IRenderer *Locator::renderer = &Locator::nullRenderer;
+Physics::IPhysics *Locator::physics = &Locator::nullPhysics;
+Renderer::IRenderer *Locator::renderer = &Locator::nullRenderer;
 IScript *Locator::script = &Locator::nullScript;
 
 Array<glm::mat4> Locator::viewProjections = Array<glm::mat4>();
@@ -63,7 +63,7 @@ void Locator::SetFileSystem(IFileSystem *_fileSystem)
     }
 }
 
-void Locator::SetPhysics(IPhysics *_physics)
+void Locator::SetPhysics(Physics::IPhysics *_physics)
 {
     if (_physics == NULL)
     {
@@ -76,7 +76,7 @@ void Locator::SetPhysics(IPhysics *_physics)
     }
 }
 
-void Locator::SetRenderer(IRenderer *_renderer)
+void Locator::SetRenderer(Renderer::IRenderer *_renderer)
 {
     if (_renderer == NULL)
     {

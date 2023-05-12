@@ -24,7 +24,7 @@ Pixmap::Pixmap(int r, int g, int b, int width_, int height_)
 
     int red = r;
     int green = g + 255;
-    int blue = g + (255 * 2);
+    int blue = b + (255 * 2);
 
     int colorCode = red + green + blue;
 

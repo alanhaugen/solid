@@ -30,8 +30,6 @@ GLES2Drawable::GLES2Drawable(
         }
     }
 
-    uniformData = NULL;
-
     draw = false;
 
     // Ensure weights for skinning add up to 1 (very important)
@@ -110,8 +108,6 @@ GLES2Drawable::GLES2Drawable(
     shader.LoadGLSL(GL_FRAGMENT_SHADER, shaders[FRAGMENT_SHADER].ToChar());
 
     shader.Compile();
-
-    uniformData = NULL;
 }
 
 GLES2Drawable::~GLES2Drawable()
@@ -134,13 +130,13 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
 
     mvp = projViewMatrix * matrix;
 
-    //for each uniform
+    // for each uniform
 
-    if (uniformData)
+    if (uniformData.empty == false)
     {
-        for (unsigned int i = 0; i < uniformData->Size(); i++)
+        for (unsigned int i = 0; i < (*uniformData)->Size(); i++)
         {
-            UniformData *data = *uniformData->array[i];
+            UniformData *data = *(*uniformData)->array[i];
 
             // enum type { f32, vec2, vec3, vec4, int32, ivec2, ivec3, ivec4, uint, uvec2, uvec3, uvec4, mat2, mat3, mat4, mat2x3, mat3x2, mat2x4, mat4x2, mat3x4, mat4x3 };
             if (data->dataType == UniformData::f32)
@@ -244,7 +240,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
             }
         }
 
-        if (uniformData->Size() == 0)
+        if ((*uniformData)->Size() == 0)
         {
             Uniform("colour", static_cast<glm::vec4>(colorTint));
         }

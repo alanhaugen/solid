@@ -7,6 +7,9 @@
 #include "modules/filesystem/file.h"
 
 class Pixmap;
+namespace Renderer
+{
+
 class IRenderer
 {
 public:
@@ -46,5 +49,7 @@ protected:
     virtual void PreRender() = 0;
     virtual void PostRender() = 0;
 };
+
+}
 
 #endif

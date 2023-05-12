@@ -14,13 +14,11 @@ Project {
     ]
 
     property stringList sdlDefines: [
-        "KEYMAP_FIRSTKEY=97",
         "PLATFORM_HEADER=core/platforms/sdl/sdlapplication.h",
         "PLATFORM=SDLApplication"
     ]
 
     property stringList windowsDefines: [
-        "KEYMAP_FIRSTKEY=65",
         "PLATFORM_HEADER=core/platforms/win/winapplication.h",
         "PLATFORM=WinApplication"
     ]
@@ -328,6 +326,16 @@ Project {
         files: [
             "source/modules/physics/null/nullphysics.cpp",
             "source/modules/physics/null/nullphysics.h",
+        ]
+    }
+
+    Product {
+        name: "bulletphysics"
+        type: "staticlibrary"
+
+        files: [
+            "source/modules/physics/bullet/bulletphysics.cpp",
+            "source/modules/physics/bullet/bulletphysics.h",
         ]
     }
 }

@@ -5,6 +5,7 @@
 #include "core/x-platform/url.h"
 #include "modules/renderer/drawable.h"
 
+class Pixmap;
 class Sprite : public IComponent
 {
 private:

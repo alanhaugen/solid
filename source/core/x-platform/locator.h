@@ -22,16 +22,16 @@ public:
 
     static void SetAudio(IAudio *_audio);
     static void SetFileSystem(IFileSystem *_fileSystem);
-    static void SetPhysics(IPhysics *_physics);
-    static void SetRenderer(IRenderer *_renderer);
+    static void SetPhysics(Physics::IPhysics *_physics);
+    static void SetRenderer(Renderer::IRenderer *_renderer);
     static void SetScript(IScript *_script);
 
     static ITime *time;
     static IDebug *debug;
     static IAudio *audio;
     static IFileSystem *filesystem;
-    static IPhysics *physics;
-    static IRenderer *renderer;
+    static Physics::IPhysics *physics;
+    static Renderer::IRenderer *renderer;
     static IScript *script;
     static Random random;
     static Input input;
@@ -44,8 +44,8 @@ public:
 private:
     static NullAudio nullAudio;
     static NullFileSystem nullFileSystem;
-    static NullPhysics nullPhysics;
-    static NullRenderer nullRenderer;
+    static Physics::NullPhysics nullPhysics;
+    static Renderer::NullRenderer nullRenderer;
     static NullScript nullScript;
 };
 

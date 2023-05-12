@@ -9,8 +9,6 @@ template<typename T>
 class Ptr
 {
 private:
-    bool empty;
-
     struct Data
     {
         T object;
@@ -30,6 +28,7 @@ private:
 
 public:
     Data *data;
+    bool empty;
 
     Ptr()
     {
@@ -48,23 +47,15 @@ public:
         return data->object;
     }
 
-    Ptr operator=(const Ptr &lhs)
+    void ChangeResponsibility(const Ptr *ptr_) const
     {
-        Ptr *rhs = this;
-
-        // Guard self assignment
-        if (rhs == &lhs)
-            return *this;
-
-        // Take responsibility for object
-        data = lhs.data;
-        data->ptrWithDeleteResponsibility = rhs;
-        empty = false;
-
-        return *this;
+        if (data != NULL)
+        {
+            data->ptrWithDeleteResponsibility = ptr_;
+        }
     }
 
-    ~Ptr()
+    ~Ptr() // I
     {
         if (this == data->ptrWithDeleteResponsibility)
         {
@@ -73,6 +64,28 @@ public:
             empty = true;
         }
     };
+
+    Ptr(const Ptr &other) // II
+    {
+        data = other.data;
+        empty = false;
+    }
+
+    Ptr operator=(const Ptr &rhs) // III
+    {
+        Ptr *lhs = this;
+
+        // Guard self assignment
+        if (lhs == &rhs)
+            return *this;
+
+        // Take responsibility for object
+        data = rhs.data;
+        data->ptrWithDeleteResponsibility = lhs;
+        empty = false;
+
+        return *this;
+    }
 
     bool isEmpty()
     {

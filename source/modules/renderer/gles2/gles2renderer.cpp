@@ -1,4 +1,5 @@
 #include "gles2renderer.h"
+
 #include "core/x-platform/typedefs.h"
 #include "core/x-platform/pixmap.h"
 
@@ -170,10 +171,8 @@ void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
     {
         if (drawables[i] == drawable)
         {
-            //assert(0); // Remove once client code actually does RemoveDrawable and we've decided the need for removing drawables (scene change?)
-            delete drawables[i]; // Expect to delete, or else we have a memleak
-            //drawables[i] = 0x0;
-            drawables.RemoveAt(i); // Is the drawable intended to be deleted now? Since Renderer is owner!?
+            delete drawables[i];
+            drawables.RemoveAt(i);
             break;
         }
     }

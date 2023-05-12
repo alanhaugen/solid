@@ -3,6 +3,7 @@
 IScene *Services::scene = NULL;
 Array<Ptr<IScene *> > Services::scenes = Array<Ptr<IScene *> >();
 bool Services::isAlive = true;
+bool Services::fullscreen = false;
 
 void Services::SetScene(IScene *_scene)
 {
@@ -16,9 +17,34 @@ void Services::SetScene(IScene *_scene)
     }
     else
     {
-        delete scene;
+        //delete scene; // Thinking about it, this should not happen...
+
         scene = _scene;
         scene->Init();
+    }
+}
+
+void Services::UpdateScene(IScene *scene)
+{
+    // Update game components
+    for (unsigned int i = 0; i < scene->components.Size(); i++)
+    {
+        (*scene->components[i])->Update();
+    }
+
+    // Run the game logic
+    scene->Update();
+}
+
+void Services::UpdateSceneAfterPhysics(IScene *scene)
+{
+    // Update logic done after physics
+    scene->UpdateAfterPhysics();
+
+    // Update game components after physics
+    for (unsigned int i = 0; i < scene->components.Size(); i++)
+    {
+        (*scene->components[i])->UpdateAfterPhysics();
     }
 }
 
@@ -30,14 +56,8 @@ void Services::UpdateServices()
     // Update Input
     input.Update();
 
-    // Update game components
-    for (unsigned int i = 0; i < scene->components.Size(); i++)
-    {
-        (*scene->components[i])->Update();
-    }
-
-    // Run the game logic
-    scene->Update();
+    // Update scene
+    UpdateScene(scene);
 
     // Render frame
     renderer->Render(viewProjections, viewports);
@@ -45,14 +65,8 @@ void Services::UpdateServices()
     // Update physics simulation
     physics->Update();
 
-    // Update logic done after physics
-    scene->UpdateAfterPhysics();
-
-    // Update game components after physics
-    for (unsigned int i = 0; i < scene->components.Size(); i++)
-    {
-        (*scene->components[i])->UpdateAfterPhysics();
-    }
+    // Update scene
+    UpdateSceneAfterPhysics(scene);
 
     // Update sound system
     audio->Update();
@@ -73,6 +87,7 @@ void Services::NextScene()
 
 void Services::AddScene(IScene *scene)
 {
+    scene->id = scenes.Size();
     scenes.Add(scene);
 
     // Load the first scene
