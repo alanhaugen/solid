@@ -32,10 +32,10 @@ private:
 public:
     BulletPhysics();
     ~BulletPhysics();
-    virtual bool Intersect(const Ray &r, const HitBox *hitbox);
-    virtual Collider *Collide(const char *type, HitBox *hitbox);
-    virtual HitBox *CreateHitBox(glm::vec3 dimensions, const char *type);
-    virtual void Update();
+    bool Intersect(const Ray &r, const HitBox *hitbox);
+    Collider *Collide(const char *type, HitBox *hitbox);
+    HitBox *CreateHitBox(glm::vec3 dimensions, const char *type);
+    void Update();
 };
 
 #endif // NULLPHYSICS_H
