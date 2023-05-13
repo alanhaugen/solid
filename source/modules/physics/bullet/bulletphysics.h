@@ -1,7 +1,7 @@
 #ifndef BULLETPHYSICS_H
 #define BULLETPHYSICS_H
 
-#include "../physics.h"
+#include "../null/nullphysics.h"
 
 //namespace Physics
 //{
@@ -9,7 +9,7 @@
 #include <core/x-platform/string.h>
 #include <btBulletDynamicsCommon.h>
 
-class BulletPhysics : public Physics::IPhysics
+class BulletPhysics : public Physics::NullPhysics
 {
 private:
     Array<IPhysics::Collider*> colliders;
@@ -36,9 +36,6 @@ private:
 public:
     BulletPhysics();
     ~BulletPhysics();
-    bool Intersect(const Ray &r, const HitBox *hitbox);
-    Collider *Collide(HitBox *hitbox, const char *type = "Box Collidable");
-    HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
     void Update();
 };
 
