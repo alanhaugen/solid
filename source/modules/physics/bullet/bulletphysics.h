@@ -38,7 +38,7 @@ public:
     ~BulletPhysics();
     bool Intersect(const Ray &r, const HitBox *hitbox);
     Collider *Collide(HitBox *hitbox, const char *type = "Box Collidable");
-    HitBox *CreateHitBox(glm::vec3 dimensions, const char *type);
+    HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
     void Update();
 };
 

@@ -11,8 +11,7 @@ Actor::Actor()
     forward = glm::vec3(0.0f, 0.0f, -1.0f);
     right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-    hitbox = physics->CreateHitBox(glm::vec3(1.0f));
-    hitbox->position = &matrix.position;
+    hitbox = physics->CreateHitBox(glm::vec3(1.0f), &matrix);
 }
 
 Actor::~Actor()

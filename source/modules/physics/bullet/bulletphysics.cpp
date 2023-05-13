@@ -188,7 +188,7 @@ Physics::IPhysics::Collider *BulletPhysics::Collide(HitBox *hitbox, const char *
     return NULL;
 }
 
-Physics::IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
+Physics::IPhysics::HitBox *BulletPhysics::CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid")
 {
     HitBox *hitbox = new HitBox;
     hitbox->dimensions = dimensions;

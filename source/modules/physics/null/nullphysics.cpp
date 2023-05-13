@@ -64,11 +64,12 @@ Physics::IPhysics::Collider *Physics::NullPhysics::Collide(HitBox *hitbox, const
     return NULL;
 }
 
-Physics::IPhysics::HitBox *Physics::NullPhysics::CreateHitBox(glm::vec3 dimensions, const char *type = "solid")
+Physics::IPhysics::HitBox *Physics::NullPhysics::CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid")
 {
     HitBox *hitbox = new HitBox;
     hitbox->dimensions = dimensions;
     hitbox->type = type;
+    hitbox->position = &matrix->position;
 
     Collider *collider = new Collider;
     collider->hitbox = hitbox;
