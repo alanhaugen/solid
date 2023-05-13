@@ -1,11 +1,11 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-#include "core/components/actor.h"
+#include "core/components/component.h"
 #include "core/components/camera.h"
 #include "core/x-platform/pixmap.h"
 
-class Background : public Actor
+class Background : public IComponent
 {
 public:
     Background();

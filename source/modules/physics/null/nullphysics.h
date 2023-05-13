@@ -10,7 +10,7 @@ namespace Physics
 
 class NullPhysics : public IPhysics
 {
-private:
+protected:
     Array<IPhysics::Collider*> colliders;
 
 public:

@@ -53,6 +53,10 @@ void Actor::UpdateAfterPhysics()
 
 void Actor::Update()
 {
+    matrix.matrix[3].x = hitbox->position->x;
+    matrix.matrix[3].y = hitbox->position->y;
+    matrix.matrix[3].z = hitbox->position->z;
+
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)
     {

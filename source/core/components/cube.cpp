@@ -2,12 +2,14 @@
 
 Cube::Cube(float x, float y, float z, float length, float width, float height)
 {
-    matrix.position = glm::vec3(x, y, z);
+    *matrix.x = x;
+    *matrix.y = y;
+    *matrix.z = z;
 
     Array<Pixmap*> *textures = NULL;
     Array<String> shaders(2);
-    shaders[VERTEX_SHADER]   = filesystem->Open(URL("data/simple.vert"), PLAIN_TEXT)->Read();
-    shaders[FRAGMENT_SHADER] = filesystem->Open(URL("data/simple.frag"), PLAIN_TEXT)->Read();
+    shaders[VERTEX_SHADER]   = filesystem->Open(URL("data/phong.vert"), PLAIN_TEXT)->Read();
+    shaders[FRAGMENT_SHADER] = filesystem->Open(URL("data/phong.frag"), PLAIN_TEXT)->Read();
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
