@@ -12,8 +12,6 @@
 class BulletPhysics : public Physics::NullPhysics
 {
 private:
-    Array<IPhysics::Collider*> colliders;
-
     //collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
     btDefaultCollisionConfiguration* collisionConfiguration;
 
