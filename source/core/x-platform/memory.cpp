@@ -44,54 +44,43 @@ void operator delete[](void *ptr) _NOEXCEPT
 
 #ifdef HEAP
 
-static void *heap = NULL;
-size_t heapHead;
+LinearAllocator linearAllocator;
 
 void *operator new(size_t mem, const char *filename, int line)
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
-    heapHead += mem;
-
-    return malloc(mem);
+    return linearAllocator.Alloc(mem);
 }
 
 void *operator new(size_t mem)
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
-    heapHead += mem;
-
-    return malloc(mem);
+    return linearAllocator.Alloc(mem);
 }
 
 void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc)
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
-    heap += mem;
-
-    return malloc(mem);
+    return linearAllocator.Alloc(mem);
 }
 
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
     free(ptr);
@@ -99,10 +88,9 @@ void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT
 
 void operator delete(void *ptr, const char *filename, int line)
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
     free(ptr);
@@ -110,10 +98,9 @@ void operator delete(void *ptr, const char *filename, int line)
 
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    if (heap == NULL)
+    if (linearAllocator.buffer == NULL)
     {
-        heap = malloc(HEAP);
-        heapHead = 0;
+        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
     }
 
     free(ptr);

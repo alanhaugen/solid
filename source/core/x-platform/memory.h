@@ -15,6 +15,38 @@ void *operator new(size_t mem, const char *filename, int line);
 void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc);
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT;
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT;
+
+// Thanks to https://web.archive.org/web/20110128171515/http://www.swedishcoding.com/
+class LinearAllocator
+{
+public:
+    void* buffer;
+    LinearAllocator()
+    {
+        buffer = NULL;
+    }
+    LinearAllocator(void* buffer_, int bufferSize_) :
+        buffer(buffer_),
+        bufferSize(bufferSize_),
+        currentOffset(0)
+    {
+    }
+    void* Alloc(size_t size)
+    {
+       void* pMemToReturn = buffer + currentOffset;
+       currentOffset += size;
+       return pMemToReturn;
+    }
+    void Free(void* pMem)
+    {
+       // We can't easily free memory in this type of allocator.
+       // Therefore we just ignore this... or you could assert.
+    }
+private:
+    int bufferSize;
+    int currentOffset;
+};
+
 #endif
 
 #endif // MEMORY_H
