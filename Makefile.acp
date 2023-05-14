@@ -103,12 +103,12 @@ intermediate/%.mkv: data/%.mkv
 intermediate/%.jpg: data/%.jpg 
 	@mkdir -p $@/..
 	@touch $@
-	./$(TOOLS_DIR)/convert$(EXE) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.png: data/%.png 
 	@mkdir -p $@/..
 	@touch $@
-	./$(TOOLS_DIR)/convert$(EXE) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.3dformat: data/%.blend
 	@mkdir -p $@/..
