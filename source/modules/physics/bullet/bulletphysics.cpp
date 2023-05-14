@@ -1,5 +1,37 @@
 #include "bulletphysics.h"
 
+void BulletPhysics::CreateBox(float x, float y, float z, float sizex, float sizey, float sizez, float mass_)
+{
+    //the ground is a cube of side 100 at position y = -56.
+    //the sphere will hit it at y = -6, with center at -5
+    {
+        btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(sizex), btScalar(sizey), btScalar(sizez)));
+
+        collisionShapes.push_back(groundShape);
+
+        btTransform groundTransform;
+        groundTransform.setIdentity();
+        groundTransform.setOrigin(btVector3(x, y, z));
+
+        btScalar mass(mass_);
+
+        //rigidbody is dynamic if and only if mass is non zero, otherwise static
+        bool isDynamic = (mass != 0.f);
+
+        btVector3 localInertia(0, 0, 0);
+        if (isDynamic)
+            groundShape->calculateLocalInertia(mass, localInertia);
+
+        //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+        btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
+        btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
+        btRigidBody* body = new btRigidBody(rbInfo);
+
+        //add the body to the dynamics world
+        dynamicsWorld->addRigidBody(body);
+    }
+}
+
 BulletPhysics::BulletPhysics()
 {
     //collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
@@ -21,65 +53,9 @@ BulletPhysics::BulletPhysics()
     btAlignedObjectArray<btCollisionShape*> collisionShapes;
 
     //create a few basic rigid bodies
+    CreateBox(0, -56, 0, 50, 50, 50);
 
-    //the ground is a cube of side 100 at position y = -56.
-    //the sphere will hit it at y = -6, with center at -5
-    {
-        btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
-
-        collisionShapes.push_back(groundShape);
-
-        btTransform groundTransform;
-        groundTransform.setIdentity();
-        groundTransform.setOrigin(btVector3(0, -56, 0));
-
-        btScalar mass(0.);
-
-        //rigidbody is dynamic if and only if mass is non zero, otherwise static
-        bool isDynamic = (mass != 0.f);
-
-        btVector3 localInertia(0, 0, 0);
-        if (isDynamic)
-            groundShape->calculateLocalInertia(mass, localInertia);
-
-        //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-        btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-        btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-        btRigidBody* body = new btRigidBody(rbInfo);
-
-        //add the body to the dynamics world
-        dynamicsWorld->addRigidBody(body);
-    }
-
-    {
-        //create a dynamic rigidbody
-
-        //btCollisionShape* colShape = new btBoxShape(btVector3(1,1,1));
-        btCollisionShape* colShape = new btSphereShape(btScalar(1.));
-        collisionShapes.push_back(colShape);
-
-        /// Create Dynamic Objects
-        btTransform startTransform;
-        startTransform.setIdentity();
-
-        btScalar mass(1.f);
-
-        //rigidbody is dynamic if and only if mass is non zero, otherwise static
-        bool isDynamic = (mass != 0.f);
-
-        btVector3 localInertia(0, 0, 0);
-        if (isDynamic)
-            colShape->calculateLocalInertia(mass, localInertia);
-
-        startTransform.setOrigin(btVector3(2, 10, 0));
-
-        //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-        btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-        btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-        btRigidBody* body = new btRigidBody(rbInfo);
-
-        dynamicsWorld->addRigidBody(body);
-    }
+    CreateBox(2, 10, 0, 1, 1, 1, 1);
 }
 
 BulletPhysics::~BulletPhysics()

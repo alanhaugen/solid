@@ -15,7 +15,6 @@ FPSCounter::~FPSCounter()
 
 void FPSCounter::UpdateAfterPhysics()
 {
-
 }
 
 void FPSCounter::Update()

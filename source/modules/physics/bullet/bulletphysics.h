@@ -31,6 +31,8 @@ private:
     //create a few basic rigid bodies
     int i;
 
+    void CreateBox(float x, float y, float z, float sizex, float sizey, float sizez, float mass_ = 0);
+
 public:
     BulletPhysics();
     ~BulletPhysics();

@@ -81,6 +81,8 @@ void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc)
         heapHead = 0;
     }
 
+    heap += mem;
+
     return malloc(mem);
 }
 
