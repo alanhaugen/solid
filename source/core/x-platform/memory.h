@@ -23,8 +23,8 @@ class LinearAllocator
 public:
     LinearAllocator()
     {
-        buffer = malloc(HEAP);
-        bufferSize = HEAP;
+        buffer        = malloc(HEAP);
+        bufferSize    = HEAP;
         currentOffset = 0;
     }
     void* Alloc(size_t size)

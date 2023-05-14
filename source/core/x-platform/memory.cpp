@@ -63,17 +63,17 @@ void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc)
 
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    free(ptr);
+//    free(ptr);
 }
 
 void operator delete(void *ptr, const char *filename, int line)
 {
-    free(ptr);
+//    free(ptr);
 }
 
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    free(ptr);
+//    free(ptr);
 }
 
 #else

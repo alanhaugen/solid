@@ -14,8 +14,8 @@ BLENDER          ?= blender
 
 LIBRARY_EXTENSION = a
 
-#HEAP ?= 1000000000
-#CFLAGS += -DHEAP=$(HEAP)
+HEAP ?= 1000000000
+CFLAGS += -DHEAP=$(HEAP)
 
 ifeq ($(OS),Windows_NT)
     FLEX  = $(SOLIDCORE)/tools/mingw32/win_flex.exe
