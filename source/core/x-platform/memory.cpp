@@ -48,61 +48,31 @@ LinearAllocator linearAllocator;
 
 void *operator new(size_t mem, const char *filename, int line)
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     return linearAllocator.Alloc(mem);
 }
 
 void *operator new(size_t mem)
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     return linearAllocator.Alloc(mem);
 }
 
 void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc)
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     return linearAllocator.Alloc(mem);
 }
 
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     free(ptr);
 }
 
 void operator delete(void *ptr, const char *filename, int line)
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     free(ptr);
 }
 
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-    if (linearAllocator.buffer == NULL)
-    {
-        linearAllocator = LinearAllocator(malloc(HEAP), HEAP);
-    }
-
     free(ptr);
 }
 

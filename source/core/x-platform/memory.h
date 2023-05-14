@@ -16,20 +16,16 @@ void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc);
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT;
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT;
 
+#ifdef HEAP
 // Thanks to https://web.archive.org/web/20110128171515/http://www.swedishcoding.com/
 class LinearAllocator
 {
 public:
-    void* buffer;
     LinearAllocator()
     {
-        buffer = NULL;
-    }
-    LinearAllocator(void* buffer_, int bufferSize_) :
-        buffer(buffer_),
-        bufferSize(bufferSize_),
-        currentOffset(0)
-    {
+        buffer = malloc(HEAP);
+        bufferSize = HEAP;
+        currentOffset = 0;
     }
     void* Alloc(size_t size)
     {
@@ -43,9 +39,11 @@ public:
        // Therefore we just ignore this... or you could assert.
     }
 private:
-    int bufferSize;
-    int currentOffset;
+    size_t bufferSize;
+    size_t currentOffset;
+    void* buffer;
 };
+#endif
 
 #endif
 
