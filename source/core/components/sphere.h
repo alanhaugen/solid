@@ -4,7 +4,7 @@
 #include "core/components/component.h"
 #include "core/components/mesh.h"
 
-class Sphere : public IComponent
+class Sphere : public Component
 {
 public:
     Sphere();

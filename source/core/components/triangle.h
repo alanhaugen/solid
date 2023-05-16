@@ -3,7 +3,7 @@
 
 #include "component.h"
 
-class Triangle : public IComponent
+class Triangle : public Component
 {
 public:
     Triangle();

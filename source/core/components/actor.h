@@ -7,7 +7,7 @@
 #include "core/containers/hash.h"
 #include "modules/physics/physics.h"
 
-class Actor : public IComponent
+class Actor : public Component
 {
 public:
     Actor();
@@ -15,9 +15,9 @@ public:
 
     Physics::IPhysics::HitBox *hitbox;
 
-    void Add(IComponent *component);
+    void Add(Component *component);
 
-    IComponent *FindComponent(const char *tag);
+    Component *FindComponent(const char *tag);
 
     void Update();
     void UpdateAfterPhysics();
@@ -29,7 +29,7 @@ public:
 private:
 
 public:
-    Array<Ptr<IComponent *> > components;
+    Array<Ptr<Component *> > components;
     //Array<UniformData*> uniforms;
     //Hash<String, UniformData*> uniforms;
 

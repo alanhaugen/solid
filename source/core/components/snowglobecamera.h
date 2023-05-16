@@ -7,7 +7,7 @@
 
 # define PI           3.14159265358979323846
 
-class SnowGlobeCamera : public IComponent
+class SnowGlobeCamera : public Component
 {
 private:
     Actor *target;

@@ -6,7 +6,7 @@
 #include "modules/renderer/drawable.h"
 
 class Pixmap;
-class Sprite : public IComponent
+class Sprite : public Component
 {
 private:
     IDrawable *drawable;

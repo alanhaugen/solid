@@ -4,7 +4,7 @@
 #include "component.h"
 #include "camera.h"
 
-class FPSCamera : public IComponent
+class FPSCamera : public Component
 {
 private:
     Camera *camera;

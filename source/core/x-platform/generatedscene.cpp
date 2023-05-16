@@ -398,7 +398,7 @@ void GeneratedScene::AddSnowBallCamera()
     components.Add(new SnowGlobeCamera(actor, activeCamera));
 }
 
-IComponent *GeneratedScene::FindComponent(String tag)
+Component *GeneratedScene::FindComponent(String tag)
 {
     for (unsigned int i = 0; i < components.Size(); i++)
     {

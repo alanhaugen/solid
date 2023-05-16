@@ -5,7 +5,7 @@
 #include "actor.h"
 #include "mesh.h"
 
-class LadderControls : public IComponent
+class LadderControls : public Component
 {
 private:
     Actor *actor;

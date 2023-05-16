@@ -3,7 +3,8 @@
 
 #include "../audio.h"
 
-class NullAudio : public IAudio {
+class NullAudio : public IAudio
+{
 public:
     NullAudio();
     virtual ~NullAudio();

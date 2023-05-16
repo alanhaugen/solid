@@ -3,7 +3,7 @@
 
 #include "core/components/component.h"
 
-class Cube : public IComponent
+class Cube : public Component
 {
 private:
     IDrawable *drawable;

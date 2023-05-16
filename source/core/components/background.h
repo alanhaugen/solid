@@ -5,7 +5,7 @@
 #include "core/components/camera.h"
 #include "core/x-platform/pixmap.h"
 
-class Background : public IComponent
+class Background : public Component
 {
 public:
     Background();

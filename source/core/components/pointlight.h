@@ -4,7 +4,7 @@
 #include "core/components/component.h"
 #include "modules/renderer/light.h"
 
-class PointLight : public ILight, public IComponent
+class PointLight : public ILight, public Component
 {
 protected:
     float constant, linear, exponent;

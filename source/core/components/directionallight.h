@@ -4,7 +4,7 @@
 #include "modules/renderer/light.h"
 #include "core/components/component.h"
 
-class DirectionalLight : public ILight, public IComponent
+class DirectionalLight : public ILight, public Component
 {
 private:
     glm::vec3 direction;

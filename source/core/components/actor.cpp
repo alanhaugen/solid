@@ -18,7 +18,7 @@ Actor::~Actor()
 {
 }
 
-void Actor::Add(IComponent *component)
+void Actor::Add(Component *component)
 {
     //components.Append(component);
     //componentsMap.Insert(component->tag, component);
@@ -28,7 +28,7 @@ void Actor::Add(IComponent *component)
     components.Add(component);
 }
 
-IComponent *Actor::FindComponent(const char *tag)
+Component *Actor::FindComponent(const char *tag)
 {
     for (unsigned int i = 0; i < components.Size(); i++)
     {

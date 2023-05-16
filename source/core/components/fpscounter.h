@@ -5,7 +5,7 @@
 #include "core/components/text.h"
 #include "core/x-platform/time.h"
 
-class FPSCounter : public IComponent
+class FPSCounter : public Component
 {
 public:
     FPSCounter();

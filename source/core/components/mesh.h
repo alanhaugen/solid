@@ -13,7 +13,7 @@
 
 #include <vector>
 
-class Mesh : public IComponent
+class Mesh : public Component
 {
 private:
     Array<IDrawable*> drawables;

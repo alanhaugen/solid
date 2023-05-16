@@ -5,7 +5,7 @@
 #include "actor.h"
 #include "mesh.h"
 
-class TankControls : public IComponent
+class TankControls : public Component
 {
 private:
     Actor *actor;

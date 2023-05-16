@@ -7,11 +7,11 @@
 #include "core/x-platform/mat.h"
 #include "core/x-platform/ptr.h"
 
-class IComponent : public Locator
+class Component : public Locator
 {
 public:
-    IComponent();
-    virtual ~IComponent() {}
+    Component();
+    virtual ~Component() {}
 
     Ptr<Array<Ptr<UniformData *> > *> uniforms;
 

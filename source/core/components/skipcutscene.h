@@ -4,7 +4,7 @@
 #include "core/components/component.h"
 #include "core/components/videocapture.h"
 
-class SkipCutscene : public IComponent
+class SkipCutscene : public Component
 {
 private:
    VideoCapture *video;

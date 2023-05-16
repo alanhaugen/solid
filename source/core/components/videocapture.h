@@ -15,7 +15,7 @@
 #endif
 
 class Pixmap;
-class VideoCapture : public IComponent
+class VideoCapture : public Component
 {
 private:
 #ifdef THEORA

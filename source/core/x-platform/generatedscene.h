@@ -42,7 +42,7 @@ private:
     void AddAnimation();
     void AddSnowBallCamera();
 
-    IComponent *FindComponent(String tag);
+    Component *FindComponent(String tag);
 
     void Init();
 

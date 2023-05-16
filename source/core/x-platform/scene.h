@@ -8,7 +8,7 @@ class IScene : public Locator
 {
 public:
     unsigned int id;
-    Array<Ptr<IComponent* > > components;
+    Array<Ptr<Component* > > components;
 
     virtual void Init() = 0;
     virtual void Update() = 0;
