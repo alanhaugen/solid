@@ -1,6 +1,4 @@
 #include "memory.h"
-//#include <cstdint>
-//#include <stdio.h>
 
 #ifdef __MACH__ // clang
 
@@ -63,17 +61,17 @@ void *operator new[](size_t mem) _GLIBCXX_THROW (std::bad_alloc)
 
 void operator delete(void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-//    free(ptr);
+    linearAllocator.Free(ptr);
 }
 
 void operator delete(void *ptr, const char *filename, int line)
 {
-//    free(ptr);
+    linearAllocator.Free(ptr);
 }
 
 void operator delete[](void *ptr) _GLIBCXX_USE_NOEXCEPT
 {
-//    free(ptr);
+    linearAllocator.Free(ptr);
 }
 
 #else

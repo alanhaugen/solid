@@ -2,7 +2,7 @@
 #define MEMORY_H
 
 #include <new>
-#include "core/x-platform/locator.h"
+#include <cstdlib>
 
 #ifdef __MACH__ // clang
 void *operator new(size_t mem, const char *filename, int line) _THROW_BAD_ALLOC;
@@ -31,17 +31,45 @@ public:
     {
        void* pMemToReturn = buffer + currentOffset;
        currentOffset += size;
+       //memories.Add(Memory(pMemToReturn, size));
        return pMemToReturn;
     }
     void Free(void* pMem)
     {
        // We can't easily free memory in this type of allocator.
        // Therefore we just ignore this... or you could assert.
+
+        /*for (unsigned int i = 0; i < memories.Size(); i++)
+        {
+            if (memories[i].pointer == pMem)
+            {
+                memories[i].isDeleted = true;
+            }
+        }*/
     }
 private:
     size_t bufferSize;
     size_t currentOffset;
     void* buffer;
+
+    class Memory
+    {
+    public:
+        Memory(void* pointer_, int size, const char* filename_ = "", int line_ = 0)
+        {
+            pointer = pointer_;
+            memorySize = size;
+            filename = filename_;
+            line = line_;
+            isDeleted = false;
+        }
+
+        void* pointer;
+        const char *filename;
+        int line;
+        size_t memorySize;
+        bool isDeleted;
+    };
 };
 #endif
 
