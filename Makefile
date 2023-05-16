@@ -11,6 +11,8 @@ SOLIDCORE = .
 
 #RENDERER        = RaytracerRenderer
 #RENDERER_HEADER = "../../hw3-CSE167x/module/raytracerrenderer.h"
+PHYSICS = Physics::NullPhysics
+PHYSICS_HEADER = modules/physics/null/nullphysics.h
 
 #############################################################################
 # Source files
@@ -41,7 +43,6 @@ SOURCES = \
     source/core/components/rectangle.cpp \
     source/core/components/circle.cpp \
     source/core/components/line.cpp \
-    source/core/components/collisionbox.cpp \
     source/core/components/sound.cpp \
     source/core/components/videocapture.cpp \
     source/core/components/tankcontrols.cpp \
