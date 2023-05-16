@@ -137,8 +137,6 @@ Project {
             "source/core/components/sphere.h",
             "source/core/components/triangle.cpp",
             "source/core/components/triangle.h",
-            "source/core/components/collisionbox.cpp",
-            "source/core/components/collisionbox.h",
             "source/core/components/sound.cpp",
             "source/core/components/sound.h",
             "source/core/components/videocapture.cpp",
