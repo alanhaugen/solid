@@ -49,7 +49,7 @@ bool Physics::NullPhysics::Intersect(const Ray &ray, const HitBox *hitbox)
 
 Physics::IPhysics::Collider *Physics::NullPhysics::Collide(HitBox *hitbox, const char *type)
 {
-    for (unsigned int i = 0; i < colliders.Size(); i++)
+    /*for (unsigned int i = 0; i < colliders.Size(); i++)
     {
         for (unsigned int k = 0; k < colliders[i]->collisions.Size(); k++)
         {
@@ -59,7 +59,7 @@ Physics::IPhysics::Collider *Physics::NullPhysics::Collide(HitBox *hitbox, const
                 return colliders[i];
             }
         }
-    }
+    }*/
 
     return NULL;
 }
@@ -71,8 +71,8 @@ Physics::IPhysics::HitBox *Physics::NullPhysics::CreateHitBox(glm::vec3 dimensio
     hitbox->type = type;
     hitbox->position = &matrix->position;
 
-    Collider *collider = new Collider;
-    collider->hitbox = hitbox;
+    Ptr<Collider *> collider = new Collider;
+    (*collider)->hitbox = hitbox;
 
     colliders.Add(collider);
 
@@ -83,7 +83,7 @@ void Physics::NullPhysics::Update()
 {
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
-        colliders[i]->collisions.Clear();
+        //(*colliders[i])->collisions.Clear();
 
         for (unsigned int k = 0; k < colliders.Size(); k++)
         {
@@ -93,17 +93,35 @@ void Physics::NullPhysics::Update()
                 continue;
             }
 
-            // Collision detection (wait.. why not just check against the hitboxes???)
-            /*HitBox *hitbox1 = colliders[i]->hitbox;
-            HitBox *hitbox2 = colliders[k]->hitbox;
+            // Collision detection
+            HitBox *hitbox1 = (*colliders[i])->hitbox;
+            HitBox *hitbox2 = (*colliders[k])->hitbox;
 
-            if (hitbox1->position->x - hitbox1->dimensions.x < hitbox2->position->x + hitbox2->position->x &&
-                obj1.y > obj2.y - hitbox2.y &&
-                obj1.x > obj2.x + hitbox2.x &&
-                obj1.y < obj2.y + hitbox2.y)
+            float x1 = hitbox1->position->x - hitbox1->dimensions.x;
+            float x2 = hitbox1->position->x + hitbox1->dimensions.x;
+            float y1 = hitbox1->position->y - hitbox1->dimensions.y;
+            float y2 = hitbox1->position->y + hitbox1->dimensions.y;
+            float z1 = hitbox1->position->z - hitbox1->dimensions.z;
+            float z2 = hitbox1->position->z + hitbox1->dimensions.z;
+
+            float x1_ = hitbox2->position->x - hitbox2->dimensions.x;
+            float x2_ = hitbox2->position->x + hitbox2->dimensions.x;
+            float y1_ = hitbox2->position->y - hitbox2->dimensions.y;
+            float y2_ = hitbox2->position->y + hitbox2->dimensions.y;
+            float z1_ = hitbox2->position->z - hitbox2->dimensions.z;
+            float z2_ = hitbox2->position->z + hitbox2->dimensions.z;
+
+            if (
+                 x1 > x1_ &&
+                 x2 < x2_ &&
+                 y1 > y1_ &&
+                 y2 < y2_ &&
+                 z1 > z1_ &&
+                 z2 < z2_
+                )
             {
-                colliders[i]->collisions.Add(colliders[k]->hitbox);
-            }*/
+                //(*colliders[i])->collisions.Add(colliders[k]->hitbox);
+            }
         }
     }
 }

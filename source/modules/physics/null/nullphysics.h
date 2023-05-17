@@ -2,6 +2,7 @@
 #define NULLPHYSICS_H
 
 #include "../physics.h"
+#include <core/x-platform/ptr.h>
 
 namespace Physics
 {
@@ -11,7 +12,7 @@ namespace Physics
 class NullPhysics : public IPhysics
 {
 protected:
-    Array<IPhysics::Collider*> colliders;
+    Array<Ptr<IPhysics::Collider* > > colliders;
 
 public:
     NullPhysics();

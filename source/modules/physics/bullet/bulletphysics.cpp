@@ -129,7 +129,7 @@ void BulletPhysics::Update()
 
         if (j < colliders.Size())
         {
-            *colliders[j]->hitbox->position = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+            //*colliders[j]->hitbox->position = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
         }
     }
 }
