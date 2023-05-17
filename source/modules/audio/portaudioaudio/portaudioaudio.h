@@ -11,7 +11,7 @@
 
 const int channels = 2;//data->sfInfo.channels; // TODO: Check if this makes sense, or set back to data->sfInfo.channels somehow
 
-class PortaudioAudio : public IAudio
+class PortaudioAudio : public Audio::IAudio
 {
 public:
     PortaudioAudio();

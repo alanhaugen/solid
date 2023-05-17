@@ -11,8 +11,18 @@ SOLIDCORE = .
 
 #RENDERER        = RaytracerRenderer
 #RENDERER_HEADER = "../../hw3-CSE167x/module/raytracerrenderer.h"
+#RENDERER = Renderer::NullRenderer
+#RENDERER_HEADER = modules/renderer/null/nullrenderer.h
 PHYSICS = Physics::NullPhysics
 PHYSICS_HEADER = modules/physics/null/nullphysics.h
+SCRIPT = Script::NullScript
+SCRIPT_HEADER = modules/script/null/nullscript.h
+AUDIO = Audio::NullAudio
+AUDIO_HEADER = modules/audio/null/nullaudio.h
+AI = AI::NullAI
+AI_HEADER = modules/ai/null/nullai.h
+VIDEO = Video::NullVideo
+VIDEO_HEADER = modules/video/null/nullvideo.h
 
 #############################################################################
 # Source files

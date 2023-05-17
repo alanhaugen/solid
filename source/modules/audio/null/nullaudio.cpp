@@ -1,32 +1,32 @@
 #include "nullaudio.h"
 
-NullAudio::NullAudio()
+Audio::NullAudio::NullAudio()
 {
 }
 
-NullAudio::~NullAudio()
+Audio::NullAudio::~NullAudio()
 {
 }
 
-bool NullAudio::Init()
-{
-  return true;
-}
-
-bool NullAudio::Shutdown()
+bool Audio::NullAudio::Init()
 {
   return true;
 }
 
-void NullAudio::Stop()
+bool Audio::NullAudio::Shutdown()
+{
+  return true;
+}
+
+void Audio::NullAudio::Stop()
 {
 }
 
-void NullAudio::PlaySound(const char* sound)
+void Audio::NullAudio::PlaySound(const char* sound)
 {
     (void)(sound);
 }
 
-void NullAudio::Update()
+void Audio::NullAudio::Update()
 {
 }

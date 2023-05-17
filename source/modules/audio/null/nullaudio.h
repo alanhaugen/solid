@@ -3,6 +3,9 @@
 
 #include "../audio.h"
 
+namespace Audio
+{
+
 class NullAudio : public IAudio
 {
 public:
@@ -14,5 +17,7 @@ public:
     virtual void PlaySound(const char *sound);
     virtual void Update();
 };
+
+}
 
 #endif

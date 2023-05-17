@@ -20,7 +20,7 @@ PHYSICS    ?= BulletPhysics
 #SCRIPT     ?= AngelScript
 #FILESYSTEM ?= ZlibFileSystem
 #PHYSICS    ?= NullPhysics
-SCRIPT     ?= NullScript
+SCRIPT     ?= Script::NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
