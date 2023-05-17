@@ -127,9 +127,9 @@ void BulletPhysics::Update()
         }
         //printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 
-        if (j < colliders.Size())
+        /*if (j < colliders.Size())
         {
             //*colliders[j]->hitbox->position = glm::vec3(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
-        }
+        }*/
     }
 }

@@ -53,9 +53,9 @@ void Actor::UpdateAfterPhysics()
 
 void Actor::Update()
 {
-    matrix.matrix[3].x = collisionBox->position->x;
+    /*matrix.matrix[3].x = collisionBox->position->x;
     matrix.matrix[3].y = collisionBox->position->y;
-    matrix.matrix[3].z = collisionBox->position->z;
+    matrix.matrix[3].z = collisionBox->position->z;*/
 
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)
