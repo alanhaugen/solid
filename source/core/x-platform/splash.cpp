@@ -4,19 +4,21 @@
 
 Splash::Splash()
 {
-    Camera *camera = new Camera();
+}
 
-    components.Add(new Sprite("data/logo_inv_jpg.jpg"));
-    components.Add(camera);
+Splash::~Splash()
+{
+}
+
+void Splash::Init()
+{
+    components.Add(new Camera());
+    components.Add(new Sprite("data/logo_inv.png"));
 
     timer = Application::GetTime();
 
     // Set scene ID
     id = Application::scenes.Size();
-}
-
-Splash::~Splash()
-{
 }
 
 void Splash::Update()
@@ -27,6 +29,6 @@ void Splash::Update()
     }
 }
 
-void Splash::UpdateLate()
+void Splash::UpdateAfterPhysics()
 {
 }

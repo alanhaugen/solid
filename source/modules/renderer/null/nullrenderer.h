@@ -38,8 +38,8 @@ public:
     virtual void RemovePointLight(ILight *light);
 
     virtual ICamera* CreateCamera(int viewport,
-                              glm::vec3 position,
-                              glm::vec3 orientation);
+                                  glm::vec3 position,
+                                  glm::vec3 orientation);
     virtual void RemoveCamera(ICamera* camera);
 
     virtual void Draw(IDrawable *drawable);

@@ -82,7 +82,6 @@ ICamera* Renderer::NullRenderer::CreateCamera(int viewport, glm::vec3 position, 
 
 void Renderer::NullRenderer::RemoveCamera(ICamera *camera)
 {
-
 }
 
 void Renderer::NullRenderer::Draw(IDrawable *drawable)

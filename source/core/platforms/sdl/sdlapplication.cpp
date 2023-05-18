@@ -1,4 +1,5 @@
 #include "sdlapplication.h"
+#include "core/x-platform/splash.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -224,6 +225,12 @@ float SDLApplication::MainLoop()
 
 bool SDLApplication::Exec()
 {
+    // Add a splash screen if there are no scenes
+    if (scenes.Empty())
+    {
+        AddScene(new Splash());
+    }
+
     // Time since application started
     ITime *runtime = GetTime("Runtime");
 

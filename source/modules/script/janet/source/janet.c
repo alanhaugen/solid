@@ -1,6 +1,3 @@
-extern "C"
-{
-
 /* Amalgamated build - DO NOT EDIT */
 /* Generated from janet version 1.27.0-01aab66 */
 #define JANET_BUILD "01aab66"
@@ -48157,5 +48154,3 @@ static const unsigned char janet_core_image_bytes[] = {
 
 const unsigned char *janet_core_image = janet_core_image_bytes;
 size_t janet_core_image_size = sizeof(janet_core_image_bytes);
-
-}

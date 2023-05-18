@@ -8,4 +8,3 @@ public:
 };
 
 #endif // ICAMERA_H
-
