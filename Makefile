@@ -21,8 +21,8 @@ AUDIO = Audio::NullAudio
 AUDIO_HEADER = modules/audio/null/nullaudio.h
 AI = AI::NullAI
 AI_HEADER = modules/ai/null/nullai.h
-VIDEO = Video::NullVideo
-VIDEO_HEADER = modules/video/null/nullvideo.h
+VIDEO = Video::TheoraVideo
+VIDEO_HEADER = modules/video/theora/theoravideo.h
 
 #############################################################################
 # Source files

@@ -8,9 +8,9 @@ Project {
         "AUDIO=PortaudioAudio",
         "RENDERER=GLES2Renderer",
         "PHYSICS=BulletPhysics",
-        "SCRIPT=NullScript",
+        "SCRIPT=Script::NullScript",
         "FILESYSTEM=StdFileSystem",
-        "THEORA"
+        "VIDEO=THEORA"
     ]
 
     property stringList sdlDefines: [
