@@ -37,6 +37,11 @@ public:
     ILight *AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light);
     virtual void RemovePointLight(ILight *light);
 
+    virtual ICamera* CreateCamera(int viewport,
+                              glm::vec3 position,
+                              glm::vec3 orientation);
+    virtual void RemoveCamera(ICamera* camera);
+
     virtual void Draw(IDrawable *drawable);
 
     virtual void Resize(int length, int height);

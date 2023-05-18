@@ -3,6 +3,7 @@
 
 #include "light.h"
 #include "drawable.h"
+#include "camera.h"
 #include "core/x-platform/string.h"
 #include "modules/filesystem/file.h"
 
@@ -37,10 +38,10 @@ public:
     virtual ILight *AddPointLight(glm::vec3 position, glm::vec3 quadricEquation, ILight *light) = 0;
     virtual void RemovePointLight(ILight *light) = 0;
 
-/*    virtual void CreateCamera(int viewport = 1,
-                              glm::vec3 position,
-                              glm::vec3 orientation) = 0;
-    virtual void ReMoveCamera(ICamera* camera) = 0;*/
+    virtual ICamera* CreateCamera(int viewport,
+                                  glm::vec3 position,
+                                  glm::vec3 orientation) = 0;
+    virtual void RemoveCamera(ICamera* camera) = 0;
 
     virtual void Draw(IDrawable *drawable) = 0;
 

@@ -75,6 +75,16 @@ void Renderer::NullRenderer::RemovePointLight(ILight *light)
 {
 }
 
+ICamera* Renderer::NullRenderer::CreateCamera(int viewport, glm::vec3 position, glm::vec3 orientation)
+{
+    return NULL;
+}
+
+void Renderer::NullRenderer::RemoveCamera(ICamera *camera)
+{
+
+}
+
 void Renderer::NullRenderer::Draw(IDrawable *drawable)
 {
     if (drawable->visible)

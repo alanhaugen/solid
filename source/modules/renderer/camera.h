@@ -1,12 +1,11 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef ICAMERA_H
+#define ICAMERA_H
 
 class ICamera
 {
 public:
-    virtual ICamera() = 0;
     virtual ~ICamera() {};
 };
 
-#endif // CAMERA_H
+#endif // ICAMERA_H
 
