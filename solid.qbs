@@ -47,6 +47,7 @@ Project {
         "nullaudio",
         "nullrenderer",
         "nullfilesystem",
+        "bouncephysics",
         "nullphysics"
     ]
 
@@ -342,6 +343,16 @@ Project {
         files: [
             "source/modules/physics/null/nullphysics.cpp",
             "source/modules/physics/null/nullphysics.h",
+        ]
+    }
+
+    Product {
+        name: "bouncephysics"
+        type: "staticlibrary"
+
+        files: [
+            "source/modules/physics/bounce/bouncephysics.cpp",
+            "source/modules/physics/bounce/bouncephysics.h",
         ]
     }
 

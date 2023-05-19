@@ -51,6 +51,11 @@ ifeq ($(AUDIO),PortaudioAudio)
     DEPS += portaudioaudio  
 endif
 
+ifeq ($(PHYSICS),Physics::BouncePhysics)
+    LIBS += -lbouncephysics
+    DEPS += bouncephysics  
+endif
+
 ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -lgles2renderer
     DEPS += gles2renderer  

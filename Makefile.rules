@@ -150,6 +150,10 @@ bulletphysics:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/physics/bullet
 	$(MAKE) release -C $(SOLIDCORE)/source/modules/physics/bullet
 
+bouncephysics:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/physics/bounce
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/physics/bounce
+
 solid:
 	$(MAKE) debug -C $(SOLIDCORE)
 	$(MAKE) release -C $(SOLIDCORE)
