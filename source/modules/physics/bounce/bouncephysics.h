@@ -1,15 +1,21 @@
-#ifndef NULLPHYSICS_H
-#define NULLPHYSICS_H
+#ifndef BOUNCEPHYSICS_H
+#define BOUNCEPHYSICS_H
 
 #include "../physics.h"
+#include <core/x-platform/ptr.h>
 
 namespace Physics
 {
 
-class NullPhysics : public IPhysics
+#include <core/x-platform/string.h>
+
+class BouncePhysics : public IPhysics
 {
+protected:
+    Array<Ptr<IPhysics::Collider* > > colliders;
+
 public:
-    NullPhysics();
+    BouncePhysics();
     bool Intersect(const Ray &r, const HitBox *hitbox);
     Collider *Collide(HitBox *hitbox, const char *type = "Box Collidable");
     HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
@@ -18,4 +24,4 @@ public:
 
 }
 
-#endif // NULLPHYSICS_H
+#endif // BOUNCEPHYSICS_H

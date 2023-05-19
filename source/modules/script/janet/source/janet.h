@@ -1,3 +1,6 @@
+extern "C"
+{
+
 /*
 * Copyright (c) 2023 Calvin Rose
 *
@@ -2229,3 +2232,5 @@ JANET_API void (janet_free)(void *);
 #endif
 
 #endif /* JANET_H_defined */
+
+}

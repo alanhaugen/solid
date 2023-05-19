@@ -20,19 +20,19 @@ public:
     static void SetTime(ITime *_time);
     static void SetDebug(IDebug *_debug);
 
-    static void SetAudio(IAudio *_audio);
+    static void SetAudio(Audio::IAudio *_audio);
     static void SetFileSystem(IFileSystem *_fileSystem);
     static void SetPhysics(Physics::IPhysics *_physics);
     static void SetRenderer(Renderer::IRenderer *_renderer);
-    static void SetScript(IScript *_script);
+    static void SetScript(Script::IScript *_script);
 
     static ITime *time;
     static IDebug *debug;
-    static IAudio *audio;
+    static Audio::IAudio *audio;
     static IFileSystem *filesystem;
     static Physics::IPhysics *physics;
     static Renderer::IRenderer *renderer;
-    static IScript *script;
+    static Script::IScript *script;
     static Random random;
     static Input input;
 
@@ -42,11 +42,11 @@ public:
     static float deltaTime;
 
 private:
-    static NullAudio nullAudio;
+    static Audio::NullAudio nullAudio;
     static NullFileSystem nullFileSystem;
     static Physics::NullPhysics nullPhysics;
     static Renderer::NullRenderer nullRenderer;
-    static NullScript nullScript;
+    static Script::NullScript nullScript;
 };
 
 //! Macro to easily access the debug singleton and Log a message

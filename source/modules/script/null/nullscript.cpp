@@ -1,6 +1,6 @@
 #include "nullscript.h"
 
-NullScript::NullScript()
+Script::NullScript::NullScript()
 {
 
 }

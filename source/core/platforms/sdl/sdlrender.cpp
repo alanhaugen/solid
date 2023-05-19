@@ -31,7 +31,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     if (fullscreen)
     {
-        flags = flags | SDL_WINDOW_FULLSCREEN;
+        flags = flags | SDL_WINDOW_FULLSCREEN_DESKTOP; //SDL_WINDOW_FULLSCREEN;
     }
 
     mainwindow = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,

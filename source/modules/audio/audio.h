@@ -1,6 +1,9 @@
 #ifndef AUDIO_H
 #define AUDIO_H
 
+namespace Audio
+{
+
 class IAudio {
 public:
     virtual ~IAudio() {}
@@ -9,5 +12,7 @@ public:
     virtual void PlaySound(const char *sound) = 0;
     virtual void Update() = 0;
 };
+
+}
 
 #endif

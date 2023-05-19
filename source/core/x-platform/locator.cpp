@@ -5,17 +5,17 @@ IDebug *Locator::debug = NULL;
 Input Locator::input = Input();
 Random Locator::random = Random(); // default seed
 
-NullAudio Locator::nullAudio;
+Audio::NullAudio Locator::nullAudio;
 NullFileSystem Locator::nullFileSystem;
 Physics::NullPhysics Locator::nullPhysics;
 Renderer::NullRenderer Locator::nullRenderer;
-NullScript Locator::nullScript;
+Script::NullScript Locator::nullScript;
 
-IAudio *Locator::audio = &Locator::nullAudio;
+Audio::IAudio *Locator::audio = &Locator::nullAudio;
 IFileSystem *Locator::filesystem = &Locator::nullFileSystem;
 Physics::IPhysics *Locator::physics = &Locator::nullPhysics;
 Renderer::IRenderer *Locator::renderer = &Locator::nullRenderer;
-IScript *Locator::script = &Locator::nullScript;
+Script::IScript *Locator::script = &Locator::nullScript;
 
 Array<glm::mat4> Locator::viewProjections = Array<glm::mat4>();
 Array<glm::vec4> Locator::viewports = Array<glm::vec4>();
@@ -37,7 +37,7 @@ void Locator::SetDebug(IDebug *_debug)
     }
 }
 
-void Locator::SetAudio(IAudio *_audio)
+void Locator::SetAudio(Audio::IAudio *_audio)
 {
     if (_audio == NULL)
     {
@@ -89,7 +89,7 @@ void Locator::SetRenderer(Renderer::IRenderer *_renderer)
     }
 }
 
-void Locator::SetScript(IScript *_script)
+void Locator::SetScript(Script::IScript *_script)
 {
     if (_script == NULL)
     {

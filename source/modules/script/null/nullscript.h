@@ -3,9 +3,15 @@
 
 #include "../script.h"
 
-class NullScript : public IScript {
+namespace Script
+{
+
+class NullScript : public IScript
+{
 public:
     NullScript();
 };
+
+}
 
 #endif // NULLSCRIPT_H

@@ -20,7 +20,7 @@ PHYSICS    ?= BulletPhysics
 #SCRIPT     ?= AngelScript
 #FILESYSTEM ?= ZlibFileSystem
 #PHYSICS    ?= NullPhysics
-SCRIPT     ?= NullScript
+SCRIPT     ?= Script::NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
@@ -49,6 +49,11 @@ endif
 ifeq ($(AUDIO),PortaudioAudio)
     LIBS += -lvorbisenc -lvorbisfile -lvorbis -logg -lportaudioaudio -lportaudio_static -lsndfile 
     DEPS += portaudioaudio  
+endif
+
+ifeq ($(PHYSICS),Physics::BouncePhysics)
+    LIBS += -lbouncephysics
+    DEPS += bouncephysics  
 endif
 
 ifeq ($(RENDERER),GLES2Renderer)

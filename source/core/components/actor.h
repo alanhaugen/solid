@@ -13,7 +13,7 @@ public:
     Actor();
     ~Actor();
 
-    Physics::IPhysics::HitBox *hitbox;
+    Physics::IPhysics::HitBox *collisionBox;
 
     void Add(Component *component);
 

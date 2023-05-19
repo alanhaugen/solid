@@ -11,7 +11,7 @@ Actor::Actor()
     forward = glm::vec3(0.0f, 0.0f, -1.0f);
     right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-    hitbox = physics->CreateHitBox(glm::vec3(1.0f), &matrix);
+    collisionBox = physics->CreateHitBox(glm::vec3(1.0f), &matrix);
 }
 
 Actor::~Actor()
@@ -53,9 +53,9 @@ void Actor::UpdateAfterPhysics()
 
 void Actor::Update()
 {
-    matrix.matrix[3].x = hitbox->position->x;
-    matrix.matrix[3].y = hitbox->position->y;
-    matrix.matrix[3].z = hitbox->position->z;
+    /*matrix.matrix[3].x = collisionBox->position->x;
+    matrix.matrix[3].y = collisionBox->position->y;
+    matrix.matrix[3].z = collisionBox->position->z;*/
 
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)

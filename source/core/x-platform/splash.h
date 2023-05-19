@@ -13,8 +13,9 @@ public:
     Splash();
     ~Splash();
 
+    void Init();
     void Update();
-    void UpdateLate();
+    void UpdateAfterPhysics();
 };
 
 #endif // SPLASH_H
