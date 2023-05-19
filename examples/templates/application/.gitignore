@@ -1,6 +1,11 @@
+# Data folder
+data
+ 
 # Build results
 build/
 bin/
+bin
+intermediate
 
 # Don't include generated documentation
 docs/html
@@ -10,6 +15,7 @@ docs/doxygen_sqlite3.db
 # QtCreator
 *.autosave
 *.user
+app-template.*
 
 # Vim
 *.swp
@@ -50,7 +56,14 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+# MSVC
+
+*.EXE
+*.ilk
+*.pdb
+
 # =========================
 # Mac generated
 # =========================
 .DS_Store
+
