@@ -23,6 +23,12 @@ public:
         Array<HitBox*> collisions;
         glm::vec3 direction;
         HitBox *hitbox;
+
+        ~Collider()
+        {
+            delete hitbox;
+            hitbox = NULL;
+        }
     };
 
     class Ray

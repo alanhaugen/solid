@@ -2,12 +2,14 @@ Project {
     property stringList defines: [
         "AUDIO_HEADER=modules/audio/portaudioaudio/portaudioaudio.h",
         "RENDERER_HEADER=modules/renderer/gles2/gles2renderer.h",
-        "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
+  //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
+        "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
         "FILESYSTEM_HEADER=modules/filesystem/std/stdfilesystem.h",
         "AUDIO=PortaudioAudio",
         "RENDERER=GLES2Renderer",
-        "PHYSICS=BulletPhysics",
+  //      "PHYSICS=BulletPhysics",
+        "PHYSICS=Physics::BouncePhysics",
         "SCRIPT=Script::NullScript",
         "FILESYSTEM=StdFileSystem",
         "VIDEO=THEORA"

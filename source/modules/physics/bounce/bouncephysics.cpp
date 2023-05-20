@@ -53,7 +53,7 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
     {
         for (unsigned int k = 0; k < (*colliders[i])->collisions.Size(); k++)
         {
-            if ((*colliders[i])->collisions[k] == hitbox )//&& (*colliders[i])->hitbox->type == type)
+            if ((*colliders[i])->collisions[k] == hitbox)//&& (*colliders[i])->hitbox->type == type)
             {
                 (*colliders[i])->direction = glm::vec3();
                 return *colliders[i];
@@ -61,8 +61,7 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
         }
     }
 
-    return (*colliders[0]);
-    //return NULL;
+    return NULL;
 }
 
 Physics::IPhysics::HitBox *Physics::BouncePhysics::CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid")
@@ -89,7 +88,7 @@ void Physics::BouncePhysics::Update()
         for (unsigned int k = 0; k < colliders.Size(); k++)
         {
             // Don't detect collisions against oneself
-            if (i == k)
+            if ((*colliders[i]) == (*colliders[k]))
             {
                 continue;
             }
@@ -98,12 +97,12 @@ void Physics::BouncePhysics::Update()
             HitBox *hitbox1 = (*colliders[i])->hitbox;
             HitBox *hitbox2 = (*colliders[k])->hitbox;
 
-            float x1 = hitbox1->position->x - hitbox1->dimensions.x; // first
-            float x2 = hitbox1->position->x + hitbox1->dimensions.x;
-            float y1 = hitbox1->position->y - hitbox1->dimensions.y;
-            float y2 = hitbox1->position->y + hitbox1->dimensions.y;
-            float z1 = hitbox1->position->z - hitbox1->dimensions.z;
-            float z2 = hitbox1->position->z + hitbox1->dimensions.z;
+            float x1 = hitbox1->position->x + hitbox1->dimensions.x; // first
+            float x2 = hitbox1->position->x - hitbox1->dimensions.x;
+            float y1 = hitbox1->position->y + hitbox1->dimensions.y;
+            float y2 = hitbox1->position->y - hitbox1->dimensions.y;
+            float z1 = hitbox1->position->z + hitbox1->dimensions.z;
+            float z2 = hitbox1->position->z - hitbox1->dimensions.z;
 
             float x1_ = hitbox2->position->x - hitbox2->dimensions.x; // other
             float x2_ = hitbox2->position->x + hitbox2->dimensions.x;
