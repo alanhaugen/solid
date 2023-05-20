@@ -61,7 +61,8 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
         }
     }
 
-    return NULL;
+    return (*colliders[0]);
+    //return NULL;
 }
 
 Physics::IPhysics::HitBox *Physics::BouncePhysics::CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid")

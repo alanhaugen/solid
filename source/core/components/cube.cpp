@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(float x, float y, float z, float length, float width, float height)
+Cube::Cube(float x, float y, float z, float length, float width, float height, String shaderVertPath, String shaderFragPath)
 {
     *matrix.x = x;
     *matrix.y = y;
@@ -8,8 +8,8 @@ Cube::Cube(float x, float y, float z, float length, float width, float height)
 
     Array<Pixmap*> *textures = NULL;
     Array<String> shaders(2);
-    shaders[VERTEX_SHADER]   = filesystem->Open(URL("data/phong.vert"), PLAIN_TEXT)->Read();
-    shaders[FRAGMENT_SHADER] = filesystem->Open(URL("data/phong.frag"), PLAIN_TEXT)->Read();
+    shaders[VERTEX_SHADER]   = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT)->Read();
+    shaders[FRAGMENT_SHADER] = filesystem->Open(URL(shaderFragPath), PLAIN_TEXT)->Read();
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
