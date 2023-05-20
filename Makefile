@@ -6,25 +6,6 @@ TARGET = libcore
 SOLIDCORE = .
 
 #############################################################################
-# Setup custom modules
-#############################################################################
-
-#RENDERER        = RaytracerRenderer
-#RENDERER_HEADER = "../../hw3-CSE167x/module/raytracerrenderer.h"
-#RENDERER = Renderer::NullRenderer
-#RENDERER_HEADER = modules/renderer/null/nullrenderer.h
-PHYSICS = Physics::BouncePhysics
-PHYSICS_HEADER = modules/physics/bounce/bouncephysics.h
-SCRIPT = Script::NullScript
-SCRIPT_HEADER = modules/script/null/nullscript.h
-AUDIO = Audio::NullAudio
-AUDIO_HEADER = modules/audio/null/nullaudio.h
-AI = AI::NullAI
-AI_HEADER = modules/ai/null/nullai.h
-VIDEO = Video::TheoraVideo
-VIDEO_HEADER = modules/video/theora/theoravideo.h
-
-#############################################################################
 # Source files
 #############################################################################
 
