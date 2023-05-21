@@ -55,7 +55,7 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
         {
             if ((*colliders[i])->collisions[k] == hitbox)//&& (*colliders[i])->hitbox->type == type)
             {
-                (*colliders[i])->direction = glm::vec3();
+                (*colliders[i])->direction = hitbox->oldPosition - *hitbox->position;
                 return *colliders[i];
             }
         }
@@ -66,10 +66,11 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
 
 Physics::IPhysics::HitBox *Physics::BouncePhysics::CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid")
 {
-    HitBox *hitbox = new HitBox;
+    HitBox* hitbox = new HitBox;
     hitbox->dimensions = dimensions;
     hitbox->type = type;
     hitbox->position = &matrix->position;
+    hitbox->oldPosition = *hitbox->position;
 
     Ptr<Collider *> collider = new Collider;
     (*collider)->hitbox = hitbox;
@@ -123,5 +124,11 @@ void Physics::BouncePhysics::Update()
                 (*colliders[i])->collisions.Add((*colliders[k])->hitbox);
             }
         }
+    }
+
+    // Update old position
+    for (unsigned int i = 0; i < colliders.Size(); i++)
+    {
+        (*colliders[i])->hitbox->oldPosition = *(*colliders[i])->hitbox->position;
     }
 }

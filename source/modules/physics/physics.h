@@ -16,6 +16,7 @@ public:
         const char *type;
         glm::vec3 dimensions;
         glm::vec3 *position;
+        glm::vec3 oldPosition;
     };
 
     struct Collider
