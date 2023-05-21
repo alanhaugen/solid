@@ -65,6 +65,7 @@ public:
     bool draw;
     bool hasDepth;
     bool sendToFront;
+    bool isTextured;
 
     glm::mat4 matrix; // Matrix is shorter to write than transform :)
     glm::vec4 colorTint; // Multiply by texture or vertex color

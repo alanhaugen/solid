@@ -612,7 +612,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
 
     if (texturePath.Empty() == false)
     {
-        textures.Add(Pixmap::LoadAndCache(URL("data/" + texturePath).ToChar()));
+        textures.Add(Pixmap::LoadAndCache(String("data/" + texturePath).ToChar()));
     }
 
     IDrawable *drawable = Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures);

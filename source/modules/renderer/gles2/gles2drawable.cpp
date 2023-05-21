@@ -28,6 +28,12 @@ GLES2Drawable::GLES2Drawable(
         {
             texture.Load(*textures[0]);
         }
+
+        isTextured = true;
+    }
+    else
+    {
+        isTextured = false;
     }
 
     draw = false;
@@ -264,19 +270,14 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
         Uniform("animatedMatrices", static_cast<glm::mat4&>(animatedMatrices[0]), MAX_JOINTS);
     }
 
-    /*if (this->texture.textureID)
+    if (isTextured)
     {
-        Uniform("uEnableTexture", static_cast<glm::int32>(1));
-        // Set the sampler texture unit to 0
-        //textureSamplerLocation = glGetUniformLocation(shader.program, "textureSampler");
-        //glUniform1i(textureSamplerLocation, 0);
+        Uniform("uEnableTexture", static_cast<bool>(true));
     }
     else
     {
-        Uniform("uEnableTexture", static_cast<glm::int32>(0));
-    }*/
-
-    Uniform("uEnableTexture", static_cast<glm::int32>(0));
+        Uniform("uEnableTexture", static_cast<bool>(false));
+    }
 }
 
 void GLES2Drawable::DeActivate()
