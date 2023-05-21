@@ -53,7 +53,7 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
     {
         for (unsigned int k = 0; k < (*colliders[i])->collisions.Size(); k++)
         {
-            if ((*colliders[i])->collisions[k] == hitbox)//&& (*colliders[i])->hitbox->type == type)
+            if ((*colliders[i])->collisions[k] == hitbox && (*colliders[i])->hitbox->type == type)
             {
                 (*colliders[i])->direction = hitbox->oldPosition - *hitbox->position;
                 return *colliders[i];
