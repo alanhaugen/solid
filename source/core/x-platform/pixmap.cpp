@@ -98,7 +98,7 @@ Pixmap::Pixmap(const String &_filePath) : filePath(URL(_filePath).ToChar())
 
     unsigned char *img = stbi_load_from_memory((const unsigned char*)file->Read(), file->Size(), &width, &height, &n, 0);
 
-    assert (img);
+    //assert (img);
 
     delete file;
 
