@@ -786,7 +786,7 @@ void Mesh::LoadFromWavefront(const URL &filePath)
         textures.Add( Pixmap::LoadAndCache(textureFilePath) );
     }
 
-    //textureFilePath = "harkerpaint";
+    //textureFilePath = "data/player/player_colour.png";
     //textures.Add( Pixmap::LoadAndCache(textureFilePath) );
 
     drawables.Add(Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures));
@@ -843,7 +843,10 @@ void Mesh::Update()
     {
         for (unsigned int i = 0; i < drawables.Size(); i++)
         {
-            drawables[i]->frame = (drawables[i]->frame + 1) % drawables[i]->lastFrame;
+            if (drawables[i]->lastFrame != 0)
+            {
+                drawables[i]->frame = (drawables[i]->frame + 1) % drawables[i]->lastFrame;
+            }
         }
 
         framerate->Reset();

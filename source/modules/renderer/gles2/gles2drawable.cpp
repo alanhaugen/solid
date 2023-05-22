@@ -37,6 +37,7 @@ GLES2Drawable::GLES2Drawable(
     }
 
     draw = false;
+    lastFrame = 0;
 
     // Ensure weights for skinning add up to 1 (very important)
     // TODO: Do not do this for meshes without skins
