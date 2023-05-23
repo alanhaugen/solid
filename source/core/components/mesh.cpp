@@ -524,8 +524,8 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
     int indexTriangles = 0;
     int framesQuantity = 0;
 
-    int verticesQuantity;
-    int trianglesQuantity;
+    int verticesQuantity = 0;
+    int trianglesQuantity = 0;
 
     while(file->isEOF == false)
     {

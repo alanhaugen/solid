@@ -62,6 +62,7 @@ for obj in objects:
     if (obj.type == "MESH"):
         
         bpy.data.scenes[0].frame_set(0) 
+        bpy.ops.object.mode_set(mode = 'OBJECT') # Set Object mode (not EDIT)
         
         uvs = []
         
