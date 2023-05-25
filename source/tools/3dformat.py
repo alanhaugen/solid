@@ -16,6 +16,9 @@ argv = argv[argv.index("--") + 1:]
 filename = ""
 code = '<'
 
+vertexanimation = True
+triangulate     = True  # Indices will not be exported when this is true
+
 if (len(argv) >= 1):
     filename = argv[0]
     if (len(argv) == 2):
@@ -41,7 +44,10 @@ tokens = {
     "uv": 0x03,
     "frame": 0x04,
     "vertex": 0x05,
-    "normal": 0x06
+    "normal": 0x06,
+    "skin": 0x07,
+    "joint": 0x08,
+    "weight": 0x09
 }
 
 def triangulate_object(obj):
@@ -49,10 +55,8 @@ def triangulate_object(obj):
     # Get a BMesh representation
     bm = bmesh.new()
     bm.from_mesh(me)
-
     bmesh.ops.triangulate(bm, faces=bm.faces[:])
     # V2.79 : bmesh.ops.triangulate(bm, faces=bm.faces[:], quad_method=0, ngon_method=0)
-
     # Finish up, write the bmesh back to the mesh
     bm.to_mesh(me)
     bm.free()
@@ -96,7 +100,7 @@ for obj in objects:
             v = poly.vertices
             
             if len(v) != 3:
-                self.report({'ERROR'}, "Polygons must consist of in total 3 points each.")
+                self.report({'ERROR'}, "Polygons must consist of in total 3 (three) points each.")
                 error = True
             
             s = struct.Struct(code + 'I I I I')
@@ -131,26 +135,29 @@ for obj in objects:
         
         # Write all vertices with index and frame number
         for frame in range(bpy.data.scenes[0].frame_end + 1):
-            bm = bmesh.new()
-            bm.verts.ensure_lookup_table()
-            
-            bm.from_object(obj, depgraph)
-            bmesh.ops.transform(bm, matrix=obj.matrix_world, verts=bm.verts)
-            
-            s = struct.Struct(code + 'I I')
-            values = (tokens["frame"], bpy.data.scenes[0].frame_current)
-            file.append(s.pack(*values))
-            
-            for i, v in enumerate(bm.verts):
-                s = struct.Struct(code + 'I f f f')
-                values = (tokens["normal"], v.normal.x, v.normal.y, v.normal.z)
+            # Record bones
+            # Record mesh data (vertex animation records mesh data per frame)
+            if (vertexanimation == True or frame == 1):
+                bm = bmesh.new()
+                bm.verts.ensure_lookup_table()
+                
+                bm.from_object(obj, depgraph)
+                bmesh.ops.transform(bm, matrix=obj.matrix_world, verts=bm.verts)
+                
+                s = struct.Struct(code + 'I I')
+                values = (tokens["frame"], bpy.data.scenes[0].frame_current)
                 file.append(s.pack(*values))
+                
+                for i, v in enumerate(bm.verts):
+                    s = struct.Struct(code + 'I f f f')
+                    values = (tokens["normal"], v.normal.x, v.normal.y, v.normal.z)
+                    file.append(s.pack(*values))
 
-                s = struct.Struct(code + 'I f f f')
-                values = (tokens["vertex"], v.co.x, v.co.y, v.co.z) # v.index
-                file.append(s.pack(*values))
-            
-            bpy.data.scenes[0].frame_set(frame + 1)
+                    s = struct.Struct(code + 'I f f f')
+                    values = (tokens["vertex"], v.co.x, v.co.y, v.co.z) # v.index
+                    file.append(s.pack(*values))
+                
+                bpy.data.scenes[0].frame_set(frame + 1)
 
 images.append("}")
 

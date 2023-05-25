@@ -538,7 +538,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
                 textures.Add(Pixmap::LoadAndCache("data/" + texturePath));
 
                 IDrawable *drawable = renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures);
-                drawable->verticesPerFrameQuantity = verticesQuantity;
+                drawable->verticesPerFrameQuantity = trianglesQuantity * 3;//verticesQuantity;
                 drawable->lastFrame = framesQuantity;
 
                 drawables.Add(drawable);
@@ -616,7 +616,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
     }
 
     IDrawable *drawable = Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures);
-    drawable->verticesPerFrameQuantity = verticesQuantity;
+    drawable->verticesPerFrameQuantity = trianglesQuantity * 3; //verticesQuantity;
     drawable->lastFrame = framesQuantity;
 
     drawables.Add(drawable);
