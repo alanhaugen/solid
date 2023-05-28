@@ -63,6 +63,10 @@ def triangulate_object(obj):
 
 for obj in objects:
           
+    if (obj.type == 'ARMATURE'):
+        for bone in obj.data.bones:
+            print(bone.name)
+
     if (obj.type == "MESH"):
         
         bpy.data.scenes[0].frame_set(0) 
