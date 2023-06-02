@@ -14,7 +14,7 @@ DEPS ?= nullaudio nullscript nullfilesystem nullphysics nullrenderer solid
 #############################################################################
 
 PLATFORM   ?= SDLApplication
-AUDIO      ?= NullAudio
+AUDIO      ?= Audio::NullAudio
 RENDERER   ?= GLES2Renderer
 PHYSICS    ?= BulletPhysics
 #SCRIPT     ?= AngelScript
