@@ -187,7 +187,8 @@ public:
 
     void Clear()
     {
-        while (firstNode) {
+        while (firstNode)
+        {
             RemoveAt(0);
         }
 

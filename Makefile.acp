@@ -120,15 +120,25 @@ intermediate/%.json: data/%.json
 	@touch $@
 	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
+ifndef $(ES_PROFILE)
+intermediate/%.vert: data/%.vert
+	@mkdir -p $@/..
+	@touch $@
+	@cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
 intermediate/%.frag: data/%.frag
 	@mkdir -p $@/..
 	@touch $@
 	@cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
-
+else
 intermediate/%.vert: data/%.vert
 	@mkdir -p $@/..
 	@touch $@
-	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+	sed -e "1 s/#version 330 core/#version 320 es/" > intermediate/$(shell ./$(TOOLS_DIR)/hashsum)
+intermediate/%.frag: data/%.frag
+	@mkdir -p $@/..
+	@touch $@
+	sed -e "1 s/#version 330 core/#version 320 es/" > intermediate/$(shell ./$(TOOLS_DIR)/hashsum)
+endif
 
 intermediate/%.wav: data/%.wav
 	@mkdir -p $@/..

@@ -15,6 +15,7 @@ CONVERT = convert
 include $(SOLIDCORE)/Makefile.generic
 
 CFLAGS += -DES_PROFILE
+ES_PROFILE = true
 
 #############################################################################
 # Add platform specific dependencies
