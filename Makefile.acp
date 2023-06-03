@@ -124,11 +124,11 @@ ifndef $(ES_PROFILE)
 intermediate/%.vert: data/%.vert
 	@mkdir -p $@/..
 	@touch $@
-	@cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
 intermediate/%.frag: data/%.frag
 	@mkdir -p $@/..
 	@touch $@
-	@cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
 else
 intermediate/%.vert: data/%.vert
 	@mkdir -p $@/..
