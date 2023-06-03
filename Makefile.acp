@@ -49,9 +49,9 @@ FORMATS = vert|frag|json|blend|wav|mkv|png|jpg
 #############################################################################
 
 ifneq ($(PROJECT_FILES),)
-    SEARCH_FILES = $(PROJECT_FILES) $(shell egrep -iho "\".*\.json\"" $(PROJECT_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
+    SEARCH_FILES = $(PROJECT_FILES) $(shell grep -Eiho "\".*\.json\"" $(PROJECT_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
 
-    BLEND_FILES   := $(shell egrep -iho "\".*\.blend\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
+    BLEND_FILES   := $(shell grep -Eiho "\".*\.blend\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/ //g')
     TEXTURE_FILES := $(patsubst %.blend,%.blend_textures.json,$(BLEND_FILES))
 
     SEARCH_FILES += $(TEXTURE_FILES)
@@ -67,7 +67,7 @@ ifneq ($(PROJECT_FILES),)
 # in the project Makefile
 #############################################################################
 
-    FILES = $(shell egrep -iho "\".*\.($(FORMATS))\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/icon :  /data\//'|sed -E 's/ //g')
+    FILES = $(shell grep -Eiho "\".*\.($(FORMATS))\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/icon :  /data\//'|sed -E 's/ //g')
     FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/sheet.png data/logo.png
 endif
 
