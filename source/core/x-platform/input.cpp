@@ -11,7 +11,7 @@ Input::Input()
     }
 
     // See http://www.music.mcgill.ca/~gary/rtmidi/index.html
-    /*unsigned int nPorts = midiin.getPortCount();
+    unsigned int nPorts = midiin.getPortCount();
     std::cout << "There are " << nPorts << " MIDI input sources available" << std::endl;
 
     std::string portName;
@@ -26,7 +26,7 @@ Input::Input()
     {
         midiin.openPort(0);
         midiin.ignoreTypes(false, false, false); // Don't ignore sysex, timing, or active sensing messages.
-    }*/
+    }
 }
 
 Input::~Input()
@@ -40,14 +40,15 @@ void Input::Define(const String& controlName, unsigned int key)
 
 void Input::Update()
 {
-    for (int i = 0; i < 256; i++)
+    for (int i = 0; i < int(KEYS_QUANTITY); i++)
     {
         keyChanges[i] = keys[i] ^ oldKeys[i];
         oldKeys[i] = keys[i];
     }
 
+#ifdef MIDI
     // Read from MIDI controller
-    /*double stamp;
+    double stamp;
     stamp = midiin.getMessage(&message);
     int nBytes = message.size();
 
@@ -77,7 +78,8 @@ void Input::Update()
     if (nBytes > 0)
     {
         //std::cout << "stamp = " << stamp << std::endl;
-    }*/
+    }
+#endif
 }
 
 bool Input::Held(const unsigned int key)

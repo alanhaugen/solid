@@ -7,7 +7,10 @@
 
 const unsigned int KEYS_QUANTITY = 256;
 
-//#include "3rdparty/RtMidi.h"
+#define MIDI true
+#ifdef MIDI
+#include "3rdparty/RtMidi.h"
+#endif
 
 /// Input
 /*!
@@ -37,8 +40,11 @@ private:
         void Rumble(bool active, float duration = 0);
     };
 
-    /*RtMidiIn midiin;
-    std::vector<unsigned char> message;*/
+#ifdef MIDI
+    // MIDI controller
+    RtMidiIn midiin;
+    std::vector<unsigned char> message;
+#endif
 
     struct HeadStruct
     {
