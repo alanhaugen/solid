@@ -10,6 +10,7 @@ Input::Input()
         keyChanges[i] = false;
     }
 
+#ifdef MIDI
     // See http://www.music.mcgill.ca/~gary/rtmidi/index.html
     unsigned int nPorts = midiin.getPortCount();
     std::cout << "There are " << nPorts << " MIDI input sources available" << std::endl;
@@ -27,6 +28,7 @@ Input::Input()
         midiin.openPort(0);
         midiin.ignoreTypes(false, false, false); // Don't ignore sysex, timing, or active sensing messages.
     }
+#endif
 }
 
 Input::~Input()
