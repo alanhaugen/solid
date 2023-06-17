@@ -13,6 +13,7 @@ Splash::~Splash()
 void Splash::Init()
 {
     components.Add(new Camera());
+    components.Add(new Text("SOLID ENGINE V. 1.0"));
     components.Add(new Sprite("data/logo.png",
                               (renderer->windowWidth/2.0f) - 124.0f,
                               (renderer->windowHeight/2.0f) - 36.0f,
