@@ -17,7 +17,10 @@ void Services::SetScene(IScene *_scene)
     }
     else
     {
-        //delete scene; // Thinking about it, this should not happen...
+        if (scene)
+        {
+            scene->components.Clear();
+        }
 
         scene = _scene;
         scene->Init();
