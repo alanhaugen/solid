@@ -49,6 +49,11 @@ bool Physics::BouncePhysics::Intersect(const Ray &ray, const HitBox *hitbox)
 
 Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, const char *type)
 {
+    if (hitbox == NULL)
+    {
+        return NULL;
+    }
+
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
         for (unsigned int k = 0; k < (*colliders[i])->collisions.Size(); k++)

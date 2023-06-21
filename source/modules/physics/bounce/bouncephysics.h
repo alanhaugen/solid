@@ -17,7 +17,7 @@ protected:
 public:
     BouncePhysics();
     bool Intersect(const Ray &r, const HitBox *hitbox);
-    Collider *Collide(HitBox *hitbox, const char *type = "solid");
+    Collider *Collide(HitBox *hitbox = NULL, const char *type = "solid");
     HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
     void Update();
 };
