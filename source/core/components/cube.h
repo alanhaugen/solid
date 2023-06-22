@@ -7,6 +7,7 @@ class Cube : public Component
 {
 private:
     IDrawable *drawable;
+    Physics::IPhysics::HitBox *collisionBox;
 
 public:
     Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 1, float height = 1,

@@ -51,6 +51,23 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
 {
     if (hitbox == NULL)
     {
+        if (colliders.Empty() == false)
+        {
+            for (unsigned int i = 0; i < colliders.Size(); i++)
+            {
+                if ((*colliders[i])->collisions.Empty() == false)
+                {
+                    for (unsigned int k = 0; k < (*colliders[i])->collisions.Size(); k++)
+                    {
+                        if ((*colliders[i])->collisions[k]->type == type)
+                        {
+                            return *colliders[i];
+                        }
+                    }
+                }
+            }
+        }
+
         return NULL;
     }
 

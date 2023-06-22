@@ -58,7 +58,9 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
     vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width)));
     vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height,  1.0f*width)));
 
+    tag = "cube";
     drawable = renderer->CreateDrawable(vertices, indices, shaders, textures);
+    collisionBox = physics->CreateHitBox(glm::vec3(1.0f), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 
