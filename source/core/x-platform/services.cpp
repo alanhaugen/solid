@@ -29,14 +29,14 @@ void Services::SetScene(IScene *_scene)
 
 void Services::UpdateScene(IScene *scene)
 {
+    // Run the game logic
+    scene->Update();
+
     // Update game components
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
         (*scene->components[i])->Update();
     }
-
-    // Run the game logic
-    scene->Update();
 }
 
 void Services::UpdateSceneAfterPhysics(IScene *scene)

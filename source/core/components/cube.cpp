@@ -6,6 +6,8 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
     *matrix.y = y;
     *matrix.z = z;
 
+    matrix.position = glm::vec3(x,y,z);
+
     Array<Pixmap*> *textures = NULL;
     Array<String> shaders(2);
     shaders[VERTEX_SHADER]   = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT)->Read();
@@ -73,6 +75,7 @@ void Cube::Update()
 {
     drawable->uniformData = uniforms;
     drawable->matrix = matrix.subMatrix * matrix.matrix;
+    *collisionBox->position = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
     renderer->Draw(drawable);
 }
 

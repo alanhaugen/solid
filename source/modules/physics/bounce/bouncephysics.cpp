@@ -59,10 +59,10 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
                 {
                     for (unsigned int k = 0; k < (*colliders[i])->collisions.Size(); k++)
                     {
-                        if ((*colliders[i])->collisions[k]->type == type)
-                        {
+                        //if ((*colliders[i])->collisions[k]->type == type)
+                        //{
                             return *colliders[i];
-                        }
+                        //}
                     }
                 }
             }
