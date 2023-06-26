@@ -10,8 +10,15 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     Array<Pixmap*> *textures = NULL;
     Array<String> shaders(2);
-    shaders[VERTEX_SHADER]   = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT)->Read();
-    shaders[FRAGMENT_SHADER] = filesystem->Open(URL(shaderFragPath), PLAIN_TEXT)->Read();
+
+    IFile *vertexFile = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT);
+    IFile *fragmentFile = filesystem->Open(URL(shaderFragPath), PLAIN_TEXT);
+
+    shaders[VERTEX_SHADER]   = vertexFile->Read();
+    shaders[FRAGMENT_SHADER] = fragmentFile->Read();
+
+    delete vertexFile;
+    delete fragmentFile;
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
