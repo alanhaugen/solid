@@ -69,7 +69,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     tag = "cube";
     drawable = renderer->CreateDrawable(vertices, indices, shaders, textures);
-    collisionBox = physics->CreateHitBox(glm::vec3(1.0f), &matrix, tag);
+    collisionBox = physics->CreateHitBox(glm::vec3(0.5f), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 
@@ -82,7 +82,8 @@ void Cube::Update()
 {
     drawable->uniformData = uniforms;
     drawable->matrix = matrix.subMatrix * matrix.matrix;
-    *collisionBox->position = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
+    pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
+    *collisionBox->position = pos;
     renderer->Draw(drawable);
 }
 
