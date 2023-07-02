@@ -76,6 +76,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 Cube::~Cube()
 {
     // TODO: delete cube from renderer
+    // TODO: delete cube from physics
 }
 
 void Cube::Update()
