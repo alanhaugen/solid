@@ -82,7 +82,7 @@ Cube::~Cube()
 
 void Cube::Update()
 {
-    drawable->uniformData = uniforms;
+    drawable->uniformData = uniforms; // TODO: Remove
     drawable->matrix = matrix.subMatrix * matrix.matrix;
     pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
     *collisionBox->position = pos;
