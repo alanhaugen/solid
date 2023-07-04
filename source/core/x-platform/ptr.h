@@ -47,7 +47,7 @@ public:
         return data->object;
     }
 
-    void ChangeResponsibility(const Ptr *ptr_) const
+    void ChangeResponsibility(Ptr *ptr_) const
     {
         if (data != NULL)
         {
