@@ -4,8 +4,8 @@
 #include "core/x-platform/pixmap.h"
 
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stbi_image_write.h" // TODO: remove, hack
+//#define STB_IMAGE_WRITE_IMPLEMENTATION
+//#include "stbi_image_write.h" // TODO: remove, hack
 
 
 bool GLES2Renderer::Init(

@@ -75,7 +75,8 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
 Cube::~Cube()
 {
-    // TODO: delete cube from renderer
+    renderer->RemoveDrawable(drawable);
+    //renderer->RemoveDrawable(drawable);
     // TODO: delete cube from physics
 }
 
