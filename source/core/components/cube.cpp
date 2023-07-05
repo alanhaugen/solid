@@ -75,19 +75,17 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
 Cube::~Cube()
 {
-    renderer->RemoveDrawable(drawable);
     //renderer->RemoveDrawable(drawable);
-    // TODO: delete cube from physics
+    //physics->RemoveCollidable(collisionBox);
 }
 
 void Cube::Update()
 {
-    drawable->uniformData = uniforms; // TODO: Remove
+    drawable->uniformData = uniforms;
     drawable->matrix = matrix.subMatrix * matrix.matrix;
     pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
     *collisionBox->position = pos;
     renderer->Draw(drawable);
-    //uniforms.ChangeResponsibility(&uniforms);
 }
 
 void Cube::UpdateAfterPhysics()

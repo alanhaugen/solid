@@ -74,7 +74,7 @@ public:
     unsigned int frame, verticesPerFrameQuantity, lastFrame;
     virtual ~IDrawable() {}
 
-    Ptr<Array<Ptr<UniformData *> > *> uniformData; // TODO: FIXME
+    Ptr<Array<Ptr<UniformData *> > *> uniformData;
 
 private:
     virtual void Uniform(String location, glm::f32   uniform) = 0;
