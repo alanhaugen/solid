@@ -180,11 +180,11 @@ void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
 
 void GLES2Renderer::ClearDrawables()
 {
-    /*for (unsigned i = 0; i < drawables.Size(); i++)
+    for (unsigned i = 0; i < drawables.Size(); i++)
     {
         delete drawables[i];
-        drawables[i] = 0x0;
-    }*/
+        drawables[i] = NULL;
+    }
 }
 
 void GLES2Renderer::GetError()

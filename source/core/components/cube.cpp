@@ -87,6 +87,7 @@ void Cube::Update()
     pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
     *collisionBox->position = pos;
     renderer->Draw(drawable);
+    //uniforms.ChangeResponsibility(&uniforms);
 }
 
 void Cube::UpdateAfterPhysics()
