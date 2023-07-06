@@ -1,7 +1,7 @@
 #ifndef BOUNCEPHYSICS_H
 #define BOUNCEPHYSICS_H
 
-#include "../physics.h"
+#include <modules/physics/null/nullphysics.h>
 #include <core/x-platform/ptr.h>
 
 namespace Physics
@@ -9,7 +9,7 @@ namespace Physics
 
 #include <core/x-platform/string.h>
 
-class BouncePhysics : public IPhysics
+class BouncePhysics : public NullPhysics
 {
 protected:
     Array<Ptr<IPhysics::Collider* > > colliders;

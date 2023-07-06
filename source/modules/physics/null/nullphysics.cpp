@@ -20,6 +20,10 @@ Physics::IPhysics::HitBox *Physics::NullPhysics::CreateHitBox(glm::vec3 dimensio
     return NULL;
 }
 
+void Physics::NullPhysics::RemoveHitBox(HitBox *hitbox)
+{
+}
+
 void Physics::NullPhysics::Update()
 {
 }
