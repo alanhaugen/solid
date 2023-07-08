@@ -26,6 +26,8 @@ private:
         }
     };
 
+    bool isLocked;
+
 public:
     Data *data;
     bool empty;
@@ -34,12 +36,14 @@ public:
     {
         data  = NULL;
         empty = true;
+        isLocked = false;
     };
 
     Ptr(T object_)
     {
         data  = new Data(object_, this);
         empty = false;
+        isLocked = false;
     };
 
     T operator*()
@@ -49,7 +53,7 @@ public:
 
     void ChangeResponsibility(Ptr *ptr_) const
     {
-        if (data != NULL)
+        if (data != NULL && isLocked == false)
         {
             data->ptrWithDeleteResponsibility = ptr_;
         }
@@ -81,7 +85,8 @@ public:
 
         // Take responsibility for object
         data = rhs.data;
-        data->ptrWithDeleteResponsibility = lhs;
+        ChangeResponsibility(lhs);
+        //data->ptrWithDeleteResponsibility = lhs;
         empty = false;
 
         return *this;
@@ -90,6 +95,16 @@ public:
     bool isEmpty()
     {
         return empty;
+    }
+
+    bool Lock()
+    {
+        isLocked = true;
+    }
+
+    bool UnLock()
+    {
+        isLocked = false;
     }
 
     void Swap(Ptr &o)
