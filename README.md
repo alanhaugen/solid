@@ -2,6 +2,8 @@
 
 Licensed under Apache License 2.0
 
+Still under construction !!
+
 MinGW-w64 from Git for Windows recommended for the Windows platform.
 
 > mingw32-make.exe all
