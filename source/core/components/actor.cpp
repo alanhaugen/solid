@@ -20,6 +20,7 @@ Actor::~Actor()
 
 void Actor::Add(Component *component)
 {
+    uniforms.Lock();
     //components.Append(component);
     //componentsMap.Insert(component->tag, component);
 

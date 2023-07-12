@@ -85,8 +85,8 @@ public:
 
         // Take responsibility for object
         data = rhs.data;
+        isLocked = rhs.isLocked;
         ChangeResponsibility(lhs);
-        //data->ptrWithDeleteResponsibility = lhs;
         empty = false;
 
         return *this;

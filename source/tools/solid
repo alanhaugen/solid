@@ -48,19 +48,30 @@ if [ -d $directory ]
                             exit
                 fi
 
-                echo "Creating project $directory"
-                mkdir $directory
-                echo "Copying files ..."
                 if [ $command == "create" ]
                     then
+                        echo "Creating project $directory"
+                        mkdir $directory
+                        echo "Copying files ..."
                         cp -rf $SOLIDCORE/examples/templates/application/* $directory
                         cp -rf $SOLIDCORE/standarddata/data $directory
                         sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
                 fi
                 if [ $command == "module" ]
                     then
+                        echo "Creating module $directory"
+                        mkdir $directory
+                        echo "Copying files ..."
                         cp -rf $SOLIDCORE/examples/templates/module/* $directory
                         sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
+                fi
+                if [ $command == "new" ]
+                    then
+                        if [ $directory == "class" ]
+                            then
+                                echo "#ifndef $option_H\n#define $option_H" # > source/$option
+                                #sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
+                        fi
                 fi
                 echo "Done"
 fi
