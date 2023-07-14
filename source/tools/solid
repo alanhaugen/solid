@@ -69,8 +69,8 @@ if [ -d $directory ]
                     then
                         if [ $directory == "class" ]
                             then
-                                echo "#ifndef $option_H\n#define $option_H" # > source/$option
-                                #sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
+                                sed "s|SCENE|$option|g" $SOLIDCORE/source/tools/templates/scene.h > source/$option.h
+                                sed "s|Scene|$option|g" $SOLIDCORE/source/tools/templates/scene.cpp > source/$option.cpp
                         fi
                 fi
                 echo "Done"
