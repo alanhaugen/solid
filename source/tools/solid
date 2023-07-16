@@ -67,7 +67,7 @@ if [ -d $directory ]
                 fi
                 if [ $command == "new" ]
                     then
-                        if [ $directory == "class" ]
+                        if [ $directory == "scene" ]
                             then
                                 sed "s|SCENE|$option|g" $SOLIDCORE/source/tools/templates/scene.h > source/$option.h
                                 sed "s|Scene|$option|g" $SOLIDCORE/source/tools/templates/scene.cpp > source/$option.cpp
