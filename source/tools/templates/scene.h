@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef Scene_H
+#define Scene_H
 
 #include <core/x-platform/scene.h>
 
