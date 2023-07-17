@@ -71,7 +71,7 @@ public:
     // Scale a certain amount in x, y or both
     void Scale(const float scale, bool x = true, bool y = true);
 
-    float x, y, halfWidth, halfHeight;
+    float halfWidth, halfHeight;
     float scaleX, scaleY;
     float width, height;
     bool isVisible;

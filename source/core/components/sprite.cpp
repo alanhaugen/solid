@@ -13,8 +13,10 @@ void Sprite::Init(const float x_,
 {
     tag = "Sprite";
 
-    x = x_;
-    y = y_;
+    float x = x_;
+    float y = y_;
+
+    matrix.Translate(glm::vec3(x, y, 0.0f));
 
     timer = Application::GetTime("animation");
 
@@ -159,7 +161,7 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(x, y)));
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y)));
     Uniform("index", static_cast<int>(index));
 
     if (timer->TimeSinceStarted() > 1000.0f)
