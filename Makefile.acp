@@ -40,7 +40,7 @@ TEXT_EXTENSIONS = vert|frag|json
 #############################################################################
 
 #FORMATS = $(CONVERT_FORMATS)|$(ASSIMP_FORMATS)|$(AUDACITY_FORMATS)|$(TEXT_EXTENSIONS)
-FORMATS = vert|frag|json|blend|wav|mkv|png|jpg
+FORMATS = vert|frag|json|blend|wav|mkv|png|bmp|jpg
 
 #PROJECT_FILES ?= $(SOURCES)
 
@@ -106,6 +106,11 @@ intermediate/%.jpg: data/%.jpg
 	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.png: data/%.png 
+	@mkdir -p $@/..
+	@touch $@
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+
+intermediate/%.bmp: data/%.bmp 
 	@mkdir -p $@/..
 	@touch $@
 	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
