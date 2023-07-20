@@ -8,6 +8,8 @@ command=$1
 directory=$2
 option=$3
 
+output="source"
+
 if [ $command ]
         then
                 echo "Processing command $command"
@@ -69,8 +71,8 @@ if [ -d $directory ]
                     then
                         if [ $directory == "scene" ]
                             then
-                                sed "s|Scene|$option|" $SOLIDCORE/source/tools/templates/scene.h > source/$option.h
-                                sed "s|Scene|$option|g" $SOLIDCORE/source/tools/templates/scene.cpp > source/$option.cpp
+                                sed "s|Scene|$option|" $SOLIDCORE/source/tools/templates/scene.h > $output/$option.h
+                                sed "s|Scene|$option|g" $SOLIDCORE/source/tools/templates/scene.cpp > $output/$option.cpp
                         fi
                 fi
                 echo "Done"
