@@ -76,6 +76,7 @@ public:
     float width, height;
     bool isVisible;
     int index;
+    float x,y;
 };
 
 #endif // SPRITE_H
