@@ -78,8 +78,13 @@ if [ -d $directory ]
                                 sed "s|Class|$option|" $SOLIDCORE/source/tools/templates/class.h > $output/$option.h
                                 sed "s|Class|$option|g" $SOLIDCORE/source/tools/templates/class.cpp > $output/$option.cpp
                         else
-                            echo "Invalid command. Available options: scene class"
-                            echo "Example: solid new class piano"
+                        if [ $directory == "component" ]
+                            then
+                                sed "s|Component|$option|" $SOLIDCORE/source/tools/templates/component.h > $output/$option.h
+                                sed "s|Component|$option|g" $SOLIDCORE/source/tools/templates/component.cpp > $output/$option.cpp
+                        else
+                            echo "Invalid command. Available options: scene component class"
+                            echo "Example: solid new component piano"
                         fi
                 fi
                 echo "Done"
