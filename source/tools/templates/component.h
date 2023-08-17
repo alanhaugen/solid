@@ -8,7 +8,6 @@ class Component : public Component
 public:
     Component();
 
-    void Init();
     void Update();
     void UpdateAfterPhysics();
 };
