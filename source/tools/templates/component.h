@@ -1,7 +1,7 @@
 #ifndef Component_H
 #define Component_H
 
-#include <core/x-platform/component.h>
+#include <core/components/component.h>
 
 class Component : public Component
 {
