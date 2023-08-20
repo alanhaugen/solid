@@ -275,10 +275,4 @@ public:
     }
 };
 
-class Uniform
-{
-public:
-    Uniform();
-};
-
 #endif // UNIFORM_H
