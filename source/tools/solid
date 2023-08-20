@@ -18,6 +18,7 @@ if [ $command ]
                 echo "Commands:"
                 echo "create (creates a directory in working directory with name of project and application template)"
                 echo "module (creates a module for current project or solid with the name of module project and module template)"
+                echo "new (creates a scene, class or component for current project)"
                 echo "example: solid create cargame"
                 exit
 fi
