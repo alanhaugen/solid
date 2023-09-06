@@ -75,8 +75,8 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
 Cube::~Cube()
 {
-    renderer->RemoveDrawable(drawable);
-    physics->RemoveHitBox(collisionBox);
+    //renderer->RemoveDrawable(drawable);
+    //physics->RemoveHitBox(collisionBox);
 }
 
 void Cube::Update()
