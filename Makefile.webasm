@@ -6,7 +6,7 @@
 CC = EMCC_DEBUG=1 emcc
 NO_THEORA = true
 
-AUDIO ?= NullAudio
+AUDIO ?= Audio::NullAudio
 AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"
 
 EXE = .html
