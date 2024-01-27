@@ -61,12 +61,12 @@ public:
 
     ~Ptr() // I
     {
-        if (this == data->ptrWithDeleteResponsibility)
+        /*if (this == data->ptrWithDeleteResponsibility) // TDOO:  FIXME!!! MAJOR MEMORY LEAK!!1
         {
             delete data;
             data  = NULL;
             empty = true;
-        }
+        }*/
     };
 
     Ptr(const Ptr &other) // II
