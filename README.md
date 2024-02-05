@@ -37,3 +37,22 @@ For Windows:
 > mklink /D lib "../Huldra Dropbox"/solid/lib
 
 > mklink /D tools "../Huldra Dropbox"/solid/tools
+
+## Valkeryie support
+
+On arch linux you need qt4 to run valkeryie in tools/linux (64-bit)
+
+Downlioad qt4 from AUR: https://aur.archlinux.org/packages/qt4
+
+> tar xfv qt4
+> cd qt4
+> makepkg
+> pacman -U qt4.pkg.tar.szt
+
+Remember to install valgrind
+
+> pacman -S valgrind
+
+You may also want imagemagick
+
+> pacman -S imagemagick
