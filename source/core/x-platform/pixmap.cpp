@@ -98,13 +98,17 @@ Pixmap::Pixmap(const String &_filePath) : filePath(URL(_filePath).ToChar())
 
     unsigned char *img = stbi_load_from_memory((const unsigned char*)file->Read(), file->Size(), &width, &height, &n, 0);
 
+    // TODO: Figure out why this helps on windows!
     //assert (img);
 
     delete file;
 
     if (n==3) channels = RGB;
     else if (n==4) channels = RGBA;
-    else LogError("Image not suported. RGB and RGBA grayscale is supported");
+    else
+    {
+        LogError("Image not suported. RGB and RGBA grayscale is supported");
+    }
     data = new U8[width*height*channels];
     // A bit stupid to copy data when we can just use img pointer and free it ourselves on dtor
     for(int j=0; j<height; j++)
