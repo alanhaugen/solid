@@ -54,6 +54,11 @@ void Sprite::Init(const float x_,
     {
         int glyph = glyphs[i] - 32; // 32 is to remove control chars, see an ascii table
 
+        if (strcmp(glyphs, "") == 0) // Comparing to 0 means they are equal TODO: Use safe strncmp instead!
+        {
+            glyph = -1; // -1 will allow the shader to animate the sprite
+        }
+
         vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f), glyph));
         vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
         vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));

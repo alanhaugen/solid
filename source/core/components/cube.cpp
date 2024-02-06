@@ -79,6 +79,16 @@ Cube::~Cube()
     //physics->RemoveHitBox(collisionBox);
 }
 
+void Cube::Hide()
+{
+    drawable->visible = false;
+}
+
+void Cube::Show()
+{
+    drawable->visible = true;
+}
+
 void Cube::Update()
 {
     uniforms.Lock();
