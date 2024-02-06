@@ -16,6 +16,9 @@ public:
          String shaderFragPath = "data/simple.frag");
     ~Cube();
 
+    void Hide();
+    void Show();
+
     void Update();
     void UpdateAfterPhysics();
 };

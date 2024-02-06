@@ -54,6 +54,11 @@ void Sprite::Init(const float x_,
     {
         int glyph = glyphs[i] - 32; // 32 is to remove control chars, see an ascii table
 
+        if (strcmp(glyphs, "") == 0) // Comparing to 0 means they are equal TODO: Use safe strncmp instead!
+        {
+            glyph = -1; // -1 will allow the shader to animate the sprite
+        }
+
         vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f), glyph));
         vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
         vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));
@@ -164,7 +169,7 @@ void Sprite::Update()
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y)));
     Uniform("index", static_cast<int>(index));
 
-    if (timer->TimeSinceStarted() > 1000.0f)
+    if (timer->TimeSinceStarted() > 100.0f)
     {
         if (width != textures[0]->width || height != textures[0]->height)
         {
