@@ -20,7 +20,7 @@ if [ $command ]
                 echo "Commands:"
                 echo "create (creates a directory in working directory with name of project and application template)"
                 echo "module (creates a module for current project or solid with the name of module project and module template)"
-                echo "new (creates a scene, class or component for current project)"
+                echo "add (creates a scene, class or component for current project)"
                 echo "example: solid create cargame"
                 exit
 fi
@@ -70,7 +70,7 @@ if [ -d $directory ]
                         cp -rf $SOLIDCORE/examples/templates/module/* $directory
                         sed "s|SOLIDCORE =.*|SOLIDCORE=$SOLIDCORE|g" $SOLIDCORE/examples/templates/application/Makefile > $directory/Makefile
                 fi
-                if [ $command == "new" ]
+                if [ $command == "add" ]
                     then
                         if [ $directory == "scene" ]
                             then
@@ -86,16 +86,16 @@ if [ -d $directory ]
                                 sed "s|Component|$option|g" $SOLIDCORE/source/tools/templates/component.cpp > $output/$option.cpp
                         else
                             echo "Invalid command. Available options: scene component class"
-                            echo "Example: solid new component piano"
+                            echo "Example: solid add component piano"
 
                             exit
                         fi
-                    if [ $option2 == "--append" ]
-                        then
-                        fi
-                    if [ $option2 == "--prepend" ]
-                        then
-                        fi
+#                    if [ $option2 == "--append" ]
+#                        then
+#                        fi
+#                    if [ $option2 == "--prepend" ]
+#                        then
+#                        fi
                 fi
                 echo "Done"
 fi
