@@ -169,7 +169,7 @@ void Sprite::Update()
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y)));
     Uniform("index", static_cast<int>(index));
 
-    if (timer->TimeSinceStarted() > 1000.0f)
+    if (timer->TimeSinceStarted() > 100.0f)
     {
         if (width != textures[0]->width || height != textures[0]->height)
         {
