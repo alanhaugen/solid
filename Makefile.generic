@@ -2,6 +2,8 @@
 # Setup libraries and compiler for a generic platform
 #############################################################################
 
+NO_THEORA=1
+
 ifndef CC
     CC ?= g++
     CFLAGS += -Wno-strict-aliasing
