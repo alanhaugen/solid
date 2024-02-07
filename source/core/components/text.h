@@ -6,7 +6,6 @@
 class Text : public Sprite
 {
 private:
-    IDrawable *drawable;
     String text;
 
 public:

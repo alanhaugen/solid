@@ -8,9 +8,10 @@
 class Pixmap;
 class Sprite : public Component
 {
-private:
+protected:
     IDrawable *drawable;
 
+private:
     ITime *timer;
 
     void Init(const float x_ = 0.0,

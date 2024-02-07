@@ -54,7 +54,10 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
     glClearColor(1.0f,0.0f,0.0f,0.0f);
 
     // TODO: Test if it is better to sort by shader... although, simplicity usually does the trick
-    for(unsigned drawable = 0; drawable < drawables.Size(); drawable++)
+    //for(unsigned drawable = 0; drawable < drawables.Size(); drawable++)
+    //{
+    // NOTE: Remove please, I am going backwards through the array (slower!) to make sure new things are drawn first
+    for(unsigned drawable = drawables.Size(); drawable-- > 0; )
     {
         GLES2Drawable *gles2drawable = drawables[drawable];
         if (gles2drawable->draw)
