@@ -120,7 +120,7 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 
     //assert( projViewMatrixArray.Size() == viewBoundsArray.Size() );
 
-    /*for(unsigned i = 0; i<projViewMatrixArray.Size(); i++)
+    for(unsigned i = 0; i<projViewMatrixArray.Size(); i++)
     {
         const glm::vec4& bounds = viewBoundsArray[i];
         glm::vec2 off = glm::vec2( bounds.x, bounds.y );
@@ -129,7 +129,7 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
     }
 
     glFlush();
-    GetError();*/
+    GetError();
 
 
 
