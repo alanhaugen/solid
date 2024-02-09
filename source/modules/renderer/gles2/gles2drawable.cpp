@@ -255,14 +255,6 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
 
     Uniform("MVP", static_cast<glm::mat4&>(mvp));
 
-    // TODO: remove?
-    glm::mat4 *mat = new glm::mat4(1.0f);
-    glm::mat3 *mat_normal = new glm::mat3(1.0f);
-    Uniform("u_modelMat", static_cast<glm::mat4&>(mat[0]));
-    Uniform("u_normalMat", static_cast<glm::mat3&>(mat_normal[0]));
-    delete mat_normal;
-    delete mat;
-
     Uniform("frame", static_cast<glm::uint>(frame));
     Uniform("verticesQuantity", static_cast<glm::uint>(verticesPerFrameQuantity));
 

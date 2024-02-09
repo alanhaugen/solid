@@ -9,7 +9,7 @@
 class SDLRender : public RENDERER
 {
 private:
-    SDL_Window *mainwindow;
+    SDL_Window* mainwindow;
     SDL_GLContext maincontext;
 
 public:

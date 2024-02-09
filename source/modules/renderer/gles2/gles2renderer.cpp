@@ -63,11 +63,11 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
         if (gles2drawable->draw)
         {
             gles2drawable->Activate(projViewMatrix);
-            /*// Loop through and update lights
-            for (unsigned light = 0; light < lights.Size(); light++)
-            {
-                lights[light].Activate(); // something like this ??
-            }*/
+            // Loop through and update lights
+            //for (unsigned light = 0; light < lights.Size(); light++)
+            //{
+            //    lights[light].Activate(); // something like this ??
+            //}
 
             // Render in 3D
             if (gles2drawable->hasDepth == true)
@@ -118,9 +118,9 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 {
     PreRender();
 
-    assert( projViewMatrixArray.Size() == viewBoundsArray.Size() );
+    //assert( projViewMatrixArray.Size() == viewBoundsArray.Size() );
 
-    for(unsigned i = 0; i<projViewMatrixArray.Size(); i++)
+    /*for(unsigned i = 0; i<projViewMatrixArray.Size(); i++)
     {
         const glm::vec4& bounds = viewBoundsArray[i];
         glm::vec2 off = glm::vec2( bounds.x, bounds.y );
@@ -129,7 +129,7 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
     }
 
     glFlush();
-    GetError();
+    GetError();*/
 
 
 

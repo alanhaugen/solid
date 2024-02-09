@@ -12,6 +12,8 @@
 #include COMPUTED_INCLUDE(PHYSICS_HEADER)
 #include COMPUTED_INCLUDE(FILESYSTEM_HEADER)
 
+const double FRAME_TIME_MS = 1000.f / 60.f;
+
 class SDLApplication : public Services
 {
 public:

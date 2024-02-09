@@ -160,8 +160,7 @@ Sprite::Sprite(const int red,
 
 Sprite::~Sprite()
 {
-    // TODO: Re-add!
-    //renderer->RemoveDrawable(drawable);
+    renderer->RemoveDrawable(drawable);
 }
 
 void Sprite::Update()

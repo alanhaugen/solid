@@ -54,7 +54,7 @@ VideoCapture::VideoCapture(const String &filename)
 #endif
 }
 
-VideoCapture::VideoCapture(int index)
+VideoCapture::VideoCapture(const int index)
 {
     isDone = true;
 

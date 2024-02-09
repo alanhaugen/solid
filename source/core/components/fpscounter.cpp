@@ -20,11 +20,12 @@ void FPSCounter::UpdateAfterPhysics()
 void FPSCounter::Update()
 {
     float hz = 1.0f / counter->TimeSinceStarted() * 1000.0f; // 1 frame / elapsed sec
-    //Log("FPS: " + String(hz));
 
     delete text;
     text = new Text("FPS: " + String(hz));
     text->Update();
+
+    Log(String(String(hz)));
 
     counter->Reset();
 }

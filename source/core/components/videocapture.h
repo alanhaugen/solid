@@ -56,7 +56,7 @@ private:
 public:
     VideoCapture();
     VideoCapture(const String &filename);
-    VideoCapture(int index);
+    VideoCapture(const int index);
 
     ~VideoCapture();
 

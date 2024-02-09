@@ -1,7 +1,13 @@
 #include "sdlrender.h"
 
+//#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#include <OpenGL/gl.h>
+//#endif
+
 SDLRender::SDLRender()
 {
+
 }
 
 SDLRender::~SDLRender()
@@ -52,7 +58,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
         return false;
     }
 
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0);
 
     int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
 
@@ -77,6 +83,12 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
 void SDLRender::PreRender()
 {
+    //#ifdef __APPLE__
+        GLint                       sync = 0;
+        CGLContextObj               ctx = CGLGetCurrentContext();
+
+        CGLSetParameter(ctx, kCGLCPSwapInterval, &sync);
+    //#endif
 }
 
 void SDLRender::PostRender()

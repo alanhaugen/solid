@@ -180,7 +180,7 @@ float SDLApplication::MainLoop()
     else
     {
         deltaTime = time->TimeSinceStarted();
-        sleepMilliseconds = 16.6f - deltaTime;
+        sleepMilliseconds = FRAME_TIME_MS - deltaTime;
 
         UpdateServices();
 
@@ -220,6 +220,11 @@ float SDLApplication::MainLoop()
         }
     }
 
+    if (sleepMilliseconds < 0.0f)
+    {
+        sleepMilliseconds = 0.0f;
+    }
+
     return sleepMilliseconds;
 }
 
@@ -251,6 +256,7 @@ bool SDLApplication::Exec()
         if (sleepMilliseconds > 0.0f)
         {
             SDL_Delay(sleepMilliseconds);
+            time->Reset();
 
             if (fullscreen)
             {
