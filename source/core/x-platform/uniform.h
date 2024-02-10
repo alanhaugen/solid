@@ -4,6 +4,7 @@
 #include "glm/glm.hpp"
 #include "core/x-platform/string.h"
 
+// TODO: Convert this to the stack!!! I think that will be a lot faster! Maybe use templates???
 class UniformData
 {
 private:
@@ -14,7 +15,7 @@ public:
     String handle;
     void *data;
 
-    ~UniformData()
+    void DeleteData()
     {
         if (dataType == f32)
         {
@@ -118,6 +119,18 @@ public:
         }
 
         data = NULL;
+    }
+
+    void SetData(void* data_)
+    {
+        DeleteData();
+
+        data = data_;
+    }
+
+    ~UniformData()
+    {
+        DeleteData();
     }
 
     UniformData(String location, glm::f32 &uniform)

@@ -25,7 +25,8 @@ void FPSCounter::Update()
     //text = new Text("FPS: " + String(hz));
     //text->Update();
 
-    Log(String(String(hz)));
+    //Log(String(String(hz)));
+    printf("%f\n", hz);
 
     counter->Reset();
 }

@@ -69,7 +69,7 @@ void Services::UpdateServices()
     UpdateSceneAfterPhysics(scene);
 
     // Render frame
-    //renderer->Render(viewProjections, viewports);
+    renderer->Render(viewProjections, viewports);
 
     // Update sound system
     audio->Update();
