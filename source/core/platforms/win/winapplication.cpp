@@ -1,5 +1,6 @@
 #include "winapplication.h"
 #include <mmsystem.h>
+#include <Synchapi.h>
 #include <windows.h>
 
 //#define TILTFIVE
@@ -918,6 +919,21 @@ int WinApplication::Exec()
     return EXIT_FAILURE;*/
 #endif
 
+    // Increase timer resolution acceracy (for better Sleep functionality)
+    TIMECAPS tc;
+    UINT     wTimerRes;
+
+    if (timeGetDevCaps(&tc, sizeof(TIMECAPS)) != TIMERR_NOERROR)
+    {
+        // Error; application can't continue.
+        LogWarning("Failed to increase Sleep(ms) timer resolution! This will affect performance.");
+    }
+
+    wTimerRes = min(max(tc.wPeriodMin, TARGET_RESOLUTION), tc.wPeriodMax);
+
+    timeBeginPeriod(wTimerRes);
+
+    // Main program loop
     while(isAlive)
     {
         // Take care of window and user input
@@ -934,7 +950,7 @@ int WinApplication::Exec()
 
         // Calculate delta time
         deltaTime = time->TimeSinceStarted();
-        float sleepMilliseconds = (1000.0f / 60.0f) - deltaTime;
+        float sleepMilliseconds = FRAME_TIME_MS - deltaTime;
 
         // Update framework
         UpdateServices();
@@ -1144,10 +1160,14 @@ int WinApplication::Exec()
         if (sleepMilliseconds > 0.0f)
         {
             Sleep(int(sleepMilliseconds));
+            time->Reset();
         }
     }
 
     delete runtime;
+
+    // Reset clock back to normal
+    timeEndPeriod(wTimerRes);
 
 #ifdef TILTFIVE
     delete poseTimer;

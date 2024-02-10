@@ -220,11 +220,6 @@ float SDLApplication::MainLoop()
         }
     }
 
-    if (sleepMilliseconds < 0.0f)
-    {
-        sleepMilliseconds = 0.0f;
-    }
-
     return sleepMilliseconds;
 }
 
