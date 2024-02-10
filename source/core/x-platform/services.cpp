@@ -57,22 +57,22 @@ void Services::UpdateServices()
     time->Reset();
 
     // Update Input
-    //input.Update();
+    input.Update();
 
     // Update scene
-    //UpdateScene(scene);
+    UpdateScene(scene);
 
     // Update physics simulation
-    //physics->Update();
+    physics->Update();
 
     // Update scene
-    //UpdateSceneAfterPhysics(scene);
+    UpdateSceneAfterPhysics(scene);
 
     // Render frame
     //renderer->Render(viewProjections, viewports);
 
     // Update sound system
-    //audio->Update();
+    audio->Update();
 }
 
 void Services::LoadScene(const unsigned int scene)
