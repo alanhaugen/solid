@@ -11,7 +11,7 @@ class Component : public Locator
 {
 public:
     Component();
-    virtual ~Component() {}
+    ~Component();
 
     Ptr<Array<Ptr<UniformData *> > *> uniforms;
 

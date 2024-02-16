@@ -164,6 +164,11 @@ Sprite::~Sprite()
     {
         renderer->RemoveDrawable(drawable);
     }
+
+    for (unsigned int i = 0; i < textures.Size(); i++)
+    {
+        delete textures[i];
+    }
 }
 
 void Sprite::Update()

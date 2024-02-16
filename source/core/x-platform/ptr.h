@@ -64,7 +64,7 @@ public:
 
     ~Ptr() // I
     {
-        if (this == data->ptrWithDeleteResponsibility) // TDOO:  FIXME!!! MAJOR MEMORY LEAK!!1
+        if (this == data->ptrWithDeleteResponsibility) // TODO:  FIXME!!! MAJOR MEMORY LEAK!!1
         {
             if (data != NULL)
             {

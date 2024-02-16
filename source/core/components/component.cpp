@@ -5,6 +5,11 @@ Component::Component()
     uniforms = new Array<Ptr<UniformData *> >();
 }
 
+Component::~Component()
+{
+    // uniforms should delete itself since it is a Ptr...
+}
+
 // TODO: Convert this to the stack!!! I think that will be a lot faster! Maybe use templates???
 UniformData* Component::GetUniform(String location)
 {
