@@ -4,7 +4,7 @@
 FPSCounter::FPSCounter()
 {
     counter = Application::GetTime("FPS");
-    //text = new Text("FPS");
+    text = new Text("FPS");
 }
 
 FPSCounter::~FPSCounter()
@@ -21,12 +21,11 @@ void FPSCounter::Update()
 {
     float hz = 1.0f / counter->TimeSinceStarted() * 1000.0f; // 1 frame / elapsed sec
 
-    //delete text;
-    //text = new Text("FPS: " + String(hz));
-    //text->Update();
+    delete text;
+    text = new Text("FPS: " + String(hz));
+    text->Update();
 
-    //Log(String(String(hz)));
-    printf("%f\n", hz);
+    Log(String(String(hz)));
 
     counter->Reset();
 }

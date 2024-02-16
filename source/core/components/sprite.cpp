@@ -160,7 +160,10 @@ Sprite::Sprite(const int red,
 
 Sprite::~Sprite()
 {
-    renderer->RemoveDrawable(drawable);
+    if (renderer != NULL) // When the user closes the program, renderer will be deleted before this code will run
+    {
+        renderer->RemoveDrawable(drawable);
+    }
 }
 
 void Sprite::Update()

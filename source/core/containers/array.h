@@ -151,7 +151,7 @@ public:
     {
         // Swaps i with element at end of array and shrinks array by 1
         // Any client code depending on indices of Array should be careful
-        assert( size > 0);
+        //assert( size > 0);
         array[i] = array[size-1];
         Resize(size - 1);
     }

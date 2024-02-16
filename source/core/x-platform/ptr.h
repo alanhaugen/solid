@@ -21,8 +21,11 @@ private:
         }
         ~Data()
         {
-            delete object;
-            object = NULL;
+            if (object != NULL)
+            {
+                delete object;
+                object = NULL;
+            }
         }
     };
 
@@ -61,12 +64,15 @@ public:
 
     ~Ptr() // I
     {
-        /*if (this == data->ptrWithDeleteResponsibility) // TDOO:  FIXME!!! MAJOR MEMORY LEAK!!1
+        if (this == data->ptrWithDeleteResponsibility) // TDOO:  FIXME!!! MAJOR MEMORY LEAK!!1
         {
-            delete data;
-            data  = NULL;
-            empty = true;
-        }*/
+            if (data != NULL)
+            {
+                delete data;
+                data  = NULL;
+                empty = true;
+            }
+        }
     };
 
     Ptr(const Ptr &other) // II
