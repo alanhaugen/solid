@@ -94,6 +94,8 @@ Pixmap::Pixmap(const String &_filePath) : filePath(URL(_filePath).ToChar())
 {
     int n;
 
+    filePath = _filePath;
+
     IFile *file = Locator::filesystem->Open(URL(_filePath));
 
     unsigned char *img = stbi_load_from_memory((const unsigned char*)file->Read(), file->Size(), &width, &height, &n, 0);

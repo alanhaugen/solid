@@ -125,7 +125,8 @@ Sprite::Sprite(String textureFilePath,
                const unsigned int quadQuantity,
                const char *glyphs)
 {
-    textures.Add(new Pixmap(textureFilePath));
+    //textures.Add(new Pixmap(textureFilePath));
+    textures.Add(Pixmap::LoadAndCache(textureFilePath));
 
     Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
@@ -163,11 +164,6 @@ Sprite::~Sprite()
     if (renderer != NULL) // When the user closes the program, renderer will be deleted before this code will run
     {
         renderer->RemoveDrawable(drawable);
-    }
-
-    for (unsigned int i = 0; i < textures.Size(); i++)
-    {
-        delete textures[i];
     }
 }
 
