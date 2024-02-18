@@ -27,9 +27,12 @@ public:
     virtual IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<Pixmap *> *textures);
-
+            Array<ITexture *> textures);
     virtual void RemoveDrawable(IDrawable *drawable);
+
+    virtual ITexture* CreateTexture(int width, int height);
+    virtual ITexture* CreateTexture(String filename);
+    virtual void RemoveTexture(ITexture* texture);
 
     virtual void SetDirectionalLight(glm::vec3 direction, ILight *light);
     virtual void ResetDirectionalLight();

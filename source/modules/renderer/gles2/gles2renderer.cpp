@@ -196,6 +196,21 @@ void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
     }
 }
 
+ITexture *GLES2Renderer::CreateTexture(int width, int height)
+{
+    return NULL;
+}
+
+ITexture *GLES2Renderer::CreateTexture(String filename)
+{
+    return NULL;
+}
+
+void GLES2Renderer::RemoveTexture(ITexture *texture)
+{
+
+}
+
 void GLES2Renderer::ClearDrawables()
 {
     for (unsigned i = 0; i < drawables.Size(); i++)

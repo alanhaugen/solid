@@ -11,8 +11,6 @@
 #include "core/containers/array.h"
 #include "gles2drawable.h"
 
-#define MAX_TEXTURES
-
 class GLES2Renderer : public Renderer::NullRenderer
 {
 protected:
@@ -25,8 +23,6 @@ private:
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
 
-    U8 textures[MAX_TEXTURES];
-
 public:
     virtual bool Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight);
     virtual void Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
@@ -37,8 +33,11 @@ public:
             Array<unsigned int> &indices,
             Array<String> &shaders,
             Array<String> texturePaths);
-
     void RemoveDrawable(IDrawable *drawable);
+
+    ITexture* CreateTexture(int width, int height);
+    ITexture* CreateTexture(String filename);
+    void RemoveTexture(ITexture* texture);
 
     void ClearDrawables();
 

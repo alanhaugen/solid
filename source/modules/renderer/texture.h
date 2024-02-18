@@ -1,4 +1,5 @@
 #include "core/x-platform/typedefs.h"
+#include "core/x-platform/string.h"
 
 enum TEXTURE_CHANNELS
 {

@@ -49,7 +49,6 @@ SOURCES = \
     source/core/x-platform/services.cpp \
     source/core/x-platform/splash.cpp \
     source/core/x-platform/memory.cpp \
-    source/core/x-platform/pixmap.cpp \
     source/core/x-platform/random.cpp \
     source/core/x-platform/string.cpp \
     source/core/x-platform/url.cpp \

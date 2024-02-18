@@ -2,8 +2,8 @@
 #define RENDERER_H
 
 #include "light.h"
-#include "drawable.h"
 #include "texture.h"
+#include "drawable.h"
 #include "camera.h"
 #include "core/x-platform/string.h"
 #include "modules/filesystem/file.h"

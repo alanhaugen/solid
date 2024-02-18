@@ -37,11 +37,10 @@ void Renderer::NullRenderer::DrawDebugText(float x, float y, const char* str)
     (void)str;
 }
 
-IDrawable *Renderer::NullRenderer::CreateDrawable(
-        Array<IDrawable::Vertex> &vertices,
+IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<Pixmap*> *textures)
+        Array<ITexture *> textures)
 {
     (void)vertices;
     (void)indices;
@@ -95,6 +94,21 @@ void Renderer::NullRenderer::Draw(IDrawable *drawable)
 void Renderer::NullRenderer::RemoveDrawable(IDrawable *drawable)
 {
     (void)drawable;
+}
+
+ITexture *Renderer::NullRenderer::CreateTexture(int width, int height)
+{
+
+}
+
+ITexture *Renderer::NullRenderer::CreateTexture(String filename)
+{
+
+}
+
+void Renderer::NullRenderer::RemoveTexture(ITexture *texture)
+{
+
 }
 
 void Renderer::NullRenderer::Resize(int length, int height)
