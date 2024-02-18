@@ -12,27 +12,23 @@
 #include <cstddef> // offsetof macro
 #include "modules/renderer/null/nulldrawable.h"
 
-class Pixmap;
 class GLES2Drawable : public NullDrawable
 {
 private:
     int GetUniform(String location);
 
 public:
-    GLES2Drawable(
-            Array<IDrawable::Vertex> &vertices,
+    GLES2Drawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<Pixmap*> *textures = NULL);
+            Array<GLES2Texture *> textures);
     ~GLES2Drawable();
 
     void Activate(const glm::mat4 &projViewMatrix);
     void DeActivate();
 
-//    void UploadBuffer();
-
     GLES2Shader shader;
-    GLES2Texture texture;
+    Array<GLES2Texture *> texturesUploaded;
 
     GLuint vao, vbo, ibo;
     GLsizei indicesQuantity;

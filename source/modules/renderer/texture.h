@@ -1,3 +1,6 @@
+#ifndef TEXTURE_H
+#define TEXTURE_H
+
 #include "core/x-platform/typedefs.h"
 #include "core/x-platform/string.h"
 
@@ -18,7 +21,7 @@ public:
     virtual U8 At(unsigned int index, U8 data) = 0;
 
     virtual void ReUpload() = 0;
-    virtual void ReUpload(String pathName) = 0;
+    virtual void ReUpload(String filePath) = 0;
 
 private:
     unsigned int width;
@@ -28,3 +31,4 @@ private:
     U8* data;
 };
 
+#endif // TEXTURE_H

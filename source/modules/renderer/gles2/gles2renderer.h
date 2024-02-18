@@ -23,6 +23,8 @@ private:
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
 
+    GLES2Texture *FindTexture(String texturePath);
+
 public:
     virtual bool Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight);
     virtual void Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
@@ -32,7 +34,7 @@ public:
     IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<String> texturePaths);
+            Array<ITexture *> textures);
     void RemoveDrawable(IDrawable *drawable);
 
     ITexture* CreateTexture(int width, int height);

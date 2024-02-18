@@ -1,7 +1,5 @@
 #include "gles2renderer.h"
-
 #include "core/x-platform/typedefs.h"
-#include "core/x-platform/pixmap.h"
 
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include "stbi_image_write.h" // TODO: remove, hack
@@ -154,29 +152,13 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
     PostRender();
 }
 
-GLES2Texture GLES2Renderer::LoadTextures(Array<String> texturePaths)
-{
-    for (unsigned int i = 0; i < texturePaths.Size(); i++)
-    {
-        for (unsigned int j = 0; j < textures.Size(); j++)
-        {
-            if (textures[j].filePath == texturePaths[i])
-            {
-                return textures[j];
-            }
-        }
-    }
-}
-
-IDrawable *GLES2Renderer::CreateDrawable(
-        Array<IDrawable::Vertex> &vertices,
+IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<String> texturePaths)
+        Array<ITexture *> textures)
 {
-    GLES2Texture drawableTexture = LoadTextures(texturePaths);
 
-    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, drawableTexture);
+    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
 
     drawables.Add(drawable);
 
@@ -196,6 +178,19 @@ void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
     }
 }
 
+GLES2Texture *GLES2Renderer::FindTexture(String texturePath)
+{
+    for (unsigned int i = 0; i < textures.Size(); i++)
+    {
+        if (textures[i]->name == texturePath)
+        {
+            return textures[i];
+        }
+    }
+
+    return NULL;
+}
+
 ITexture *GLES2Renderer::CreateTexture(int width, int height)
 {
     return NULL;
@@ -203,7 +198,16 @@ ITexture *GLES2Renderer::CreateTexture(int width, int height)
 
 ITexture *GLES2Renderer::CreateTexture(String filename)
 {
-    return NULL;
+    GLES2Texture *texture = FindTexture(filename);
+
+    if (texture == NULL)
+    {
+        texture = new GLES2Texture(filename);
+
+        textures.Add(texture);
+    }
+
+    return texture;
 }
 
 void GLES2Renderer::RemoveTexture(ITexture *texture)

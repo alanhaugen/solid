@@ -15,6 +15,26 @@ GLES2Texture::GLES2Texture()
     glGenTextures(1, &textureID); // number of texture names, texture name array
 }
 
+U8 GLES2Texture::At(unsigned int x, unsigned int y, U8 data)
+{
+
+}
+
+U8 GLES2Texture::At(unsigned int index, U8 data)
+{
+
+}
+
+void GLES2Texture::ReUpload()
+{
+
+}
+
+void GLES2Texture::ReUpload(String filePath)
+{
+    name = filePath;
+}
+
 GLES2Texture::GLES2Texture(const char *filePath)
     :
       textureID(0u),
@@ -23,6 +43,8 @@ GLES2Texture::GLES2Texture(const char *filePath)
       bitDepth(0),
       filePath(filePath)
 {
+    name = filePath;
+
     glGenTextures(1, &textureID);
     Load();
 }

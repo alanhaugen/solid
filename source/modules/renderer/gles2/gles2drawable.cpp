@@ -3,16 +3,16 @@
 #include "core/x-platform/pixmap.h"
 #include <glm/gtc/type_ptr.hpp>
 
-GLES2Drawable::GLES2Drawable(
-        Array<IDrawable::Vertex> &vertices,
+GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<Pixmap *> *textures)
+        Array<GLES2Texture *> textures)
     :
-      shader(),
-      texture()
+      shader()
 {
-    if (textures)
+    texturesUploaded = textures;
+
+    if (textures.Size() != 0)
     {
         // TODO: Fix, this code expects 6 textures => cubemap
         if (textures->Size() == 6)
