@@ -3,7 +3,6 @@
 
 #include <core/x-platform/locator.h>
 #include <core/x-platform/typedefs.h>
-#include <core/x-platform/pixmap.h> // Dont really like having dependency between mesh and pixmap. But what else can we do?
 
 #include <core/x-platform/parserjson.h>
 

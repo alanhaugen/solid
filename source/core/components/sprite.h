@@ -23,7 +23,7 @@ private:
               const unsigned int quadQuantity = 1,
               const char *glyphs = "");
 
-    Array<Pixmap*> textures;
+    ITexture *texture;
 
 public:
     Sprite(String textureFilePath,

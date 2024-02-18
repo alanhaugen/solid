@@ -30,7 +30,7 @@ void Sprite::Init(const float x_,
     }
     else
     {
-        width = textures[0]->width;
+        width = texture->width;
     }
 
     if (textureHeight_ != 0)
@@ -39,7 +39,7 @@ void Sprite::Init(const float x_,
     }
     else
     {
-        height = textures[0]->height;
+        height = texture->height;
     }
 
     halfWidth  = width  / 2;
@@ -92,7 +92,7 @@ void Sprite::Init(const float x_,
     delete simpleVertShader;
     delete simpleFragShader;
 
-    drawable = renderer->CreateDrawable(vertices, indices, shaders, &textures);
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     drawable->hasDepth    = false;
     drawable->sendToFront = true;
     drawable->uniformData = uniforms;
@@ -106,8 +106,8 @@ void Sprite::Init(const float x_,
     Uniform("height", static_cast<int>(height));
 
     // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
-    Uniform("totalWidth", static_cast<int>(textures[0]->width));
-    Uniform("totalHeight", static_cast<int>(textures[0]->height));
+    Uniform("totalWidth", static_cast<int>(texture->width));
+    Uniform("totalHeight", static_cast<int>(texture->height));
 
     // To get graphics placed correctly, the viewport resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
@@ -124,7 +124,7 @@ Sprite::Sprite(String textureFilePath,
                const unsigned int quadQuantity,
                const char *glyphs)
 {
-    textures.Add(textureFilePath);
+    texture = renderer->CreateTexture(textureFilePath);
 
     Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
@@ -152,7 +152,7 @@ Sprite::Sprite(const int red,
                const unsigned int quadQuantity,
                const char *glyphs)
 {
-    textures.Add(new Pixmap(red, green, blue));
+    //textures.Add(new Pixmap(red, green, blue));
 
     Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
