@@ -3,7 +3,6 @@
 
 #include "core/components/component.h"
 #include "core/components/camera.h"
-#include "core/x-platform/pixmap.h"
 
 class Background : public Component
 {
@@ -30,7 +29,6 @@ public:
 
 private:
     IDrawable *drawable;
-    Array<Pixmap*> *textures;
     bool scrolling;
 
     float scrollX;

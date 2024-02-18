@@ -2,7 +2,6 @@
 
 Background::Background()
 {
-    textures = NULL;
     activeCamera = NULL;
 
     Init();
@@ -10,7 +9,6 @@ Background::Background()
 
 Background::Background(Camera *camera)
 {
-    textures = NULL;
     activeCamera = camera;
 
     Init();
@@ -18,8 +16,6 @@ Background::Background(Camera *camera)
 
 Background::~Background()
 {
-    // TODO: Loop through textures and delete
-    delete textures;
 }
 
 Background::Background(glm::vec3 colour, Camera *camera)
@@ -138,7 +134,7 @@ Background::Background(String texture, Camera *camera)
     Init();
 }
 
-Background::Background(Pixmap texture, float scrollX_, float scrollY_, Camera *camera)
+Background::Background(String texture, float scrollX_, float scrollY_, Camera *camera)
 {
     scrollX = scrollX_;
     scrollY = scrollY_;
