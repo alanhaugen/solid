@@ -20,16 +20,12 @@ Background::~Background()
 
 Background::Background(glm::vec3 colour, Camera *camera)
 {
-    textures = NULL;
     scrolling = false;
     activeCamera = camera;
 
     Array<String> shaders(2);
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
-    Array<Pixmap*> textures = NULL;
-
-    //textures.Add(new Pixmap(textureFilePath));
 
     // Two triangles making a quad over the entire screen
     vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f, -1.0f)));
@@ -62,7 +58,7 @@ Background::Background(glm::vec3 colour, Camera *camera)
     delete simpleVertShader;
     delete simpleFragShader;
 
-    drawable = renderer->CreateDrawable(vertices, indices, shaders, &textures);
+    drawable = renderer->CreateDrawable(vertices, indices, shaders);
     drawable->hasDepth = false;
 }
 
@@ -119,14 +115,13 @@ void Background::Init()
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
 
-    drawable = renderer->CreateDrawable(vertices, indices, shaders, textures);
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     drawable->hasDepth = false; // Don't render as 3D
 }
 
-Background::Background(String texture, Camera *camera)
+Background::Background(String texturePath, Camera *camera)
 {
-    textures = new Array<Pixmap*>;
-    textures->Add(new Pixmap(texture));
+    texture = renderer->CreateTexture(texturePath);
 
     scrolling = false;
     activeCamera = camera;
@@ -134,18 +129,15 @@ Background::Background(String texture, Camera *camera)
     Init();
 }
 
-Background::Background(String texture, float scrollX_, float scrollY_, Camera *camera)
+Background::Background(String texturePath, float scrollX_, float scrollY_, Camera *camera)
 {
     scrollX = scrollX_;
     scrollY = scrollY_;
 
     scrollSpeed = (scrollX + scrollY) / 2;
-
-    textures = new Array<Pixmap*>;
-    textures->Add(new Pixmap(texture));
-
     scrolling = true;
 
+    texture = renderer->CreateTexture(texturePath);
     activeCamera = camera;
 
     Init();
@@ -159,17 +151,10 @@ Background::Background(String front,
                        String right,
                        Camera *camera)
 {
-    textures = NULL;
     scrolling = false;
     activeCamera = camera;
 
-    textures = new Array<Pixmap*>;
-    textures->Add(new Pixmap(front));
-    textures->Add(new Pixmap(back));
-    textures->Add(new Pixmap(top));
-    textures->Add(new Pixmap(bottom));
-    textures->Add(new Pixmap(left));
-    textures->Add(new Pixmap(right));
+    texture = renderer->CreateTexture(front, back, top, bottom, left, right);
 
     Init();
 }

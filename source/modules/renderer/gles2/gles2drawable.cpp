@@ -18,6 +18,15 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
 
     if (textures.Size() != 0)
     {
+        isTextured = true;
+    }
+    else
+    {
+        isTextured = false;
+    }
+
+    /*if (textures.Size() != 0)
+    {
         // TODO: Fix, this code expects 6 textures => cubemap
         if (textures.Size() == 6)
         {
@@ -38,7 +47,7 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
     else
     {
         isTextured = false;
-    }
+    }*/
 
     draw = false;
     lastFrame = 0;

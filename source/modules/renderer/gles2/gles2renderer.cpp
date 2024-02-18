@@ -165,6 +165,18 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     return drawable;
 }
 
+IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+{
+    Array<ITexture *> textures;
+    textures.Add(texture);
+
+    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
+
+    drawables.Add(drawable);
+
+    return drawable;
+}
+
 void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
 {
     for (unsigned i = 0; i < drawables.Size(); i++)
@@ -203,6 +215,21 @@ ITexture *GLES2Renderer::CreateTexture(String filename)
     if (texture == NULL)
     {
         texture = new GLES2Texture(filename);
+
+        textures.Add(texture);
+    }
+
+    return texture;
+}
+
+ITexture *GLES2Renderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
+{
+
+    GLES2Texture *texture = FindTexture(front);
+
+    if (texture == NULL)
+    {
+        texture = new GLES2Texture(front, back, top, bottom, left, right);
 
         textures.Add(texture);
     }

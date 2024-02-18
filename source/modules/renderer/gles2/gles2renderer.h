@@ -35,10 +35,16 @@ public:
             Array<unsigned int> &indices,
             Array<String> &shaders,
             Array<ITexture *> textures);
+    virtual IDrawable *CreateDrawable(
+            Array<IDrawable::Vertex> &vertices,
+            Array<unsigned int> &indices,
+            Array<String> &shaders,
+            ITexture *texture);
     void RemoveDrawable(IDrawable *drawable);
 
-    ITexture* CreateTexture(int width, int height);
     ITexture* CreateTexture(String filename);
+    ITexture* CreateTexture(String front, String back, String top, String bottom, String left, String right);
+    ITexture* CreateTexture(int width, int height);
     void RemoveTexture(ITexture* texture);
 
     void ClearDrawables();

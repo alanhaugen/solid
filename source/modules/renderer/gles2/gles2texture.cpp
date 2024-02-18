@@ -24,6 +24,16 @@ GLES2Texture::GLES2Texture(String filePath)
     Load();
 }
 
+GLES2Texture::GLES2Texture(String front, String back, String top, String bottom, String left, String right)
+{
+    Load(front, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+    Load(back, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+    Load(top, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+    Load(bottom, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+    Load(left, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+    Load(right, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+}
+
 U8 GLES2Texture::At(unsigned int x, unsigned int y, U8 data)
 {
 

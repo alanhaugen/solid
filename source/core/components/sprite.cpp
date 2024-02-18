@@ -1,5 +1,4 @@
 #include "sprite.h"
-#include "core/x-platform/pixmap.h"
 #include "core/application.h"
 
 void Sprite::Init(const float x_,
@@ -125,8 +124,6 @@ Sprite::Sprite(String textureFilePath,
                const unsigned int quadQuantity,
                const char *glyphs)
 {
-    //textures.Add(new Pixmap(textureFilePath));
-
     textures.Add(textureFilePath);
 
     Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);

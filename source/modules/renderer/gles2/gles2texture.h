@@ -13,6 +13,7 @@ class GLES2Texture : public ITexture
 public:
     GLES2Texture();
     GLES2Texture(String filename);
+    GLES2Texture(String front, String back, String top, String bottom, String left, String right);
 
     virtual U8 At(unsigned int x, unsigned int y, U8 data);
     virtual U8 At(unsigned int index, U8 data);

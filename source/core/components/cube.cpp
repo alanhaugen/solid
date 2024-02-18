@@ -8,7 +8,6 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     matrix.position = glm::vec3(x,y,z);
 
-    Array<String> textures;
     Array<String> shaders(2);
 
     IFile *vertexFile = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT);
@@ -68,14 +67,14 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
     vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height,  1.0f*width)));
 
     tag = "cube";
-    drawable = renderer->CreateDrawable(vertices, indices, shaders, textures);
+    drawable = renderer->CreateDrawable(vertices, indices, shaders);
     collisionBox = physics->CreateHitBox(glm::vec3(0.5f), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 
 Cube::~Cube()
 {
-    //renderer->RemoveDrawable(drawable);
+    renderer->RemoveDrawable(drawable);
     //physics->RemoveHitBox(collisionBox);
 }
 

@@ -28,12 +28,18 @@ public:
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture*> textures) = 0;
+            Array<ITexture*> textures = Array<ITexture*>()) = 0;
+    virtual IDrawable *CreateDrawable(
+            Array<IDrawable::Vertex> &vertices,
+            Array<unsigned int> &indices,
+            Array<String> &shaders,
+            ITexture* texture) = 0;
 
     virtual void RemoveDrawable(IDrawable *drawable) = 0;
 
-    virtual ITexture* CreateTexture(int width, int height) = 0;
     virtual ITexture* CreateTexture(String filename) = 0;
+    virtual ITexture* CreateTexture(String front, String back, String top, String bottom, String left, String right) = 0;
+    virtual ITexture* CreateTexture(int width, int height) = 0;
     virtual void RemoveTexture(ITexture* texture) = 0;
 
     virtual void SetDirectionalLight(glm::vec3 direction, ILight *light) = 0;

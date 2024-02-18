@@ -52,6 +52,13 @@ IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vert
     return drawable;
 }
 
+IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+{
+    NullDrawable *drawable = new NullDrawable();
+
+    return drawable;
+}
+
 void Renderer::NullRenderer::SetDirectionalLight(glm::vec3 direction, ILight *light)
 {
     UNUSED(direction);
@@ -102,6 +109,11 @@ ITexture *Renderer::NullRenderer::CreateTexture(int width, int height)
 }
 
 ITexture *Renderer::NullRenderer::CreateTexture(String filename)
+{
+
+}
+
+ITexture *Renderer::NullRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
 
 }
