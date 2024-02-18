@@ -23,9 +23,9 @@ public:
     virtual void ReUpload() = 0;
     virtual void ReUpload(String filePath) = 0;
 
-private:
-    unsigned int width;
-    unsigned int heigt;
+protected:
+    int width;
+    int height;
     int channels;
 
     U8* data;

@@ -12,6 +12,7 @@ class GLES2Texture : public ITexture
 {
 public:
     GLES2Texture();
+    GLES2Texture(String filename);
 
     virtual U8 At(unsigned int x, unsigned int y, U8 data);
     virtual U8 At(unsigned int index, U8 data);
@@ -19,7 +20,8 @@ public:
     virtual void ReUpload();
     virtual void ReUpload(String filePath);
 
-    void Load(int type = STANDARD, GLenum sideTarget = 0);
+    void Load();
+    void Load(String path, int type = STANDARD, GLenum sideTarget = 0);
 
     void Activate();
 
@@ -28,7 +30,6 @@ public:
     GLuint textureID;
 
 private:
-    void Load();
 
     int bitDepth;
 };

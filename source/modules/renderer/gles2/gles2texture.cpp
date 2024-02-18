@@ -1,18 +1,27 @@
 #include "gles2texture.h"
+#include "core/x-platform/locator.h"
 
-#define STBI_ONLY_PNG
-#define STBI_NO_STDIO
+//#define STBI_ONLY_PNG
+//#define STBI_NO_STDIO
 #define STB_IMAGE_IMPLEMENTATION
 #include "3rdparty/stb_image.h"
 
 GLES2Texture::GLES2Texture()
     : textureID(0u)
-    , width(0)
-    , height(0)
     , bitDepth(0)
-    , filePath("")
 {
     glGenTextures(1, &textureID); // number of texture names, texture name array
+}
+
+GLES2Texture::GLES2Texture(String filePath)
+    :
+      textureID(0u),
+      bitDepth(0)
+{
+    name = filePath;
+
+    glGenTextures(1, &textureID);
+    Load();
 }
 
 U8 GLES2Texture::At(unsigned int x, unsigned int y, U8 data)
@@ -35,23 +44,19 @@ void GLES2Texture::ReUpload(String filePath)
     name = filePath;
 }
 
-GLES2Texture::GLES2Texture(const char *filePath)
-    :
-      textureID(0u),
-      width(0),
-      height(0),
-      bitDepth(0),
-      filePath(filePath)
+void GLES2Texture::Load(String path, int type, GLenum sideTarget)
 {
-    name = filePath;
+    IFile *file;
 
-    glGenTextures(1, &textureID);
-    Load();
-}
+    if (path == "")
+    {
+        file = Locator::filesystem->Open(name);
+    }
+    else
+    {
+        file = Locator::filesystem->Open(path);
+    }
 
-void GLES2Texture::Load(int type, GLenum sideTarget)
-{
-    IFile *file = filesystem->Open(filePath);
     unsigned char *img = stbi_load_from_memory((const unsigned char*)file->Read(), file->Size(), &width, &height, &channels, 0);
 
     GLenum internal_format = GL_RGBA;
@@ -121,11 +126,11 @@ void GLES2Texture::Load(int type, GLenum sideTarget)
 
 void GLES2Texture::Load()
 {
-    unsigned char *texData = stbi_load(filePath, &width, &height, &bitDepth, 0);
+    unsigned char *texData = stbi_load(URL(name).ToChar(), &width, &height, &bitDepth, 0);
 
     if (!texData)
     {
-        LogError("Failed to find: " + String(filePath));
+        LogError("Failed to find: " + String(name));
         return;
     }
 

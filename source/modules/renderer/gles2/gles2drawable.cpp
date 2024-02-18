@@ -1,32 +1,36 @@
 #include "gles2drawable.h"
 #include "core/x-platform/typedefs.h"
-#include "core/x-platform/pixmap.h"
 #include <glm/gtc/type_ptr.hpp>
 
 GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<GLES2Texture *> textures)
+        Array<ITexture *> textures_)
     :
       shader()
 {
-    texturesUploaded = textures;
+    for (unsigned int i = 0; i < textures_.Size(); i++)
+    {
+        GLES2Texture *gles2texture = dynamic_cast<GLES2Texture *>(textures_[i]);
+
+        textures.Add(gles2texture);
+    }
 
     if (textures.Size() != 0)
     {
         // TODO: Fix, this code expects 6 textures => cubemap
-        if (textures->Size() == 6)
+        if (textures.Size() == 6)
         {
-            texture.Load(textures->array[0], CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
-            texture.Load(textures->array[1], CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
-            texture.Load(textures->array[2], CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-            texture.Load(textures->array[3], CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-            texture.Load(textures->array[4], CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-            texture.Load(textures->array[5], CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+            textures[0]->Load(textures[0]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+            textures[0]->Load(textures[1]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+            textures[0]->Load(textures[2]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+            textures[0]->Load(textures[3]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+            textures[0]->Load(textures[4]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+            textures[0]->Load(textures[5]->name, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
         }
         else
         {
-            texture.Load(*textures[0]);
+            textures[0]->Load();
         }
 
         isTextured = true;
@@ -131,7 +135,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // Due to a bug on some cards, this is included
 
-    texture.Activate();
+    textures[0]->Activate();
 
     glm::mat4 mvp;
 

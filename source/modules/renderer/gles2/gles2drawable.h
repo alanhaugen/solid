@@ -21,14 +21,14 @@ public:
     GLES2Drawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<GLES2Texture *> textures);
+            Array<ITexture *> textures);
     ~GLES2Drawable();
 
     void Activate(const glm::mat4 &projViewMatrix);
     void DeActivate();
 
     GLES2Shader shader;
-    Array<GLES2Texture *> texturesUploaded;
+    Array<GLES2Texture *> textures;
 
     GLuint vao, vbo, ibo;
     GLsizei indicesQuantity;
