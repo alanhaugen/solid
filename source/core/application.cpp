@@ -1,5 +1,4 @@
 #include "application.h"
-#include "core/x-platform/pixmap.h"
 #include "core/x-platform/parserjson.h"
 
 Application::Application(int argumentQuantity, char *arguments[])
@@ -11,8 +10,6 @@ Application::Application(int argumentQuantity, char *arguments[])
 
 Application::~Application()
 {
-    Pixmap::ClearCache();
-
     delete renderer;
     delete debug;
     delete audio;

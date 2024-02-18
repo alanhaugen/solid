@@ -172,7 +172,7 @@ void Sprite::Update()
 
     if (timer->TimeSinceStarted() > 100.0f)
     {
-        if (width != textures[0]->width || height != textures[0]->height)
+        if (width != texture->width || height != texture->height)
         {
             index++;
 

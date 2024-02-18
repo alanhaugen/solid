@@ -516,7 +516,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
     delete simpleFragShader;
     delete simpleVertShader;
 
-    Array<Pixmap*> textures;
+    Array<ITexture *> textures;
 
     int frame;
     int index = 0;
@@ -534,9 +534,9 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
         {
             if (index != 0)
             {
-                textures.Add(Pixmap::LoadAndCache("data/" + texturePath));
+                textures.Add(renderer->CreateTexture(String("data/" + texturePath)));
 
-                IDrawable *drawable = renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures);
+                IDrawable *drawable = renderer->CreateDrawable(vertices, indices, shaders, textures);
                 drawable->verticesPerFrameQuantity = trianglesQuantity * 3;//verticesQuantity;
                 drawable->lastFrame = framesQuantity;
 
@@ -611,10 +611,10 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
 
     if (texturePath.Empty() == false)
     {
-        textures.Add(Pixmap::LoadAndCache(String("data/" + texturePath).ToChar()));
+        textures.Add(renderer->CreateTexture(String("data/" + texturePath)));
     }
 
-    IDrawable *drawable = Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures);
+    IDrawable *drawable = Locator::renderer->CreateDrawable(vertices, indices, shaders, textures);
     drawable->verticesPerFrameQuantity = trianglesQuantity * 3; //verticesQuantity;
     drawable->lastFrame = framesQuantity;
 
@@ -629,7 +629,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
 
 void Mesh::LoadFromWavefront(const URL &filePath)
 {
-    const bool left_handed = false;
+    /*const bool left_handed = false;
     const bool log_enable = false;
 
     fastObjMesh* m = fast_obj_read(filePath.ToChar());
@@ -790,7 +790,7 @@ void Mesh::LoadFromWavefront(const URL &filePath)
 
     drawables.Add(Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures));
 
-    time = -1.0f;
+    time = -1.0f;*/
 }
 
 Mesh::Mesh(const String &filePath, const String vertexShaderPath, const String fragmentShaderPath)
