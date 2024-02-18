@@ -26,6 +26,8 @@ GLES2Texture::GLES2Texture(String filePath)
 
 GLES2Texture::GLES2Texture(String front, String back, String top, String bottom, String left, String right)
 {
+    name = front;
+
     Load(front, CUBEMAP, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
     Load(back, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
     Load(top, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);

@@ -35,7 +35,7 @@ public:
             Array<unsigned int> &indices,
             Array<String> &shaders,
             Array<ITexture *> textures);
-    virtual IDrawable *CreateDrawable(
+    IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
