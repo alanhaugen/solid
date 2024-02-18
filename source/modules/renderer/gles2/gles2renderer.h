@@ -20,6 +20,7 @@ protected:
 
 private:
     Array<GLES2Drawable*> drawables;
+    Array<GLES2Texture*> textures;
     Array<ILight*> lights;
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
