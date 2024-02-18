@@ -8,7 +8,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     matrix.position = glm::vec3(x,y,z);
 
-    Array<Pixmap*> *textures = NULL;
+    Array<String> textures;
     Array<String> shaders(2);
 
     IFile *vertexFile = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT);

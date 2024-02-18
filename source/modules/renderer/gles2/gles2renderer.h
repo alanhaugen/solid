@@ -7,10 +7,12 @@
 #include "modules/renderer/null/nullrenderer.h"
 #include "modules/renderer/light.h"
 #include "core/x-platform/locator.h"
+#include "core/x-platform/typedefs.h"
 #include "core/containers/array.h"
 #include "gles2drawable.h"
 
-class Pixmap;
+#define MAX_TEXTURES
+
 class GLES2Renderer : public Renderer::NullRenderer
 {
 protected:
@@ -22,17 +24,18 @@ private:
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
 
+    U8 textures[MAX_TEXTURES];
+
 public:
     virtual bool Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight);
     virtual void Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
     virtual void DrawDebugText(float x, float y, const char* str);
     virtual void Resize(int width, int height);
 
-    IDrawable *CreateDrawable(
-            Array<IDrawable::Vertex> &vertices,
+    IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<Pixmap *> *textures = NULL);
+            Array<String> texturePaths);
 
     void RemoveDrawable(IDrawable *drawable);
 

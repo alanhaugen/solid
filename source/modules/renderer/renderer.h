@@ -3,11 +3,11 @@
 
 #include "light.h"
 #include "drawable.h"
+#include "texture.h"
 #include "camera.h"
 #include "core/x-platform/string.h"
 #include "modules/filesystem/file.h"
 
-class Pixmap;
 namespace Renderer
 {
 
@@ -28,9 +28,13 @@ public:
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<Pixmap*> *textures = NULL) = 0;
+            Array<ITexture*> textures) = 0;
 
     virtual void RemoveDrawable(IDrawable *drawable) = 0;
+
+    virtual ITexture* CreateTexture(int width, int height) = 0;
+    virtual ITexture* CreateTexture(String filename) = 0;
+    virtual void RemoveTexture(ITexture* texture) = 0;
 
     virtual void SetDirectionalLight(glm::vec3 direction, ILight *light) = 0;
     virtual void ResetDirectionalLight() = 0;

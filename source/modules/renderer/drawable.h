@@ -67,6 +67,8 @@ public:
     bool sendToFront;
     bool isTextured;
 
+    ITexture texture;
+
     glm::mat4 matrix; // Matrix is shorter to write than transform :)
     glm::vec4 colorTint; // Multiply by texture or vertex color
     Hash<String, int> uniforms;

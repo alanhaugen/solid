@@ -1,11 +1,9 @@
 #include "gles2texture.h"
-//#define STBI_ONLY_PNG
-//#define STBI_NO_STDIO
+
+#define STBI_ONLY_PNG
+#define STBI_NO_STDIO
+#define STB_IMAGE_IMPLEMENTATION
 #include "3rdparty/stb_image.h"
-
-#include "core/x-platform/pixmap.h"
-
-// TODO: implement multi texture support
 
 GLES2Texture::GLES2Texture()
     : textureID(0u)
@@ -14,7 +12,7 @@ GLES2Texture::GLES2Texture()
     , bitDepth(0)
     , filePath("")
 {
-    glGenTextures(1, &textureID);
+    glGenTextures(1, &textureID); // number of texture names, texture name array
 }
 
 GLES2Texture::GLES2Texture(const char *filePath)
@@ -29,9 +27,22 @@ GLES2Texture::GLES2Texture(const char *filePath)
     Load();
 }
 
-void GLES2Texture::Load(class Pixmap* pixmap, int type, GLenum sideTarget)
+void GLES2Texture::Load(int type, GLenum sideTarget)
 {
-    assert(pixmap);
+    IFile *file = filesystem->Open(filePath);
+    unsigned char *img = stbi_load_from_memory((const unsigned char*)file->Read(), file->Size(), &width, &height, &channels, 0);
+
+    GLenum internal_format = GL_RGBA;
+    GLenum format;
+
+    if (channels == TEXTURE_CHANNELS::RGB)
+    {
+        format = GL_RGB;
+    }
+    else
+    {
+        format = GL_RGBA;
+    }
 
     if (type == STANDARD)
     {
@@ -42,19 +53,17 @@ void GLES2Texture::Load(class Pixmap* pixmap, int type, GLenum sideTarget)
 
         glBindTexture(GL_TEXTURE_2D, textureID);
 
-        GLenum internal_format = GL_RGBA;
-        GLenum format = pixmap->channels == Pixmap::RGB ? GL_RGB : GL_RGBA;
 
         glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
                     internal_format,
-                    pixmap->width,
-                    pixmap->height,
+                    width,
+                    height,
                     0,
                     format,
                     GL_UNSIGNED_BYTE,
-                    pixmap->data);
+                    img);
 
         glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -71,26 +80,27 @@ void GLES2Texture::Load(class Pixmap* pixmap, int type, GLenum sideTarget)
 
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-        GLenum format = pixmap->channels == Pixmap::RGB ? GL_RGB : GL_RGBA;
-
         // copy image data into 'target' side of cube map
         glTexImage2D(
                     sideTarget,
                     0,
-                    GL_RGBA,
-                    pixmap->width,
-                    pixmap->height,
+                    internal_format,
+                    width,
+                    height,
                     0,
                     format,
                     GL_UNSIGNED_BYTE,
-                    pixmap->data);
+                    img);
     }
 
+    delete file;
+    stbi_image_free(img);
 }
 
 void GLES2Texture::Load()
 {
     unsigned char *texData = stbi_load(filePath, &width, &height, &bitDepth, 0);
+
     if (!texData)
     {
         LogError("Failed to find: " + String(filePath));

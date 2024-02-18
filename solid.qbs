@@ -169,8 +169,6 @@ Project {
             "source/core/x-platform/splash.h",
             "source/core/x-platform/memory.cpp",
             "source/core/x-platform/memory.h",
-            "source/core/x-platform/pixmap.cpp",
-            "source/core/x-platform/pixmap.h",
             "source/core/x-platform/random.cpp",
             "source/core/x-platform/random.h",
             "source/core/x-platform/string.cpp",

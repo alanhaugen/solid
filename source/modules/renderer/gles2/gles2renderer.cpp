@@ -3,7 +3,6 @@
 #include "core/x-platform/typedefs.h"
 #include "core/x-platform/pixmap.h"
 
-
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include "stbi_image_write.h" // TODO: remove, hack
 
@@ -155,13 +154,29 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
     PostRender();
 }
 
+GLES2Texture GLES2Renderer::LoadTextures(Array<String> texturePaths)
+{
+    for (unsigned int i = 0; i < texturePaths.Size(); i++)
+    {
+        for (unsigned int j = 0; j < textures.Size(); j++)
+        {
+            if (textures[j].filePath == texturePaths[i])
+            {
+                return textures[j];
+            }
+        }
+    }
+}
+
 IDrawable *GLES2Renderer::CreateDrawable(
         Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<Pixmap *> *textures)
+        Array<String> texturePaths)
 {
-    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
+    GLES2Texture drawableTexture = LoadTextures(texturePaths);
+
+    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, drawableTexture);
 
     drawables.Add(drawable);
 
@@ -262,4 +277,5 @@ void GLES2Renderer::GetError()
 GLES2Renderer::~GLES2Renderer()
 {
     ClearDrawables();
+    delete[] textures;
 }
