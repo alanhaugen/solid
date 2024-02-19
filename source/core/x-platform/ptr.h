@@ -23,8 +23,8 @@ private:
         {
             if (object != NULL)
             {
-                delete object;
-                object = NULL;
+                //delete object;
+                //object = NULL;
             }
         }
     };
@@ -68,9 +68,9 @@ public:
         {
             if (data != NULL)
             {
-                delete data;
-                data  = NULL;
-                empty = true;
+                //delete data;
+                //data  = NULL;
+                //empty = true;
             }
         }
     };

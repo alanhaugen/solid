@@ -251,6 +251,15 @@ void GLES2Renderer::ClearDrawables()
     }
 }
 
+void GLES2Renderer::ClearTextures()
+{
+    for (unsigned i = 0; i < textures.Size(); i++)
+    {
+        delete textures[i];
+        textures[i] = NULL;
+    }
+}
+
 void GLES2Renderer::GetError()
 {
     //! https://www.khronos.org/opengl/wiki/OpenGL_Error
@@ -323,5 +332,5 @@ void GLES2Renderer::GetError()
 GLES2Renderer::~GLES2Renderer()
 {
     ClearDrawables();
-    delete[] textures;
+    ClearTextures();
 }

@@ -48,6 +48,7 @@ public:
     void RemoveTexture(ITexture* texture);
 
     void ClearDrawables();
+    void ClearTextures();
 
     ~GLES2Renderer();
 };
