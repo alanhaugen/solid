@@ -92,11 +92,6 @@ void Sprite::Init(const float x_,
     delete simpleVertShader;
     delete simpleFragShader;
 
-    drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
-    drawable->hasDepth    = false;
-    drawable->sendToFront = true;
-    drawable->uniformData = uniforms;
-
     // Send scale uniforms
     Uniform("scaleX", static_cast<float>(scaleX));
     Uniform("scaleY", static_cast<float>(scaleY));
@@ -112,6 +107,12 @@ void Sprite::Init(const float x_,
     // To get graphics placed correctly, the viewport resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
+
+    // Create drawable
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
+    drawable->hasDepth    = false;
+    drawable->sendToFront = true;
+    drawable->uniformData = uniforms;
 }
 
 Sprite::Sprite(String textureFilePath,

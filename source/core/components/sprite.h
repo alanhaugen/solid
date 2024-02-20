@@ -74,7 +74,7 @@ public:
 
     float halfWidth, halfHeight;
     float scaleX, scaleY;
-    float width, height;
+    int width, height;
     bool isVisible;
     int index;
     float x,y;
