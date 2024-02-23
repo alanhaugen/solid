@@ -1,7 +1,7 @@
 #include "services.h"
 
 IScene *Services::scene = NULL;
-Array<Ptr<IScene *> > Services::scenes = Array<Ptr<IScene *> >();
+Array<IScene *> Services::scenes = Array<IScene *>();
 bool Services::isAlive = true;
 bool Services::fullscreen = false;
 
@@ -77,14 +77,14 @@ void Services::UpdateServices()
 
 void Services::LoadScene(const unsigned int scene)
 {
-    SetScene(*scenes[scene]);
+    SetScene(scenes[scene]);
 }
 
 void Services::NextScene()
 {
     if (scene->id+1 < scenes.Size())
     {
-        SetScene(*scenes[scene->id+1]);
+        SetScene(scenes[scene->id+1]);
     }
 }
 

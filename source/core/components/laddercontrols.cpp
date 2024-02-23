@@ -117,3 +117,7 @@ void LadderControls::Update()
         }
     }
 }
+
+void LadderControls::UpdateAfterPhysics()
+{
+}
