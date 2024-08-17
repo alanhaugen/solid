@@ -20,6 +20,7 @@ in float o_width;
 in float o_height;
 in float o_totalwidth;
 in float o_totalheight;
+in float o_flip;
 
 void main ()
 {
@@ -41,12 +42,17 @@ void main ()
         sum--;
     }
 
+    if (o_flip == 1)
+    {
+        x = -x;
+    }
+
     coords.x = x;
     coords.y = y;
 
     final = texture(textureSampler, coords);
 
-    if (final.b > 0.4)
+    if (final.r == 1.0f && final.g == 0.0f && final.b == 1.0f)
         discard;
 
     vFragColor = final;

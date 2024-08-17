@@ -24,6 +24,8 @@ void Sprite::Init(const float x_,
     scaleX = scaleX_;
     scaleY = scaleY_;
 
+    isFlipped = false;
+
     if (textureWidth_ != 0)
     {
         width = textureWidth_;
@@ -107,6 +109,9 @@ void Sprite::Init(const float x_,
     // To get graphics placed correctly, the viewport resolution is sent to the shader program
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
+
+    // Setup if sprite is flipped or not
+    Uniform("flip", static_cast<int>(isFlipped));
 
     // Create drawable
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
@@ -209,7 +214,8 @@ void Sprite::PlayAnimation(int anim, bool reset)
 
 void Sprite::FlipHorizontal()
 {
-
+    isFlipped = !isFlipped;
+    Uniform("flip", static_cast<int>(isFlipped));
 }
 
 void Sprite::FlipVertical()

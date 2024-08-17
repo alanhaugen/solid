@@ -26,12 +26,14 @@ uniform int totalHeight;
 uniform int index;
 uniform int screenWidth;
 uniform int screenHeight;
+uniform int flip;
 
 out float o_index;
 out float o_width;
 out float o_height;
 out float o_totalwidth;
 out float o_totalheight;
+out float o_flip;
 
 void main()
 {
@@ -63,4 +65,5 @@ void main()
     o_height = float(height);
     o_totalwidth = float(totalWidth);
     o_totalheight = float(totalHeight);
+    o_flip = float(flip);
 }

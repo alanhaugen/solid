@@ -78,6 +78,7 @@ public:
     bool isVisible;
     int index;
     float x,y;
+    bool isFlipped;
 };
 
 #endif // SPRITE_H

@@ -251,7 +251,7 @@ bool SDLApplication::Exec()
         if (sleepMilliseconds > 0.0f)
         {
             SDL_Delay(sleepMilliseconds);
-            //time->Reset();
+            time->Reset();
 
             if (fullscreen)
             {
