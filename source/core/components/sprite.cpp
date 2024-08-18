@@ -177,6 +177,8 @@ void Sprite::Update()
 {
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y)));
     Uniform("index", static_cast<int>(index));
+    Uniform("flip", static_cast<int>(isFlipped));
+    Uniform("flipVertical", static_cast<int>(isFlippedVertical));
 
     if (timer->TimeSinceStarted() > 100.0f)
     {
@@ -217,12 +219,11 @@ void Sprite::PlayAnimation(int anim, bool reset)
 void Sprite::FlipHorizontal()
 {
     isFlipped = !isFlipped;
-    Uniform("flip", static_cast<int>(isFlipped));
 }
 
 void Sprite::FlipVertical()
 {
-
+    isFlippedVertical = !isFlippedVertical;
 }
 
 void Sprite::Show()
