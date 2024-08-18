@@ -79,6 +79,7 @@ public:
     int index;
     float x,y;
     bool isFlipped;
+    bool isFlippedVertical;
 };
 
 #endif // SPRITE_H

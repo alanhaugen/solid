@@ -25,6 +25,7 @@ void Sprite::Init(const float x_,
     scaleY = scaleY_;
 
     isFlipped = false;
+    isFlippedVertical = false;
 
     if (textureWidth_ != 0)
     {
@@ -112,6 +113,7 @@ void Sprite::Init(const float x_,
 
     // Setup if sprite is flipped or not
     Uniform("flip", static_cast<int>(isFlipped));
+    Uniform("flipVertical", static_cast<int>(isFlippedVertical));
 
     // Create drawable
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);

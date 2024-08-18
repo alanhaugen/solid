@@ -21,6 +21,7 @@ in float o_height;
 in float o_totalwidth;
 in float o_totalheight;
 in float o_flip;
+in float o_flipVertical;
 
 void main ()
 {
@@ -45,6 +46,10 @@ void main ()
     if (o_flip == 1)
     {
         x = -x;
+    }
+    if (o_flipVertical == 1)
+    {
+        y = -y;
     }
 
     coords.x = x;
