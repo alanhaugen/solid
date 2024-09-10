@@ -1,7 +1,7 @@
 #ifndef KEYMAP
 #define KEYMAP
 
-#ifndef __MINGW32__
+#ifndef __WIN32__
 #include <SDL.h>
 struct KeyMap
 {

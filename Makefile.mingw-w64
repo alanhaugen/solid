@@ -12,7 +12,7 @@ AUDIO_HEADER    ?= "modules/audio/portaudioaudio/portaudioaudio.h"
 
 DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid dx11renderer
 
-ifdef MSVC2019
+ifdef MSVC2022
     CC = cl.exe
     LIB_MSVC = lib.exe
     LINK_MSVC = link.exe
