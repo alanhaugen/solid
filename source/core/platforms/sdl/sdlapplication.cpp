@@ -5,6 +5,23 @@
 #include <emscripten.h>
 #endif
 
+#ifdef __MACOSX__
+#include <mach/mach_time.h>
+
+void precise_delay(double seconds) {
+    uint64_t now = mach_absolute_time();
+    mach_timebase_info_data_t info;
+    mach_timebase_info(&info);
+
+    // Convert seconds to nanoseconds
+    uint64_t elapsed_ns = (uint64_t)(seconds * 1e9);
+    // Convert to absolute time units
+    elapsed_ns = elapsed_ns * info.denom / info.numer;
+
+    mach_wait_until(now + elapsed_ns);
+}
+#endif
+
 SDLApplication::SDLApplication()
 {
     SetRenderer(new SDLRender());
@@ -250,7 +267,11 @@ bool SDLApplication::Exec()
         // Release time back to other apps
         if (sleepMilliseconds > 0.0f)
         {
+#ifdef __MACOSX__
+            precise_delay(sleepMilliseconds / 1000.0f);
+#else
             SDL_Delay(sleepMilliseconds);
+#endif
             time->Reset();
 
             if (fullscreen)

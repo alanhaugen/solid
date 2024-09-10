@@ -168,7 +168,11 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
 {
     Array<ITexture *> textures;
-    textures.Add(texture);
+
+    if (texture != NULL)
+    {
+        textures.Add(texture);
+    }
 
     GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
 

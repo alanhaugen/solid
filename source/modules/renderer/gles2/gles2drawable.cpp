@@ -144,7 +144,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // Due to a bug on some cards, this is included
 
-    if (textures[0] != NULL)
+    if (textures.Empty() == false)
     {
         textures[0]->Activate();
     }

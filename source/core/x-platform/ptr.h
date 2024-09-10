@@ -23,7 +23,7 @@ private:
         {
             if (object != NULL)
             {
-                delete object;
+                //delete object;
                 object = NULL;
             }
         }

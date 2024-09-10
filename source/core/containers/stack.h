@@ -4,28 +4,42 @@
 #include "linkedlist.h"
 
 /*!
- * \brief The Stack container (FILO structure)
+ * \brief The Stack container (LIFO structure)
  */
 template <class Datatype>
 class Stack : public LinkedList<Datatype> {
 public:
-    void Push(Datatype data) {
+    void Push(Datatype data)
+    {
         Append(data);
     }
 
-    Datatype Pop() {
+    Datatype Pop()
+    {
+        if (Empty())
+        {
+            return NULL;
+        }
+
         Datatype data = lastNode_->element_;
         Remove(lastNode_);
 
         return data;
     }
 
-    Datatype Top() {
+    Datatype Top()
+    {
         return lastNode_->element_;
     }
 
-    int Count() {
+    int Size()
+    {
         return count_;
+    }
+
+    int Empty() const
+    {
+        return count_ == 0;
     }
 };
 
