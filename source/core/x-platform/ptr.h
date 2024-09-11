@@ -103,12 +103,12 @@ public:
         return empty;
     }
 
-    bool Lock()
+    void Lock()
     {
         isLocked = true;
     }
 
-    bool UnLock()
+    void UnLock()
     {
         isLocked = false;
     }
