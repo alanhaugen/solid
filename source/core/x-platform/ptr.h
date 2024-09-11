@@ -64,7 +64,7 @@ public:
 
     ~Ptr() // I
     {
-        if (this == data->ptrWithDeleteResponsibility) // TODO:  FIXME!!! MAJOR MEMORY LEAK!!1
+        /*if (this == data->ptrWithDeleteResponsibility) // TODO:  FIXME!!! MAJOR MEMORY LEAK!!1 (even when not commented out)
         {
             if (data != NULL)
             {
@@ -72,7 +72,7 @@ public:
                 data  = NULL;
                 empty = true;
             }
-        }
+        }*/
     };
 
     Ptr(const Ptr &other) // II

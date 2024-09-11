@@ -116,7 +116,8 @@ void Background::Init()
     vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
-    drawable->hasDepth = false; // Don't render as 3D
+    drawable->hasDepth    = false; // Don't render as 3D
+    drawable->sendToFront = false; // Render behind everything else
 }
 
 Background::Background(String texturePath, Camera *camera)

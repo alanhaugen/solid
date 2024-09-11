@@ -11,7 +11,7 @@ Actor::Actor()
     forward = glm::vec3(0.0f, 0.0f, -1.0f);
     right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-    //collisionBox = physics->CreateHitBox(glm::vec3(1.0f), &matrix);
+    collisionBox = physics->CreateHitBox(glm::vec3(1.0f), &matrix); // TODO: Learn why I removed this ... For Tetris?
 }
 
 Actor::~Actor()
@@ -57,6 +57,9 @@ void Actor::Update()
     /*matrix.matrix[3].x = collisionBox->position->x;
     matrix.matrix[3].y = collisionBox->position->y;
     matrix.matrix[3].z = collisionBox->position->z;*/
+    collisionBox->position->x = matrix.matrix[3].x;
+    collisionBox->position->y = matrix.matrix[3].y;
+    collisionBox->position->z = matrix.matrix[3].z;
 
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)
