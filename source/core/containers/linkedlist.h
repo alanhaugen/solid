@@ -131,7 +131,7 @@ public:
         inline Iterator &operator++() { curNode = curNode->GetNext(); return *this; }
         inline Iterator &operator--() { curNode = curNode->GetPrev(); return *this; }
 
-        inline Datatype &operator*() { return curNode->element; } // Danger! Make sure to return a reference or we will cause copy constructor to be invoed on Datatype!
+        inline Datatype &operator*() { return curNode->element; } // Danger! Make sure to return a reference or we will cause copy constructor to be invoked on Datatype!
         inline Datatype *operator->() { return &curNode->element; } // Why overload arrow operator?
 
         bool operator==(const Iterator &a) const
