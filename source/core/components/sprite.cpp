@@ -175,7 +175,7 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y)));
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y + Y_OFFSET)));
     Uniform("index", static_cast<int>(index));
     Uniform("flip", static_cast<int>(isFlipped));
     Uniform("flipVertical", static_cast<int>(isFlippedVertical));

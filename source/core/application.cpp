@@ -33,6 +33,10 @@ void Application::LoadUserData()
     bool fullscreen = false;
     float timeScale = 1.0;
 
+#ifdef WIN32
+    windowHeight += 29;
+#endif
+
     // Process command line parameters
     /*argument.SetArgument<int>("--window-length", windowLength);
     argument.SetArgument<int>("--window-height", windowHeight);

@@ -5,6 +5,12 @@
 #include "core/x-platform/url.h"
 #include "modules/renderer/drawable.h"
 
+#ifdef WIN32
+#define Y_OFFSET 29
+#else
+#define Y_OFFSET 0
+#endif
+
 class Pixmap;
 class Sprite : public Component
 {

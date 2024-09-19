@@ -22,7 +22,8 @@ Project {
 
     property stringList windowsDefines: [
         "PLATFORM_HEADER=core/platforms/win/winapplication.h",
-        "PLATFORM=WinApplication"
+        "PLATFORM=WinApplication",
+        "WIN32"
     ]
 
     property stringList staticLibs: [

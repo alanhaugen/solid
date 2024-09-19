@@ -5,6 +5,8 @@
 
 PROCESSOR_ARCH = x86
 
+CFLAGS += -DWIN32
+
 #RENDERER        ?= DX11Renderer
 #RENDERER_HEADER ?= "modules/renderer/dx11/dx11renderer.h"
 AUDIO           ?= PortaudioAudio
@@ -73,7 +75,7 @@ ifeq ($(BUILD_TYPE), NDEBUG)
     LDFLAGS += -Wl,-subsystem,windows # Removes console
 endif
 
-bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): CFLAGS += data/app.res $(shell windres data/app.rc -O coff -F pe-i386 -o data/app.res) 
+bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): CFLAGS += data/app.res $(shell windres data/app.rc -O coff -F pe-i386 -o data/app.res)
 
 include $(SOLIDCORE)/Makefile.generic
 
