@@ -163,10 +163,6 @@ void GeneratedScene::Update()
 {
 }
 
-void GeneratedScene::UpdateAfterPhysics()
-{
-}
-
 void GeneratedScene::AddCamera()
 {
     float x = jsonScene.GetNumber("lookfromx");

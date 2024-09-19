@@ -24,6 +24,15 @@ void Services::SetScene(IScene *_scene)
 
         scene = _scene;
         scene->Init();
+
+        // Run the game logic TODO: This is a copy of UpdateScene, duplicate. FIXME: just call UpdateScene
+        scene->Update();
+
+        // Update game components
+        for (unsigned int i = 0; i < scene->components.Size(); i++)
+        {
+            (*scene->components[i])->Update();
+        }
     }
 }
 
@@ -41,13 +50,9 @@ void Services::UpdateScene(IScene *scene)
 
 void Services::UpdateSceneAfterPhysics(IScene *scene)
 {
-    // Update logic done after physics
-    scene->UpdateAfterPhysics();
-
     // Update game components after physics
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
-        (*scene->components[i])->UpdateAfterPhysics();
     }
 }
 
@@ -67,9 +72,6 @@ void Services::UpdateServices()
 
     // Update physics simulation
     physics->Update();
-
-    // Update scene
-    UpdateSceneAfterPhysics(scene);
 
     // Update sound system
     audio->Update();

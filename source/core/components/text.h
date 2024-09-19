@@ -15,6 +15,7 @@ public:
          const float scaleX_ = 1.0f,
          const float scaleY_ = 1.0f,
          String textureAtlasPath = "data/sheet.png");
+    virtual ~Text() {};
     void Update();
     void UpdateAfterPhysics();
 };

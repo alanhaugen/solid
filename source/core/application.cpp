@@ -28,8 +28,8 @@ Application::~Application()
 void Application::LoadUserData()
 {
     String name = "Solid";
-    int windowLength = 1216;//1024;
-    int windowHeight = 768;
+    int windowLength = 1024 / 2;//1024;
+    int windowHeight = 1024 / 2;
     bool fullscreen = false;
     float timeScale = 1.0;
 

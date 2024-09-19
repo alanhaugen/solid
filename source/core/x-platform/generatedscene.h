@@ -15,7 +15,6 @@ public:
     ~GeneratedScene();
 
     void Update();
-    void UpdateAfterPhysics();
 
     Hash<String, Animation*> animations;
 
