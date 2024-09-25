@@ -41,7 +41,7 @@ ifeq ($(OS),Windows_NT)
     FLEX  = $(SOLIDCORE)/tools/mingw32/win_flex.exe
     BISON = $(SOLIDCORE)/tools/mingw32/win_bison.exe
     
-    BLENDER = ./$(TOOLS_DIR)/blender-3.3.6-windows-x64/blender.exe
+    BLENDER = ./$(TOOLS_DIR)/blender-3.3.21-windows-x64/blender.exe
     CONVERT = $(SOLIDCORE)/tools/mingw32/convert.exe
     
     ifdef VSCMD_ARG_HOST_ARCH
