@@ -47,10 +47,10 @@ private:
         inline LinkedNode *GetPrev() { return prevElement; }
     };
 
+protected:
     LinkedNode *firstNode;
     LinkedNode *lastNode;
 
-protected:
     unsigned int count;
 
     void Append(LinkedNode *node)
@@ -161,7 +161,7 @@ public:
         return firstNode == NULL;
     }
 
-    int Count() const
+    int Size() const
     {
         return count;
     }

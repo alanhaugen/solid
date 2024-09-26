@@ -6,40 +6,32 @@
 /*!
  * \brief The Stack container (LIFO structure)
  */
+
 template <class Datatype>
-class Stack : public LinkedList<Datatype> {
+class Stack : public LinkedList<Datatype>
+{
 public:
     void Push(Datatype data)
     {
-        Append(data);
+        LinkedList<Datatype>::Append(data);
     }
 
     Datatype Pop()
     {
-        if (Empty())
+        if (LinkedList<Datatype>::Empty())
         {
             return NULL;
         }
 
-        Datatype data = lastNode_->element_;
-        Remove(lastNode_);
+        Datatype data = LinkedList<Datatype>::lastNode->element;
+        LinkedList<Datatype>::Remove(LinkedList<Datatype>::lastNode);
 
         return data;
     }
 
     Datatype Top()
     {
-        return lastNode_->element_;
-    }
-
-    int Size()
-    {
-        return count_;
-    }
-
-    int Empty() const
-    {
-        return count_ == 0;
+        return LinkedList<Datatype>::lastNode->element;
     }
 };
 

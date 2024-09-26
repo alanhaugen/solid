@@ -7,7 +7,8 @@
  * \brief The Queue container (FIFO structure)
  */
 template <class Datatype>
-class Queue : public LinkedList<Datatype> {
+class Queue : public LinkedList<Datatype>
+{
 public:
     void Enqueue(Datatype data) {
         Append(data);
