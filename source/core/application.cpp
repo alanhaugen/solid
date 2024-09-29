@@ -27,7 +27,7 @@ Application::~Application()
 
 void Application::LoadUserData()
 {
-    String name = "Solid";
+    String name = "Fight of Kings";
     int windowLength = 1024 / 2;//1024;
     int windowHeight = 1024 / 2;
     bool fullscreen = false;
