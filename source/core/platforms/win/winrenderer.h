@@ -64,6 +64,9 @@ public:
 
 private:
     HDC ourWindowHandleToDeviceContext;
+
+    void Fullscreen();
+    void Windowed();
 };
 
 #endif // WINRENDER_H

@@ -24,6 +24,9 @@ public:
     virtual void Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
     virtual void DrawDebugText(float x, float y, const char* str);
 
+    virtual void Fullscreen();
+    virtual void Windowed();
+
     virtual IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,

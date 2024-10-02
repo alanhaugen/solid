@@ -79,9 +79,10 @@ LRESULT CALLBACK MessageLoop(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
     return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight)
+bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength_, const unsigned int windowHeight_)
 {
     WNDCLASSEX wcex;
+
     DWORD      dwExStyle;
     DWORD      dwStyle;
 
@@ -108,31 +109,11 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
         return FALSE;                                           // Return FALSE
     }
 
-    if (fullscreen)
-    {
-        DEVMODE dmScreenSettings;                   // Device Mode
-        memset(&dmScreenSettings,0,sizeof(dmScreenSettings));       // Makes Sure Memory's Cleared
-        dmScreenSettings.dmSize=sizeof(dmScreenSettings);       // Size Of The Devmode Structure
-        dmScreenSettings.dmPelsWidth    = windowLength;            // Selected Screen Width
-        dmScreenSettings.dmPelsHeight   = windowHeight;           // Selected Screen Height
-        dmScreenSettings.dmBitsPerPel   = 32;             // Selected Bits Per Pixel
-        dmScreenSettings.dmFields=DM_BITSPERPEL|DM_PELSWIDTH|DM_PELSHEIGHT;
+    dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
+    dwStyle=WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX; //| WS_MAXIMIZEBOX;               // Windows Style
 
-        if (ChangeDisplaySettings(&dmScreenSettings,CDS_FULLSCREEN)!=DISP_CHANGE_SUCCESSFUL)
-        {
-            LogError("Failed to open in fullscreen mode");
-            return false;
-        }
-
-        dwExStyle = WS_EX_APPWINDOW;              // Window Extended Style
-        dwStyle = WS_POPUP;                       // Windows Style
-        ShowCursor(FALSE);                      // Hide Mouse Pointer
-    }
-    else
-    {
-        dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
-        dwStyle=WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX; //| WS_MAXIMIZEBOX;               // Windows Style
-    }
+    //windowWidth  = windowLength_;
+    //windowHeight = windowHeight_;
 
     hWnd = CreateWindowEx(
                 dwExStyle, // EX Style
@@ -141,8 +122,8 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
                 dwStyle, // style
                 CW_USEDEFAULT, // x
                 CW_USEDEFAULT, // y
-                windowLength, // length
-                windowHeight, // height
+                windowLength_, // length
+                windowHeight_, // height
                 0, // hWndParent
                 0, // hMenu
                 hInstance, // hInstance
@@ -152,6 +133,11 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
     if (hWnd == NULL) {
         LogError("Failed to create window");
         return false;
+    }
+
+    if (fullscreen)
+    {
+        Fullscreen();
     }
 
     SetWindowTextA(hWnd, windowTitle);
@@ -237,7 +223,7 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
        return false;
     }
 
-    if (RENDERER::Init(fullscreen, windowTitle, windowLength, windowHeight) == false)
+    if (RENDERER::Init(fullscreen, windowTitle, windowWidth, windowHeight) == false)
     {
         LogError("Renderer failed to initialize");
         return false;
@@ -257,7 +243,7 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
     SetForegroundWindow(hWnd);                  // Slightly Higher Priority
     SetFocus(hWnd);                             // Sets Keyboard Focus To The Window
 
-    Resize(windowLength, windowHeight);
+    Resize(windowLength_, windowHeight_);
 
     return true;
 }
@@ -270,4 +256,33 @@ void WinRenderer::PostRender()
 void WinRenderer::PreRender()
 {
 
+}
+
+void WinRenderer::Windowed()
+{
+    DWORD      dwExStyle;
+    DWORD      dwStyle;
+    dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
+    dwStyle=WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX; //| WS_MAXIMIZEBOX;               // Windows Style
+
+    SetWindowLong(hWnd, GWL_STYLE, dwStyle);
+    SetWindowLong(hWnd, GWL_EXSTYLE, dwExStyle);
+
+    SetWindowPos(hWnd, NULL, xPos, yPos, 1024/2, (1024/2), SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    ShowWindow(hWnd, SW_SHOWNOACTIVATE);
+}
+void WinRenderer::Fullscreen()
+{
+    SetWindowLong(hWnd, GWL_STYLE, 0);
+    //SetWindowLong(hWnd, GWL_EXSTYLE, (WS_EX_DLGMODALFRAME  WS_EX_STATICEDGE));
+
+    MONITORINFO monitor_info;
+    monitor_info.cbSize = sizeof(monitor_info);
+    GetMonitorInfo(MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST), &monitor_info);
+
+    //windowWidth  = monitor_info.rcMonitor.right;
+    //windowHeight = monitor_info.rcMonitor.bottom;
+
+    SetWindowPos(hWnd, NULL, 0, 0, monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    ShowWindow(hWnd, SW_SHOWNOACTIVATE);
 }

@@ -24,6 +24,9 @@ public:
     virtual void DrawDebugText(float x, float y, const char* str) = 0;
     virtual void Resize(int length, int height) = 0;
 
+    virtual void Fullscreen() = 0;
+    virtual void Windowed() = 0;
+
     virtual IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
