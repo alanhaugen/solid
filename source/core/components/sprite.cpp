@@ -179,6 +179,8 @@ void Sprite::Update()
     Uniform("index", static_cast<int>(index));
     Uniform("flip", static_cast<int>(isFlipped));
     Uniform("flipVertical", static_cast<int>(isFlippedVertical));
+    Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
+    Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
 
     if (timer->TimeSinceStarted() > 100.0f)
     {
