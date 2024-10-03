@@ -3,7 +3,6 @@
 IScene *Services::scene = NULL;
 Array<IScene *> Services::scenes = Array<IScene *>();
 bool Services::isAlive = true;
-bool Services::fullscreen = false;
 
 void Services::SetScene(IScene *_scene)
 {

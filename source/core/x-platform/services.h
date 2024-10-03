@@ -31,8 +31,6 @@ public:
 
     static bool isAlive;
 
-    static bool fullscreen;
-
     static Array<IScene *> scenes;
 
     static Array<String> sceneJSONs;

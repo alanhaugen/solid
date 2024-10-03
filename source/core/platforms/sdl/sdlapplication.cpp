@@ -223,7 +223,7 @@ float SDLApplication::MainLoop()
         // Fullscreen or not fullscreen
         if (input.Pressed(input.Key.F) && input.Held(input.Key.LWIN))
         {
-            fullscreen = !fullscreen;
+            renderer->fullscreen = !renderer->fullscreen;
         }
 
         // Show or hide mouse cursor
@@ -274,7 +274,7 @@ bool SDLApplication::Exec()
 #endif
             time->Reset();
 
-            if (fullscreen)
+            if (renderer->fullscreen)
             {
                 // SDL_WINDOW_FULLSCREEN, SDL_WINDOW_FULLSCREEN_DESKTOP or 0
                 SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN_DESKTOP);

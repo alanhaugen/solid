@@ -39,10 +39,12 @@ void Renderer::NullRenderer::DrawDebugText(float x, float y, const char* str)
 
 void Renderer::NullRenderer::Fullscreen()
 {
+    fullscreen = true;
 }
 
 void Renderer::NullRenderer::Windowed()
 {
+    fullscreen = false;
 }
 
 IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,

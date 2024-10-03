@@ -64,6 +64,8 @@ public:
 
     int *framebufferdata;
 
+    bool fullscreen;
+
 protected:
     virtual void PreRender() = 0;
     virtual void PostRender() = 0;
