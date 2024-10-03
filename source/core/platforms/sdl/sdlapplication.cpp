@@ -183,6 +183,8 @@ bool SDLApplication::Init()
     Log("SDL Runtime");
     Log(String(__DATE__) + " " + String(__TIME__));
 
+    renderer->fullscreen = false;
+
     return true;
 }
 

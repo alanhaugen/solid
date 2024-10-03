@@ -21,6 +21,7 @@ bool Renderer::NullRenderer::Init(
     (void)windowTitle;
     (void)windowLength;
     (void)windowHeight;
+    fullscreen = false;
     return true;
 }
 
