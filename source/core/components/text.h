@@ -17,7 +17,7 @@ public:
          String textureAtlasPath = "data/sheet.png");
     virtual ~Text() {};
     void Update();
-    void UpdateAfterPhysics();
+//    void UpdateAfterPhysics();
 };
 
 #endif // TEXT_H

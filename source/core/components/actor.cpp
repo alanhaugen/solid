@@ -43,14 +43,14 @@ Component *Actor::FindComponent(const char *tag)
     //return componentsMap.Find(tag)->data_;
 }
 
-void Actor::UpdateAfterPhysics()
+/*void Actor::UpdateAfterPhysics()
 {
     // Update game components after physics update
     for (unsigned int i = 0; i < components.Size(); i++)
     {
         (*components[i])->UpdateAfterPhysics();
     }
-}
+}*/
 
 void Actor::Update()
 {

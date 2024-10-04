@@ -9,7 +9,6 @@ public:
     Component();
 
     void Update();
-    void UpdateAfterPhysics();
 };
 
 #endif

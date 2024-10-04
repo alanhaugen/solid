@@ -198,10 +198,6 @@ void Sprite::Update()
     renderer->Draw(drawable);
 }
 
-void Sprite::UpdateAfterPhysics()
-{
-}
-
 void Sprite::AddAnimation(int anim, int frames[], int frames_length, int framerate, bool looping)
 {
     /*int col = index % columns;

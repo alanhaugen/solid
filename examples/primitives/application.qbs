@@ -1,4 +1,4 @@
-import "../solid/solid.qbs" as solid
+import "../../../solid/solid.qbs" as solid
 
 solid {
     Application {
@@ -64,7 +64,7 @@ solid {
         Depends { name: "stdfilesystem"  }
         Depends { name: "portaudioaudio"  }
 
-        property stringList includePaths: "../solid/source"
+        property stringList includePaths: "../../../solid/source"
 
         Properties {
             condition: qbs.targetOS.contains("macos")
@@ -74,8 +74,8 @@ solid {
             cpp.dynamicLibraries: macosSharedLibs
             cpp.staticLibraries: staticLibs.concat("SDL2")
 
-            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/darwin/x86_64"]
-            cpp.includePaths: includePaths.concat("../solid/include/darwin")
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/darwin/x86_64"]
+            cpp.includePaths: includePaths.concat("../../../solid/include/darwin")
             cpp.defines: project.defines.concat(project.sdlDefines)
         }
 
@@ -85,8 +85,8 @@ solid {
             //cpp.dynamicLibraries: linuxSharedLibs
             cpp.staticLibraries: staticLibs.concat("SDL2")
 
-            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/linux/x86_64"]
-            cpp.includePaths: includePaths.concat("../solid/include/linux")
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/linux/x86_64"]
+            cpp.includePaths: includePaths.concat("../../../solid/include/linux")
             cpp.defines: project.defines.concat(project.sdlDefines)
         }
 
@@ -96,8 +96,8 @@ solid {
             cpp.dynamicLibraries: windowsSharedLibs
             cpp.staticLibraries: staticLibs
 
-            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/mingw32/x86"]
-            cpp.includePaths: includePaths.concat("../solid/include/mingw32")
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/mingw32/x86"]
+            cpp.includePaths: includePaths.concat("../../../solid/include/mingw32")
             cpp.defines: project.defines.concat(project.windowsDefines)
         }
 

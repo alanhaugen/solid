@@ -8,7 +8,3 @@ void Component::Update()
 {
 }
 
-void Component::UpdateAfterPhysics()
-{
-}
-

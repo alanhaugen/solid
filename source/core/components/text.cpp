@@ -12,7 +12,7 @@ void Text::Update()
     Sprite::Update();
 }
 
-void Text::UpdateAfterPhysics()
+/*void Text::UpdateAfterPhysics()
 {
     Sprite::UpdateAfterPhysics();
-}
+}*/
