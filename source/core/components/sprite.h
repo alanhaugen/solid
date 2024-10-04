@@ -61,6 +61,9 @@ public:
     // Add animation
     void AddAnimation(int anim, int frames[], int frames_length, int framerate, bool looping);
 
+    // GUI
+    bool IsPressed();
+
     // Play
     void PlayAnimation(int anim, bool reset = false);
 

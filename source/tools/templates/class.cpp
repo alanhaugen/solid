@@ -2,5 +2,5 @@
 
 Class::Class()
 {
-};
+}
 

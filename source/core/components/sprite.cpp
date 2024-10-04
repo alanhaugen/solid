@@ -213,6 +213,17 @@ void Sprite::AddAnimation(int anim, int frames[], int frames_length, int framera
     Uniform("t", static_cast<float>(t));*/
 }
 
+bool Sprite::IsPressed()
+{
+    if ((input.Mouse.x >= *matrix.x && input.Mouse.y >= *matrix.y) &&
+            (input.Mouse.x < *matrix.x + (width * scaleX) && input.Mouse.y < *matrix.y + (height * scaleY)))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void Sprite::PlayAnimation(int anim, bool reset)
 {
 

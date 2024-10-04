@@ -21,8 +21,7 @@ public:
     virtual void ReUpload();
     virtual void ReUpload(String filePath);
 
-    void Load();
-    void Load(String path, int type = STANDARD, GLenum sideTarget = 0);
+    void Load(String path = "", int type = STANDARD, GLenum sideTarget = 0);
 
     void Activate();
 
