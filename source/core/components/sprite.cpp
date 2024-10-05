@@ -137,17 +137,6 @@ Sprite::Sprite(String textureFilePath,
     Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
 
-/*Sprite::Sprite(Pixmap *texture,
-               const float _x,
-               const float _y,
-               const int _textureWidth,
-               const int _textureHeight)
-{
-    textures.Add(texture);
-
-    Init(_x, _y, 1.0f, 1.0f, _textureWidth, _textureHeight);
-}*/
-
 Sprite::Sprite(const int red,
                const int green,
                const int blue,
