@@ -23,7 +23,7 @@
 template <class Datatype>
 class LinkedList
 {
-private:
+public:
     class LinkedNode
     {
     private:
@@ -47,7 +47,7 @@ private:
         inline LinkedNode *GetPrev() { return prevElement; }
     };
 
-protected:
+public:
     LinkedNode *firstNode;
     LinkedNode *lastNode;
 
@@ -118,9 +118,9 @@ public:
     // Iterators
     class Iterator
     {
-    private:
-        LinkedNode *curNode;
     public:
+        LinkedNode *curNode;
+
         Iterator(LinkedNode *node)
         {
             curNode = node;
