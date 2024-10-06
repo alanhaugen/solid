@@ -78,12 +78,13 @@ void Sprite::Init(const float x_,
         vertices[4 + i * 6].textureCoordinates = glm::vec2(1, 1);
         vertices[5 + i * 6].textureCoordinates = glm::vec2(1, 0);
 
-        indices.Add(0 + i * 6);
-        indices.Add(1 + i * 6);
-        indices.Add(2 + i * 6);
-        indices.Add(3 + i * 6);
-        indices.Add(4 + i * 6);
-        indices.Add(5 + i * 6);
+        // NOTE: For some strange reason, the code works (without errors or warnings) without this
+        //indices.Add(0 + i * 6);
+        //indices.Add(1 + i * 6);
+        //indices.Add(2 + i * 6);
+        //indices.Add(3 + i * 6);
+        //indices.Add(4 + i * 6);
+        //indices.Add(5 + i * 6);
     }
 
     IFile *simpleVertShader = filesystem->Open(URL("data/gui.vert"), PLAIN_TEXT);

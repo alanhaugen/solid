@@ -16,12 +16,13 @@ bool GLES2Renderer::Init(
     Resize(windowLength, windowHeight);
 
     //glEnable(GL_CULL_FACE);   // Backface culling
+
     glEnable(GL_DEPTH_TEST);    // Enables 3D
     glEnable(GL_SCISSOR_TEST);  // Enables ...
     glEnable(GL_BLEND);         // Enables alpha output in fragment shaders
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glLineWidth(10.0f);
+    //glLineWidth(10.0f); // NOTE: This is an invalid value for glLineWidth
 
     framebufferdata = NULL;
 
@@ -115,9 +116,10 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 {
     PreRender();
 
+
     //assert( projViewMatrixArray.Size() == viewBoundsArray.Size() );
 
-    for(unsigned i = 0; i<projViewMatrixArray.Size(); i++)
+    for (unsigned i = 0; i<projViewMatrixArray.Size(); i++)
     {
         const glm::vec4& bounds = viewBoundsArray[i];
         glm::vec2 off = glm::vec2( bounds.x, bounds.y );
