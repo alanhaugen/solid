@@ -5,7 +5,7 @@
 GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<ITexture *> textures_)
+        Array<ITexture *> &textures_)
     :
       shader()
 {

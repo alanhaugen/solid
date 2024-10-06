@@ -21,7 +21,7 @@ public:
     GLES2Drawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture *> textures);
+            Array<ITexture *> &textures);
     ~GLES2Drawable();
 
     void Activate(const glm::mat4 &projViewMatrix);

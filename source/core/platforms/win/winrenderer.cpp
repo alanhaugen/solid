@@ -212,7 +212,9 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
     wglMakeCurrent(ourWindowHandleToDeviceContext, opengl_context);    // Make our OpenGL 3.2 context current
 
     // Load OpenGL
-    if (!gladLoaderLoadGL())
+    int version = gladLoaderLoadGL();
+
+    if (version == 0)
     {
        wglMakeCurrent(NULL, NULL);
        wglDeleteContext(opengl_context);
@@ -222,6 +224,8 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
 
        return false;
     }
+
+    Log("OpenGL " + String(GLAD_VERSION_MAJOR(version)) + "." + String(GLAD_VERSION_MINOR(version)));
 
     if (RENDERER::Init(fullscreen, windowTitle, windowWidth, windowHeight) == false)
     {
