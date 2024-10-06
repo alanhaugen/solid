@@ -12,7 +12,6 @@ public:
 
     void Init();
     void Update();
-    void UpdateAfterPhysics();
 };
 
 Primitives::Primitives()
@@ -30,10 +29,6 @@ void Primitives::Init()
 void Primitives::Update()
 {
     cube->matrix.Rotate(0.1, glm::vec3(1.0f, 1.0f, 1.0f));
-}
-
-void Primitives::UpdateAfterPhysics()
-{
 }
 
 int main(int argc, char **argv)

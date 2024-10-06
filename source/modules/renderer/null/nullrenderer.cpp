@@ -15,12 +15,12 @@ bool Renderer::NullRenderer::Init(
         bool openWindowed,
         const char *windowTitle,
         const unsigned int windowLength,
-        const unsigned int windowHeight)
+        const unsigned int windowHeight_)
 {
     (void)openWindowed;
     (void)windowTitle;
-    (void)windowLength;
-    (void)windowHeight;
+    windowWidth = windowLength;
+    windowHeight = windowHeight_;
     fullscreen = false;
     return true;
 }
@@ -116,22 +116,21 @@ void Renderer::NullRenderer::RemoveDrawable(IDrawable *drawable)
 
 ITexture *Renderer::NullRenderer::CreateTexture(int width, int height)
 {
-
+//    return new NullTexture(width, height);
 }
 
 ITexture *Renderer::NullRenderer::CreateTexture(String filename)
 {
-
+//    return new NullTexture(filename);
 }
 
 ITexture *Renderer::NullRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
-
+//    return new NullDrawable();
 }
 
 void Renderer::NullRenderer::RemoveTexture(ITexture *texture)
 {
-
 }
 
 void Renderer::NullRenderer::Resize(int length, int height)
