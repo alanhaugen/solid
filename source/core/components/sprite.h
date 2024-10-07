@@ -60,6 +60,7 @@ public:
 
     // GUI
     bool IsPressed();
+    bool IsHoveredOver();
 
     // Play
     void PlayAnimation(int anim, bool reset = false);
