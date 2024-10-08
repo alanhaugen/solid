@@ -17,8 +17,8 @@ public:
 
     Datatype Dequeue()
     {
-        Datatype data = LinkedList<Datatype>::firstNode->element_;
-        Remove(LinkedList<Datatype>::firstNode);
+        Datatype data = LinkedList<Datatype>::firstNode->element;
+        LinkedList<Datatype>::Remove(LinkedList<Datatype>::firstNode);
 
         return data;
     }
