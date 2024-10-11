@@ -67,6 +67,7 @@ public:
     unsigned int RandomRange(int minNumber, int maxNumber);
     unsigned long RandomNumber();
     unsigned long GetRandomSeed();
+    void SetRandomSeed(unsigned long seed);
 };
 
 #endif // RANDOM_H

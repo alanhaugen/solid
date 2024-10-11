@@ -1,5 +1,6 @@
 #include "application.h"
 #include "core/x-platform/parserjson.h"
+#include <time.h> // TODO: Remove?
 
 Application::Application(int argumentQuantity, char *arguments[])
     : PLATFORM(), argument(argumentQuantity, arguments)
@@ -32,6 +33,9 @@ void Application::LoadUserData()
     int windowHeight = 1024 - (1024 / 4);
     bool fullscreen  = false;
     float timeScale  = 1.0;
+
+    // TODO: Remove?
+    random.SetRandomSeed(::time(NULL));
 
 #ifdef WIN32
     windowHeight += 29;

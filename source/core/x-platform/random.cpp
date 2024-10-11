@@ -36,6 +36,11 @@ unsigned long Random::GetRandomSeed() {
     return seed_;
 }
 
+void Random::SetRandomSeed(unsigned long seed)
+{
+    InitGenRand(seed);
+}
+
 void Random::InitGenRand(unsigned long s) {
     mt[0]= s & 0xffffffffUL;
     for (mti=1; mti<N; mti++) {
