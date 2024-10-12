@@ -61,12 +61,12 @@ void Sprite::Init(const float x_,
             glyph = -1; // -1 will allow the shader to animate the sprite
         }
 
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 2.0f,  1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 2.0f,  1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
+        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f,  1.0f), glyph));
     }
 
     for (unsigned int i = 0; i < quadQuantity; i++)
