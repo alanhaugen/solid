@@ -12,16 +12,19 @@ void Renderer::NullRenderer::PostRender()
 }
 
 bool Renderer::NullRenderer::Init(
-        bool openWindowed,
+        bool openFullscreened,
         const char *windowTitle,
         const unsigned int windowLength,
         const unsigned int windowHeight_)
 {
-    (void)openWindowed;
     (void)windowTitle;
     windowWidth = windowLength;
     windowHeight = windowHeight_;
-    fullscreen = false;
+    borderWidth = 0;
+    boarderHeight = 0;
+    globalScaleWidth = 1.0f;
+    globalScaleHeight = 1.0f;
+    fullscreen = openFullscreened;
     return true;
 }
 

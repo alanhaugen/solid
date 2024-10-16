@@ -21,8 +21,8 @@ private:
 
     ITime *framerate;
 
-    Animation *animation;
-    Animation *emptyAnimation;
+    //Animation *animation;
+    //Animation *emptyAnimation;
 
     //void LoadFromGLTF(const URL filePath);
     void LoadFromWavefront(const URL &filePath);

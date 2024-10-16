@@ -86,7 +86,7 @@ Mesh::Mesh(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Act
 
 Mesh::Mesh()
 {
-    emptyAnimation = NULL;
+    //emptyAnimation = NULL;
     rootJoint = NULL;
 }
 
@@ -873,7 +873,7 @@ void Mesh::Update()
 
 void Mesh::PlayAnimation(Animation *anim, int blend, bool reset)
 {
-    animation = anim;
+    //animation = anim;
     //drawable->animatedMatrices = animation->transformsSkeleton;
     //drawable2->animatedMatrices = animation->transforms;
 }

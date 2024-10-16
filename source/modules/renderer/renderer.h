@@ -60,7 +60,9 @@ public:
 
     virtual ~IRenderer() {}
 
-    int windowWidth, windowHeight;
+    int windowWidth, windowHeight; // TODO: Rename to Viewport! And width over to length please.
+    int borderWidth, boarderHeight;
+    float globalScaleWidth, globalScaleHeight;
 
     int *framebufferdata;
 

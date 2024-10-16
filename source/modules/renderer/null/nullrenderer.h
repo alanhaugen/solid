@@ -16,7 +16,7 @@ protected:
 
 public:
     virtual bool Init(
-            bool openWindowed,
+            bool openFullscreened,
             const char *windowTitle,
             const unsigned int windowLength,
             const unsigned int windowHeight);

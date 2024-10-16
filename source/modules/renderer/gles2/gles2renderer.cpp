@@ -11,8 +11,8 @@ bool GLES2Renderer::Init(
         const unsigned int windowLength,
         const unsigned int windowHeight)
 {
-    UNUSED(fullscreen);
-    UNUSED(windowTitle);
+    NullRenderer::Init(fullscreen, windowTitle, windowLength, windowHeight);
+
     Resize(windowLength, windowHeight);
 
     //glEnable(GL_CULL_FACE);   // Backface culling

@@ -55,7 +55,7 @@ void Application::LoadUserData()
     filesystem->Init();
 
     // Parse settings json
-    ParseSettings(name, windowLength, windowHeight, fullscreen, timeScale);
+    //ParseSettings(name, windowLength, windowHeight, fullscreen, timeScale);
 
     // Initialize renderer
     if (renderer->Init(fullscreen, name.ToChar(), windowLength, windowHeight) == false)
