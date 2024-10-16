@@ -20,6 +20,8 @@ bool Renderer::NullRenderer::Init(
     (void)windowTitle;
     windowWidth = windowLength;
     windowHeight = windowHeight_;
+    actualWindowWidth = windowLength;
+    actualWindowHeight = windowHeight_;
     borderWidth = 0;
     boarderHeight = 0;
     globalScaleWidth = 1.0f;

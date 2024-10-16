@@ -52,8 +52,10 @@ void GLES2Renderer::Resize(int width, int height)
 
 void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize)
 {
-    glScissor(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y);
-    glViewport(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y);
+    //glScissor(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y); // TODO: Readd
+    //glViewport(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y);
+    glScissor(0, 0, actualWindowWidth, actualWindowHeight);
+    glViewport(0, 0, actualWindowWidth, actualWindowHeight);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(1.0f,0.0f,0.0f,0.0f);
@@ -123,7 +125,6 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 {
     PreRender();
 
-
     //assert( projViewMatrixArray.Size() == viewBoundsArray.Size() );
 
     for (unsigned i = 0; i<projViewMatrixArray.Size(); i++)
@@ -136,8 +137,6 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 
     glFlush();
     GetError();
-
-
 
     // TODO: remove, hack
     //short  TGAhead[] = {0, 2, 0, 0, 0, 0, windowWidth, windowHeight, 24};

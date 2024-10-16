@@ -61,6 +61,7 @@ public:
     virtual ~IRenderer() {}
 
     int windowWidth, windowHeight; // TODO: Rename to Viewport! And width over to length please.
+    int actualWindowWidth, actualWindowHeight; // TODO: Find a better solution (one which uses viewports and offset?)
     int borderWidth, boarderHeight;
     float globalScaleWidth, globalScaleHeight;
 

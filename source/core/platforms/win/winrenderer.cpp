@@ -283,6 +283,9 @@ void WinRenderer::Windowed()
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
 
     Resize(windowWidth, windowHeight);
+
+    actualWindowWidth  = windowWidth;
+    actualWindowHeight = windowHeight;
 }
 
 void WinRenderer::Fullscreen()
@@ -311,8 +314,14 @@ void WinRenderer::Fullscreen()
     //windowWidth  = monitor_info.rcMonitor.right;
     //windowHeight = monitor_info.rcMonitor.bottom;
 
-    SetWindowPos(hWnd, NULL, monitor_info.rcMonitor.left, monitor_info.rcMonitor.top, monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    int width  = monitor_info.rcMonitor.right - monitor_info.rcMonitor.left;
+    int height = monitor_info.rcMonitor.bottom - monitor_info.rcMonitor.top;
+
+    SetWindowPos(hWnd, NULL, monitor_info.rcMonitor.left, monitor_info.rcMonitor.top, width, height, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
 
-    Resize(monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom);
+    Resize(width, height);
+
+    actualWindowWidth  = width;
+    actualWindowHeight = height;
 }

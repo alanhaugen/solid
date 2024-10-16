@@ -97,8 +97,8 @@ void Sprite::Init(const float x_,
     delete simpleFragShader;
 
     // Send scale uniforms
-    Uniform("scaleX", static_cast<float>(scaleX * Locator::renderer->globalScaleWidth));
-    Uniform("scaleY", static_cast<float>(scaleY * Locator::renderer->globalScaleHeight));
+    Uniform("scaleX", static_cast<float>(scaleX));
+    Uniform("scaleY", static_cast<float>(scaleY));
 
     // Let shaders know the desired section to be used of the sprite sheet
     Uniform("width", static_cast<int>(width));
