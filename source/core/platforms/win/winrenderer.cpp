@@ -112,8 +112,8 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
     dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
     dwStyle=WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX; //| WS_MAXIMIZEBOX;               // Windows Style
 
-    //windowWidth  = windowLength_;
-    //windowHeight = windowHeight_;
+    windowWidth  = windowLength_;
+    windowHeight = windowHeight_;
 
     hWnd = CreateWindowEx(
                 dwExStyle, // EX Style
@@ -275,6 +275,7 @@ void WinRenderer::Windowed()
     SetWindowPos(hWnd, NULL, xPos, yPos, 1024/2, (1024/2), SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
 }
+
 void WinRenderer::Fullscreen()
 {
     SetWindowLong(hWnd, GWL_STYLE, 0);
@@ -289,4 +290,6 @@ void WinRenderer::Fullscreen()
 
     SetWindowPos(hWnd, NULL, 0, 0, monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
+
+    Resize(monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom);
 }
