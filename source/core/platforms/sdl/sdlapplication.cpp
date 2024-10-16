@@ -107,6 +107,8 @@ void SDLApplication::MessageLoop(SDL_Event event)
             //SDL_SetWindowSize(SDLrender->GetDisplay(), mode.w, mode.h);
             //renderer->Resize(mode.w, mode.h);
             renderer->Resize(event.window.data1, event.window.data2);
+            renderer->actualWindowWidth  = event.window.data1;
+            renderer->actualWindowHeight = event.window.data2;
             //SDL_RaiseWindow(SDL_GetWindowFromID(event.window.windowID));
             //SDL_SetWindowInputFocus(SDL_GetWindowFromID(event.window.windowID));
             //SDL_SetWindowMouseGrab(SDLrender->GetDisplay(), SDL_bool(true));
@@ -286,7 +288,7 @@ bool SDLApplication::Exec()
             if (renderer->fullscreen)
             {
                 // SDL_WINDOW_FULLSCREEN, SDL_WINDOW_FULLSCREEN_DESKTOP or 0
-                SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN);//SDL_WINDOW_FULLSCREEN_DESKTOP);
+                SDL_SetWindowFullscreen(SDLrender->GetDisplay(), SDL_WINDOW_FULLSCREEN_DESKTOP);//SDL_WINDOW_FULLSCREEN);//SDL_WINDOW_FULLSCREEN_DESKTOP);
             }
             else
             {
