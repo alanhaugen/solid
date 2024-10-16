@@ -39,8 +39,15 @@ void GLES2Renderer::DrawDebugText(float x, float y, const char* str)
 void GLES2Renderer::Resize(int width, int height)
 {
     //Log(String("HW Window Resize Event to " + String(width)+"x"+String(height)));
-    windowWidth = width;
-    windowHeight = height;
+    //windowWidth = width;
+    //windowHeight = height;
+
+    // Recalculate boarders and scale of sprites
+    borderWidth = 0;
+    boarderHeight = 0;
+
+    globalScaleWidth = windowWidth / width;
+    globalScaleHeight = windowHeight / height;
 }
 
 void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize)

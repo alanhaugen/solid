@@ -7,7 +7,6 @@
 
 SDLRender::SDLRender()
 {
-
 }
 
 SDLRender::~SDLRender()
@@ -35,10 +34,10 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
-    if (fullscreen)
+    /*if (fullscreen)
     {
         flags = flags | SDL_WINDOW_FULLSCREEN_DESKTOP; //SDL_WINDOW_FULLSCREEN;
-    }
+    }*/
 
     mainwindow = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         windowLength, windowHeight, flags);
@@ -58,6 +57,8 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
         return false;
     }
 
+    // https://wiki.libsdl.org/SDL2/SDL_GL_SetSwapInterval
+    // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
     SDL_GL_SetSwapInterval(0);
 
     int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
