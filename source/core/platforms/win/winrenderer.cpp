@@ -264,6 +264,13 @@ void WinRenderer::PreRender()
 
 void WinRenderer::Windowed()
 {
+    if (fullscreen == false)
+    {
+        return;
+    }
+
+    fullscreen = false;
+
     DWORD      dwExStyle;
     DWORD      dwStyle;
     dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
@@ -272,12 +279,28 @@ void WinRenderer::Windowed()
     SetWindowLong(hWnd, GWL_STYLE, dwStyle);
     SetWindowLong(hWnd, GWL_EXSTYLE, dwExStyle);
 
-    SetWindowPos(hWnd, NULL, xPos, yPos, 1024/2, (1024/2), SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    SetWindowPos(hWnd, NULL, xPos, yPos, windowWidth, windowHeight, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
+
+    Resize(windowWidth, windowHeight);
 }
 
 void WinRenderer::Fullscreen()
 {
+    if (fullscreen)
+    {
+        return;
+    }
+
+    fullscreen = true;
+
+    // Store Window position for if the user switches back to windowed
+    RECT rc;
+
+    GetWindowRect (hWnd, &rc) ;
+    xPos = rc.left;
+    yPos = rc.top;
+
     SetWindowLong(hWnd, GWL_STYLE, 0);
     //SetWindowLong(hWnd, GWL_EXSTYLE, (WS_EX_DLGMODALFRAME  WS_EX_STATICEDGE));
 
@@ -288,7 +311,7 @@ void WinRenderer::Fullscreen()
     //windowWidth  = monitor_info.rcMonitor.right;
     //windowHeight = monitor_info.rcMonitor.bottom;
 
-    SetWindowPos(hWnd, NULL, 0, 0, monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    SetWindowPos(hWnd, NULL, monitor_info.rcMonitor.left, monitor_info.rcMonitor.top, monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     ShowWindow(hWnd, SW_SHOWNOACTIVATE);
 
     Resize(monitor_info.rcMonitor.right, monitor_info.rcMonitor.bottom);
