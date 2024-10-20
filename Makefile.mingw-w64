@@ -7,6 +7,8 @@ PROCESSOR_ARCH = x86
 
 CFLAGS += -DWIN32
 
+#MSVC2022 = 1
+
 #RENDERER        ?= DX11Renderer
 #RENDERER_HEADER ?= "modules/renderer/dx11/dx11renderer.h"
 AUDIO           ?= PortaudioAudio
@@ -21,7 +23,8 @@ ifdef MSVC2022
     PROCESSOR_ARCH = x86_64
     #COMPILE_PLATFORM = msvc
     LIBRARY_EXTENSION = LIB
-    AUDIO = NullAudio
+    AUDIO = Audio::NullAudio
+    PHYSICS = Physics::NullPhysics
     AUDIO_HEADER = "modules/audio/null/nullaudio.h"
 endif
  
@@ -38,7 +41,7 @@ EXE := .exe
 # Change compiler
 #############################################################################
 
-ifndef MSVC2019
+ifndef MSVC2022
     ifeq ($(PROCESSOR_ARCH),x86_64)
         CC = x86_64-w64-mingw32-g++
         m  = -m64
@@ -86,7 +89,7 @@ include $(SOLIDCORE)/Makefile.generic
 LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
 
 #############################################################################
-# Build rules for MSVC2019
+# Build rules for MSVC2022
 #############################################################################
 
 $(BUILD_DIR)/%.obj: %.cpp
@@ -98,7 +101,7 @@ $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).LIB: $(OBJS)
 	@echo "LINKING $(TARGET)"
 	$(LIB_MSVC) $(CFLAGS) -OUT:$(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).LIB $(OBJS)
 
-ifdef MSVC2019
+ifdef MSVC2022
 bin/$(OUTPUT_DIR)/$(TARGET).exe: $(OBJS)
 	@$(shell mkdir -p $@)
 	$(LINK_MSVC) -LIBPATH:$(LIB_DIR)/$(OUTPUT_DIR) -LIBPATH:/c/Program\ Files\ \(x86\)/Microsoft\ DirectX\ SDK\ \(June\ 2010\)/Lib/x64 -SUBSYSTEM:CONSOLE -OUT:$(TARGET).EXE $(OBJS) libcore.LIB libgles2renderer.LIB libnullaudio.LIB libnullfilesystem.LIB libnullfilesystem.LIB libnullphysics.LIB libnullrenderer.LIB libnullscript.LIB libstdfilesystem.LIB opengl32.lib gdi32.lib winmm.lib hid.lib setupapi.lib kernel32.lib user32.lib comdlg32.lib TiltFiveNative.dll.if.lib openvino.lib openvino_tensorflow_frontend.lib -DEBUG # libportaudioaudio.LIB

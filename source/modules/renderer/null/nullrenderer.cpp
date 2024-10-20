@@ -122,16 +122,19 @@ void Renderer::NullRenderer::RemoveDrawable(IDrawable *drawable)
 ITexture *Renderer::NullRenderer::CreateTexture(int width, int height)
 {
 //    return new NullTexture(width, height);
+    return NULL;
 }
 
 ITexture *Renderer::NullRenderer::CreateTexture(String filename)
 {
 //    return new NullTexture(filename);
+    return NULL;
 }
 
 ITexture *Renderer::NullRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
 //    return new NullDrawable();
+    return NULL;
 }
 
 void Renderer::NullRenderer::RemoveTexture(ITexture *texture)

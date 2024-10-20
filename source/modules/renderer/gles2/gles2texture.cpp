@@ -38,12 +38,12 @@ GLES2Texture::GLES2Texture(String front, String back, String top, String bottom,
 
 U8 GLES2Texture::At(unsigned int x, unsigned int y, U8 data)
 {
-
+    return 0;
 }
 
 U8 GLES2Texture::At(unsigned int index, U8 data)
 {
-
+    return 0;
 }
 
 void GLES2Texture::ReUpload()

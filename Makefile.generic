@@ -125,19 +125,23 @@ PLATFORM_SOURCES ?= \
 
 # Remember to configure asan with ASAN_OPTIONS env var when using it.
 # -fsanitize=address
-CFLAGS += -Wall -Wextra -MD $(INCLUDE) -DPLATFORM=$(PLATFORM) -DPLATFORM_HEADER=$(PLATFORM_HEADER) -DAUDIO=$(AUDIO) -DAUDIO_HEADER=$(AUDIO_HEADER) -DRENDERER=$(RENDERER) -DRENDERER_HEADER=$(RENDERER_HEADER) -DPHYSICS=$(PHYSICS) -DPHYSICS_HEADER=$(PHYSICS_HEADER) -DSCRIPT=$(SCRIPT) -DSCRIPT_HEADER=$(SCRIPT_HEADER) -DFILESYSTEM=$(FILESYSTEM) -DFILESYSTEM_HEADER=$(FILESYSTEM_HEADER)
+ifndef MSVC2022
+CFLAGS += -Wall -Wextra
+endif
+
+CFLAGS += -MD $(INCLUDE) -DPLATFORM=$(PLATFORM) -DPLATFORM_HEADER=$(PLATFORM_HEADER) -DAUDIO=$(AUDIO) -DAUDIO_HEADER=$(AUDIO_HEADER) -DRENDERER=$(RENDERER) -DRENDERER_HEADER=$(RENDERER_HEADER) -DPHYSICS=$(PHYSICS) -DPHYSICS_HEADER=$(PHYSICS_HEADER) -DSCRIPT=$(SCRIPT) -DSCRIPT_HEADER=$(SCRIPT_HEADER) -DFILESYSTEM=$(FILESYSTEM) -DFILESYSTEM_HEADER=$(FILESYSTEM_HEADER)
 
 ifndef NO_THEORA
-    ifndef MSVC2019
+    ifndef MSVC2022
         ifneq ($(COMPILE_PLATFORM),webasm)
             CFLAGS += -DTHEORA 
         endif
     endif
 endif
 
-ifdef MSVC2019
-    CFLAGS += -std:c++latest -Fo./build/ -DTILTFIVE # msvc++
-    INCLUDE += -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/shared -I/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Community/VC/Tools/MSVC/14.28.29910/include -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/ucrt -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.19041.0/um -I/c/Program\ Files\ \(x86\)/Microsoft\ DirectX\ SDK\ \(June\ 2010\)/Include
+ifdef MSVC2022
+    CFLAGS += -std:c++latest -Fo./build/ #-DTILTFIVE # msvc++
+    INCLUDE += -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22621.0/shared -I/c/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.38.33130/include -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22621.0/ucrt -I/c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22621.0/um -I/c/Program\ Files\ \(x86\)/Microsoft\ DirectX\ SDK\ \(June\ 2010\)/Include
 else
     CFLAGS += -Wno-strict-aliasing -std=c++11 # g++
 endif

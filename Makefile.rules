@@ -203,7 +203,6 @@ $(BUILD_DIR)/%.o: %.cpp
 clean:
 	find . -name build -exec rm -rf {} \;
 	find $(SOLIDCORE) -name build -exec rm -rf {} \;
-	rm $(TARGET).rpx
 
 ifndef MSVC2019
 # TODO: Check if this is actually working! 
