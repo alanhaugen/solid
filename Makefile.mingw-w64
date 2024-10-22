@@ -94,7 +94,7 @@ LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
 
 $(BUILD_DIR)/%.obj: %.cpp
 	@$(shell mkdir -p $@.dummy)
-	$(CC) $(CFLAGS) -c $*.cpp -Fo$@ $(MD)
+	$(CC) $(CFLAGS) -c $*.cpp -Fo$@ -MT # /MD (dynamic) and /MT (static)
 	@echo $*.cpp
 
 $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).LIB: $(OBJS)
