@@ -24,7 +24,7 @@ VIDEO_HEADER = modules/video/theora/theoravideo.h
 FLEX  ?= flex
 BISON ?= bison
 
-ASSIMP ?= assimp 
+ASSIMP  ?= assimp 
 CONVERT ?= convert
 
 INSTALL_DIR      ?= /usr/local
@@ -77,7 +77,7 @@ else
     BUILD = debug
 endif
 
-OUTPUT_DIR = $(BUILD)/$(COMPILE_PLATFORM)/$(PROCESSOR_ARCH)
+OUTPUT_DIR = $(BUILD)/$(TARGET_PLATFORM)/$(PROCESSOR_ARCH)
 BUILD_DIR  = build/$(OUTPUT_DIR)
 LIB_DIR    = $(SOLIDCORE)/lib
 

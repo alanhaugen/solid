@@ -1,9 +1,9 @@
 #include "sdlrender.h"
 
-//#ifdef __APPLE__
+#ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/gl.h>
-//#endif
+#endif
 
 SDLRender::SDLRender()
 {
