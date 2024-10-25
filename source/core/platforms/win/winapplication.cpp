@@ -1,6 +1,6 @@
 #include "winapplication.h"
 #include <mmsystem.h>
-#include <Synchapi.h>
+//#include <Synchapi.h>
 #include <windows.h>
 
 //#define TILTFIVE

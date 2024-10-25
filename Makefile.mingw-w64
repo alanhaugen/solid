@@ -1,6 +1,6 @@
 #############################################################################
 # Setup libraries and compiler for this platform
-# Type make PLATFORM=mingw32 to use, don't change filename
+# Type make PLATFORM=WinApplication to use, don't change filename
 #############################################################################
 
 PROCESSOR_ARCH = x86

@@ -29,6 +29,7 @@ CONVERT ?= ./$(TOOLS_DIR)/convert$(EXE)
 
 INSTALL_DIR      ?= /usr/local
 COMPILE_PLATFORM ?= $(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 's/\//_/g')
+TARGET_PLATFORM ?= $(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 's/\//_/g')
 PROCESSOR_ARCH   ?= $(shell uname -m | sed -e s/AMD64/x86_64/ | sed -e s/i.86/x86/ | sed -e s/v7l/hf/)
 BLENDER          ?= blender
 
@@ -43,10 +44,12 @@ ifeq ($(OS),Windows_NT)
     
     BLENDER = ./$(TOOLS_DIR)/blender-3.3.21-windows-x64/blender.exe
     CONVERT = $(SOLIDCORE)/tools/mingw32/convert.exe
+
+    TARGET_PLATFORM = mingw32
     
     ifdef VSCMD_ARG_HOST_ARCH
         COMPILE_PLATFORM = mingw32
-        MSVC2019 = 1
+        MSVC2022 = 1
     endif
     ifneq ($(COMPILE_PLATFORM),cygwin)
         COMPILE_PLATFORM = mingw32
@@ -81,13 +84,17 @@ LIB_DIR    = $(SOLIDCORE)/lib
 GENERATED_SOURCES = $(PARSERS:.y=.tab.cpp) $(SCANNERS:.l=.cpp) 
 SOURCES += $(GENERATED_SOURCES)
 
-ifdef MSVC2019
+ifdef MSVC2022
 OBJS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.obj))
 else
 OBJS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.o))
 endif
 
-INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(COMPILE_PLATFORM)
+ifeq ($(PLATFORM),WinApplication)
+    TARGET_PLATFORM = mingw32
+endif
+
+INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(TARGET_PLATFORM)
 
 #############################################################################
 # Set target platform libs and compiler
@@ -102,7 +109,7 @@ else ifeq ($(COMPILE_PLATFORM),darwin)
 else ifeq ($(COMPILE_PLATFORM),linux)
     ifeq ($(PLATFORM),ndk)
         include $(SOLIDCORE)/Makefile.ndk
-    else ifeq ($(PLATFORM),mingw32)
+    else ifeq ($(PLATFORM),WinApplication)
         include $(SOLIDCORE)/Makefile.mingw-w64
     else
         include $(SOLIDCORE)/Makefile.linux
@@ -204,7 +211,7 @@ clean:
 	find . -name build -exec rm -rf {} \;
 	find $(SOLIDCORE) -name build -exec rm -rf {} \;
 
-ifndef MSVC2019
+ifndef MSVC2022
 # TODO: Check if this is actually working! 
 -include $(OBJS:.o=.d)
 endif
