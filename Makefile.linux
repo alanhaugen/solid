@@ -7,8 +7,13 @@ CC = g++
 
 NO_THEORA = true
 
-#AUDIO        ?= PortaudioAudio
-#AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+ifneq ($(wildcard $(LIB_DIR)/$(OUTPUT_DIR)/libportaudio.a),)
+    AUDIO        ?= PortaudioAudio
+    AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
+else
+    AUDIO        ?= Audio::NullAudio
+    AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"
+endif
 
 include $(SOLIDCORE)/Makefile.generic
 
@@ -20,6 +25,10 @@ include $(SOLIDCORE)/Makefile.generic
 #############################################################################
 
 LIBS += -lm -ldl -lpthread -Wl,-rpath=$(SOLIDCORE)/lib/$(OUTPUT_DIR)
+
+ifeq ($(AUDIO),PortaudioAudio)
+    LIBS += -lrt -lasound -ljack
+endif
 
 #############################################################################
 # Add platform specific CFLAGS
