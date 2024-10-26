@@ -96,6 +96,7 @@ public:
         }
 
         count--;
+
         delete node;
     }
 
