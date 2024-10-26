@@ -84,12 +84,12 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
 void SDLRender::PreRender()
 {
-    //#ifdef __APPLE__
-        GLint                       sync = 0;
-        CGLContextObj               ctx = CGLGetCurrentContext();
+#ifdef __APPLE__
+    GLint                       sync = 0;
+    CGLContextObj               ctx = CGLGetCurrentContext();
 
-        CGLSetParameter(ctx, kCGLCPSwapInterval, &sync);
-    //#endif
+    CGLSetParameter(ctx, kCGLCPSwapInterval, &sync);
+#endif
 }
 
 void SDLRender::PostRender()

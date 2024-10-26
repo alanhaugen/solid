@@ -7,8 +7,6 @@ CC = g++
 
 NO_THEORA = true
 
-CONVERT = convert
-
 #AUDIO        ?= PortaudioAudio
 #AUDIO_HEADER ?= "modules/audio/portaudioaudio/portaudioaudio.h"
 
