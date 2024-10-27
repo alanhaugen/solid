@@ -22,7 +22,12 @@ void Services::SetScene(IScene *_scene)
         }
 
         scene = _scene;
+
+        time->Reset();
+
         scene->Init();
+
+        Log("Loading scene " + String(scene->id) + " done: " + String(time->TimeSinceStarted()) + " ms");
 
         // Run the game logic TODO: This is a copy of UpdateScene, duplicate. FIXME: just call UpdateScene
         scene->Update();
