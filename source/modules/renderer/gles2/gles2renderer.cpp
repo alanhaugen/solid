@@ -64,9 +64,12 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
     //for(unsigned drawable = 0; drawable < drawables.Size(); drawable++)
     //{
     // NOTE: Remove please, I am going backwards through the array (slower!) to make sure new things are drawn first
-    for(unsigned drawable = drawables.Size(); drawable-- > 0; )
+    LinkedList<GLES2Drawable*>::Iterator drawable = drawables.End();
+
+    for (; drawable != NULL; --drawable)
     {
-        GLES2Drawable *gles2drawable = drawables[drawable];
+        GLES2Drawable *gles2drawable = (*drawable);
+
         if (gles2drawable->draw)
         {
             gles2drawable->Activate(projViewMatrix);
@@ -168,7 +171,7 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
 
-    drawables.Add(drawable);
+    drawables.Append(drawable);
 
     return drawable;
 }
@@ -184,21 +187,26 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Arr
 
     GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
 
-    drawables.Add(drawable);
+    drawables.Append(drawable);
 
     return drawable;
 }
 
 void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
 {
-    for (unsigned i = 0; i < drawables.Size(); i++)
+    LinkedList<GLES2Drawable*>::Iterator drawableIterator = drawables.Begin();
+
+    for (int i = 0; drawableIterator != drawables.End(); ++drawableIterator)
     {
-        if (drawables[i] == drawable)
+        GLES2Drawable *gles2drawable = (*drawableIterator);
+        if (gles2drawable == drawable)
         {
-            delete drawables[i];
             drawables.RemoveAt(i);
+            delete gles2drawable;
             break;
         }
+
+        i++;
     }
 }
 
@@ -256,11 +264,15 @@ void GLES2Renderer::RemoveTexture(ITexture *texture)
 
 void GLES2Renderer::ClearDrawables()
 {
-    for (unsigned i = 0; i < drawables.Size(); i++)
+    /*LinkedList<GLES2Drawable*>::Iterator drawable = drawables.Begin();
+
+    for (int i = 0; drawable != drawables.End(); ++drawable)
     {
-        delete drawables[i];
-        drawables[i] = NULL;
-    }
+        GLES2Drawable *gles2drawable = (*drawable);
+        drawables.RemoveAt(i);
+        delete gles2drawable;
+        i++;
+    }*/
 }
 
 void GLES2Renderer::ClearTextures()

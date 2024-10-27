@@ -86,6 +86,10 @@ include $(SOLIDCORE)/Makefile.generic
 # Add platform specific libraries
 #############################################################################
 
+ifeq ($(COMPILE_PLATFORM), linux)
+    LIB_PATH += -L/usr/i686-w64-mingw32/lib/
+endif
+
 LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
 
 #############################################################################

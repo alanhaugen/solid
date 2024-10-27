@@ -33,7 +33,7 @@ FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
 # Libs
 #############################################################################
 
-LIBPATH ?= -L$(SOLIDCORE)/lib/$(OUTPUT_DIR) -L/usr/i686-w64-mingw32/lib/ -L/usr/lib
+LIBPATH ?= -L$(SOLIDCORE)/lib/$(OUTPUT_DIR) -L/usr/lib
 
 ifeq ($(PLATFORM),SDLApplication)
     LIBS += -lSDL2

@@ -17,7 +17,7 @@ protected:
     void GetError();
 
 private:
-    Array<GLES2Drawable*> drawables;
+    LinkedList<GLES2Drawable*> drawables;
     Array<GLES2Texture*> textures;
     Array<ILight*> lights;
 

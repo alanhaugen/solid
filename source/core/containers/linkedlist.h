@@ -15,7 +15,7 @@
  *
  * LinkedList<Sprite*>::Iterator iterator(entities.Begin());
  *
- * for(; iterator != entities.End(); ++iterator) {
+ * for(; iterator != NULL; ++iterator) {
  *     (*iterator)->draw();
  * }
  */
@@ -153,7 +153,7 @@ public:
 
     Iterator End()
     {
-        return lastNode->GetNext();
+        return lastNode;
     }
 
     // Helper
