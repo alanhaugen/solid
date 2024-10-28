@@ -14,6 +14,8 @@ public:
     ~GLES2Shader();
 
     unsigned int program;
+    bool isCompiled;
+    String name;
 
     bool LoadGLSL(GLenum type, const char *source);
 

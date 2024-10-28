@@ -5,6 +5,7 @@ GLES2Shader::GLES2Shader() :
 {
     shaders[VERTEX_SHADER]   = 0;
     shaders[FRAGMENT_SHADER] = 0;
+    isCompiled = false;
 }
 
 GLES2Shader::~GLES2Shader()
@@ -15,6 +16,11 @@ GLES2Shader::~GLES2Shader()
 void GLES2Shader::Compile()
 {
     // Attach shaders to the shader program
+    if (isCompiled)
+    {
+        return;
+    }
+
     program = glCreateProgram();
 
     if (shaders[VERTEX_SHADER] != 0)
@@ -52,6 +58,8 @@ void GLES2Shader::Compile()
 
     glDeleteShader(shaders[VERTEX_SHADER]);
     glDeleteShader(shaders[FRAGMENT_SHADER]);
+
+    isCompiled = true;
 }
 
 bool GLES2Shader::LoadGLSL(GLenum type, const char *source)

@@ -20,6 +20,7 @@ private:
     LinkedList<GLES2Drawable*> drawables;
     Array<GLES2Texture*> textures;
     Array<ILight*> lights;
+    LinkedList<GLES2Shader*> shaders;
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
 
@@ -46,6 +47,8 @@ public:
     ITexture* CreateTexture(String front, String back, String top, String bottom, String left, String right);
     ITexture* CreateTexture(int width, int height);
     void RemoveTexture(ITexture* texture);
+
+    GLES2Shader *CreateShader(Array<String> &shaders);
 
     void ClearDrawables();
     void ClearTextures();

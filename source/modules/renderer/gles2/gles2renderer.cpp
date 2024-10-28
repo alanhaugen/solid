@@ -168,15 +168,19 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<String> &shaders,
         Array<ITexture *> textures)
 {
+    GLES2Shader* shader = CreateShader(shaders);
 
-    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
+    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shader, textures);
 
     drawables.Append(drawable);
 
     return drawable;
 }
 
-IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+                                         Array<unsigned int> &indices,
+                                         Array<String> &shaders,
+                                         ITexture *texture)
 {
     Array<ITexture *> textures;
 
@@ -185,7 +189,9 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Arr
         textures.Add(texture);
     }
 
-    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shaders, textures);
+    GLES2Shader* shader = CreateShader(shaders);
+
+    GLES2Drawable* drawable = new GLES2Drawable(vertices, indices, shader, textures);
 
     drawables.Append(drawable);
 
@@ -260,6 +266,39 @@ ITexture *GLES2Renderer::CreateTexture(String front, String back, String top, St
 void GLES2Renderer::RemoveTexture(ITexture *texture)
 {
 
+}
+
+GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
+{
+    GLES2Shader* shader;
+    String shaderName = shadersInput[VERTEX_SHADER] + shaderName + shadersInput[FRAGMENT_SHADER];
+
+    // See if shader is already created before
+    LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
+
+    if (shaders.Empty() == false)
+    {
+        for (; (*iterator) != NULL; ++iterator)
+        {
+            if ((*iterator)->name == shaderName)
+            {
+                return (*iterator);
+            }
+        }
+    }
+
+    // Create a new shader
+    shader = new GLES2Shader();
+
+    shader->name = shaderName;
+    shader->LoadGLSL(GL_VERTEX_SHADER, shadersInput[VERTEX_SHADER].ToChar());
+    shader->LoadGLSL(GL_FRAGMENT_SHADER, shadersInput[FRAGMENT_SHADER].ToChar());
+
+    shader->Compile();
+
+    shaders.Append(shader);
+
+    return shader;
 }
 
 void GLES2Renderer::ClearDrawables()

@@ -4,10 +4,8 @@
 
 GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
-        Array<String> &shaders,
+        GLES2Shader *shader_,
         Array<ITexture *> &textures_)
-    :
-      shader()
 {
     for (unsigned int i = 0; i < textures_.Size(); i++)
     {
@@ -124,10 +122,7 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
 
     DeActivate();
 
-    shader.LoadGLSL(GL_VERTEX_SHADER, shaders[VERTEX_SHADER].ToChar());
-    shader.LoadGLSL(GL_FRAGMENT_SHADER, shaders[FRAGMENT_SHADER].ToChar());
-
-    shader.Compile();
+    shader = shader_;
 }
 
 GLES2Drawable::~GLES2Drawable()
@@ -139,7 +134,7 @@ GLES2Drawable::~GLES2Drawable()
 
 void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
 {
-    glUseProgram(shader.program);
+    glUseProgram(shader->program);
 
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // Due to a bug on some cards, this is included
@@ -311,7 +306,7 @@ int GLES2Drawable::GetUniform(String location)
 
     if (uniforms.Find(location) == NULL)
     {
-        uniformLocation = glGetUniformLocation(shader.program, location.ToChar());
+        uniformLocation = glGetUniformLocation(shader->program, location.ToChar());
         uniforms.Insert(location, uniformLocation);
     }
     else
