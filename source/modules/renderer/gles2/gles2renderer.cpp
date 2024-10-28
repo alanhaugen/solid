@@ -271,7 +271,7 @@ void GLES2Renderer::RemoveTexture(ITexture *texture)
 GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
 {
     GLES2Shader* shader;
-    String shaderName = shadersInput[VERTEX_SHADER] + shaderName + shadersInput[FRAGMENT_SHADER];
+    String shaderName = shadersInput[VERTEX_SHADER] + shadersInput[FRAGMENT_SHADER];
 
     // See if shader is already created before
     LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
