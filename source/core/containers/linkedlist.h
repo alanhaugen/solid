@@ -174,7 +174,7 @@ public:
         Append(new LinkedNode(val));
     }
 
-    void RemoveAt(int index)
+    Datatype RemoveAt(int index)
     {
         LinkedNode *curNode = firstNode;
 
@@ -184,6 +184,8 @@ public:
         }
 
         Remove(curNode);
+
+        return curNode->element;
     }
 
     void Clear()
