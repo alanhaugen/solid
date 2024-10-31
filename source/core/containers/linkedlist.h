@@ -183,9 +183,11 @@ public:
             curNode = curNode->GetNext();
         }
 
+        Datatype elementCopy = curNode->element;
+
         Remove(curNode);
 
-        return curNode->element;
+        return elementCopy;
     }
 
     void Clear()
