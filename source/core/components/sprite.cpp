@@ -48,7 +48,7 @@ void Sprite::Init(const float x_,
     halfWidth  = width  / 2;
     halfHeight = height / 2;
 
-    Array<IDrawable::Vertex> vertices;
+    Array<IDrawable::Vertex> vertices(6 * quadQuantity);
     Array<unsigned int> indices;
     Array<String> shaders(2);
 
@@ -61,12 +61,12 @@ void Sprite::Init(const float x_,
             glyph = -1; // -1 will allow the shader to animate the sprite
         }
 
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
-        vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f,  1.0f), glyph));
+        vertices[0 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f, -1.0f), glyph));
+        vertices[1 + i* 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
+        vertices[2 + i* 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
+        vertices[3 + i* 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.0f,  1.0f), glyph));
+        vertices[4 + i* 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f, -1.0f), glyph));
+        vertices[5 + i* 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.0f,  1.0f), glyph));
     }
 
     for (unsigned int i = 0; i < quadQuantity; i++)
