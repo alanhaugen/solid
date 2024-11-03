@@ -37,10 +37,6 @@ void Application::LoadUserData()
     // TODO: Remove?
     random.SetRandomSeed(::time(NULL));
 
-#ifdef WIN32
-    windowHeight += 29;
-#endif
-
     // Process command line parameters
     /*argument.SetArgument<int>("--window-length", windowLength);
     argument.SetArgument<int>("--window-height", windowHeight);

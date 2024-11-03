@@ -27,7 +27,10 @@ LRESULT CALLBACK MessageLoop(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
 {
     switch (message) {
     case WM_SIZE:
-        Locator::renderer->Resize(LOWORD(lParam), HIWORD(lParam));
+        if (LOWORD(lParam) != 0 && HIWORD(lParam) != 0)
+        {
+            Locator::renderer->Resize(LOWORD(lParam), HIWORD(lParam));
+        }
         break;
 
     case WM_KEYDOWN:
