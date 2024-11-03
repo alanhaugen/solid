@@ -6,11 +6,12 @@
 
 
 bool GLES2Renderer::Init(
-        bool fullscreen,
+        bool fullscreen_,
         const char *windowTitle,
         const unsigned int windowLength,
         const unsigned int windowHeight)
 {
+    fullscreen = fullscreen_;
     NullRenderer::Init(fullscreen, windowTitle, windowLength, windowHeight);
 
     Resize(windowLength, windowHeight);
