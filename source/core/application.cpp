@@ -29,8 +29,8 @@ Application::~Application()
 void Application::LoadUserData()
 {
     String name = "Fight of Kings";
-    int windowLength = 1024 - (1024 / 4);
-    int windowHeight = 1024 - (1024 / 4);
+    int windowLength = 1365;
+    int windowHeight = 768;
     bool fullscreen  = false;
     float timeScale  = 1.0;
 
