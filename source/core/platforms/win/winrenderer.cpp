@@ -140,11 +140,6 @@ bool WinRenderer::Init(bool fullscreen_, const char *windowTitle, const unsigned
         return false;
     }
 
-    if (fullscreen_)
-    {
-        Fullscreen();
-    }
-
     SetWindowTextA(hWnd, windowTitle);
 
     PIXELFORMATDESCRIPTOR pfd =
@@ -253,6 +248,11 @@ bool WinRenderer::Init(bool fullscreen_, const char *windowTitle, const unsigned
     SetFocus(hWnd);                             // Sets Keyboard Focus To The Window
 
     Resize(windowLength_, windowHeight_);
+
+    if (fullscreen_)
+    {
+        Fullscreen();
+    }
 
     return true;
 }
