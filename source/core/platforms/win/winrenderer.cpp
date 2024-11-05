@@ -82,8 +82,10 @@ LRESULT CALLBACK MessageLoop(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
     return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength_, const unsigned int windowHeight_)
+bool WinRenderer::Init(bool fullscreen_, const char *windowTitle, const unsigned int windowLength_, const unsigned int windowHeight_)
 {
+    fullscreen = false;
+
     WNDCLASSEX wcex;
 
     DWORD      dwExStyle;
@@ -138,7 +140,7 @@ bool WinRenderer::Init(bool fullscreen, const char *windowTitle, const unsigned 
         return false;
     }
 
-    if (fullscreen)
+    if (fullscreen_)
     {
         Fullscreen();
     }
