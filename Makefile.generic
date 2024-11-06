@@ -150,7 +150,7 @@ ifdef MULTITHREADED
     CFLAGS += -DMULTITHREADED
 endif
 
-release: CFLAGS += -O3 -DNDEBUG
+release: CFLAGS += -DNDEBUG #-O3
 debug: CFLAGS += $(DEBUGCFLAGS)
 
 acp: $(DATA)
