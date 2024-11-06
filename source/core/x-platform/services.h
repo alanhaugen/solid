@@ -4,7 +4,7 @@
 #include "core/x-platform/scene.h"
 #include "core/x-platform/generatedscene.h"
 
-const double FRAME_TIME_MS = 1000.f / 60.f;
+static double FRAME_TIME_MS = 1000.f / 60.f;
 
 class Services : public Locator
 {
