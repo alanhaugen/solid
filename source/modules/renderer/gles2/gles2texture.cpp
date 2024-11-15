@@ -107,7 +107,7 @@ void GLES2Texture::Load(String path, int type, GLenum sideTarget)
                     GL_UNSIGNED_BYTE,
                     img);
 
-        glGenerateMipmap(GL_TEXTURE_2D);
+        //glGenerateMipmap(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, 0);
     }
