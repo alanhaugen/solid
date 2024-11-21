@@ -19,6 +19,7 @@ private:
               const float y_ = 0.0,
               const float scaleX_ = 1.0f,
               const float scaleY_ = 1.0f,
+              const glm::vec2 anchorPoint = glm::vec2(0,0),
               const int textureWidth_ = 0,
               const int textureHeight_ = 0,
               const unsigned int quadQuantity = 1,
@@ -32,6 +33,7 @@ public:
            const float y_ = 0.0,
            const float scaleX_ = 1.0f,
            const float scaleY_ = 1.0f,
+           const glm::vec2 anchorPoint_ = glm::vec2(0,0),
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
            const unsigned int quadQuantity = 1,
@@ -43,6 +45,7 @@ public:
            const float y_ = 0.0,
            const float scaleX_ = 1.0f,
            const float scaleY_ = 1.0f,
+           const glm::vec2 anchorPoint_ = glm::vec2(0,0),
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
            const unsigned int quadQuantity = 1,
@@ -75,6 +78,7 @@ public:
     // Scale a certain amount in x, y or both
     void Scale(const float scale, bool x = true, bool y = true);
 
+    glm::vec2 anchorPoint;
     float halfWidth, halfHeight;
     float scaleX, scaleY;
     int width, height;

@@ -5,6 +5,7 @@ void Sprite::Init(const float x_,
                   const float y_,
                   const float scaleX_,
                   const float scaleY_,
+                  const glm::vec2 anchorPoint_,
                   const int textureWidth_,
                   const int textureHeight_,
                   const unsigned int quadQuantity,
@@ -26,6 +27,8 @@ void Sprite::Init(const float x_,
 
     isFlipped = false;
     isFlippedVertical = false;
+
+    anchorPoint = anchorPoint_;
 
     if (textureWidth_ != 0)
     {
@@ -121,6 +124,7 @@ void Sprite::Init(const float x_,
     drawable->hasDepth    = false;
     drawable->sendToFront = true;
     drawable->uniformData = uniforms;
+
 }
 
 Sprite::Sprite(String textureFilePath,
@@ -128,6 +132,7 @@ Sprite::Sprite(String textureFilePath,
                const float _y,
                const float scaleX_,
                const float scaleY_,
+               const glm::vec2 anchorPoint_,
                const int _textureWidth,
                const int _textureHeight,
                const unsigned int quadQuantity,
@@ -135,7 +140,7 @@ Sprite::Sprite(String textureFilePath,
 {
     texture = renderer->CreateTexture(textureFilePath);
 
-    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
 
 Sprite::Sprite(const int red,
@@ -145,6 +150,7 @@ Sprite::Sprite(const int red,
                const float _y,
                const float scaleX_,
                const float scaleY_,
+               const glm::vec2 anchorPoint_,
                const int _textureWidth,
                const int _textureHeight,
                const unsigned int quadQuantity,
@@ -152,7 +158,7 @@ Sprite::Sprite(const int red,
 {
     //textures.Add(new Pixmap(red, green, blue));
 
-    Init(_x, _y, scaleX_, scaleY_, _textureWidth, _textureHeight, quadQuantity, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity, glyphs);
 }
 
 Sprite::~Sprite()
@@ -165,7 +171,7 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x, *matrix.y + Y_OFFSET)));
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x - anchorPoint.x * width * scaleX, *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET)));
     Uniform("index", static_cast<int>(index));
     Uniform("flip", static_cast<int>(isFlipped));
     Uniform("flipVertical", static_cast<int>(isFlippedVertical));
