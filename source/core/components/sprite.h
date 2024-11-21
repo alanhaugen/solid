@@ -22,7 +22,7 @@ private:
               const glm::vec2 anchorPoint = glm::vec2(0,0),
               const int textureWidth_ = 0,
               const int textureHeight_ = 0,
-              const unsigned int quadQuantity = 1,
+              const unsigned int quadQuantity_ = 1,
               const char *glyphs = "");
 
     ITexture *texture;
@@ -36,7 +36,7 @@ public:
            const glm::vec2 anchorPoint_ = glm::vec2(0,0),
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
-           const unsigned int quadQuantity = 1,
+           const unsigned int quadQuantity_ = 1,
            const char *glyphs = "");
     Sprite(const int red,
            const int green,
@@ -48,7 +48,7 @@ public:
            const glm::vec2 anchorPoint_ = glm::vec2(0,0),
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
-           const unsigned int quadQuantity = 1,
+           const unsigned int quadQuantity_ = 1,
            const char *glyphs = "");
     ~Sprite();
 
@@ -79,6 +79,7 @@ public:
     void Scale(const float scale, bool x = true, bool y = true);
 
     glm::vec2 anchorPoint;
+    int quadQuantity;
     float halfWidth, halfHeight;
     float scaleX, scaleY;
     int width, height;

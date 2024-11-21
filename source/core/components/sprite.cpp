@@ -8,9 +8,12 @@ void Sprite::Init(const float x_,
                   const glm::vec2 anchorPoint_,
                   const int textureWidth_,
                   const int textureHeight_,
-                  const unsigned int quadQuantity,
+                  const unsigned int quadQuantity_,
                   const char *glyphs)
 {
+    anchorPoint = anchorPoint_;
+    quadQuantity = quadQuantity_;
+
     tag = "Sprite";
 
     float x = x_;
@@ -27,8 +30,6 @@ void Sprite::Init(const float x_,
 
     isFlipped = false;
     isFlippedVertical = false;
-
-    anchorPoint = anchorPoint_;
 
     if (textureWidth_ != 0)
     {
@@ -135,12 +136,12 @@ Sprite::Sprite(String textureFilePath,
                const glm::vec2 anchorPoint_,
                const int _textureWidth,
                const int _textureHeight,
-               const unsigned int quadQuantity,
+               const unsigned int quadQuantity_,
                const char *glyphs)
 {
     texture = renderer->CreateTexture(textureFilePath);
 
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs);
 }
 
 Sprite::Sprite(const int red,
@@ -153,12 +154,12 @@ Sprite::Sprite(const int red,
                const glm::vec2 anchorPoint_,
                const int _textureWidth,
                const int _textureHeight,
-               const unsigned int quadQuantity,
+               const unsigned int quadQuantity_,
                const char *glyphs)
 {
     //textures.Add(new Pixmap(red, green, blue));
 
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs);
 }
 
 Sprite::~Sprite()
@@ -171,7 +172,10 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(*matrix.x - anchorPoint.x * width * scaleX, *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET)));
+    //quadQuantity/2 because each character's given space is half of its width
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(
+                        *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2),
+                        *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET)));
     Uniform("index", static_cast<int>(index));
     Uniform("flip", static_cast<int>(isFlipped));
     Uniform("flipVertical", static_cast<int>(isFlippedVertical));
