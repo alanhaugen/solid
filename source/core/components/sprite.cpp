@@ -173,9 +173,10 @@ Sprite::~Sprite()
 void Sprite::Update()
 {
     //quadQuantity/2 because each character's given space is half of its width
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(
-                        *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2),
-                        *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET)));
+    transformedX = *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2);
+    transformedY = *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET;
+
+    Uniform("pos", static_cast<glm::vec2>(glm::vec2(transformedX, transformedY)));
     Uniform("index", static_cast<int>(index));
     Uniform("flip", static_cast<int>(isFlipped));
     Uniform("flipVertical", static_cast<int>(isFlippedVertical));
@@ -214,8 +215,8 @@ bool Sprite::IsPressed()
 {
     if (input.Mouse.Pressed)
     {
-        if ((input.Mouse.x >= *matrix.x && input.Mouse.y >= *matrix.y) &&
-                (input.Mouse.x < *matrix.x + (width * scaleX) && input.Mouse.y < *matrix.y + (height * scaleY)))
+        if ((input.Mouse.x >= transformedX && input.Mouse.y >= transformedY) &&
+                (input.Mouse.x < transformedX + (width * scaleX) && input.Mouse.y < transformedY + (height * scaleY)))
         {
             return true;
         }
@@ -226,8 +227,8 @@ bool Sprite::IsPressed()
 
 bool Sprite::IsHoveredOver()
 {
-    if ((input.Mouse.x >= *matrix.x && input.Mouse.y >= *matrix.y) &&
-            (input.Mouse.x < *matrix.x + (width * scaleX) && input.Mouse.y < *matrix.y + (height * scaleY)))
+    if ((input.Mouse.x >= transformedX && input.Mouse.y >= transformedY) &&
+            (input.Mouse.x < transformedX + (width * scaleX) && input.Mouse.y < transformedY + (height * scaleY)))
     {
         return true;
     }

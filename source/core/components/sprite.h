@@ -86,6 +86,7 @@ public:
     bool isVisible;
     int index;
     float x,y;
+    float transformedX, transformedY;
     bool isFlipped;
     bool isFlippedVertical;
 };
