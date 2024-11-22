@@ -69,7 +69,10 @@ public:
 
     ~Array()
     {
-        delete[] array;
+        if (size != 0)
+        {
+            delete[] array;
+        }
     }
 
     // Copy constructor
