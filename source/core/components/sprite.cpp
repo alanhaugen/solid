@@ -28,6 +28,9 @@ void Sprite::Init(const float x_,
     scaleX = scaleX_;
     scaleY = scaleY_;
 
+    originalScaleX = scaleX_;
+    originalScaleY = scaleY_;
+
     isFlipped = false;
     isFlippedVertical = false;
 
@@ -185,6 +188,7 @@ void Sprite::Update()
     Uniform("time", static_cast<float>(Application::time->TimeSinceStarted()));
     Uniform("scaleX", static_cast<float>(scaleX));
     Uniform("scaleY", static_cast<float>(scaleY));
+    //Uniform("rotation", static_cast<glm::vec2>(glm::vec2(0.0f, 1.0f)));
 
     if (timer->TimeSinceStarted() > 100.0f)
     {

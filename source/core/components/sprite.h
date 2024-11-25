@@ -82,6 +82,7 @@ public:
     int quadQuantity;
     float halfWidth, halfHeight;
     float scaleX, scaleY;
+    float originalScaleX, originalScaleY;
     int width, height;
     bool isVisible;
     int index;
