@@ -18,11 +18,6 @@ public:
 
     Datatype Pop()
     {
-        /*if (LinkedList<Datatype>::Empty())
-        {
-            return NULL;
-        }*/
-
         Datatype data = LinkedList<Datatype>::lastNode->element;
         LinkedList<Datatype>::Remove(LinkedList<Datatype>::lastNode);
 

@@ -183,6 +183,8 @@ void Sprite::Update()
     Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
     Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
     Uniform("time", static_cast<float>(Application::time->TimeSinceStarted()));
+    Uniform("scaleX", static_cast<float>(scaleX));
+    Uniform("scaleY", static_cast<float>(scaleY));
 
     if (timer->TimeSinceStarted() > 100.0f)
     {
@@ -270,5 +272,4 @@ void Sprite::Rotate(int radians)
 
 void Sprite::Scale(const float scale, bool x, bool y)
 {
-
 }
