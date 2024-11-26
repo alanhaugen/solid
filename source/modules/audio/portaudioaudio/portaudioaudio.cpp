@@ -92,10 +92,7 @@ bool PortaudioAudio::Init()
 
 void PortaudioAudio::Stop()
 {
-    for (unsigned int i = 0; i < audioData.Size(); i++)
-    {
-        audioData.RemoveAt(0);
-    }
+    audioData.Clear();
 }
 
 void PortaudioAudio::PlaySound(const char *sound)
@@ -118,17 +115,17 @@ void PortaudioAudio::Update()
     {
         if (i == 0)
         {
-            readCount = audioData[0]->Update(sample);
+            readCount = audioData[0]->Update(sample, audioVolume);
 
             if (readCount == 0 && audioData.Size() > 1)
             {
                 audioData.RemoveAt(0);
-                readCount = audioData[0]->Update(sample);
+                readCount = audioData[0]->Update(sample, audioVolume);
             }
         }
         else
         {
-            audioData[i]->MixAudio(sample);
+            audioData[i]->MixAudio(sample, audioVolume);
         }
     }
 

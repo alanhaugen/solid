@@ -11,6 +11,8 @@ public:
     virtual void Stop() = 0;
     virtual void PlaySound(const char *sound) = 0;
     virtual void Update() = 0;
+
+    float audioVolume = 1.0f;
 };
 
 }

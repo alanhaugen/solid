@@ -13,8 +13,8 @@ public:
     ~PortaudioData();
 
     void Seek();
-    void MixAudio(float *sample);
-    int64_t Update(float *sample);
+    void MixAudio(float *sample, float audioVolume);
+    int64_t Update(float *sample, float audioVolume);
 
 private:
     struct AudioData
