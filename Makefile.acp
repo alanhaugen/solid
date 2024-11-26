@@ -89,11 +89,6 @@ intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@touch $@
 	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) "$(ENDIANNESS)" 
 
-intermediate/%.wav: data/%.wav
-	@mkdir -p $@/..
-	@touch $@
-	./$(TOOLS_DIR)/audacity $< --output-dir=intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
-
 intermediate/%.mkv: data/%.mkv
 	@mkdir -p $@/..
 	@touch $@
@@ -149,4 +144,5 @@ intermediate/%.wav: data/%.wav
 	@mkdir -p $@/..
 	@touch $@
 	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+#	./$(TOOLS_DIR)/audacity $< --output-dir=intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
 
