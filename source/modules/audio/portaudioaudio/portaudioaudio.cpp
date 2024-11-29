@@ -126,17 +126,17 @@ void PortaudioAudio::Update()
 
         if (i == 0)
         {
-            readCount = audioData[0]->Update(sample, audioVolume);
+            readCount = audioData[0]->Update(sample, volume);
 
             if (readCount == 0 && audioData.Size() > 1)
             {
                 audioData.RemoveAt(0);
-                readCount = audioData[0]->Update(sample, audioVolume);
+                readCount = audioData[0]->Update(sample, volume);
             }
         }
         else
         {
-            audioData[i]->MixAudio(sample, audioVolume);
+            audioData[i]->MixAudio(sample, volume);
         }
     }
 
