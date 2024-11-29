@@ -2,10 +2,12 @@
 #include <core/x-platform/url.h>
 // For fun later: https://zserge.com/posts/etude-in-c/
 
-PortaudioData::PortaudioData(const char *filename)
+PortaudioData::PortaudioData(const char *filename, int type_)
 {
     data = new AudioData;
     localSample = NULL;
+
+    type = type_;
 
     // Try to open the file
     data->sndFile = sf_open(URL(filename), SFM_READ, &data->sfInfo);
@@ -36,7 +38,7 @@ int64_t PortaudioData::Update(float *sample, float audioVolume)
     {
         for (int i = channel; i < (readCount * data->sfInfo.channels); i += data->sfInfo.channels)
         {
-            sample[i] *= audioVolume;
+             sample[i] *= audioVolume;
         }
     }
 
@@ -58,7 +60,6 @@ void PortaudioData::MixAudio(float *sample, float audioVolume)
         }
     }
 }
-
 
 PortaudioData::~PortaudioData()
 {

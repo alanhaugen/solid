@@ -18,7 +18,7 @@ public:
     virtual ~PortaudioAudio();
     virtual bool Init();
     virtual void Stop();
-    virtual void PlaySound(const char *sound);
+    virtual void PlaySound(const char *sound, int type = Audio::SFX);
     virtual void Update();
 
 private:

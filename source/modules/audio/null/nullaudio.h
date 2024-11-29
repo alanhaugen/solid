@@ -14,7 +14,7 @@ public:
     virtual bool Init();
     virtual bool Shutdown();
     virtual void Stop();
-    virtual void PlaySound(const char *sound);
+    virtual void PlaySound(const char *sound, int type);
     virtual void Update();
 };
 

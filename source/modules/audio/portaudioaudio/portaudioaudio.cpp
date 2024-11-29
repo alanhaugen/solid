@@ -95,9 +95,9 @@ void PortaudioAudio::Stop()
     audioData.Clear();
 }
 
-void PortaudioAudio::PlaySound(const char *sound)
+void PortaudioAudio::PlaySound(const char *sound, int type)
 {
-    audioData.Add(new PortaudioData(sound));
+    audioData.Add(new PortaudioData(sound, type));
 }
 
 /*
@@ -110,9 +110,20 @@ void PortaudioAudio::Update()
 {
     int64_t readCount = 0;
 
+    float volume = 0.0f;
+
     // Merge all audio together
     for (unsigned int i = 0; i < audioData.Size(); i++)
     {
+        if (audioData[i]->type == Audio::SFX)
+        {
+            volume = audioVolume;
+        }
+        else
+        {
+            volume = audioVolumeMusic;
+        }
+
         if (i == 0)
         {
             readCount = audioData[0]->Update(sample, audioVolume);

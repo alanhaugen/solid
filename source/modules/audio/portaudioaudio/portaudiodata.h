@@ -9,7 +9,7 @@
 class PortaudioData
 {
 public:
-    PortaudioData(const char *filename);
+    PortaudioData(const char *filename, int type);
     ~PortaudioData();
 
     void Seek();
@@ -25,6 +25,8 @@ private:
 
     AudioData *data;
     float *localSample;
+
+    int type;
 };
 
 #endif // PORTAUDIODATA_H

@@ -22,9 +22,10 @@ void Audio::NullAudio::Stop()
 {
 }
 
-void Audio::NullAudio::PlaySound(const char* sound)
+void Audio::NullAudio::PlaySound(const char* sound, int type = Audio::SFX)
 {
     (void)(sound);
+    (void)(type);
 }
 
 void Audio::NullAudio::Update()
