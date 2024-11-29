@@ -16,6 +16,8 @@ public:
     void MixAudio(float *sample, float audioVolume);
     int64_t Update(float *sample, float audioVolume);
 
+    int type;
+
 private:
     struct AudioData
     {
@@ -25,8 +27,6 @@ private:
 
     AudioData *data;
     float *localSample;
-
-    int type;
 };
 
 #endif // PORTAUDIODATA_H
