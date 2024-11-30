@@ -18,8 +18,8 @@ public:
     virtual void PlaySound(const char *sound, int type = SFX) = 0;
     virtual void Update() = 0;
 
-    float audioVolume = 1.0f;
-    float audioVolumeMusic = 1.0f;
+    float audioVolume = 0.0f;
+    float audioVolumeMusic = 0.0f;
 };
 
 }
