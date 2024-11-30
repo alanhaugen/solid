@@ -97,7 +97,7 @@ public:
 
         count--;
 
-        delete node;
+        //delete node;
     }
 
 public:

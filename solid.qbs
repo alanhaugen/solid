@@ -33,7 +33,7 @@ Project {
         "LinearMath",
         "nullscript",
         "portaudioaudio",
-        "portaudio",
+        "portaudio_static",
         "sndfile",
         "nullaudio",
         "nullrenderer",
