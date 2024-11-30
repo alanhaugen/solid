@@ -3,16 +3,19 @@
 # Type make PLATFORM=WinApplication to use, don't change filename
 #############################################################################
 
-PROCESSOR_ARCH = x86
+PROCESSOR_ARCH = x86_64
+
+AUDIO           ?= Audio::NullAudio
+AUDIO_HEADER    ?= "modules/audio/null/nullaudio.h"
 
 CFLAGS += -DWIN32
 
 #MSVC2022 = 1
 
+NO_THEORA = true
+
 #RENDERER        ?= DX11Renderer
 #RENDERER_HEADER ?= "modules/renderer/dx11/dx11renderer.h"
-AUDIO           ?= PortaudioAudio
-AUDIO_HEADER    ?= "modules/audio/portaudioaudio/portaudioaudio.h"
 
 DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid dx11renderer
 
@@ -72,13 +75,11 @@ endif
 # Add CFlags and LDFlags
 #############################################################################
 
-LDFLAGS += -static -static-libgcc -static-libstdc++ 
+LDFLAGS +=  -lpthread -lrt -lws2_32 -lm -static -static-libgcc -static-libstdc++
 
 ifeq ($(BUILD_TYPE), NDEBUG)
     LDFLAGS += -Wl,-subsystem,windows # Removes console
 endif
-
-bin/$(OUTPUT_DIR)/$(TARGET)$(EXE): CFLAGS += data/app.res $(shell windres data/app.rc -O coff -F pe-i386 -o data/app.res)
 
 include $(SOLIDCORE)/Makefile.generic
 
@@ -90,7 +91,7 @@ ifeq ($(COMPILE_PLATFORM), linux)
     LIB_PATH += -L/usr/i686-w64-mingw32/lib/
 endif
 
-LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
+LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi -lrt
 
 #############################################################################
 # Build rules for MSVC2022
