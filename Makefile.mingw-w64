@@ -3,7 +3,7 @@
 # Type make PLATFORM=WinApplication to use, don't change filename
 #############################################################################
 
-PROCESSOR_ARCH = x86_64
+PROCESSOR_ARCH = x86
 
 AUDIO           ?= Audio::NullAudio
 AUDIO_HEADER    ?= "modules/audio/null/nullaudio.h"
