@@ -161,6 +161,10 @@ bouncephysics:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/physics/bounce
 	$(MAKE) release -C $(SOLIDCORE)/source/modules/physics/bounce
 
+vulkanrenderer:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/renderer/vulkan
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/renderer/vulkan
+
 solid:
 	$(MAKE) debug -C $(SOLIDCORE)
 	$(MAKE) release -C $(SOLIDCORE)

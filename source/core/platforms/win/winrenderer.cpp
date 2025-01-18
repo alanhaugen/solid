@@ -3,8 +3,12 @@
 #include <windows.h>
 #include <tchar.h>
 
+#ifndef USE_VULKAN
 #include <glad/wgl.h>
 #include <glad/gl.h>
+#else
+#include <vulkan/vulkan.h>
+#endif
 
 WinRenderer::WinRenderer()
 {
@@ -142,6 +146,7 @@ bool WinRenderer::Init(bool fullscreen_, const char *windowTitle, const unsigned
 
     SetWindowTextA(hWnd, windowTitle);
 
+#ifndef USE_VULKAN
     PIXELFORMATDESCRIPTOR pfd =
     {
         sizeof(PIXELFORMATDESCRIPTOR),
@@ -226,6 +231,7 @@ bool WinRenderer::Init(bool fullscreen_, const char *windowTitle, const unsigned
     }
 
     Log("OpenGL " + String(GLAD_VERSION_MAJOR(version)) + "." + String(GLAD_VERSION_MINOR(version)));
+#endif
 
     if (RENDERER::Init(fullscreen, windowTitle, windowWidth, windowHeight) == false)
     {

@@ -75,7 +75,7 @@ endif
 # Add CFlags and LDFlags
 #############################################################################
 
-LDFLAGS +=  -lpthread -lrt -lws2_32 -lm -static -static-libgcc -static-libstdc++
+LDFLAGS += -lws2_32 -lm -static -static-libgcc -static-libstdc++
 
 ifeq ($(BUILD_TYPE), NDEBUG)
     LDFLAGS += -Wl,-subsystem,windows # Removes console
@@ -88,10 +88,11 @@ include $(SOLIDCORE)/Makefile.generic
 #############################################################################
 
 ifeq ($(COMPILE_PLATFORM), linux)
+# TODO: Test if this works for 64 bit!!
     LIB_PATH += -L/usr/i686-w64-mingw32/lib/
 endif
 
-LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi -lrt
+LIBS += -lgdi32 -lopengl32 -lwinmm -lhid -lsetupapi
 
 #############################################################################
 # Build rules for MSVC2022

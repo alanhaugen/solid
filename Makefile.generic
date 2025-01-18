@@ -58,6 +58,11 @@ ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -lgles2renderer
     DEPS += gles2renderer  
 endif
+ifeq ($(RENDERER),VulkanRenderer)
+    LIBS += -lvulkanrenderer -lgles2renderer
+    DEPS += vulkanrenderer
+    CFLAGS += -DUSE_VULKAN
+endif
 ifeq ($(RENDERER),SoftwareRenderer)
     LIBS += -lgles2renderer -lsoftwarerenderer
 endif
