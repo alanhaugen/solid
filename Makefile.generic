@@ -60,6 +60,9 @@ ifeq ($(RENDERER),GLES2Renderer)
 endif
 ifeq ($(RENDERER),VulkanRenderer)
     LIBS += -lvulkanrenderer -lgles2renderer
+ifeq ($(COMPILE_PLATFORM),darwin)
+    LIBS += -lMoltenVK
+endif
     DEPS += vulkanrenderer
     CFLAGS += -DUSE_VULKAN
 endif

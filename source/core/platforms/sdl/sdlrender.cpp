@@ -1,8 +1,12 @@
 #include "sdlrender.h"
 
+#ifdef USE_VULKAN
+#include <SDL/SDL_vulkan.h>
+#else
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/gl.h>
+#endif
 #endif
 
 SDLRender::SDLRender()
