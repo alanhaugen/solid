@@ -116,7 +116,14 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
             }
             else if (gles2drawable->type == DRAW_LINES)
             {
-                glDrawElements(GL_LINES, gles2drawable->indicesQuantity, GL_UNSIGNED_INT, 0);
+                if (gles2drawable->indicesQuantity > 0)
+                {
+                    glDrawElements(GL_LINES, gles2drawable->indicesQuantity, GL_UNSIGNED_INT, 0);
+                }
+                else
+                {
+                    glDrawArrays(GL_LINES, 0, gles2drawable->verticesQuantity);
+                }
             }
 
             gles2drawable->DeActivate();
@@ -275,7 +282,7 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     String shaderName = shadersInput[VERTEX_SHADER] + shadersInput[FRAGMENT_SHADER];
 
     // See if shader is already created before
-    if (shaders.Empty() == false)
+    /*if (shaders.Empty() == false)
     {
         LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
 
@@ -286,7 +293,7 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
                 return (*iterator);
             }
         }
-    }
+    }*/
 
     // Create a new shader
     shader = new GLES2Shader();

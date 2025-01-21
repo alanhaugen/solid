@@ -10,9 +10,9 @@ public:
     Triangle(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex v3);
 
     void Update();
-    void UpdateAfterPhysics();
 
 private:
+    void Init(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex v3);
     IDrawable *drawable;
 };
 

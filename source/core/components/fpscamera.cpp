@@ -16,19 +16,19 @@ void FPSCamera::Update()
     {
         if (input.Held(input.Key.W))
         {
-            camera->position += camera->forward * speed * deltaTime;
+            camera->position += camera->forward * speed;
         }
         if (input.Held(input.Key.S))
         {
-            camera->position -= camera->forward * speed * deltaTime;
+            camera->position -= camera->forward * speed;
         }
         if (input.Held(input.Key.D))
         {
-            camera->position += camera->right * speed * deltaTime;
+            camera->position += camera->right * speed;
         }
         if (input.Held(input.Key.A))
         {
-            camera->position -= camera->right * speed * deltaTime;
+            camera->position -= camera->right * speed;
         }
 
         camera->yaw   += input.Mouse.dx;

@@ -17,14 +17,14 @@ DEPS ?= nullaudio nullscript nullfilesystem nullphysics nullrenderer solid
 
 PLATFORM   ?= SDLApplication
 AUDIO      ?= Audio::NullAudio
-RENDERER   ?= GLES2Renderer
+RENDERER   ?= VulkanRenderer
 PHYSICS    ?= Physics::BouncePhysics
 SCRIPT     ?= Script::NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
 AUDIO_HEADER      ?= "modules/audio/null/nullaudio.h"
-RENDERER_HEADER   ?= "modules/renderer/gles2/gles2renderer.h"
+RENDERER_HEADER   ?= "modules/renderer/vulkan/vulkanrenderer.h"
 PHYSICS_HEADER    ?= "modules/physics/bounce/bouncephysics.h"
 SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
 FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
@@ -61,7 +61,7 @@ endif
 ifeq ($(RENDERER),VulkanRenderer)
     LIBS += -lvulkanrenderer -lgles2renderer
 ifeq ($(COMPILE_PLATFORM),darwin)
-    LIBS += -lMoltenVK
+    LIBS += -framework QuartzCore -framework IOSurface -lMoltenVK
 endif
     DEPS += vulkanrenderer
     CFLAGS += -DUSE_VULKAN

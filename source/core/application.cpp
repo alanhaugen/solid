@@ -19,16 +19,16 @@ Application::~Application()
     delete physics;
 
     filesystem = NULL;
-    renderer = NULL;
-    debug = NULL;
-    audio = NULL;
-    script = NULL;
-    physics = NULL;
+    renderer   = NULL;
+    debug      = NULL;
+    audio      = NULL;
+    script     = NULL;
+    physics    = NULL;
 }
 
 void Application::LoadUserData()
 {
-    String name = "Fight of Kings";
+    String name = "Solid";
     int windowLength = 1365;
     int windowHeight = 768;
 

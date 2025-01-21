@@ -1,7 +1,8 @@
 #include "sdlrender.h"
+#include <core/application.h>
 
 #ifdef USE_VULKAN
-#include <SDL/SDL_vulkan.h>
+#include <SDL_vulkan.h>
 #else
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
@@ -52,12 +53,26 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
         return false;
     }
 
+#ifdef USE_VULKAN
+    unsigned int extensionCount = 0;
+    SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, nullptr);
+
+    VulkanRenderer* vulkanRenderer = dynamic_cast<VulkanRenderer*>(Application::renderer);
+    vulkanRenderer->extensionNames.resize(extensionCount);
+
+    SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, vulkanRenderer->extensionNames.data());
+
+    int width  = windowWidth;
+    int height = windowHeight;
+
+    SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
+#else
     // Create our opengl context and attach it to our window
     maincontext = SDL_GL_CreateContext(mainwindow);
 
     if (maincontext == NULL)
     {
-        Log(SDL_GetError());
+        LogError(SDL_GetError());
         return false;
     }
 
@@ -82,17 +97,20 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
         return false;
     }
 #endif
+#endif
 
     return RENDERER::Init(fullscreen, windowTitle, windowLength, windowHeight);
 }
 
 void SDLRender::PreRender()
 {
+#ifndef USE_VULKAN
 #ifdef __APPLE__
     GLint                       sync = 0;
     CGLContextObj               ctx = CGLGetCurrentContext();
 
     CGLSetParameter(ctx, kCGLCPSwapInterval, &sync);
+#endif
 #endif
 }
 

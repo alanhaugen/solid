@@ -29,6 +29,9 @@ void Services::SetScene(IScene *_scene)
 
         Log("Loading scene " + String(scene->id) + " done: " + String(time->TimeSinceStarted()) + " ms");
 
+        // Flush input system
+        input.Update();
+
         // Run the game logic TODO: This is a copy of UpdateScene, duplicate. FIXME: just call UpdateScene
         scene->Update();
 
