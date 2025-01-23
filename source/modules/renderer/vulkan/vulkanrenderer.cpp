@@ -2,30 +2,8 @@
 #include "vulkandrawable.h"
 #include <set>
 
-bool VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device)
+void VulkanRenderer::CreateInstance(const char *windowTitle)
 {
-   return true;
-}
-
-VulkanRenderer::~VulkanRenderer()
-{
-    // Cleanly shut down the Vulkan system by waiting for a device to complete work submitted by
-    // the application, destroying the device handles, and finally destroying the instance hand
-    vkDeviceWaitIdle(device);
-
-    vkDestroyDevice(device, nullptr);
-    vkDestroyInstance(instance, nullptr);
-}
-
-bool VulkanRenderer::Init(bool openFullscreened, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight)
-{
-    // Call super method for class
-    NullRenderer::Init(openFullscreened, windowTitle, windowLength, windowHeight);
-
-    // Make application instance
-    // Vulkan includes a hierarchy of functionality, starting at the top level with the instance,
-    // which aggregates all Vulkan-capable devices together. Each device then exposes one or more queues.
-    // It is the queues that perform the work that your application requests (Vulkan programming guide)
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = windowTitle;
@@ -37,20 +15,20 @@ bool VulkanRenderer::Init(bool openFullscreened, const char *windowTitle, const 
     appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
     appInfo.apiVersion = VK_API_VERSION_1_0;
 
+    // Setup info for instance
     VkInstanceCreateInfo instanceCreateInfo = {};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    instanceCreateInfo.pApplicationInfo = &appInfo;
+    instanceCreateInfo.pApplicationInfo = &appInfo; // appInfo from above set here
     instanceCreateInfo.enabledLayerCount = validationLayers.size();
     instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
     instanceCreateInfo.enabledExtensionCount = extensionNames.size();
     instanceCreateInfo.ppEnabledExtensionNames = extensionNames.data();
 
     vkCreateInstance(&instanceCreateInfo, nullptr, &instance);
+}
 
-    // Create device
-    // Once we have an instance, we can use it to discover Vulkan-compatible devices installed in the system
-    // The physical device usually represents a single piece of hardware or a collection of hardware
-    // that is interconnected. There is a fixed, finite number of physical devices in any system
+bool VulkanRenderer::SelectPhysicalDevice()
+{
     physicalDevice = VK_NULL_HANDLE;
     uint32_t deviceCount = 0;
 
@@ -82,6 +60,54 @@ bool VulkanRenderer::Init(bool openFullscreened, const char *windowTitle, const 
         return false;
     }
 
+    return true;
+}
+
+// It is the queues that perform the work that the application requests.
+// Let's select graphics and presentation queues
+void VulkanRenderer::SelectQueueFamily()
+{
+    std::vector<VkQueueFamilyProperties> queueFamilyProperties;
+    uint32_t queueFamilyCount;
+
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
+    queueFamilyProperties.resize(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilyProperties.data());
+
+    int graphicIndex = -1;
+    int presentIndex = -1;
+
+    int i = 0;
+
+    for (const auto& queueFamily : queueFamilyProperties)
+    {
+        if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            graphicIndex = i;
+        }
+
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface, &presentSupport);
+
+        if (queueFamily.queueCount > 0 && presentSupport)
+        {
+            presentIndex = i;
+        }
+
+        if (graphicIndex != -1 && presentIndex != -1)
+        {
+            break;
+        }
+
+        i++;
+    }
+
+    graphics_QueueFamilyIndex = graphicIndex;
+    present_QueueFamilyIndex  = presentIndex;
+}
+
+bool VulkanRenderer::CreateDevice()
+{
     // Let us request the extension VK_KHR_SWAPCHAIN for backbuffer support
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
@@ -129,8 +155,45 @@ bool VulkanRenderer::Init(bool openFullscreened, const char *windowTitle, const 
 
     vkCreateDevice(physicalDevice, &createInfo, nullptr, &device);
 
-    vkGetDeviceQueue(device, graphics_QueueFamilyIndex, 0, &graphicsQueue);
-    vkGetDeviceQueue(device, present_QueueFamilyIndex, 0, &presentQueue);
-
     return true;
+}
+
+bool VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device)
+{
+   return true;
+}
+
+VulkanRenderer::~VulkanRenderer()
+{
+    // Cleanly shut down the Vulkan system by waiting for a device to complete work submitted by
+    // the application, destroying the device handles, and finally destroying the instance hand
+    vkDeviceWaitIdle(device);
+
+    vkDestroyDevice(device, nullptr);
+    vkDestroyInstance(instance, nullptr);
+}
+
+bool VulkanRenderer::Init(bool openFullscreened,
+                          const char *windowTitle,
+                          const unsigned int windowLength,
+                          const unsigned int windowHeight)
+{
+    // Call super method for class
+    NullRenderer::Init(openFullscreened, windowTitle, windowLength, windowHeight);
+
+    // Make application instance. Vulkan programming guide (2016):
+    // Vulkan includes a hierarchy of functionality, starting at the top level with the instance,
+    // which aggregates all Vulkan-capable devices together. Each device then exposes one or more queues.
+    CreateInstance(windowTitle);
+
+    // Once we have an instance, we can use it to discover Vulkan-compatible devices installed in the system
+    // The physical device usually represents a single piece of hardware or a collection of hardware
+    // that is interconnected. There is a fixed, finite number of physical devices in any system
+    // For this application, we will only use one device and choose the first compatible physical device we find
+    return SelectPhysicalDevice();
+}
+
+void VulkanRenderer::CreateSwapChain(int width, int height)
+{
+    //CreateSwapChain
 }

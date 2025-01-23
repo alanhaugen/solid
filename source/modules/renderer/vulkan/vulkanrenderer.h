@@ -8,10 +8,11 @@
 class VulkanRenderer : public Renderer::NullRenderer
 {
 private:
-    VkInstance instance;
-    VkDevice device;
+    void CreateInstance(const char *windowTitle);
+    bool SelectPhysicalDevice();
 
-    VkSurfaceKHR surface;
+    VkDevice device;
+    VkImage image;
 
     const std::vector<const char*> validationLayers;
 
@@ -23,21 +24,31 @@ private:
     VkQueue graphicsQueue;
     VkQueue presentQueue;
 
-    //VkSwapchainKHR swapchain;
-    //VkSurfaceCapabilitiesKHR surfaceCapabilities;
-
     bool isDeviceSuitable(VkPhysicalDevice device);
+
+    VkSwapchainKHR swapchain;
+    VkSurfaceCapabilitiesKHR surfaceCapabilities;
+
+    VkCommandBuffer commandBuffer;
 
 protected:
 public:
     ~VulkanRenderer();
 
-    std::vector<const char *> extensionNames; // Used by SDL to setup Vulkan
+    // Used by SDL to setup Vulkan
+    std::vector<const char *> extensionNames;
+    VkInstance instance;
+    VkSurfaceKHR surface;
 
+    // Init renderer
     bool Init(bool openFullscreened,
               const char *windowTitle,
               const unsigned int windowLength,
               const unsigned int windowHeight);
+
+    void SelectQueueFamily();
+    bool CreateDevice();
+    void CreateSwapChain(int width, int height);
 };
 
 #endif

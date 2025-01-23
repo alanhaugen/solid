@@ -35,7 +35,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     // Turn on double buffering with a 24bit Z buffer.
     // You may need to change this to 16 or 32 for your system
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // TODO: Test with 32-bit
 
     unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
@@ -62,10 +62,31 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, vulkanRenderer->extensionNames.data());
 
-    int width  = windowWidth;
-    int height = windowHeight;
+    int width  = 0;
+    int height = 0;
 
-    SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
+    bool success = RENDERER::Init(fullscreen, windowTitle, windowLength, windowHeight);
+
+    if (success)
+    {
+        SDL_Vulkan_CreateSurface(mainwindow, instance, &surface);
+
+        // It is the queues that perform the work that your application requests
+        vulkanRenderer->SelectQueueFamily();
+
+        // Create device
+        success = CreateDevice();
+
+        if (success == false)
+        {
+            return false;
+        }
+
+        SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
+        vulkanRenderer->CreateSwapChain(width, height); // For backbuffering
+    }
+
+    return success;
 #else
     // Create our opengl context and attach it to our window
     maincontext = SDL_GL_CreateContext(mainwindow);
