@@ -22,6 +22,9 @@ SDLRender::~SDLRender()
 
 bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight)
 {
+#ifdef USE_VULKAN
+    unsigned int flags = SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN;
+#else
 #ifdef ES_PROFILE
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -38,9 +41,6 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // TODO: Test with 32-bit
 
     unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-
-#ifdef USE_VULKAN
-    flags = SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN;
 #endif
 
     /*if (fullscreen)
