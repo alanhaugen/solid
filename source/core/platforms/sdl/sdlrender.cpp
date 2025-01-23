@@ -39,6 +39,10 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     unsigned int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
+#ifdef USE_VULKAN
+    flags = SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN;
+#endif
+
     /*if (fullscreen)
     {
         flags = flags | SDL_WINDOW_FULLSCREEN_DESKTOP; //SDL_WINDOW_FULLSCREEN;
@@ -57,10 +61,9 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     unsigned int extensionCount = 0;
     SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, nullptr);
 
-    VulkanRenderer* vulkanRenderer = dynamic_cast<VulkanRenderer*>(Application::renderer);
-    vulkanRenderer->extensionNames.resize(extensionCount);
+    extensionNames.resize(extensionCount);
 
-    SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, vulkanRenderer->extensionNames.data());
+    SDL_Vulkan_GetInstanceExtensions(mainwindow, &extensionCount, extensionNames.data());
 
     int width  = 0;
     int height = 0;
@@ -69,21 +72,27 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     if (success)
     {
-        SDL_Vulkan_CreateSurface(mainwindow, instance, &surface);
+        success = SDL_Vulkan_CreateSurface(mainwindow, instance, &surface);
+
+        if (success == false)
+        {
+            LogError("Failed to create vulkan surface.");
+        }
 
         // It is the queues that perform the work that your application requests
-        vulkanRenderer->SelectQueueFamily();
+        SelectQueueFamily();
 
         // Create device
         success = CreateDevice();
 
         if (success == false)
         {
+            LogError("Failed to create vulkan device.");
             return false;
         }
 
         SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
-        vulkanRenderer->CreateSwapChain(width, height); // For backbuffering
+        CreateSwapChain(width, height); // For backbuffering
     }
 
     return success;

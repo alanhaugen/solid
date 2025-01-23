@@ -14,7 +14,8 @@ WinRenderer::WinRenderer()
 {
 }
 /*
-WinRenderer::~WinRenderer() {
+WinRenderer::~WinRenderer()
+{
     ChangeDisplaySettings(NULL, 0);
     ShowCursor(TRUE);
 
