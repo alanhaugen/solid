@@ -82,9 +82,15 @@ private:
 
     VkCommandBuffer commandBuffer;
 
+    void AcquireNextImage();
+
+    uint32_t frameIndex;
+
 protected:
 public:
     ~VulkanRenderer();
+
+    void Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
 
     // Used by SDL to setup Vulkan
     std::vector<const char *> extensionNames;

@@ -383,7 +383,23 @@ bool VulkanRenderer::CreateDevice()
 
 bool VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device)
 {
-   return true;
+    return true;
+}
+
+void VulkanRenderer::AcquireNextImage()
+{
+    vkAcquireNextImageKHR(device,
+                          swapchain,
+                          UINT64_MAX,
+                          imageAvailableSemaphore,
+                          VK_NULL_HANDLE,
+                          &frameIndex);
+
+    vkWaitForFences(device, 1, &fences[frameIndex], VK_FALSE, UINT64_MAX);
+    vkResetFences(device, 1, &fences[frameIndex]);
+
+    commandBuffer = commandBuffers[frameIndex];
+    image = swapchainImages[frameIndex];
 }
 
 VulkanRenderer::~VulkanRenderer()
@@ -394,6 +410,44 @@ VulkanRenderer::~VulkanRenderer()
 
     vkDestroyDevice(device, nullptr);
     vkDestroyInstance(instance, nullptr);
+}
+
+void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4> &viewBoundsArray)
+{
+    AcquireNextImage();
+
+    VkClearColorValue clear_color = {1.0f, 0.0f, 0.0f, 1.0f};
+    VkClearDepthStencilValue clear_depth_stencil = {1.0f, 0};
+
+    PreRender();
+
+    VkRenderPassBeginInfo render_pass_info = {};
+    render_pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    render_pass_info.renderPass        = render_pass;
+    render_pass_info.framebuffer       = swapchainFramebuffers[frameIndex];
+    render_pass_info.renderArea.offset = {0, 0};
+    render_pass_info.renderArea.extent = swapchainSize;
+    render_pass_info.clearValueCount   = 1;
+
+    std::vector<VkClearValue> clearValues(2);
+    clearValues[0].color = clear_color;
+    clearValues[1].depthStencil = clear_depth_stencil;
+
+    render_pass_info.clearValueCount = static_cast<uint32_t>(clearValues.size());
+    render_pass_info.pClearValues = clearValues.data();
+
+    vkCmdBeginRenderPass(commandBuffer, &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
+
+    /*for (unsigned i = 0; i<projViewMatrixArray.Size(); i++)
+    {
+    }*/
+
+    vkCmdEndRenderPass(commandBuffer);
+
+    // QueueSubmit();
+    // QueuePresent();
+
+    PostRender();
 }
 
 bool VulkanRenderer::Init(bool openFullscreened,
