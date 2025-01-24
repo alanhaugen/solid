@@ -93,6 +93,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
         SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
         CreateSwapChain(width, height); // For backbuffering
+        SetupScreenAndCommand();
     }
 
     return success;
@@ -108,7 +109,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
     // https://wiki.libsdl.org/SDL2/SDL_GL_SetSwapInterval
     // 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
-    SDL_GL_SetSwapInterval(0);
+    SDL_GL_SetSwapInterval(0); // Try with 1 to remove tearing?
 
     int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
 

@@ -29,6 +29,7 @@ void VulkanRenderer::CreateInstance(const char *windowTitle)
 
 bool VulkanRenderer::SelectPhysicalDevice()
 {
+    // We will try to find a supported vulkan device
     physicalDevice = VK_NULL_HANDLE;
     uint32_t deviceCount = 0;
 
@@ -61,6 +62,46 @@ bool VulkanRenderer::SelectPhysicalDevice()
     }
 
     return true;
+}
+
+void VulkanRenderer::CreateImageViews()
+{
+
+}
+
+void VulkanRenderer::Setup_DepthStencil()
+{
+
+}
+
+void VulkanRenderer::Create_RenderPass()
+{
+
+}
+
+void VulkanRenderer::Create_Framebuffers()
+{
+
+}
+
+void VulkanRenderer::CreateCommandPool()
+{
+
+}
+
+void VulkanRenderer::CreateCommandBuffers()
+{
+
+}
+
+void VulkanRenderer::CreateSemaphores()
+{
+
+}
+
+void VulkanRenderer::CreateFences()
+{
+
 }
 
 // It is the queues that perform the work that the application requests.
@@ -193,7 +234,113 @@ bool VulkanRenderer::Init(bool openFullscreened,
     return SelectPhysicalDevice();
 }
 
+VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+{
+    for (const auto& availableFormat : availableFormats)
+    {
+        if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+        {
+            return availableFormat;
+        }
+    }
+
+    return availableFormats[0];
+}
+
+VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+{
+    for (const auto& availablePresentMode : availablePresentModes)
+    {
+        if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+        {
+            return availablePresentMode;
+        }
+    }
+
+    return VK_PRESENT_MODE_FIFO_KHR;
+}
+
 void VulkanRenderer::CreateSwapChain(int width, int height)
 {
-    //CreateSwapChain
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities);
+
+    std::vector<VkSurfaceFormatKHR> surfaceFormats;
+    uint32_t formatCount;
+    vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, nullptr);
+
+    if (formatCount != 0)
+    {
+        surfaceFormats.resize(formatCount);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, surfaceFormats.data());
+    }
+
+    std::vector<VkPresentModeKHR> presentModes;
+    uint32_t presentModeCount;
+    vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, nullptr);
+
+    if (presentModeCount != 0)
+    {
+        presentModes.resize(presentModeCount);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, presentModes.data());
+    }
+
+    surfaceFormat = chooseSwapSurfaceFormat(surfaceFormats);
+    VkPresentModeKHR presentMode = chooseSwapPresentMode(presentModes);
+
+    width = CLAMP(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
+    height = CLAMP(height, surfaceCapabilities.minImageExtent.height, surfaceCapabilities.maxImageExtent.height);
+    swapchainSize.width = width;
+    swapchainSize.height = height;
+
+    uint32_t imageCount = surfaceCapabilities.minImageCount + 1;
+    if (surfaceCapabilities.maxImageCount > 0 && imageCount > surfaceCapabilities.maxImageCount) {
+        imageCount = surfaceCapabilities.maxImageCount;
+    }
+
+    VkSwapchainCreateInfoKHR createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+    createInfo.surface = surface;
+
+    createInfo.minImageCount = surfaceCapabilities.minImageCount;
+    createInfo.imageFormat = surfaceFormat.format;
+    createInfo.imageColorSpace = surfaceFormat.colorSpace;
+    createInfo.imageExtent = swapchainSize;
+    createInfo.imageArrayLayers = 1;
+    createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+    uint32_t queueFamilyIndices[] = {graphics_QueueFamilyIndex, present_QueueFamilyIndex};
+    if (graphics_QueueFamilyIndex != present_QueueFamilyIndex)
+    {
+        createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+        createInfo.queueFamilyIndexCount = 2;
+        createInfo.pQueueFamilyIndices = queueFamilyIndices;
+    }
+    else
+    {
+        createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    }
+
+    createInfo.preTransform = surfaceCapabilities.currentTransform;
+    createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    createInfo.presentMode = presentMode;
+    createInfo.clipped = VK_TRUE;
+
+    vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapchain);
+
+    vkGetSwapchainImagesKHR(device, swapchain, &swapchainImageCount, nullptr);
+    swapchainImages.resize(swapchainImageCount);
+    vkGetSwapchainImagesKHR(device, swapchain, &swapchainImageCount, swapchainImages.data());
+}
+
+void VulkanRenderer::SetupScreenAndCommand()
+{
+    CreateImageViews();
+    Setup_DepthStencil();
+    Create_RenderPass();
+    Create_Framebuffers();
+
+    CreateCommandPool();
+    CreateCommandBuffers();
+    CreateSemaphores();
+    CreateFences();
 }

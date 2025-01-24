@@ -5,11 +5,26 @@
 #include <vector>
 #include "modules/renderer/null/nullrenderer.h"
 
+#define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
+
 class VulkanRenderer : public Renderer::NullRenderer
 {
 private:
     void CreateInstance(const char *windowTitle);
     bool SelectPhysicalDevice();
+
+    void CreateImageViews();
+    void Setup_DepthStencil();
+    void Create_RenderPass();
+    void Create_Framebuffers();
+
+    void CreateCommandPool();
+    void CreateCommandBuffers();
+    void CreateSemaphores();
+    void CreateFences();
+
+    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
     VkDevice device;
     VkImage image;
@@ -28,6 +43,30 @@ private:
 
     VkSwapchainKHR swapchain;
     VkSurfaceCapabilitiesKHR surfaceCapabilities;
+    VkSurfaceFormatKHR surfaceFormat;
+    VkExtent2D swapchainSize;
+
+    std::vector<VkImage> swapchainImages;
+    uint32_t swapchainImageCount;
+    std::vector<VkImageView> swapchainImageViews;
+
+    VkFormat depthFormat;
+    VkImage depthImage;
+    VkDeviceMemory depthImageMemory;
+    VkImageView depthImageView;
+
+    VkRenderPass render_pass;
+
+    std::vector<VkFramebuffer> swapchainFramebuffers;
+
+    VkCommandPool commandPool;
+
+    std::vector<VkCommandBuffer> commandBuffers;
+
+    VkSemaphore imageAvailableSemaphore;
+    VkSemaphore renderingFinishedSemaphore;
+
+    std::vector<VkFence> fences;
 
     VkCommandBuffer commandBuffer;
 
@@ -49,6 +88,7 @@ public:
     void SelectQueueFamily();
     bool CreateDevice();
     void CreateSwapChain(int width, int height);
+    void SetupScreenAndCommand();
 };
 
 #endif
