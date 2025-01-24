@@ -5,8 +5,6 @@
 #include <vector>
 #include "modules/renderer/null/nullrenderer.h"
 
-#define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
-
 class VulkanRenderer : public Renderer::NullRenderer
 {
 private:
@@ -14,14 +12,28 @@ private:
     bool SelectPhysicalDevice();
 
     void CreateImageViews();
-    void Setup_DepthStencil();
-    void Create_RenderPass();
-    void Create_Framebuffers();
+    void SetupDepthStencil();
+    void CreateRenderPass();
+    void CreateFramebuffers();
 
     void CreateCommandPool();
     void CreateCommandBuffers();
     void CreateSemaphores();
     void CreateFences();
+
+    void CreateSemaphore(VkSemaphore *semaphore);
+
+    VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
+    VkBool32 GetSupportedDepthFormat(VkPhysicalDevice physicalDevice, VkFormat *depthFormat);
+
+    void CreateImage(uint32_t width,
+                     uint32_t height,
+                     VkFormat format,
+                     VkImageTiling tiling,
+                     VkImageUsageFlags usage,
+                     VkMemoryPropertyFlags properties,
+                     VkImage& image,
+                     VkDeviceMemory& imageMemory);
 
     VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
     VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
