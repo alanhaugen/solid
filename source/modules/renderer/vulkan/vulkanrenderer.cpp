@@ -234,7 +234,7 @@ bool VulkanRenderer::Init(bool openFullscreened,
     return SelectPhysicalDevice();
 }
 
-VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+VkSurfaceFormatKHR VulkanRenderer::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
     for (const auto& availableFormat : availableFormats)
     {
@@ -247,7 +247,7 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
     return availableFormats[0];
 }
 
-VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+VkPresentModeKHR VulkanRenderer::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
     for (const auto& availablePresentMode : availablePresentModes)
     {
@@ -284,8 +284,8 @@ void VulkanRenderer::CreateSwapChain(int width, int height)
         vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, presentModes.data());
     }
 
-    surfaceFormat = chooseSwapSurfaceFormat(surfaceFormats);
-    VkPresentModeKHR presentMode = chooseSwapPresentMode(presentModes);
+    surfaceFormat = ChooseSwapSurfaceFormat(surfaceFormats);
+    VkPresentModeKHR presentMode = ChooseSwapPresentMode(presentModes);
 
     width = CLAMP(width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width);
     height = CLAMP(height, surfaceCapabilities.minImageExtent.height, surfaceCapabilities.maxImageExtent.height);
