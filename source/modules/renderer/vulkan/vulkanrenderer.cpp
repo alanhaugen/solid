@@ -2,7 +2,7 @@
 #include "vulkandrawable.h"
 #include <set>
 
-// Thanks to https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858
+// Thanks to https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858 and https://vkguide.dev
 
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 
@@ -109,6 +109,7 @@ void VulkanRenderer::SetupDepthStencil()
                 VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_TILING_OPTIMAL,
                 VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
                 depthImage, depthImageMemory);
+
     depthImageView = CreateImageView(depthImage, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_ASPECT_DEPTH_BIT);
 }
 
@@ -390,7 +391,7 @@ void VulkanRenderer::AcquireNextImage()
 {
     vkAcquireNextImageKHR(device,
                           swapchain,
-                          UINT64_MAX,
+                          UINT64_MAX, // Wait time (infinite)
                           imageAvailableSemaphore,
                           VK_NULL_HANDLE,
                           &frameIndex);
@@ -405,15 +406,33 @@ void VulkanRenderer::AcquireNextImage()
 VulkanRenderer::~VulkanRenderer()
 {
     // Cleanly shut down the Vulkan system by waiting for a device to complete work submitted by
-    // the application, destroying the device handles, and finally destroying the instance hand
+    // the application, destroying the device handles, and finally destroying the instance handle
     vkDeviceWaitIdle(device);
 
+    // Delete command pool
+    vkDestroyCommandPool(device, commandPool, nullptr);
+
+    // Destroy spapchain
+    vkDestroySwapchainKHR(device, swapchain, nullptr);
+
+    // Destroy swapchain resources
+    for (int i = 0; i < swapchainImageViews.size(); i++)
+    {
+        vkDestroyImageView(device, swapchainImageViews[i], nullptr);
+    }
+
+    // Destroy surface
+    vkDestroySurfaceKHR(instance, surface, nullptr);
+
+    // Destroy device and then instance
     vkDestroyDevice(device, nullptr);
     vkDestroyInstance(instance, nullptr);
 }
 
 void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4> &viewBoundsArray)
 {
+    vkResetCommandBuffer(commandBuffer, 0);
+
     AcquireNextImage();
 
     VkClearColorValue clear_color = {1.0f, 0.0f, 0.0f, 1.0f};
@@ -474,7 +493,8 @@ VkSurfaceFormatKHR VulkanRenderer::ChooseSwapSurfaceFormat(const std::vector<VkS
 {
     for (const auto& availableFormat : availableFormats)
     {
-        if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+        if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
+            availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
         {
             return availableFormat;
         }
