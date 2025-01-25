@@ -70,6 +70,10 @@ bool VulkanRenderer::SelectPhysicalDevice()
 
 void VulkanRenderer::CreateImageViews()
 {
+    // A swapchain is a OS/windowing provided structure with some images we can draw to and then display
+    // on the screen. Swapchains are not in the core Vulkan spec as they are optional, and often unique
+    // to the different platforms. If you are going to use Vulkan for compute shader calculations, or for
+    // offline rendering, you do not need to setup a swapchain.
     swapchainImageViews.resize(swapchainImages.size());
 
     for (uint32_t i = 0; i < swapchainImages.size(); i++)
@@ -105,6 +109,7 @@ VkBool32 VulkanRenderer::GetSupportedDepthFormat(VkPhysicalDevice physicalDevice
 void VulkanRenderer::SetupDepthStencil()
 {
     VkBool32 validDepthFormat = GetSupportedDepthFormat(physicalDevice, &depthFormat);
+
     CreateImage(swapchainSize.width, swapchainSize.height,
                 VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_TILING_OPTIMAL,
                 VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -127,12 +132,29 @@ VkImageView VulkanRenderer::CreateImageView(VkImage image, VkFormat format, VkIm
     viewInfo.subresourceRange.layerCount = 1;
 
     VkImageView imageView;
+
     if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create texture image view!");
     }
 
     return imageView;
+}
+
+uint32_t VulkanRenderer::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties)
+{
+    VkPhysicalDeviceMemoryProperties memProperties;
+    vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
+
+    for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
+    {
+        if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+        {
+            return i;
+        }
+    }
+
+    throw std::runtime_error("failed to find suitable memory type!");
 }
 
 void VulkanRenderer::CreateImage(uint32_t width,
@@ -144,12 +166,40 @@ void VulkanRenderer::CreateImage(uint32_t width,
                                  VkImage& image,
                                  VkDeviceMemory& imageMemory)
 {
-    swapchainImageViews.resize(swapchainImages.size());
+    VkImageCreateInfo imageInfo = {};
+    imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+    imageInfo.imageType = VK_IMAGE_TYPE_2D;
+    imageInfo.extent.width = width;
+    imageInfo.extent.height = height;
+    imageInfo.extent.depth = 1;
+    imageInfo.mipLevels = 1;
+    imageInfo.arrayLayers = 1;
+    imageInfo.format = format;
+    imageInfo.tiling = tiling;
+    imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    imageInfo.usage = usage;
+    imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+    imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-    for (uint32_t i = 0; i < swapchainImages.size(); i++)
+    if (vkCreateImage(device, &imageInfo, nullptr, &image) != VK_SUCCESS)
     {
-        swapchainImageViews[i] = CreateImageView(swapchainImages[i], surfaceFormat.format, VK_IMAGE_ASPECT_COLOR_BIT);
+        throw std::runtime_error("failed to create image!");
     }
+
+    VkMemoryRequirements memRequirements;
+    vkGetImageMemoryRequirements(device, image, &memRequirements);
+
+    VkMemoryAllocateInfo allocInfo = {};
+    allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+    allocInfo.allocationSize = memRequirements.size;
+    allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, properties);
+
+    if (vkAllocateMemory(device, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to allocate image memory!");
+    }
+
+    vkBindImageMemory(device, image, imageMemory, 0);
 }
 
 void VulkanRenderer::CreateRenderPass()
@@ -274,8 +324,22 @@ void VulkanRenderer::CreateSemaphores()
 
 void VulkanRenderer::CreateFences()
 {
-    CreateSemaphore(&imageAvailableSemaphore);
-    CreateSemaphore(&renderingFinishedSemaphore);
+    // This is used for GPU -> CPU communication. A lot of Vulkan operations, such as vkQueueSubmit
+    // allow an optional fence parameter. If this is set, we can know from the CPU if the GPU has finished
+    // these operations. We will use it to sync the main loop in the CPU with the GPU. A fence will be signaled
+    // once submitted as part of a command, and then we can use VkWaitForFences to have the CPU stop until those
+    // commands have executed.
+    uint32_t i;
+    fences.resize(swapchainImageCount);
+    for(i = 0; i < swapchainImageCount; i++)
+    {
+        VkResult result;
+
+        VkFenceCreateInfo createInfo = {};
+        createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        createInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+        vkCreateFence(device, &createInfo, nullptr, &fences[i]);
+    }
 }
 
 void VulkanRenderer::CreateSemaphore(VkSemaphore *semaphore)
@@ -377,7 +441,12 @@ bool VulkanRenderer::CreateDevice()
     createInfo.enabledLayerCount = validationLayers.size();
     createInfo.ppEnabledLayerNames = validationLayers.data();
 
+    // Create the device based on physical device and queue requests
     vkCreateDevice(physicalDevice, &createInfo, nullptr, &device);
+
+    // Get the requested device queues
+    vkGetDeviceQueue(device, graphics_QueueFamilyIndex, 0, &graphicsQueue);
+    vkGetDeviceQueue(device, present_QueueFamilyIndex, 0, &presentQueue);
 
     return true;
 }
@@ -389,6 +458,8 @@ bool VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device)
 
 void VulkanRenderer::AcquireNextImage()
 {
+    // vkAcquireNextImageKHR will request the image index from the swapchain, and if the swapchain doesn’t have any
+    // image we can use, it will block the thread with a maximum for the timeout set, which will be 1 second.
     vkAcquireNextImageKHR(device,
                           swapchain,
                           UINT64_MAX, // Wait time (infinite)
@@ -396,11 +467,48 @@ void VulkanRenderer::AcquireNextImage()
                           VK_NULL_HANDLE,
                           &frameIndex);
 
+    // Wait until the gpu has finished rendering the last frame. Timeout forever
     vkWaitForFences(device, 1, &fences[frameIndex], VK_FALSE, UINT64_MAX);
     vkResetFences(device, 1, &fences[frameIndex]);
 
     commandBuffer = commandBuffers[frameIndex];
     image = swapchainImages[frameIndex];
+}
+
+void VulkanRenderer::QueueSubmit()
+{
+    VkPipelineStageFlags waitStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+
+    VkSubmitInfo submitInfo = {};
+
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.waitSemaphoreCount = 1;
+    submitInfo.pWaitSemaphores = &imageAvailableSemaphore;
+    submitInfo.pWaitDstStageMask = &waitStage;
+
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &commandBuffer;
+
+    submitInfo.signalSemaphoreCount = 1;
+    submitInfo.pSignalSemaphores = &renderingFinishedSemaphore;
+
+    // Submits a sequence of semaphores or command buffers to a queue
+    vkQueueSubmit(graphicsQueue, 1, &submitInfo, fences[frameIndex]);
+}
+
+void VulkanRenderer::QueuePresent()
+{
+    VkPresentInfoKHR presentInfo = {};
+
+    presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+    presentInfo.waitSemaphoreCount = 1;
+    presentInfo.pWaitSemaphores = &renderingFinishedSemaphore;
+    presentInfo.swapchainCount = 1;
+    presentInfo.pSwapchains = &swapchain;
+    presentInfo.pImageIndices = &frameIndex;
+
+    vkQueuePresentKHR(presentQueue, &presentInfo);
+    vkQueueWaitIdle(presentQueue);
 }
 
 VulkanRenderer::~VulkanRenderer()
@@ -431,15 +539,25 @@ VulkanRenderer::~VulkanRenderer()
 
 void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const Array<glm::vec4> &viewBoundsArray)
 {
+    AcquireNextImage();
+
+    // Now that we are sure that the commands finished executing, we can safely
+    // reset the command buffer to begin recording again.
     vkResetCommandBuffer(commandBuffer, 0);
 
-    AcquireNextImage();
+    // Begin a new command buffer
+    VkCommandBufferBeginInfo beginInfo = {};
+    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+    vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
     VkClearColorValue clear_color = {1.0f, 0.0f, 0.0f, 1.0f};
     VkClearDepthStencilValue clear_depth_stencil = {1.0f, 0};
 
     PreRender();
 
+    // Time to begin the rendering commands. For that, we are going to reset the command buffer for this frame,
+    // and begin it again. We will need to use another one of the initializer functions.
     VkRenderPassBeginInfo render_pass_info = {};
     render_pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     render_pass_info.renderPass        = render_pass;
@@ -455,16 +573,24 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     render_pass_info.clearValueCount = static_cast<uint32_t>(clearValues.size());
     render_pass_info.pClearValues = clearValues.data();
 
+    // In Vulkan, all of the rendering happens inside a VkRenderPass (NOTE: For Vulkan 1.3, this has changed)
     vkCmdBeginRenderPass(commandBuffer, &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
+
+    // Rendering commands go here
 
     /*for (unsigned i = 0; i<projViewMatrixArray.Size(); i++)
     {
     }*/
 
+    // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)
     vkCmdEndRenderPass(commandBuffer);
 
-    // QueueSubmit();
-    // QueuePresent();
+    // Finalize the command buffer (we can no longer add commands, but it can now be executed)
+    vkEndCommandBuffer(commandBuffer);
+
+    // Vulkan Queue Submit is typical for Vulkan 1.0.
+    QueueSubmit();
+    QueuePresent();
 
     PostRender();
 }
