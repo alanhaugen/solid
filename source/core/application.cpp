@@ -32,7 +32,7 @@ void Application::LoadUserData()
     int windowLength = 1365;
     int windowHeight = 768;
 
-    bool fullscreen  = true;
+    bool fullscreen  = false;
     float timeScale  = 1.0;
 
     // TODO: Remove?

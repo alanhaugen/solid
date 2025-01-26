@@ -110,6 +110,8 @@ void VulkanRenderer::SetupDepthStencil()
 {
     VkBool32 validDepthFormat = GetSupportedDepthFormat(physicalDevice, &depthFormat);
 
+    // We will ask for the image tiling OPTIMAL,
+    // which means that we allow the GPU to shuffle the data however it sees fit
     CreateImage(swapchainSize.width, swapchainSize.height,
                 VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_TILING_OPTIMAL,
                 VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -120,6 +122,9 @@ void VulkanRenderer::SetupDepthStencil()
 
 VkImageView VulkanRenderer::CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags)
 {
+    // With the image allocated, we create an imageview to pair with it.
+    // In Vulkan, you need a imageview to access images. This is generally a thin wrapper over the image itself
+    // that lets you do things like limit access to only 1 mipmap
     VkImageViewCreateInfo viewInfo = {};
     viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
     viewInfo.image = image;
@@ -161,23 +166,26 @@ void VulkanRenderer::CreateImage(uint32_t width,
                                  uint32_t height,
                                  VkFormat format,
                                  VkImageTiling tiling,
-                                 VkImageUsageFlags usage,
+                                 VkImageUsageFlags usage, // *important*
                                  VkMemoryPropertyFlags properties,
                                  VkImage& image,
-                                 VkDeviceMemory& imageMemory)
+                                 VkDeviceMemory& imageMemory) // *important*
 {
+    // When creating the image itself, we need to send the image info and an alloc info to VMA.
+    // VMA will do the vulkan create calls for us and directly give us the vulkan image. The
+    // interesting thing in here is Usage and the required memory flags.
     VkImageCreateInfo imageInfo = {};
     imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     imageInfo.imageType = VK_IMAGE_TYPE_2D;
     imageInfo.extent.width = width;
     imageInfo.extent.height = height;
     imageInfo.extent.depth = 1;
-    imageInfo.mipLevels = 1;
+    imageInfo.mipLevels = 1; // Use mipmapping
     imageInfo.arrayLayers = 1;
     imageInfo.format = format;
     imageInfo.tiling = tiling;
     imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    imageInfo.usage = usage;
+    imageInfo.usage = usage; // Most important property
     imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
     imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
@@ -186,6 +194,11 @@ void VulkanRenderer::CreateImage(uint32_t width,
         throw std::runtime_error("failed to create image!");
     }
 
+    // In Vulkan, there are multiple memory regions we can allocate images and buffers from.
+    // PC implementations with dedicated GPUs will generally have a cpu ram region, a GPU Vram region,
+    // and a “upload heap” which is a special region of gpu vram that allows CPU writes.
+    // If you have resizable bar enabled, the upload heap can be the entire GPU vram.
+    // Else it will be much smaller, generally only 256 megabytes.
     VkMemoryRequirements memRequirements;
     vkGetImageMemoryRequirements(device, image, &memRequirements);
 
@@ -520,6 +533,16 @@ VulkanRenderer::~VulkanRenderer()
     // Delete command pool
     vkDestroyCommandPool(device, commandPool, nullptr);
 
+    // Destroy fences
+    for (uint32_t i = 0; i < swapchainImageCount; i++)
+    {
+        vkDestroyFence(device, fences[i], nullptr);
+    }
+
+    // Destroy semaphores
+    vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
+    vkDestroySemaphore(device, renderingFinishedSemaphore, nullptr);
+
     // Destroy spapchain
     vkDestroySwapchainKHR(device, swapchain, nullptr);
 
@@ -551,8 +574,8 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
     vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
-    VkClearColorValue clear_color = {1.0f, 0.0f, 0.0f, 1.0f};
-    VkClearDepthStencilValue clear_depth_stencil = {1.0f, 0};
+    VkClearColorValue clear_color = { 1.0f, 0.0f, 0.0f, 1.0f };
+    VkClearDepthStencilValue clear_depth_stencil = { 1.0f, 0 };
 
     PreRender();
 
@@ -562,7 +585,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     render_pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     render_pass_info.renderPass        = render_pass;
     render_pass_info.framebuffer       = swapchainFramebuffers[frameIndex];
-    render_pass_info.renderArea.offset = {0, 0};
+    render_pass_info.renderArea.offset = { 0, 0 };
     render_pass_info.renderArea.extent = swapchainSize;
     render_pass_info.clearValueCount   = 1;
 
@@ -588,8 +611,10 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     // Finalize the command buffer (we can no longer add commands, but it can now be executed)
     vkEndCommandBuffer(commandBuffer);
 
-    // Vulkan Queue Submit is typical for Vulkan 1.0.
+    // Submit command buffer commands. Note we are not using vkQueueSubmit2 since we are using Vulkan 1.0.
     QueueSubmit();
+
+    // Put the graphics onto the screen
     QueuePresent();
 
     PostRender();
@@ -675,7 +700,8 @@ void VulkanRenderer::CreateSwapChain(int width, int height)
     swapchainSize.height = height;
 
     uint32_t imageCount = surfaceCapabilities.minImageCount + 1;
-    if (surfaceCapabilities.maxImageCount > 0 && imageCount > surfaceCapabilities.maxImageCount) {
+    if (surfaceCapabilities.maxImageCount > 0 && imageCount > surfaceCapabilities.maxImageCount)
+    {
         imageCount = surfaceCapabilities.maxImageCount;
     }
 
