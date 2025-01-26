@@ -1,6 +1,7 @@
 #include "vulkanrenderer.h"
 #include "vulkandrawable.h"
 #include <set>
+#include <fstream>
 
 // Thanks to https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858 and https://vkguide.dev
 
@@ -8,6 +9,8 @@
 
 void VulkanRenderer::CreateInstance(const char *windowTitle)
 {
+    // The root of everything is the VkInstance. In general, applications only need to
+    // create a single VkInstance for their entire run, as it’s just the global Vulkan context for the application
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = windowTitle;
@@ -160,6 +163,208 @@ uint32_t VulkanRenderer::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFla
     }
 
     throw std::runtime_error("failed to find suitable memory type!");
+}
+
+bool VulkanRenderer::LoadShader(const char* filePath, VkShaderModule* outShaderModule)
+{
+    // Open the file. With cursor at the end
+    std::ifstream file(filePath, std::ios::ate | std::ios::binary);
+
+    if (!file.is_open())
+    {
+        return false;
+    }
+
+
+    // Find what the size of the file is by looking up the location of the cursor
+    // because the cursor is at the end, it gives the size directly in bytes
+    size_t fileSize = (size_t)file.tellg();
+
+    // SPIRV expects the buffer to be on uint32, so make sure to reserve an int vector big enough for the entire file
+    std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
+
+    // Put file cursor at beginning
+    file.seekg(0);
+
+    // Load the entire file into the buffer
+    file.read((char*)buffer.data(), fileSize);
+
+    // Now that the file is loaded into the buffer, we can close it
+    file.close();
+
+    // Create a new shader module, using the buffer we loaded
+    VkShaderModuleCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    createInfo.pNext = nullptr;
+
+    // CodeSize has to be in bytes,
+    // so multiply the ints in the buffer by size of int to know the real size of the buffer
+    createInfo.codeSize = buffer.size() * sizeof(uint32_t);
+    createInfo.pCode = buffer.data();
+
+    // Check that the creation goes well.
+    VkShaderModule shaderModule;
+    if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
+    {
+        return false;
+    }
+
+    *outShaderModule = shaderModule;
+
+    return true;
+}
+
+VkPipelineShaderStageCreateInfo VulkanRenderer::ShaderPipelineStageCreateInfo(VkShaderStageFlagBits stage, VkShaderModule shaderModule)
+{
+    VkPipelineShaderStageCreateInfo info{};
+    info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    info.pNext = nullptr;
+
+    //shader stage
+    info.stage = stage;
+    //module containing the code for this shader stage
+    info.module = shaderModule;
+    //the entry point of the shader
+    info.pName = "main";
+    return info;
+}
+
+VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass pass)
+{
+    VkShaderModule triangleFragShader;
+    VkShaderModule triangleVertShader;
+
+    bool success = LoadShader("triangle.frag.spv", &triangleFragShader);
+
+    if (success == false)
+    {
+        return VK_NULL_HANDLE;
+    }
+
+    success = LoadShader("triangle.vert.spv", &triangleVertShader);
+
+    if (success == false)
+    {
+        return VK_NULL_HANDLE;
+    }
+
+    shaderStages.push_back(ShaderPipelineStageCreateInfo(VK_SHADER_STAGE_VERTEX_BIT, triangleVertShader));
+    shaderStages.push_back(ShaderPipelineStageCreateInfo(VK_SHADER_STAGE_FRAGMENT_BIT, triangleFragShader));
+
+    multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    multisampling.pNext = nullptr;
+
+    multisampling.sampleShadingEnable = VK_FALSE;
+    //multisampling defaulted to no multisampling (1 sample per pixel)
+    multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+    multisampling.minSampleShading = 1.0f;
+    multisampling.pSampleMask = nullptr;
+    multisampling.alphaToCoverageEnable = VK_FALSE;
+    multisampling.alphaToOneEnable = VK_FALSE;
+
+    vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    vertexInputInfo.pNext = nullptr;
+
+    // No vertex bindings or attributes
+    vertexInputInfo.vertexBindingDescriptionCount = 0;
+    vertexInputInfo.vertexAttributeDescriptionCount = 0;
+
+    inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    inputAssembly.pNext = nullptr;
+
+    /*     VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST : normal triangle drawing
+     *     VK_PRIMITIVE_TOPOLOGY_POINT_LIST : points
+     *     VK_PRIMITIVE_TOPOLOGY_LINE_LIST : line-list
+     **/
+    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+    //we are not going to use primitive restart on the entire tutorial so leave it on false
+    inputAssembly.primitiveRestartEnable = VK_FALSE;
+
+    rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    rasterizer.pNext = nullptr;
+
+    rasterizer.depthClampEnable = VK_FALSE;
+    //discards all primitives before the rasterization stage if enabled which we don't want
+    rasterizer.rasterizerDiscardEnable = VK_FALSE;
+
+    rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+    rasterizer.lineWidth = 1.0f;
+    //no backface cull
+    rasterizer.cullMode = VK_CULL_MODE_NONE;
+    rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    //no depth bias
+    rasterizer.depthBiasEnable = VK_FALSE;
+    rasterizer.depthBiasConstantFactor = 0.0f;
+    rasterizer.depthBiasClamp = 0.0f;
+    rasterizer.depthBiasSlopeFactor = 0.0f;
+
+    // Make viewport state from our stored viewport and scissor.
+    // At the moment we won't support multiple viewports or scissors
+    VkPipelineViewportStateCreateInfo viewportState = {};
+    viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewportState.pNext = nullptr;
+
+    viewportState.viewportCount = 1;
+    viewportState.pViewports = &viewport;
+    viewportState.scissorCount = 1;
+    viewportState.pScissors = &scissor;
+
+    // Setup dummy color blending. We aren't using transparent objects yet
+    // The blending is just "no blend", but we do write to the color attachment
+    VkPipelineColorBlendStateCreateInfo colorBlending = {};
+    colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    colorBlending.pNext = nullptr;
+
+    colorBlending.logicOpEnable = VK_FALSE;
+    colorBlending.logicOp = VK_LOGIC_OP_COPY;
+    colorBlending.attachmentCount = 1;
+    colorBlending.pAttachments = &colorBlendAttachment;
+
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+    pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.pNext = nullptr;
+
+    //empty defaults
+    pipelineLayoutInfo.flags = 0;
+    pipelineLayoutInfo.setLayoutCount = 0;
+    pipelineLayoutInfo.pSetLayouts = nullptr;
+    pipelineLayoutInfo.pushConstantRangeCount = 0;
+    pipelineLayoutInfo.pPushConstantRanges = nullptr;
+
+    VkPipelineLayout pipelineLayout;
+
+    vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
+
+    // Build the actual pipeline
+    // We now use all of the info structs we have been writing into into this one to create the pipeline
+    VkGraphicsPipelineCreateInfo pipelineInfo = {};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipelineInfo.pNext = nullptr;
+
+    pipelineInfo.stageCount = shaderStages.size();
+    pipelineInfo.pStages = shaderStages.data();
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &inputAssembly;
+    pipelineInfo.pViewportState = &viewportState;
+    pipelineInfo.pRasterizationState = &rasterizer;
+    pipelineInfo.pMultisampleState = &multisampling;
+    pipelineInfo.pColorBlendState = &colorBlending;
+    pipelineInfo.layout = pipelineLayout;
+    pipelineInfo.renderPass = pass;
+    pipelineInfo.subpass = 0;
+    pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+
+    // It's easy to error out on create graphics pipeline, so we handle it a bit better than the common VK_CHECK case
+    VkPipeline newPipeline;
+
+    if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &newPipeline) != VK_SUCCESS)
+    {
+        return VK_NULL_HANDLE; // failed to create graphics pipeline
+    }
+    else
+    {
+        return newPipeline;
+    }
 }
 
 void VulkanRenderer::CreateImage(uint32_t width,
@@ -409,6 +614,7 @@ void VulkanRenderer::SelectQueueFamily()
 
 bool VulkanRenderer::CreateDevice()
 {
+    // Once we have the VkPhysicalDevice of the GPU we are going to use, we can create a VkDevice from it
     // Let us request the extension VK_KHR_SWAPCHAIN for backbuffer support
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
@@ -605,6 +811,10 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     {
     }*/
 
+    // Draw triangle
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+
     // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)
     vkCmdEndRenderPass(commandBuffer);
 
@@ -635,7 +845,7 @@ bool VulkanRenderer::Init(bool openFullscreened,
 
     // Once we have an instance, we can use it to discover Vulkan-compatible devices installed in the system
     // The physical device usually represents a single piece of hardware or a collection of hardware
-    // that is interconnected. There is a fixed, finite number of physical devices in any system
+    // that is interconnected. There is a fixed, finite number of physical devices in any system.
     // For this application, we will only use one device and choose the first compatible physical device we find
     return SelectPhysicalDevice();
 }
@@ -645,7 +855,7 @@ VkSurfaceFormatKHR VulkanRenderer::ChooseSwapSurfaceFormat(const std::vector<VkS
     for (const auto& availableFormat : availableFormats)
     {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
-            availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+                availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
         {
             return availableFormat;
         }
@@ -669,6 +879,11 @@ VkPresentModeKHR VulkanRenderer::ChooseSwapPresentMode(const std::vector<VkPrese
 
 void VulkanRenderer::CreateSwapChain(int width, int height)
 {
+    // Initializing the GPU is nice, but we want to actually perform some rendering into the screen.
+    // We use a swapchain for that. A swapchain is a OS/windowing provided structure with some images
+    // we can draw to and then display on the screen. Swapchains are not in the core Vulkan spec as
+    // they are optional, and often unique to the different platforms. If you are going to use Vulkan
+    // for compute shader calculations, or for offline rendering, you do not need to setup a swapchain
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities);
 
     std::vector<VkSurfaceFormatKHR> surfaceFormats;
@@ -751,4 +966,6 @@ void VulkanRenderer::SetupScreenAndCommand()
     CreateCommandBuffers();
     CreateSemaphores();
     CreateFences();
+
+    graphicsPipeline = CreateGraphicsPipeline(device, render_pass);
 }

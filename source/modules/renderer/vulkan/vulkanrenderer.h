@@ -23,6 +23,8 @@ private:
 
     void CreateSemaphore(VkSemaphore *semaphore);
 
+    VkPipelineShaderStageCreateInfo ShaderPipelineStageCreateInfo(VkShaderStageFlagBits stage, VkShaderModule shaderModule);
+
     VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
     VkBool32 GetSupportedDepthFormat(VkPhysicalDevice physicalDevice, VkFormat *depthFormat);
 
@@ -90,6 +92,24 @@ private:
     uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
     uint32_t frameIndex;
+
+    // Shaders
+    bool LoadShader(const char* filePath, VkShaderModule* outShaderModule);
+
+    // Graphics pipeline
+    VkPipeline graphicsPipeline;
+
+    std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo;
+    VkPipelineInputAssemblyStateCreateInfo inputAssembly;
+    VkViewport viewport;
+    VkRect2D scissor;
+    VkPipelineRasterizationStateCreateInfo rasterizer;
+    VkPipelineColorBlendAttachmentState colorBlendAttachment;
+    VkPipelineMultisampleStateCreateInfo multisampling;
+    //VkPipelineLayout pipelineLayout;
+
+    VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass);
 
 protected:
 public:
