@@ -300,6 +300,16 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
 
     // Make viewport state from our stored viewport and scissor.
     // At the moment we won't support multiple viewports or scissors
+    viewport.x = 0.0f;
+    viewport.y = 0.0f;
+    viewport.width = (float)swapchainSize.width;
+    viewport.height = (float)swapchainSize.height;
+    viewport.minDepth = 0.0f;
+    viewport.maxDepth = 1.0f;
+
+    scissor.offset = { 0, 0 };
+    scissor.extent = swapchainSize;
+
     VkPipelineViewportStateCreateInfo viewportState = {};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewportState.pNext = nullptr;
