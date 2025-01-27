@@ -95,7 +95,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
         SDL_Vulkan_GetDrawableSize(mainwindow, &width, &height);
         CreateSwapChain(width, height); // For backbuffering
-        SetupScreenAndCommand();
+        success = SetupScreenAndCommand();
     }
 
     return success;

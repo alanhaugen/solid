@@ -231,9 +231,6 @@ VkPipelineShaderStageCreateInfo VulkanRenderer::ShaderPipelineStageCreateInfo(Vk
 
 VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass pass)
 {
-    VkShaderModule triangleFragShader;
-    VkShaderModule triangleVertShader;
-
     bool success = LoadShader("triangle.frag.spv", &triangleFragShader);
 
     if (success == false)
@@ -251,6 +248,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     shaderStages.push_back(ShaderPipelineStageCreateInfo(VK_SHADER_STAGE_VERTEX_BIT, triangleVertShader));
     shaderStages.push_back(ShaderPipelineStageCreateInfo(VK_SHADER_STAGE_FRAGMENT_BIT, triangleFragShader));
 
+    multisampling = {};
     multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     multisampling.pNext = nullptr;
 
@@ -262,6 +260,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     multisampling.alphaToCoverageEnable = VK_FALSE;
     multisampling.alphaToOneEnable = VK_FALSE;
 
+    vertexInputInfo = {};
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vertexInputInfo.pNext = nullptr;
 
@@ -269,6 +268,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     vertexInputInfo.vertexBindingDescriptionCount = 0;
     vertexInputInfo.vertexAttributeDescriptionCount = 0;
 
+    inputAssembly = {};
     inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     inputAssembly.pNext = nullptr;
 
@@ -280,6 +280,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     //we are not going to use primitive restart on the entire tutorial so leave it on false
     inputAssembly.primitiveRestartEnable = VK_FALSE;
 
+    rasterizer = {};
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizer.pNext = nullptr;
 
@@ -317,6 +318,11 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     viewportState.pViewports = &viewport;
     viewportState.scissorCount = 1;
     viewportState.pScissors = &scissor;
+
+    //
+    colorBlendAttachment = {};
+    colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+    colorBlendAttachment.blendEnable = VK_FALSE;
 
     // Setup dummy color blending. We aren't using transparent objects yet
     // The blending is just "no blend", but we do write to the color attachment
@@ -819,12 +825,10 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     // Draw triangle
     vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
     // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)
     vkCmdEndRenderPass(commandBuffer);
 
@@ -965,7 +969,7 @@ void VulkanRenderer::CreateSwapChain(int width, int height)
     vkGetSwapchainImagesKHR(device, swapchain, &swapchainImageCount, swapchainImages.data());
 }
 
-void VulkanRenderer::SetupScreenAndCommand()
+bool VulkanRenderer::SetupScreenAndCommand()
 {
     CreateImageViews();
     SetupDepthStencil();
@@ -980,4 +984,11 @@ void VulkanRenderer::SetupScreenAndCommand()
     fade = 0.0f;
 
     graphicsPipeline = CreateGraphicsPipeline(device, render_pass);
+
+    if (graphicsPipeline == VK_NULL_HANDLE)
+    {
+        return false;
+    }
+
+    return true;
 }

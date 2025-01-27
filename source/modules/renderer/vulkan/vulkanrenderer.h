@@ -98,6 +98,8 @@ private:
 
     // Graphics pipeline
     VkPipeline graphicsPipeline;
+    VkShaderModule triangleFragShader;
+    VkShaderModule triangleVertShader;
 
     std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
     VkPipelineVertexInputStateCreateInfo vertexInputInfo;
@@ -135,7 +137,7 @@ public:
     void SelectQueueFamily();
     bool CreateDevice();
     void CreateSwapChain(int width, int height);
-    void SetupScreenAndCommand();
+    bool SetupScreenAndCommand();
 };
 
 #endif
