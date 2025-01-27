@@ -319,7 +319,9 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     viewportState.scissorCount = 1;
     viewportState.pScissors = &scissor;
 
-    //
+    // Controls how this pipeline blends into a given attachment. We are rendering to only 1 attachment,
+    // so we will just need one of them, and defaulted to “not blend” and just override. In here it’s possible
+    // to make objects that will blend with the image. This one also doesn’t have sType + pNext
     colorBlendAttachment = {};
     colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
     colorBlendAttachment.blendEnable = VK_FALSE;
@@ -824,9 +826,6 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
     // Draw triangle
     vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 
     // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)
