@@ -4,6 +4,9 @@
 #include <vulkan/vulkan.hpp>
 #include <vector>
 #include "modules/renderer/null/nullrenderer.h"
+#include "core/containers/array.h"
+#include "vulkandrawable.h"
+#include "vulkanshader.h"
 
 class VulkanRenderer : public Renderer::NullRenderer
 {
@@ -113,9 +116,10 @@ private:
     VkPipelineViewportStateCreateInfo viewportState;
     VkPipelineColorBlendStateCreateInfo colorBlending;
 
-    float fade;
-
     VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass);
+
+    // Classic solid book-keeping
+    LinkedList<VulkanDrawable*> drawables;
 
 protected:
 public:

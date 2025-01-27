@@ -360,6 +360,8 @@ Project {
             "source/modules/renderer/vulkan/vulkanrenderer.h",
             "source/modules/renderer/vulkan/vulkandrawable.cpp",
             "source/modules/renderer/vulkan/vulkandrawable.h",
+            "source/modules/renderer/vulkan/vulkanshader.cpp",
+            "source/modules/renderer/vulkan/vulkanshader.h",
         ]
     }
 }

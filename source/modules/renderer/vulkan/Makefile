@@ -11,7 +11,8 @@ SOLIDCORE = ../../../..
 
 SOURCES = \
         vulkanrenderer.cpp \
-        vulkandrawable.cpp
+        vulkandrawable.cpp \
+        vulkanshader.cpp
 
 #############################################################################
 # Setup build platform rules 

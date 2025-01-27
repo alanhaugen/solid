@@ -4,7 +4,6 @@
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include "stbi_image_write.h" // TODO: remove, hack
 
-
 bool GLES2Renderer::Init(
         bool fullscreen_,
         const char *windowTitle,
@@ -258,7 +257,6 @@ ITexture *GLES2Renderer::CreateTexture(String filename)
 
 ITexture *GLES2Renderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
-
     GLES2Texture *texture = FindTexture(front);
 
     if (texture == NULL)

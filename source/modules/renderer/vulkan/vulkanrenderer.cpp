@@ -1,5 +1,4 @@
 #include "vulkanrenderer.h"
-#include "vulkandrawable.h"
 #include <set>
 #include <fstream>
 
@@ -993,24 +992,47 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<String> &shaders,
         Array<ITexture *> textures)
 {
-    (void)vertices;
-    (void)indices;
-    (void)shaders;
-    (void)textures;
+    VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable *drawable = new VulkanDrawable();
+    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures);
+
+    drawables.Append(drawable);
 
     return drawable;
 }
 
 IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
 {
-    VulkanDrawable *drawable = new VulkanDrawable();
+    Array<ITexture *> textures;
+
+    if (texture != NULL)
+    {
+        textures.Add(texture);
+    }
+
+    VulkanShader* shader = new VulkanShader();
+
+    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures);
+
+    drawables.Append(drawable);
 
     return drawable;
 }
 
 void VulkanRenderer::RemoveDrawable(IDrawable *drawable)
 {
-    (void)drawable;
+    LinkedList<VulkanDrawable*>::Iterator drawableIterator = drawables.Begin();
+
+    for (int i = 0; drawableIterator != drawables.End(); ++drawableIterator)
+    {
+        VulkanDrawable *vulkanDrawable = (*drawableIterator);
+        if (vulkanDrawable == drawable)
+        {
+            drawables.RemoveAt(i);
+            delete vulkanDrawable;
+            break;
+        }
+
+        i++;
+    }
 }
