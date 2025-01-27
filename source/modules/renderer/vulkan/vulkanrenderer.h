@@ -107,7 +107,11 @@ private:
     VkPipelineRasterizationStateCreateInfo rasterizer;
     VkPipelineColorBlendAttachmentState colorBlendAttachment;
     VkPipelineMultisampleStateCreateInfo multisampling;
-    //VkPipelineLayout pipelineLayout;
+    VkPipelineLayout pipelineLayout;
+    VkPipelineViewportStateCreateInfo viewportState;
+    VkPipelineColorBlendStateCreateInfo colorBlending;
+
+    float fade;
 
     VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass);
 

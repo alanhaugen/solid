@@ -16,7 +16,9 @@ SDLRender::SDLRender()
 
 SDLRender::~SDLRender()
 {
+#ifndef USE_VULKAN
     SDL_GL_DeleteContext(maincontext);
+#endif
     SDL_DestroyWindow(mainwindow);
 }
 
