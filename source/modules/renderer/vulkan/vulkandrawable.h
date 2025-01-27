@@ -6,6 +6,10 @@
 
 class VulkanDrawable : public NullDrawable
 {
+private:
+    int indicesQuantity;
+    int verticesQuantity;
+
 public:
     VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                    Array<unsigned int> &indices,

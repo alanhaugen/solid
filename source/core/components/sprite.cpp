@@ -128,7 +128,6 @@ void Sprite::Init(const float x_,
     drawable->hasDepth    = false;
     drawable->sendToFront = true;
     drawable->uniformData = uniforms;
-
 }
 
 Sprite::Sprite(String textureFilePath,

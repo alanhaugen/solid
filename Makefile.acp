@@ -69,6 +69,12 @@ ifneq ($(PROJECT_FILES),)
 
     FILES = $(shell grep -Eiho "\".*\.($(FORMATS))\"" $(SEARCH_FILES)|sed -E 's/"/ /g'|sort -u|sed -E 's/filename :  /data\//'|sed -E 's/icon :  /data\//'|sed -E 's/ //g')
     FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/sheet.png data/logo.png data/logo_inv.png
+
+ifeq ($(RENDERER),VulkanRenderer)
+    VERT_SPV = $(subst vert,vert.spv,$(FILES))
+    FRAG_SPV = $(subst frag,frag.spv,$(FILES))
+    FILES := $(FILES) $(VERT_SPV) $(FRAG_SPV)
+endif
 endif
 
 DATA = $(subst data,intermediate,$(FILES))
@@ -83,6 +89,16 @@ DATA = $(subst data,intermediate,$(FILES))
 
 print:
 	@echo $(FILES)
+
+intermediate/%.frag.spv: data/%.frag
+	@mkdir -p $@/..
+	@touch $@
+	$(SPV_COMPILER) -gi $< -so $@
+
+intermediate/%.vert.spv: data/%.vert
+	@mkdir -p $@/..
+	@touch $@
+	$(SPV_COMPILER) -gi $< -so $@
 
 intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@/..

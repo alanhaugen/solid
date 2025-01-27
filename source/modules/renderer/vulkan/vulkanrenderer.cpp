@@ -746,6 +746,12 @@ VulkanRenderer::~VulkanRenderer()
     // the application, destroying the device handles, and finally destroying the instance handle
     vkDeviceWaitIdle(device);
 
+    vkDestroyShaderModule(device, triangleVertShader, nullptr);
+    vkDestroyShaderModule(device, triangleFragShader, nullptr);
+
+    vkDestroyPipeline(device, graphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+
     // Delete command pool
     vkDestroyCommandPool(device, commandPool, nullptr);
 
@@ -1001,7 +1007,10 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     return drawable;
 }
 
-IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+                                          Array<unsigned int> &indices,
+                                          Array<String> &shaders,
+                                          ITexture *texture)
 {
     Array<ITexture *> textures;
 
