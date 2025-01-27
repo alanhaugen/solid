@@ -138,6 +138,17 @@ public:
     bool CreateDevice();
     void CreateSwapChain(int width, int height);
     bool SetupScreenAndCommand();
+
+    IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
+            Array<unsigned int> &indices,
+            Array<String> &shaders,
+            Array<ITexture *> textures);
+    IDrawable *CreateDrawable(
+            Array<IDrawable::Vertex> &vertices,
+            Array<unsigned int> &indices,
+            Array<String> &shaders,
+            ITexture* texture);
+    void RemoveDrawable(IDrawable *drawable);
 };
 
 #endif

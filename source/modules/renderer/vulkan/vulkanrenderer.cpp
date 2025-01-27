@@ -791,10 +791,8 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
     vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
-    VkClearColorValue clear_color = { fade, 0.0f, 0.0f, 1.0f };
+    VkClearColorValue clear_color = { 1.0f, 0.0f, 0.0f, 1.0f };
     VkClearDepthStencilValue clear_depth_stencil = { 1.0f, 0 };
-
-    fade += 0.001f;
 
     PreRender();
 
@@ -980,8 +978,6 @@ bool VulkanRenderer::SetupScreenAndCommand()
     CreateSemaphores();
     CreateFences();
 
-    fade = 0.0f;
-
     graphicsPipeline = CreateGraphicsPipeline(device, render_pass);
 
     if (graphicsPipeline == VK_NULL_HANDLE)
@@ -990,4 +986,31 @@ bool VulkanRenderer::SetupScreenAndCommand()
     }
 
     return true;
+}
+
+IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+        Array<unsigned int> &indices,
+        Array<String> &shaders,
+        Array<ITexture *> textures)
+{
+    (void)vertices;
+    (void)indices;
+    (void)shaders;
+    (void)textures;
+
+    VulkanDrawable *drawable = new VulkanDrawable();
+
+    return drawable;
+}
+
+IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+{
+    VulkanDrawable *drawable = new VulkanDrawable();
+
+    return drawable;
+}
+
+void VulkanRenderer::RemoveDrawable(IDrawable *drawable)
+{
+    (void)drawable;
 }
