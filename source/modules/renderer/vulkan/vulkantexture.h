@@ -10,6 +10,12 @@ public:
     VulkanTexture(String filename);
     VulkanTexture(String front, String back, String top, String bottom, String left, String right);
 
+    U8 At(unsigned int x, unsigned int y, U8 data);
+    U8 At(unsigned int index, U8 data);
+
+    void ReUpload();
+    void ReUpload(String filePath);
+
     ~VulkanTexture();
 
 private:

@@ -1,4 +1,5 @@
 #include "vulkanrenderer.h"
+#include "vulkantexture.h"
 #include <set>
 #include <fstream>
 
@@ -848,17 +849,35 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
 ITexture *VulkanRenderer::CreateTexture(String filename)
 {
+    VulkanTexture *texture = NULL;//; FindTexture(filename);
 
+    if (texture == NULL)
+    {
+        texture = new VulkanTexture(filename);
+
+        //textures.Add(texture);
+    }
+
+    return texture;
 }
 
 ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
+    VulkanTexture *texture = NULL;//; FindTexture(filename);
 
+    if (texture == NULL)
+    {
+        texture = new VulkanTexture(front, back, top, bottom, left, right);
+
+        //textures.Add(texture);
+    }
+
+    return texture;
 }
 
 ITexture *VulkanRenderer::CreateTexture(int width, int height)
 {
-
+    return NULL;
 }
 
 bool VulkanRenderer::Init(bool openFullscreened,

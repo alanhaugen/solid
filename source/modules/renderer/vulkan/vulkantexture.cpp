@@ -17,6 +17,26 @@ VulkanTexture::VulkanTexture(String front, String back, String top, String botto
 {
 }
 
+U8 VulkanTexture::At(unsigned int x, unsigned int y, U8 data)
+{
+
+}
+
+U8 VulkanTexture::At(unsigned int index, U8 data)
+{
+
+}
+
+void VulkanTexture::ReUpload()
+{
+
+}
+
+void VulkanTexture::ReUpload(String filePath)
+{
+
+}
+
 VulkanTexture::~VulkanTexture()
 {
 }
