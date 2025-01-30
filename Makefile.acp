@@ -71,8 +71,8 @@ ifneq ($(PROJECT_FILES),)
     FILES += data/simple.vert data/simple.frag data/gui.vert data/gui.frag data/vertexanimation.vert data/vertexanimation.frag data/project.json data/phong.vert data/phong.frag data/cubemap.vert data/cubemap.frag data/sheet.png data/logo.png data/logo_inv.png
 
 ifeq ($(RENDERER),VulkanRenderer)
-    VERT_SPV = $(subst vert,vert.spv,$(FILES))
-    FRAG_SPV = $(subst frag,frag.spv,$(FILES))
+    VERT_SPV = $(subst .vert,.vert.spv,$(FILES))
+    FRAG_SPV = $(subst .frag,.frag.spv,$(FILES))
     FILES := $(FILES) $(VERT_SPV) $(FRAG_SPV)
 endif
 endif
