@@ -126,6 +126,9 @@ public:
     ~VulkanRenderer();
 
     void Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
+    ITexture* CreateTexture(String filename);
+    ITexture* CreateTexture(String front, String back, String top, String bottom, String left, String right);
+    ITexture* CreateTexture(int width, int height);
 
     // Used by SDL to setup Vulkan
     std::vector<const char *> extensionNames;

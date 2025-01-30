@@ -12,6 +12,7 @@ SOLIDCORE = ../../../..
 SOURCES = \
         vulkanrenderer.cpp \
         vulkandrawable.cpp \
+        vulkantexture.cpp \
         vulkanshader.cpp
 
 #############################################################################

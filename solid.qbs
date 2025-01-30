@@ -362,6 +362,8 @@ Project {
             "source/modules/renderer/vulkan/vulkandrawable.h",
             "source/modules/renderer/vulkan/vulkanshader.cpp",
             "source/modules/renderer/vulkan/vulkanshader.h",
+            "source/modules/renderer/vulkan/vulkantexture.cpp",
+            "source/modules/renderer/vulkan/vulkantexture.h",
         ]
     }
 }

@@ -846,6 +846,21 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     PostRender();
 }
 
+ITexture *VulkanRenderer::CreateTexture(String filename)
+{
+
+}
+
+ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
+{
+
+}
+
+ITexture *VulkanRenderer::CreateTexture(int width, int height)
+{
+
+}
+
 bool VulkanRenderer::Init(bool openFullscreened,
                           const char *windowTitle,
                           const unsigned int windowLength,
