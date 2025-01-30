@@ -93,12 +93,12 @@ print:
 intermediate/%.frag.spv: data/%.frag
 	@mkdir -p $@/..
 	@touch $@
-	$(SPV_COMPILER) -gi $< -so $@
+	$(SPV_COMPILER) -gi $< -so intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.vert.spv: data/%.vert
 	@mkdir -p $@/..
 	@touch $@
-	$(SPV_COMPILER) -gi $< -so $@
+	$(SPV_COMPILER) -gi $< -so intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@/..
