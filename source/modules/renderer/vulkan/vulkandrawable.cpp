@@ -95,23 +95,55 @@ VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()
     positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
     positionAttribute.offset = offsetof(Vertex, position);
 
-    // Normal will be stored at Location 2
-    VkVertexInputAttributeDescription normalAttribute = {};
-    normalAttribute.binding = 0;
-    normalAttribute.location = 2;
-    normalAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
-    normalAttribute.offset = offsetof(Vertex, normal);
-
     // Color will be stored at Location 1
     VkVertexInputAttributeDescription colorAttribute = {};
     colorAttribute.binding = 0;
     colorAttribute.location = 1;
-    colorAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+    colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
     colorAttribute.offset = offsetof(Vertex, color);
+
+    // Normal will be stored at Location 2
+    VkVertexInputAttributeDescription normalAttribute = {};
+    normalAttribute.binding = 0;
+    normalAttribute.location = 2;
+    normalAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+    normalAttribute.offset = offsetof(Vertex, normal);
+
+    // Texcoord will be stored at Location 3
+    VkVertexInputAttributeDescription texCoordAttribute = {};
+    texCoordAttribute.binding = 0;
+    texCoordAttribute.location = 3;
+    texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+    texCoordAttribute.offset = offsetof(Vertex, textureCoordinates);
+
+    // Weights will be stored at Location 4
+    VkVertexInputAttributeDescription weightsAttribute = {};
+    weightsAttribute.binding = 0;
+    weightsAttribute.location = 4;
+    weightsAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+    weightsAttribute.offset = offsetof(Vertex, weights);
+
+    // Joints will be stored at Location 5
+    VkVertexInputAttributeDescription jointsAttribute = {};
+    jointsAttribute.binding = 0;
+    jointsAttribute.location = 5;
+    jointsAttribute.format = VK_FORMAT_R32G32B32A32_SINT;
+    jointsAttribute.offset = offsetof(Vertex, joints);
+
+    // Joints will be stored at Location 6
+    VkVertexInputAttributeDescription glyphAttribute = {};
+    glyphAttribute.binding = 0;
+    glyphAttribute.location = 6;
+    glyphAttribute.format = VK_FORMAT_R8_SINT;
+    glyphAttribute.offset = offsetof(Vertex, glyph);
 
     description.attributes.push_back(positionAttribute);
     description.attributes.push_back(colorAttribute);
     description.attributes.push_back(normalAttribute);
+    description.attributes.push_back(texCoordAttribute);
+    description.attributes.push_back(weightsAttribute);
+    description.attributes.push_back(jointsAttribute);
+    description.attributes.push_back(glyphAttribute);
 
     return description;
 
