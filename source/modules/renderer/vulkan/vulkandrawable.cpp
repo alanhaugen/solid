@@ -44,19 +44,19 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     indicesQuantity  = indices.Size();
     verticesQuantity = vertices.Size();
 
-    //allocate vertex buffer
+    // Allocate vertex buffer
     VkBufferCreateInfo bufferInfo = {};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    //this is the total size, in bytes, of the buffer we are allocating
+    // This is the total size, in bytes, of the buffer we are allocating
     bufferInfo.size = verticesQuantity * sizeof(Vertex);
-    //this buffer is going to be used as a Vertex Buffer
+    // This buffer is going to be used as a Vertex Buffer
     bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 
-    //let the VMA library know that this data should be writeable by CPU, but also readable by GPU
+    // let the VMA library know that this data should be writeable by CPU, but also readable by GPU
     VmaAllocationCreateInfo vmaallocInfo = {};
     vmaallocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 
-    //allocate the buffer
+    // Allocate the buffer
     vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
         &vertexBuffer.buffer,
         &vertexBuffer.allocation,
@@ -67,12 +67,53 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     //    vmaDestroyBuffer(_allocator, mesh._vertexBuffer._buffer, mesh._vertexBuffer._allocation);
     //});
 
+    // Upload buffer data
     void* data;
     vmaMapMemory(allocator, vertexBuffer.allocation, &data);
 
     memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
 
     vmaUnmapMemory(allocator, vertexBuffer.allocation);
+}
+
+VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()
+{
+    VertexInputDescription description;
+
+    // We will have just 1 vertex buffer binding, with a per-vertex rate
+    VkVertexInputBindingDescription mainBinding = {};
+    mainBinding.binding = 0;
+    mainBinding.stride = sizeof(Vertex);
+    mainBinding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+    description.bindings.push_back(mainBinding);
+
+    // Position will be stored at Location 0
+    VkVertexInputAttributeDescription positionAttribute = {};
+    positionAttribute.binding = 0;
+    positionAttribute.location = 0;
+    positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+    positionAttribute.offset = offsetof(Vertex, position);
+
+    // Normal will be stored at Location 2
+    VkVertexInputAttributeDescription normalAttribute = {};
+    normalAttribute.binding = 0;
+    normalAttribute.location = 2;
+    normalAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+    normalAttribute.offset = offsetof(Vertex, normal);
+
+    // Color will be stored at Location 1
+    VkVertexInputAttributeDescription colorAttribute = {};
+    colorAttribute.binding = 0;
+    colorAttribute.location = 1;
+    colorAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+    colorAttribute.offset = offsetof(Vertex, color);
+
+    description.attributes.push_back(positionAttribute);
+    description.attributes.push_back(colorAttribute);
+    description.attributes.push_back(normalAttribute);
+
+    return description;
 
     // Upload buffer data
     // glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
