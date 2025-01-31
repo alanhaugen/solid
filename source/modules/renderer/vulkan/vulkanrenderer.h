@@ -7,6 +7,7 @@
 #include "core/containers/array.h"
 #include "vulkandrawable.h"
 #include "vulkanshader.h"
+#include "vk_mem_alloc.h"
 
 class VulkanRenderer : public Renderer::NullRenderer
 {
@@ -120,6 +121,9 @@ private:
 
     // Classic solid book-keeping
     LinkedList<VulkanDrawable*> drawables;
+
+    // Vulkan Memory Allocator (VMA) from the AMD GPUOpen project (many thanks to AMD)
+    VmaAllocator allocator;
 
 protected:
 public:

@@ -356,6 +356,7 @@ Project {
         type: "staticlibrary"
 
         files: [
+            "source/modules/renderer/vulkan/vk_mem_alloc.h",
             "source/modules/renderer/vulkan/vulkanrenderer.cpp",
             "source/modules/renderer/vulkan/vulkanrenderer.h",
             "source/modules/renderer/vulkan/vulkandrawable.cpp",
