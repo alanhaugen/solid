@@ -795,11 +795,12 @@ VulkanRenderer::~VulkanRenderer()
     vkDestroyShaderModule(device, triangleVertShader, nullptr);
     vkDestroyShaderModule(device, triangleFragShader, nullptr);
 
-    // Rendering commands go here
+    // Clean up the drawables
     LinkedList<VulkanDrawable*>::Iterator drawable = drawables.Begin();
 
     for (; drawable != NULL; ++drawable)
     {
+        vmaDestroyBuffer(allocator, (*drawable)->vertexBuffer.buffer, (*drawable)->vertexBuffer.allocation);
         vkDestroyPipeline(device, (*drawable)->pipeline, nullptr);
     }
 
