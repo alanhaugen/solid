@@ -293,7 +293,24 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
      *     VK_PRIMITIVE_TOPOLOGY_POINT_LIST : points
      *     VK_PRIMITIVE_TOPOLOGY_LINE_LIST : line-list
      **/
-    inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+    if (topology == DRAW_TRIANGLES)
+    {
+        inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+    }
+    else if (topology == DRAW_LINES)
+    {
+        inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+    }
+    else if (topology == CUBEMAP)
+    {
+        LogWarning("Cubemaps not supported yet...");
+    }
+    else
+    {
+        LogError("Unsupported topology");
+    }
+
     //we are not going to use primitive restart on the entire tutorial so leave it on false
     inputAssembly.primitiveRestartEnable = VK_FALSE;
 
