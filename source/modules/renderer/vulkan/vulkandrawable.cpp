@@ -116,21 +116,21 @@ VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()
     texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
     texCoordAttribute.offset = offsetof(Vertex, textureCoordinates);
 
-    // Weights will be stored at Location 4
+    // Weights (for skinning together with joints below) will be stored at Location 4
     VkVertexInputAttributeDescription weightsAttribute = {};
     weightsAttribute.binding = 0;
     weightsAttribute.location = 4;
     weightsAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
     weightsAttribute.offset = offsetof(Vertex, weights);
 
-    // Joints will be stored at Location 5
+    // Joints (for skinning together with weights above) will be stored at Location 5
     VkVertexInputAttributeDescription jointsAttribute = {};
     jointsAttribute.binding = 0;
     jointsAttribute.location = 5;
     jointsAttribute.format = VK_FORMAT_R32G32B32A32_SINT;
     jointsAttribute.offset = offsetof(Vertex, joints);
 
-    // Joints will be stored at Location 6
+    // Glyph for text will be stored at Location 6
     VkVertexInputAttributeDescription glyphAttribute = {};
     glyphAttribute.binding = 0;
     glyphAttribute.location = 6;
@@ -146,35 +146,4 @@ VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()
     description.attributes.push_back(glyphAttribute);
 
     return description;
-
-    // Upload buffer data
-    // glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-
-    // vertex positions
-    //glEnableVertexAttribArray(0);
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-
-    //// vertex colours
-    //glEnableVertexAttribArray(1);
-    //glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-
-    //// vertex normals
-    //glEnableVertexAttribArray(2);
-    //glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-
-    //// texture coordinates
-    //glEnableVertexAttribArray(3);
-    //glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
-
-    //// weights for skinning
-    //glEnableVertexAttribArray(4);
-    //glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
-
-    //// joints for skinning
-    //glEnableVertexAttribArray(5);
-    //glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, joints));
-
-    //// glyphs for text
-    //glEnableVertexAttribArray(6);
-    //glVertexAttribIPointer(6, 1, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, glyph));
 }
