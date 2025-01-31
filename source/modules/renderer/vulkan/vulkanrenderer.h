@@ -119,7 +119,8 @@ private:
 
     VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass,
                                       const char *fragShaderPath, const char *vertShaderPath,
-                                      VulkanDrawable* drawable);
+                                      VulkanDrawable* drawable,
+                                      int topology);
 
     // Classic solid book-keeping
     LinkedList<VulkanDrawable*> drawables;

@@ -237,7 +237,8 @@ VkPipelineShaderStageCreateInfo VulkanRenderer::ShaderPipelineStageCreateInfo(Vk
 
 VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass pass,
                                                   const char* fragShaderPath, const char* vertShaderPath,
-                                                  VulkanDrawable* drawable)
+                                                  VulkanDrawable* drawable,
+                                                  int topology)
 {
     bool success = LoadShader(URL(fragShaderPath), &triangleFragShader);
 
@@ -1073,7 +1074,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
-                                                drawable);
+                                                drawable,
+                                                topology);
 
     drawables.Append(drawable);
 
@@ -1099,7 +1101,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
-                                                drawable);
+                                                drawable,
+                                                topology);
 
     drawables.Append(drawable);
 

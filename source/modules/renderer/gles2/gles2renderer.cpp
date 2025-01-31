@@ -180,6 +180,8 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shader, textures);
 
+    drawable->type = topology;
+
     drawables.Append(drawable);
 
     return drawable;
@@ -201,6 +203,8 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     GLES2Shader* shader = CreateShader(shaders);
 
     GLES2Drawable* drawable = new GLES2Drawable(vertices, indices, shader, textures);
+
+    drawable->type = topology;
 
     drawables.Append(drawable);
 
