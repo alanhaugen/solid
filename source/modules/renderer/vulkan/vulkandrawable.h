@@ -15,12 +15,9 @@ private:
         VmaAllocation allocation;
     };
 
-    int indicesQuantity;
-    int verticesQuantity;
-
+public:
     AllocatedBuffer vertexBuffer;
 
-public:
     struct VertexInputDescription
     {
         std::vector<VkVertexInputBindingDescription> bindings;
@@ -34,6 +31,9 @@ public:
                    VulkanShader* shader_,
                    Array<ITexture *> &textures,
                    VmaAllocator allocator);
+
+    int indicesQuantity;
+    int verticesQuantity;
 
     VertexInputDescription GetVertexDescription();
 };

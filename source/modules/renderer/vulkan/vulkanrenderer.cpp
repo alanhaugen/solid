@@ -839,14 +839,19 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     vkCmdBeginRenderPass(commandBuffer, &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
 
     // Rendering commands go here
+    LinkedList<VulkanDrawable*>::Iterator drawable = drawables.End();
 
-    /*for (unsigned i = 0; i<projViewMatrixArray.Size(); i++)
+    for (; drawable != NULL; --drawable)
     {
-    }*/
+        // Draw triangle
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
-    // Draw triangle
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+        // Bind the mesh vertex buffer with offset 0
+        VkDeviceSize offset = 0;
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &(*drawable)->vertexBuffer.buffer, &offset);
+
+        vkCmdDraw(commandBuffer, (*drawable)->verticesQuantity, 1, 0, 0);
+    }
 
     // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)
     vkCmdEndRenderPass(commandBuffer);
