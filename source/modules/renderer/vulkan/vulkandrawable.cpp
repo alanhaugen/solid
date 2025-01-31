@@ -3,7 +3,8 @@
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
                                VulkanShader* shader_,
-                               Array<ITexture *> &textures)
+                               Array<ITexture *> &textures,
+                               VmaAllocator allocator)
 {
     /*for (unsigned int i = 0; i < textures_.Size(); i++)
     {
@@ -42,6 +43,36 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
     indicesQuantity  = indices.Size();
     verticesQuantity = vertices.Size();
+
+    //allocate vertex buffer
+    VkBufferCreateInfo bufferInfo = {};
+    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+    //this is the total size, in bytes, of the buffer we are allocating
+    bufferInfo.size = verticesQuantity * sizeof(Vertex);
+    //this buffer is going to be used as a Vertex Buffer
+    bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+
+    //let the VMA library know that this data should be writeable by CPU, but also readable by GPU
+    VmaAllocationCreateInfo vmaallocInfo = {};
+    vmaallocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+
+    //allocate the buffer
+    vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
+        &vertexBuffer.buffer,
+        &vertexBuffer.allocation,
+        nullptr);
+
+    //add the destruction of triangle mesh buffer to the deletion queue
+    //_mainDeletionQueue.push_function([=]() {
+    //    vmaDestroyBuffer(_allocator, mesh._vertexBuffer._buffer, mesh._vertexBuffer._allocation);
+    //});
+
+    void* data;
+    vmaMapMemory(allocator, vertexBuffer.allocation, &data);
+
+    memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
+
+    vmaUnmapMemory(allocator, vertexBuffer.allocation);
 
     // Upload buffer data
     // glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);

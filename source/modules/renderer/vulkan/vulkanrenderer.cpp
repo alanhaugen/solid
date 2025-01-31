@@ -1052,7 +1052,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 {
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures);
+    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
 
     drawables.Append(drawable);
 
@@ -1073,7 +1073,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures);
+    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
 
     drawables.Append(drawable);
 
