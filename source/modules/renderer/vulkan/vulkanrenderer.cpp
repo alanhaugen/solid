@@ -3,6 +3,12 @@
 #include <set>
 #include <fstream>
 
+// VMA supports Vulkan version down to 1.0, for backward compatibility
+// VMA compiles with code supporting the highest Vulkan version found in the included <vulkan/vulkan.h>
+#define VMA_IMPLEMENTATION // This must be included in exactly one CPP file
+#define VMA_VULKAN_VERSION 1000000 // Make VMA use Vulkan 1.0
+#include "vk_mem_alloc.h"
+
 // Thanks to https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858 and https://vkguide.dev
 
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
