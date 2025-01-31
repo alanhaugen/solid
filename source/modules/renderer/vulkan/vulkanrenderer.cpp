@@ -571,6 +571,16 @@ void VulkanRenderer::CreateFences()
     }
 }
 
+void VulkanRenderer::SetupVMA()
+{
+    // Initialize the AMD Vulkan Memory Allocator
+    VmaAllocatorCreateInfo allocatorInfo = {};
+    allocatorInfo.physicalDevice = physicalDevice;
+    allocatorInfo.device = device;
+    allocatorInfo.instance = instance;
+    vmaCreateAllocator(&allocatorInfo, &allocator);
+}
+
 void VulkanRenderer::CreateSemaphore(VkSemaphore *semaphore)
 {
     VkResult result;
@@ -1016,6 +1026,8 @@ bool VulkanRenderer::SetupScreenAndCommand()
     CreateCommandBuffers();
     CreateSemaphores();
     CreateFences();
+
+    SetupVMA();
 
     graphicsPipeline = CreateGraphicsPipeline(device, render_pass);
 

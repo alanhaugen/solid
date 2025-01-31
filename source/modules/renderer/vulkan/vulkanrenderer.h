@@ -7,6 +7,8 @@
 #include "core/containers/array.h"
 #include "vulkandrawable.h"
 #include "vulkanshader.h"
+
+#define VMA_IMPLEMENTATION
 #include "vk_mem_alloc.h"
 
 class VulkanRenderer : public Renderer::NullRenderer
@@ -24,6 +26,7 @@ private:
     void CreateCommandBuffers();
     void CreateSemaphores();
     void CreateFences();
+    void SetupVMA();
 
     void CreateSemaphore(VkSemaphore *semaphore);
 
