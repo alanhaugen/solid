@@ -102,7 +102,6 @@ private:
     bool LoadShader(const char* filePath, VkShaderModule* outShaderModule);
 
     // Graphics pipeline
-    VkPipeline graphicsPipeline;
     VkShaderModule triangleFragShader;
     VkShaderModule triangleVertShader;
 
@@ -118,7 +117,9 @@ private:
     VkPipelineViewportStateCreateInfo viewportState;
     VkPipelineColorBlendStateCreateInfo colorBlending;
 
-    VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass);
+    VkPipeline CreateGraphicsPipeline(VkDevice device, VkRenderPass pass,
+                                      const char *fragShaderPath, const char *vertShaderPath,
+                                      VulkanDrawable* drawable);
 
     // Classic solid book-keeping
     LinkedList<VulkanDrawable*> drawables;
@@ -154,12 +155,14 @@ public:
     IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture *> textures);
+            Array<ITexture *> textures,
+            int topology);
     IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            ITexture* texture);
+            ITexture* texture,
+            int topology);
     void RemoveDrawable(IDrawable *drawable);
 };
 

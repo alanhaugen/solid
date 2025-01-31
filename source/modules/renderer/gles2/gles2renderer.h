@@ -35,12 +35,13 @@ public:
     IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture *> textures);
-    IDrawable *CreateDrawable(
-            Array<IDrawable::Vertex> &vertices,
+            Array<ITexture *> textures,
+            int topology);
+    IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            ITexture *texture);
+            ITexture *texture,
+            int topology);
     void RemoveDrawable(IDrawable *drawable);
 
     ITexture* CreateTexture(String filename);

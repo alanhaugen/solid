@@ -173,7 +173,8 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
 IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<ITexture *> textures)
+        Array<ITexture *> textures,
+        int topology)
 {
     GLES2Shader* shader = CreateShader(shaders);
 
@@ -187,7 +188,8 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                          Array<unsigned int> &indices,
                                          Array<String> &shaders,
-                                         ITexture *texture)
+                                         ITexture *texture,
+                                         int topology)
 {
     Array<ITexture *> textures;
 
@@ -296,9 +298,20 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     // Create a new shader
     shader = new GLES2Shader();
 
+    Array<String> shaderText(2);
+
+    IFile *simpleVertShader = Locator::filesystem->Open(URL(shadersInput[VERTEX_SHADER]), PLAIN_TEXT);
+    IFile *simpleFragShader = Locator::filesystem->Open(URL(shadersInput[FRAGMENT_SHADER]), PLAIN_TEXT);
+
+    shaderText.Insert(simpleVertShader->Read(), VERTEX_SHADER);
+    shaderText.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
+
+    delete simpleVertShader;
+    delete simpleFragShader;
+
     shader->name = shaderName;
-    shader->LoadGLSL(GL_VERTEX_SHADER, shadersInput[VERTEX_SHADER].ToChar());
-    shader->LoadGLSL(GL_FRAGMENT_SHADER, shadersInput[FRAGMENT_SHADER].ToChar());
+    shader->LoadGLSL(GL_VERTEX_SHADER, shaderText[VERTEX_SHADER].ToChar());
+    shader->LoadGLSL(GL_FRAGMENT_SHADER, shaderText[FRAGMENT_SHADER].ToChar());
 
     shader->Compile();
 

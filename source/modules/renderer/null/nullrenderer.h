@@ -30,12 +30,14 @@ public:
     virtual IDrawable *CreateDrawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture *> textures);
+            Array<ITexture *> textures,
+            int topology);
     virtual IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            ITexture* texture);
+            ITexture* texture,
+            int topology);
     virtual void RemoveDrawable(IDrawable *drawable);
 
     virtual ITexture* CreateTexture(String filename);

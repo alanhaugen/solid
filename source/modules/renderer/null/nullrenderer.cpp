@@ -56,7 +56,8 @@ void Renderer::NullRenderer::Windowed()
 IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<ITexture *> textures)
+        Array<ITexture *> textures,
+        int topology)
 {
     (void)vertices;
     (void)indices;
@@ -68,7 +69,11 @@ IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vert
     return drawable;
 }
 
-IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Array<String> &shaders, ITexture *texture)
+IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+                                                  Array<unsigned int> &indices,
+                                                  Array<String> &shaders,
+                                                  ITexture *texture,
+                                                  int topology)
 {
     NullDrawable *drawable = new NullDrawable();
 

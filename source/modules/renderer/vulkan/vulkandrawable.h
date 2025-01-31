@@ -35,6 +35,8 @@ public:
     int indicesQuantity;
     int verticesQuantity;
 
+    VkPipeline pipeline;
+
     VertexInputDescription GetVertexDescription();
 };
 

@@ -235,19 +235,23 @@ VkPipelineShaderStageCreateInfo VulkanRenderer::ShaderPipelineStageCreateInfo(Vk
     return info;
 }
 
-VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass pass)
+VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass pass,
+                                                  const char* fragShaderPath, const char* vertShaderPath,
+                                                  VulkanDrawable* drawable)
 {
-    bool success = LoadShader("triangle.frag.spv", &triangleFragShader);
+    bool success = LoadShader(URL(fragShaderPath), &triangleFragShader);
 
     if (success == false)
     {
+        LogError("Failed to load fragment shader: " + String(fragShaderPath));
         return VK_NULL_HANDLE;
     }
 
-    success = LoadShader("triangle.vert.spv", &triangleVertShader);
+    success = LoadShader(URL(vertShaderPath), &triangleVertShader);
 
     if (success == false)
     {
+        LogError("Failed to load vertex shader: " + String(vertShaderPath));
         return VK_NULL_HANDLE;
     }
 
@@ -270,9 +274,15 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     vertexInputInfo.pNext = nullptr;
 
-    // No vertex bindings or attributes
-    vertexInputInfo.vertexBindingDescriptionCount = 0;
-    vertexInputInfo.vertexAttributeDescriptionCount = 0;
+    // Setup vertex description (this is connected with the vertex attributes in the shader)
+    VulkanDrawable::VertexInputDescription vertexDescription = drawable->GetVertexDescription();
+
+    // Connect the pipeline builder vertex input info to the one we get from Vertex
+    vertexInputInfo.pVertexAttributeDescriptions = vertexDescription.attributes.data();
+    vertexInputInfo.vertexAttributeDescriptionCount = vertexDescription.attributes.size();
+
+    vertexInputInfo.pVertexBindingDescriptions = vertexDescription.bindings.data();
+    vertexInputInfo.vertexBindingDescriptionCount = vertexDescription.bindings.size();
 
     inputAssembly = {};
     inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -376,6 +386,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
 
     if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &newPipeline) != VK_SUCCESS)
     {
+        LogError("Failed to create shader pipeline");
         return VK_NULL_HANDLE; // failed to create graphics pipeline
     }
     else
@@ -766,7 +777,14 @@ VulkanRenderer::~VulkanRenderer()
     vkDestroyShaderModule(device, triangleVertShader, nullptr);
     vkDestroyShaderModule(device, triangleFragShader, nullptr);
 
-    vkDestroyPipeline(device, graphicsPipeline, nullptr);
+    // Rendering commands go here
+    LinkedList<VulkanDrawable*>::Iterator drawable = drawables.Begin();
+
+    for (; drawable != NULL; ++drawable)
+    {
+        vkDestroyPipeline(device, (*drawable)->pipeline, nullptr);
+    }
+
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 
     // Delete command pool
@@ -844,7 +862,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     for (; drawable != NULL; --drawable)
     {
         // Draw triangle
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;
@@ -1040,24 +1058,22 @@ bool VulkanRenderer::SetupScreenAndCommand()
 
     SetupVMA();
 
-    graphicsPipeline = CreateGraphicsPipeline(device, render_pass);
-
-    if (graphicsPipeline == VK_NULL_HANDLE)
-    {
-        return false;
-    }
-
     return true;
 }
 
 IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
-        Array<ITexture *> textures)
+        Array<ITexture *> textures,
+        int topology)
 {
     VulkanShader* shader = new VulkanShader();
 
     VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
+
+    drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
+                                                shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
+                                                drawable);
 
     drawables.Append(drawable);
 
@@ -1067,7 +1083,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                           Array<unsigned int> &indices,
                                           Array<String> &shaders,
-                                          ITexture *texture)
+                                          ITexture *texture,
+                                          int topology)
 {
     Array<ITexture *> textures;
 
@@ -1079,6 +1096,10 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     VulkanShader* shader = new VulkanShader();
 
     VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
+
+    drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
+                                                shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
+                                                drawable);
 
     drawables.Append(drawable);
 

@@ -94,14 +94,8 @@ void Sprite::Init(const float x_,
         //indices.Add(5 + i * 6);
     }
 
-    IFile *simpleVertShader = filesystem->Open(URL("data/gui.vert"), PLAIN_TEXT);
-    IFile *simpleFragShader = filesystem->Open(URL("data/gui.frag"), PLAIN_TEXT);
-
-    shaders.Insert(simpleVertShader->Read(), VERTEX_SHADER);
-    shaders.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
-
-    delete simpleVertShader;
-    delete simpleFragShader;
+    shaders.Insert("data/gui.vert", VERTEX_SHADER);
+    shaders.Insert("data/gui.frag", FRAGMENT_SHADER);
 
     // Send scale uniforms
     Uniform("scaleX", static_cast<float>(scaleX));

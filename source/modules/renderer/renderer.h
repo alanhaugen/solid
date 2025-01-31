@@ -31,12 +31,14 @@ public:
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            Array<ITexture*> textures = Array<ITexture*>()) = 0;
+            Array<ITexture*> textures = Array<ITexture*>(),
+            int topology = DRAW_TRIANGLES) = 0;
     virtual IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
-            ITexture* texture) = 0;
+            ITexture* texture,
+            int topology = DRAW_TRIANGLES) = 0;
 
     virtual void RemoveDrawable(IDrawable *drawable) = 0;
 
