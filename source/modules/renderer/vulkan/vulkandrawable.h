@@ -38,13 +38,13 @@ private:
 
     AllocatedBuffer uniformBuffer;
     VkDescriptorSet descriptor;
-    VkDescriptorSetLayout setLayout;
 
     VkDevice device;
     VmaAllocator allocator;
 
 public:
     AllocatedBuffer vertexBuffer;
+    VkDescriptorSetLayout setLayout;
 
     struct VertexInputDescription
     {
