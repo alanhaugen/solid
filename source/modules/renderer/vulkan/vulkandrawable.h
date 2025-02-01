@@ -15,6 +15,27 @@ private:
         VmaAllocation allocation;
     };
 
+    struct UniformBlock
+    {
+        glm::vec2 pos;
+        float scaleX;
+        float scaleY;
+        int width;
+        int height;
+        int totalWidth;
+        int totalHeight;
+        int index;
+        int screenWidth;
+        int screenHeight;
+        int flip;
+        int flipVertical;
+        float time;
+    };
+
+    AllocatedBuffer uniformBuffer;
+
+    VkDescriptorSet globalDescriptor;
+
 public:
     AllocatedBuffer vertexBuffer;
 

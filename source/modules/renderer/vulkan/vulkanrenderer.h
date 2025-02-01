@@ -128,6 +128,10 @@ private:
     // Vulkan Memory Allocator (VMA) from the AMD GPUOpen project (many thanks to AMD)
     VmaAllocator allocator;
 
+    // Descriptor Set Layout (to send uniforms to the GPU)
+    VkDescriptorSetLayout globalSetLayout;
+    VkDescriptorPool descriptorPool;
+
 protected:
 public:
     ~VulkanRenderer();
