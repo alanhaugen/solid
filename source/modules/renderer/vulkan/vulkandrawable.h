@@ -38,7 +38,9 @@ private:
 
     AllocatedBuffer uniformBuffer;
     VkDescriptorSet descriptor;
+    VkDescriptorSetLayout setLayout;
 
+    VkDevice device;
     VmaAllocator allocator;
 
 public:
@@ -56,7 +58,10 @@ public:
                    Array<unsigned int> &indices,
                    VulkanShader* shader_,
                    Array<ITexture *> &textures,
-                   VmaAllocator allocator);
+                   VmaAllocator allocator,
+                   VkDevice device);
+
+    ~VulkanDrawable();
 
     int indicesQuantity;
     int verticesQuantity;

@@ -4,7 +4,7 @@ VulkanDrawable::AllocatedBuffer VulkanDrawable::CreateBuffer(size_t allocSize,
                                                              VkBufferUsageFlags usage,
                                                              VmaMemoryUsage memoryUsage)
 {
-    // Allocate vertex buffer
+    // Allocate buffer
     VkBufferCreateInfo bufferInfo = {};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.pNext = nullptr;
@@ -17,7 +17,7 @@ VulkanDrawable::AllocatedBuffer VulkanDrawable::CreateBuffer(size_t allocSize,
 
     AllocatedBuffer newBuffer;
 
-    //allocate the buffer
+    // Allocate the buffer
     vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
         &newBuffer.buffer,
         &newBuffer.allocation,
@@ -30,10 +30,12 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
                                VulkanShader* shader_,
                                Array<ITexture *> &textures,
-                               VmaAllocator allocator_)
+                               VmaAllocator allocator_,
+                               VkDevice device_)
 {
     // Set the Vulkan Memory Allocator (VMA)
     allocator = allocator_;
+    device = device_;
 
     /*for (unsigned int i = 0; i < textures_.Size(); i++)
     {
@@ -96,13 +98,49 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     //    vmaDestroyBuffer(_allocator, mesh._vertexBuffer._buffer, mesh._vertexBuffer._allocation);
     //});
 
-    // Upload buffer data
+    // Upload vertex buffer data
     void* data;
     vmaMapMemory(allocator, vertexBuffer.allocation, &data);
 
     memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
 
     vmaUnmapMemory(allocator, vertexBuffer.allocation);
+
+    // Allocate buffer block data
+    uniformBuffer = CreateBuffer(sizeof(UniformBlock),
+                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
+
+    // Information about the binding.
+    VkDescriptorSetLayoutBinding bufferBinding = {};
+    bufferBinding.binding = 0;
+    bufferBinding.descriptorCount = 1;
+    // it's a uniform buffer binding
+    bufferBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+
+    // we use it from the vertex shader
+    bufferBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+    VkDescriptorSetLayoutCreateInfo setinfo = {};
+    setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    setinfo.pNext = nullptr;
+
+    //we are going to have 1 binding
+    setinfo.bindingCount = 1;
+    //no flags
+    setinfo.flags = 0;
+    //point to the camera buffer binding
+    setinfo.pBindings = &bufferBinding;
+
+    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
+}
+
+VulkanDrawable::~VulkanDrawable()
+{
+    vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
+    vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
+    vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
+    vkDestroyPipeline(device, pipeline, nullptr);
 }
 
 VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()

@@ -26,6 +26,8 @@ private:
     void CreateFences();
     void SetupVMA();
 
+    void SetupDescriptionPool();
+
     void CreateSemaphore(VkSemaphore *semaphore);
 
     VkPipelineShaderStageCreateInfo ShaderPipelineStageCreateInfo(VkShaderStageFlagBits stage, VkShaderModule shaderModule);
@@ -128,8 +130,7 @@ private:
     // Vulkan Memory Allocator (VMA) from the AMD GPUOpen project (many thanks to AMD)
     VmaAllocator allocator;
 
-    // Descriptor Set Layout (to send uniforms to the GPU)
-    VkDescriptorSetLayout globalSetLayout;
+    // Descriptor Set Pool (to send uniforms to the GPU)
     VkDescriptorPool descriptorPool;
 
 protected:

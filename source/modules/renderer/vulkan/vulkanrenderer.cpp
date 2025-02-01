@@ -616,6 +616,24 @@ void VulkanRenderer::SetupVMA()
     vmaCreateAllocator(&allocatorInfo, &allocator);
 }
 
+void VulkanRenderer::SetupDescriptionPool()
+{
+    // Create a descriptor pool that will hold 10 uniform buffers
+    std::vector<VkDescriptorPoolSize> sizes =
+    {
+        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 10 }
+    };
+
+    VkDescriptorPoolCreateInfo pool_info = {};
+    pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    pool_info.flags = 0;
+    pool_info.maxSets = 10;
+    pool_info.poolSizeCount = (uint32_t)sizes.size();
+    pool_info.pPoolSizes = sizes.data();
+
+    vkCreateDescriptorPool(device, &pool_info, nullptr, &descriptorPool);
+}
+
 void VulkanRenderer::CreateSemaphore(VkSemaphore *semaphore)
 {
     VkResult result;
@@ -800,10 +818,13 @@ VulkanRenderer::~VulkanRenderer()
 
     for (; drawable != NULL; ++drawable)
     {
-        vmaDestroyBuffer(allocator, (*drawable)->vertexBuffer.buffer, (*drawable)->vertexBuffer.allocation);
-        vkDestroyPipeline(device, (*drawable)->pipeline, nullptr);
+        delete (*drawable);
     }
 
+    // Clean up desciptor pool
+    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+
+    // Clean up pipeline
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 
     // Delete command pool
@@ -1076,6 +1097,7 @@ bool VulkanRenderer::SetupScreenAndCommand()
     CreateFences();
 
     SetupVMA();
+    SetupDescriptionPool();
 
     return true;
 }
@@ -1088,7 +1110,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 {
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
+    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator, device);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
@@ -1115,7 +1137,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator);
+    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator, device);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
