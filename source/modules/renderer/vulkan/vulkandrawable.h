@@ -32,9 +32,14 @@ private:
         float time;
     };
 
-    AllocatedBuffer uniformBuffer;
+    AllocatedBuffer CreateBuffer(size_t allocSize,
+                                 VkBufferUsageFlags usage,
+                                 VmaMemoryUsage memoryUsage);
 
-    VkDescriptorSet globalDescriptor;
+    AllocatedBuffer uniformBuffer;
+    VkDescriptorSet descriptor;
+
+    VmaAllocator allocator;
 
 public:
     AllocatedBuffer vertexBuffer;

@@ -1,11 +1,40 @@
 #include "vulkandrawable.h"
 
+VulkanDrawable::AllocatedBuffer VulkanDrawable::CreateBuffer(size_t allocSize,
+                                                             VkBufferUsageFlags usage,
+                                                             VmaMemoryUsage memoryUsage)
+{
+    // Allocate vertex buffer
+    VkBufferCreateInfo bufferInfo = {};
+    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+    bufferInfo.pNext = nullptr;
+
+    bufferInfo.size = allocSize;
+    bufferInfo.usage = usage;
+
+    VmaAllocationCreateInfo vmaallocInfo = {};
+    vmaallocInfo.usage = memoryUsage;
+
+    AllocatedBuffer newBuffer;
+
+    //allocate the buffer
+    vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
+        &newBuffer.buffer,
+        &newBuffer.allocation,
+        nullptr);
+
+    return newBuffer;
+}
+
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
                                VulkanShader* shader_,
                                Array<ITexture *> &textures,
-                               VmaAllocator allocator)
+                               VmaAllocator allocator_)
 {
+    // Set the Vulkan Memory Allocator (VMA)
+    allocator = allocator_;
+
     /*for (unsigned int i = 0; i < textures_.Size(); i++)
     {
         GLES2Texture *gles2texture = dynamic_cast<GLES2Texture *>(textures_[i]);
