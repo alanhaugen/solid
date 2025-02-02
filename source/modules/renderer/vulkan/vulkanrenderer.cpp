@@ -898,6 +898,13 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
     for (; drawable != NULL; --drawable)
     {
+        if ((*drawable)->draw == false)
+        {
+            continue;
+        }
+
+        (*drawable)->draw = false;
+
         // Upload uniforms to shader program
         (*drawable)->UploadUniformBufferBlock();
 

@@ -177,9 +177,14 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
 void VulkanDrawable::UploadUniformBufferBlock()
 {
+    glm::vec3 camPos = { 0.f, 0.f, 10.f };
+    glm::mat4 projection = glm::perspective(glm::radians(70.f), 1700.f / 900.f, 0.1f, 200.0f);
+    glm::mat4 view = glm::translate(glm::mat4(1.f), camPos);
+    projection[1][1] *= -1;
+
     // Fill a GPU camera data struct
     UniformBlock uniformData;
-    uniformData.MVP = glm::mat4(1.0f);
+    uniformData.MVP = projection * view;
     uniformData.colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 
     //and copy it to the buffer
