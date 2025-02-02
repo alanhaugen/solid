@@ -17,19 +17,8 @@ private:
 
     struct UniformBlock
     {
-        glm::vec2 pos;
-        float scaleX;
-        float scaleY;
-        int width;
-        int height;
-        int totalWidth;
-        int totalHeight;
-        int index;
-        int screenWidth;
-        int screenHeight;
-        int flip;
-        int flipVertical;
-        float time;
+        glm::mat4 MVP;	// combined modelview projection matrix
+        glm::vec4 colour;
     };
 
     AllocatedBuffer CreateBuffer(size_t allocSize,
@@ -37,14 +26,16 @@ private:
                                  VmaMemoryUsage memoryUsage);
 
     AllocatedBuffer uniformBuffer;
-    VkDescriptorSet descriptor;
 
     VkDevice device;
     VmaAllocator allocator;
 
 public:
     AllocatedBuffer vertexBuffer;
+    VkDescriptorSet descriptor;
     VkDescriptorSetLayout setLayout;
+
+    void UploadUniformBufferBlock();
 
     struct VertexInputDescription
     {
@@ -59,7 +50,8 @@ public:
                    VulkanShader* shader_,
                    Array<ITexture *> &textures,
                    VmaAllocator allocator,
-                   VkDevice device);
+                   VkDevice device,
+                   VkDescriptorPool descriptorPool);
 
     ~VulkanDrawable();
 
@@ -67,6 +59,7 @@ public:
     int verticesQuantity;
 
     VkPipeline pipeline;
+    VkPipelineLayout pipelineLayout;
 
     VertexInputDescription GetVertexDescription();
 };

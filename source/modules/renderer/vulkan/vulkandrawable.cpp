@@ -31,7 +31,8 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                VulkanShader* shader_,
                                Array<ITexture *> &textures,
                                VmaAllocator allocator_,
-                               VkDevice device_)
+                               VkDevice device_,
+                               VkDescriptorPool descriptorPool)
 {
     // Set the Vulkan Memory Allocator (VMA)
     allocator = allocator_;
@@ -133,6 +134,61 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     setinfo.pBindings = &bufferBinding;
 
     vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
+
+    // Allocate descriptor set
+    VkDescriptorSetAllocateInfo allocInfo ={};
+    allocInfo.pNext = nullptr;
+    allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    //using the pool we just set
+    allocInfo.descriptorPool = descriptorPool;
+    //only 1 descriptor
+    allocInfo.descriptorSetCount = 1;
+    //using the global data layout
+    allocInfo.pSetLayouts = &setLayout;
+
+    vkAllocateDescriptorSets(device, &allocInfo, &descriptor);
+
+    // Point descriptor set to uniform buffer
+    VkDescriptorBufferInfo binfo;
+    //it will be the uniform buffer
+    binfo.buffer = uniformBuffer.buffer;
+    //at 0 offset
+    binfo.offset = 0;
+    //of the size of a camera data struct
+    binfo.range = sizeof(UniformBlock);
+
+    VkWriteDescriptorSet setWrite = {};
+    setWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    setWrite.pNext = nullptr;
+
+    //we are going to write into binding number 0
+    setWrite.dstBinding = 0;
+    //of the global descriptor
+    setWrite.dstSet = descriptor;
+
+    setWrite.descriptorCount = 1;
+    //and the type is uniform buffer
+    setWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    setWrite.pBufferInfo = &binfo;
+
+    vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
+
+}
+
+void VulkanDrawable::UploadUniformBufferBlock()
+{
+    // Fill a GPU camera data struct
+    UniformBlock uniformData;
+    uniformData.MVP = glm::mat4(1.0f);
+    uniformData.colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+
+    //and copy it to the buffer
+    void* data;
+    vmaMapMemory(allocator, uniformBuffer.allocation, &data);
+
+    memcpy(data, &uniformData, sizeof(UniformBlock));
+
+    vmaUnmapMemory(allocator, uniformBuffer.allocation);
 }
 
 VulkanDrawable::~VulkanDrawable()
@@ -140,6 +196,7 @@ VulkanDrawable::~VulkanDrawable()
     vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
     vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
     vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
+    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     vkDestroyPipeline(device, pipeline, nullptr);
 }
 

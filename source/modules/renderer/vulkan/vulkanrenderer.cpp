@@ -370,7 +370,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     colorBlending.attachmentCount = 1;
     colorBlending.pAttachments = &colorBlendAttachment;
 
-    //empty defaults
+    // Setup descriptor layout which is the uniform buffer block for the shader
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.flags = 0;
     pipelineLayoutInfo.setLayoutCount = 1;
@@ -378,7 +378,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-    vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
+    vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &drawable->pipelineLayout);
 
     // Build the actual pipeline
     // We now use all of the info structs we have been writing into into this one to create the pipeline
@@ -394,7 +394,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     pipelineInfo.pRasterizationState = &rasterizer;
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
-    pipelineInfo.layout = pipelineLayout;
+    pipelineInfo.layout = drawable->pipelineLayout;
     pipelineInfo.renderPass = pass;
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
@@ -824,9 +824,6 @@ VulkanRenderer::~VulkanRenderer()
     // Clean up desciptor pool
     vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 
-    // Clean up pipeline
-    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-
     // Delete command pool
     vkDestroyCommandPool(device, commandPool, nullptr);
 
@@ -901,8 +898,12 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
     for (; drawable != NULL; --drawable)
     {
+        // TODO: Only bind pipeline and bind descriptor sets when the pipeline actually needs to change (per shader)
         // Draw triangle
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
+
+        // Bind descriptor set (shader uniforms)
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &(*drawable)->descriptor, 0, nullptr);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;
@@ -1110,7 +1111,13 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 {
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable *drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator, device);
+    VulkanDrawable *drawable = new VulkanDrawable(vertices,
+                                                  indices,
+                                                  shader,
+                                                  textures,
+                                                  allocator,
+                                                  device,
+                                                  descriptorPool);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
@@ -1137,7 +1144,13 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
 
     VulkanShader* shader = new VulkanShader();
 
-    VulkanDrawable* drawable = new VulkanDrawable(vertices, indices, shader, textures, allocator, device);
+    VulkanDrawable* drawable = new VulkanDrawable(vertices,
+                                                  indices,
+                                                  shader,
+                                                  textures,
+                                                  allocator,
+                                                  device,
+                                                  descriptorPool);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],

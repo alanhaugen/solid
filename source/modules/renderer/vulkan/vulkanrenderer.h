@@ -115,7 +115,6 @@ private:
     VkPipelineRasterizationStateCreateInfo rasterizer;
     VkPipelineColorBlendAttachmentState colorBlendAttachment;
     VkPipelineMultisampleStateCreateInfo multisampling;
-    VkPipelineLayout pipelineLayout;
     VkPipelineViewportStateCreateInfo viewportState;
     VkPipelineColorBlendStateCreateInfo colorBlending;
 
