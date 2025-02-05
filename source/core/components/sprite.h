@@ -53,6 +53,7 @@ public:
     ~Sprite();
 
     void Update();
+    void UpdateAfterPhysics();
 
     // Add animation
     void AddAnimation(int anim, int frames[], int frames_length, int framerate, bool looping);

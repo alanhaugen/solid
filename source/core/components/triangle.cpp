@@ -21,6 +21,10 @@ void Triangle::Update()
     renderer->Draw(drawable);
 }
 
+void Triangle::UpdateAfterPhysics()
+{
+}
+
 void Triangle::Init(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex v3)
 {
     tag = "triangle";
@@ -37,14 +41,8 @@ void Triangle::Init(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Verte
     *matrix.y = 0.0f;
     *matrix.z = 0.0f;
 
-    IFile *vertexFile   = filesystem->Open(URL("data/simple.vert"), PLAIN_TEXT);
-    IFile *fragmentFile = filesystem->Open(URL("data/simple.frag"), PLAIN_TEXT);
-
-    shaders[VERTEX_SHADER]   = vertexFile->Read();
-    shaders[FRAGMENT_SHADER] = fragmentFile->Read();
-
-    delete vertexFile;
-    delete fragmentFile;
+    shaders[VERTEX_SHADER]   = "data/simple.vert";
+    shaders[FRAGMENT_SHADER] = "data/simple.frag";
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
 

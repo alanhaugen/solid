@@ -10,14 +10,8 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     Array<String> shaders(2);
 
-    IFile *vertexFile = filesystem->Open(URL(shaderVertPath), PLAIN_TEXT);
-    IFile *fragmentFile = filesystem->Open(URL(shaderFragPath), PLAIN_TEXT);
-
-    shaders[VERTEX_SHADER]   = vertexFile->Read();
-    shaders[FRAGMENT_SHADER] = fragmentFile->Read();
-
-    delete vertexFile;
-    delete fragmentFile;
+    shaders[VERTEX_SHADER]   = shaderVertPath;
+    shaders[FRAGMENT_SHADER] = shaderFragPath;
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
@@ -94,7 +88,7 @@ void Cube::Update()
     drawable->uniformData = uniforms;
     drawable->matrix = matrix.subMatrix * matrix.matrix;
     pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
-    *collisionBox->position = pos;
+    collisionBox->position = pos;
     renderer->Draw(drawable);
 }
 

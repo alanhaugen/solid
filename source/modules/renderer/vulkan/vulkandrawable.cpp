@@ -180,7 +180,7 @@ void VulkanDrawable::UploadUniformBufferBlock()
     glm::vec3 camPos = { 0.f, 0.f, 10.f };
     glm::mat4 projection = glm::perspective(glm::radians(70.f), 1700.f / 900.f, 0.1f, 200.0f);
     glm::mat4 view = glm::translate(glm::mat4(1.f), camPos);
-    projection[1][1] *= -1;
+    projection[1][1] *= -1; // Flip projection because of Vulkan's -Y axis (?)
 
     // Fill a GPU camera data struct
     UniformBlock uniformData;

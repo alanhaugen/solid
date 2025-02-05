@@ -19,6 +19,7 @@ public:
     String tag;
 
     virtual void Update() = 0;
+    virtual void UpdateAfterPhysics() = 0;
 
     UniformData* GetUniform(String location);
 

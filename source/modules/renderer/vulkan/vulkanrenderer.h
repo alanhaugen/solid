@@ -161,13 +161,13 @@ public:
             Array<unsigned int> &indices,
             Array<String> &shaders,
             Array<ITexture *> textures,
-            int topology);
+            int topology = DRAW_TRIANGLES);
     IDrawable *CreateDrawable(
             Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
             Array<String> &shaders,
             ITexture* texture,
-            int topology);
+            int topology = DRAW_TRIANGLES);
     void RemoveDrawable(IDrawable *drawable);
 };
 

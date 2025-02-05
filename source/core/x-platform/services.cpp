@@ -57,9 +57,12 @@ void Services::UpdateScene(IScene *scene)
 
 void Services::UpdateSceneAfterPhysics(IScene *scene)
 {
+    scene->UpdateAfterPhysics();
+
     // Update game components after physics
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
+        (*scene->components[i])->UpdateAfterPhysics();
     }
 }
 
@@ -74,11 +77,14 @@ void Services::UpdateServices()
     // Update scene
     UpdateScene(scene);
 
-    // Render frame
-    renderer->Render(viewProjections, viewports);
-
     // Update physics simulation
     physics->Update();
+
+    // Update scene after physics
+    UpdateSceneAfterPhysics(scene);
+
+    // Render frame
+    renderer->Render(viewProjections, viewports);
 
     // Update sound system
     audio->Update();

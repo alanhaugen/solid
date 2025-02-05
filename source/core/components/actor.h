@@ -13,14 +13,12 @@ public:
     Actor();
     ~Actor();
 
-    Physics::IPhysics::HitBox *collisionBox;
-
     void Add(Component *component);
 
     Component *FindComponent(const char *tag);
 
     void Update();
-//    void UpdateAfterPhysics();
+    void UpdateAfterPhysics();
 
     glm::vec3 forward;
     glm::vec3 up;

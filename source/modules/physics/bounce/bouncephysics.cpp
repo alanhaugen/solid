@@ -12,12 +12,12 @@ bool Physics::BouncePhysics::Intersect(const Ray &ray, const HitBox *hitbox)
 {
     // lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
     // ray.orig is origin of ray
-    float lbx = hitbox->position->x - hitbox->dimensions.x;
-    float rtx = hitbox->position->x + hitbox->dimensions.x;
-    float lby = hitbox->position->y - hitbox->dimensions.y;
-    float rty = hitbox->position->y + hitbox->dimensions.y;
-    float lbz = hitbox->position->z + hitbox->dimensions.z;
-    float rtz = hitbox->position->z - hitbox->dimensions.z;
+    float lbx = hitbox->position.x - hitbox->dimensions.x;
+    float rtx = hitbox->position.x + hitbox->dimensions.x;
+    float lby = hitbox->position.y - hitbox->dimensions.y;
+    float rty = hitbox->position.y + hitbox->dimensions.y;
+    float lbz = hitbox->position.z + hitbox->dimensions.z;
+    float rtz = hitbox->position.z - hitbox->dimensions.z;
 
     float t1 = (lbx - ray.origin.x) * ray.invdir.x;
     float t2 = (rtx - ray.origin.x) * ray.invdir.x;
@@ -77,7 +77,7 @@ Physics::IPhysics::Collider *Physics::BouncePhysics::Collide(HitBox *hitbox, con
         {
             if ((*colliders[i])->collisions[k] == hitbox && (*colliders[i])->hitbox->type == type)
             {
-                (*colliders[i])->direction = hitbox->oldPosition - *hitbox->position;
+                (*colliders[i])->direction = hitbox->oldPosition - hitbox->position;
                 return *colliders[i];
             }
         }
@@ -91,8 +91,8 @@ Physics::IPhysics::HitBox *Physics::BouncePhysics::CreateHitBox(glm::vec3 dimens
     HitBox* hitbox = new HitBox;
     hitbox->dimensions = dimensions;
     hitbox->type = type;
-    hitbox->position = &matrix->position;
-    hitbox->oldPosition = *hitbox->position;
+    hitbox->position = matrix->position;
+    hitbox->oldPosition = hitbox->position;
 
     Ptr<Collider *> collider = new Collider;
     (*collider)->hitbox = hitbox;
@@ -120,19 +120,19 @@ void Physics::BouncePhysics::Update()
             HitBox *hitbox1 = (*colliders[i])->hitbox;
             HitBox *hitbox2 = (*colliders[k])->hitbox;
 
-            float x1 = hitbox1->position->x + hitbox1->dimensions.x; // first
-            float x2 = hitbox1->position->x - hitbox1->dimensions.x;
-            float y1 = hitbox1->position->y + hitbox1->dimensions.y;
-            float y2 = hitbox1->position->y - hitbox1->dimensions.y;
-            float z1 = hitbox1->position->z + hitbox1->dimensions.z;
-            float z2 = hitbox1->position->z - hitbox1->dimensions.z;
+            float x1 = hitbox1->position.x + hitbox1->dimensions.x; // first
+            float x2 = hitbox1->position.x - hitbox1->dimensions.x;
+            float y1 = hitbox1->position.y + hitbox1->dimensions.y;
+            float y2 = hitbox1->position.y - hitbox1->dimensions.y;
+            float z1 = hitbox1->position.z + hitbox1->dimensions.z;
+            float z2 = hitbox1->position.z - hitbox1->dimensions.z;
 
-            float x1_ = hitbox2->position->x - hitbox2->dimensions.x; // other
-            float x2_ = hitbox2->position->x + hitbox2->dimensions.x;
-            float y1_ = hitbox2->position->y - hitbox2->dimensions.y;
-            float y2_ = hitbox2->position->y + hitbox2->dimensions.y;
-            float z1_ = hitbox2->position->z - hitbox2->dimensions.z;
-            float z2_ = hitbox2->position->z + hitbox2->dimensions.z;
+            float x1_ = hitbox2->position.x - hitbox2->dimensions.x; // other
+            float x2_ = hitbox2->position.x + hitbox2->dimensions.x;
+            float y1_ = hitbox2->position.y - hitbox2->dimensions.y;
+            float y2_ = hitbox2->position.y + hitbox2->dimensions.y;
+            float z1_ = hitbox2->position.z - hitbox2->dimensions.z;
+            float z2_ = hitbox2->position.z + hitbox2->dimensions.z;
 
             if (
                  x1 > x1_ &&
@@ -151,6 +151,6 @@ void Physics::BouncePhysics::Update()
     // Update old position
     for (unsigned int i = 0; i < colliders.Size(); i++)
     {
-        (*colliders[i])->hitbox->oldPosition = *(*colliders[i])->hitbox->position;
+        (*colliders[i])->hitbox->oldPosition = (*colliders[i])->hitbox->position;
     }
 }
