@@ -12,6 +12,17 @@
 class VulkanRenderer : public Renderer::NullRenderer
 {
 private:
+    struct UploadContext {
+        VkFence uploadFence;
+        VkCommandPool commandPool;
+        VkCommandBuffer commandBuffer;
+    };
+
+    UploadContext uploadContext;
+
+    VkCommandBufferBeginInfo commandBufferBeginInfo(VkCommandBufferUsageFlags flags = 0);
+    VkSubmitInfo submitInfo(VkCommandBuffer* cmd);
+
     void CreateInstance(const char *windowTitle);
     bool SelectPhysicalDevice();
 

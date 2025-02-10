@@ -13,6 +13,14 @@
 
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 
+VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)
+{
+}
+
+VkSubmitInfo VulkanRenderer::submitInfo(VkCommandBuffer *cmd)
+{
+}
+
 void VulkanRenderer::CreateInstance(const char *windowTitle)
 {
     // The root of everything is the VkInstance. In general, applications only need to
