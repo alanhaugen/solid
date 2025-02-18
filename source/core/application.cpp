@@ -28,9 +28,9 @@ Application::~Application()
 
 void Application::LoadUserData()
 {
-    String name = "Solid";
-    int windowLength = 1365;
-    int windowHeight = 768;
+    String name = "LexiBlocks";
+    int windowLength = 1024;
+    int windowHeight = 1083*0.75;
 
     bool fullscreen  = false;
     float timeScale  = 1.0;

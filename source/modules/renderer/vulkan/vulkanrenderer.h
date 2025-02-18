@@ -23,6 +23,7 @@ private:
     VkCommandBufferBeginInfo commandBufferBeginInfo(VkCommandBufferUsageFlags flags = 0);
     VkSubmitInfo submitInfo(VkCommandBuffer* cmd);
 
+    void SetupUploadContext();
     void CreateInstance(const char *windowTitle);
     bool SelectPhysicalDevice();
 

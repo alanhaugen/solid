@@ -27,46 +27,64 @@ Background::Background(glm::vec3 colour, Camera *camera)
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
 
-    // Two triangles making a quad over the entire screen
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2(-1.0f,  1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f, -1.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec2( 1.0f,  1.0f)));
+    // A cube which covers the entire screen
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
 
-    vertices[0].textureCoordinates = glm::vec2(0, 0);
-    vertices[1].textureCoordinates = glm::vec2(1, 0);
-    vertices[2].textureCoordinates = glm::vec2(0, 1);
-    vertices[3].textureCoordinates = glm::vec2(0, 1);
-    vertices[4].textureCoordinates = glm::vec2(1, 0);
-    vertices[5].textureCoordinates = glm::vec2(1, 1);
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
 
-    indices.Add(0);
-    indices.Add(1);
-    indices.Add(2);
-    indices.Add(3);
-    indices.Add(4);
-    indices.Add(5);
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f, -10.0f)));
 
-    IFile *simpleVertShader = filesystem->Open(URL("data/bg.vert"), PLAIN_TEXT);
-    IFile *simpleFragShader = filesystem->Open(URL("data/bg.frag"), PLAIN_TEXT);
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
 
-    shaders.Insert(simpleVertShader->Read(), VERTEX_SHADER);
-    shaders.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
 
-    delete simpleVertShader;
-    delete simpleFragShader;
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
+
+    shaders.Insert("data/simple.vert", VERTEX_SHADER);
+    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
-    drawable->hasDepth = false;
+    drawable->hasDepth    = false; // Don't render as 3D
+    drawable->sendToFront = false; // Render behind everything else
+
+    Uniform("colour", glm::vec4(colour, 1.0f));
 }
 
 void Background::Init()
 {
     Array<String> shaders(2);
-    shaders[VERTEX_SHADER]   = filesystem->Open(URL("data/cubemap.vert"), PLAIN_TEXT)->Read();
-    shaders[FRAGMENT_SHADER] = filesystem->Open(URL("data/cubemap.frag"), PLAIN_TEXT)->Read();
+    shaders[VERTEX_SHADER]   = "data/cubemap.vert";
+    shaders[FRAGMENT_SHADER] = "data/cubemap.frag";
 
     Array<IDrawable::Vertex> vertices;
     Array<unsigned int> indices;
@@ -167,6 +185,10 @@ void Background::Update()
         Uniform("scrollX", static_cast<float>(scrollX += scrollSpeed));
         Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
     }
+
+    // Note: hacky solution. We setup the uniforms and submatrix here
+    drawable->uniformData = uniforms;
+    drawable->matrix = matrix.subMatrix * matrix.matrix;
 
     renderer->Draw(drawable);
 }

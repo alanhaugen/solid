@@ -15,10 +15,38 @@
 
 VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)
 {
+    VkCommandBufferBeginInfo info = {};
+    info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    info.pNext = nullptr;
+
+    info.pInheritanceInfo = nullptr;
+    info.flags = flags;
+    return info;
+
 }
 
 VkSubmitInfo VulkanRenderer::submitInfo(VkCommandBuffer *cmd)
 {
+    VkSubmitInfo info = {};
+    info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    info.pNext = nullptr;
+
+    info.waitSemaphoreCount = 0;
+    info.pWaitSemaphores = nullptr;
+    info.pWaitDstStageMask = nullptr;
+    info.commandBufferCount = 1;
+    info.pCommandBuffers = cmd;
+    info.signalSemaphoreCount = 0;
+    info.pSignalSemaphores = nullptr;
+
+    return info;
+}
+
+void VulkanRenderer::SetupUploadContext()
+{
+//    VkFenceCreateInfo uploadFenceCreateInfo = vkinit::fence_create_info();
+
+//    vkCreateFence(device, &uploadFenceCreateInfo, nullptr, &uploadContext._uploadFence);
 }
 
 void VulkanRenderer::CreateInstance(const char *windowTitle)
@@ -841,6 +869,8 @@ VulkanRenderer::~VulkanRenderer()
         vkDestroyFence(device, fences[i], nullptr);
     }
 
+    vkDestroyFence(device, uploadContext.uploadFence, nullptr);;
+
     // Destroy semaphores
     vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
     vkDestroySemaphore(device, renderingFinishedSemaphore, nullptr);
@@ -1117,6 +1147,8 @@ bool VulkanRenderer::SetupScreenAndCommand()
 
     SetupVMA();
     SetupDescriptionPool();
+
+    SetupUploadBuffer();
 
     return true;
 }
