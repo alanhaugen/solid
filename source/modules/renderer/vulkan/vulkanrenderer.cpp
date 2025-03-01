@@ -246,6 +246,7 @@ bool VulkanRenderer::LoadShader(const char* filePath, VkShaderModule* outShaderM
 
     // Check that the creation goes well.
     VkShaderModule shaderModule;
+
     if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS)
     {
         return false;
@@ -276,19 +277,19 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
                                                   VulkanDrawable* drawable,
                                                   int topology)
 {
-    bool success = LoadShader(URL(fragShaderPath), &triangleFragShader);
-
-    if (success == false)
-    {
-        LogError("Failed to load fragment shader: " + String(fragShaderPath));
-        return VK_NULL_HANDLE;
-    }
-
-    success = LoadShader(URL(vertShaderPath), &triangleVertShader);
+    bool success = LoadShader(URL(vertShaderPath), &triangleVertShader);
 
     if (success == false)
     {
         LogError("Failed to load vertex shader: " + String(vertShaderPath));
+        return VK_NULL_HANDLE;
+    }
+
+    success = LoadShader(URL(fragShaderPath), &triangleFragShader);
+
+    if (success == false)
+    {
+        LogError("Failed to load fragment shader: " + String(fragShaderPath));
         return VK_NULL_HANDLE;
     }
 

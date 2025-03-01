@@ -91,13 +91,13 @@ DATA = $(subst data,intermediate,$(FILES))
 print:
 	@echo $(FILES)
 
-intermediate/%.frag.spv: data/%.frag
-	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	glslc -x glsl -fshader-stage=frag $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
-
 intermediate/%.vert.spv: data/%.vert
 	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	glslc -x glsl -fshader-stage=vert $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	glslangValidator -V -S vert $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+
+intermediate/%.frag.spv: data/%.frag
+	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
+	glslangValidator -V -S frag $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@/..
