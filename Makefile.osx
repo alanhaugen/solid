@@ -14,7 +14,9 @@ include $(SOLIDCORE)/Makefile.generic
 LIBS += -lm -liconv -framework CoreMIDI -framework CoreFoundation -framework AudioToolbox -framework CoreAudio -framework Carbon -framework ForceFeedback -framework CoreVideo -framework AppKit -framework Metal -framework IOKit -framework Cocoa
 
 # Macos arm64 series CPU
-LIBS += -framework CoreHaptics -framework MediaPlayer -framework GameController
+ifeq ($(PROCESSOR_ARCH),arm64)
+    LIBS += -framework CoreHaptics -framework MediaPlayer -framework GameController
+endif
 
 ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -framework OpenGL 
