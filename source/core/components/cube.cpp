@@ -62,7 +62,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     tag = "cube";
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
-    collisionBox = physics->CreateHitBox(glm::vec3(0.5f), &matrix, tag);
+    collisionBox = physics->CreateHitBox(glm::vec3(0.1f), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 
@@ -80,6 +80,11 @@ void Cube::Hide()
 void Cube::Show()
 {
     drawable->visible = true;
+}
+
+bool Cube::isVisible()
+{
+    return drawable->visible;
 }
 
 void Cube::Update()

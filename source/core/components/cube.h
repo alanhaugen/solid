@@ -7,10 +7,11 @@ class Cube : public Component
 {
 private:
     IDrawable *drawable;
-    Physics::IPhysics::HitBox *collisionBox;
     glm::vec3 pos;
 
 public:
+    Physics::IPhysics::HitBox *collisionBox;
+
     Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 1, float height = 1,
          String shaderVertPath = "data/simple.vert",
          String shaderFragPath = "data/simple.frag");
@@ -18,6 +19,8 @@ public:
 
     void Hide();
     void Show();
+
+    bool isVisible();
 
     void Update();
     void UpdateAfterPhysics();
