@@ -1148,7 +1148,7 @@ bool VulkanRenderer::SetupScreenAndCommand()
     SetupVMA();
     SetupDescriptionPool();
 
-    SetupUploadBuffer();
+    //SetupUploadBuffer();
 
     return true;
 }

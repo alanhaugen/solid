@@ -59,7 +59,7 @@ ifeq ($(RENDERER),GLES2Renderer)
     RENDERER_HEADER ?= "modules/renderer/gles2/gles2renderer.h"
 endif
 ifeq ($(RENDERER),VulkanRenderer)
-    LIBS += -lvulkanrenderer -lgles2renderer
+    LIBS += -lvulkanrenderer
     RENDERER_HEADER ?= "modules/renderer/vulkan/vulkanrenderer.h"
 ifeq ($(COMPILE_PLATFORM),darwin)
     LIBS += -framework QuartzCore -framework IOSurface -lMoltenVK

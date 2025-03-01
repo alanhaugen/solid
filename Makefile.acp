@@ -93,11 +93,11 @@ print:
 
 intermediate/%.frag.spv: data/%.frag
 	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	$(SPV_COMPILER) -t f -gi $@ -so intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	glslc -x glsl -fshader-stage=frag $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.vert.spv: data/%.vert
 	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	$(SPV_COMPILER) -t v -gi $@ -so intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	glslc -x glsl -fshader-stage=vert $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
 
 intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@/..
