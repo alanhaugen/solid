@@ -35,7 +35,7 @@ public:
     VkDescriptorSet descriptor;
     VkDescriptorSetLayout setLayout;
 
-    void UploadUniformBufferBlock();
+    void UploadUniformBufferBlock(const glm::mat4& projViewMatrix);
 
     struct VertexInputDescription
     {

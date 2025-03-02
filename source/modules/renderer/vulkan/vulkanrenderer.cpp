@@ -945,7 +945,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         (*drawable)->draw = false;
 
         // Upload uniforms to shader program
-        (*drawable)->UploadUniformBufferBlock();
+        (*drawable)->UploadUniformBufferBlock(projViewMatrixArray[0]);
 
         // TODO: Only bind pipeline and bind descriptor sets when the pipeline actually needs to change (per shader)
         // Draw triangle
