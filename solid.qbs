@@ -143,6 +143,7 @@ Project {
             "source/core/components/laddercontrols.h",
             "source/core/components/skipcutscene.cpp",
             "source/core/components/skipcutscene.h",
+            "source/core/x-platform/curves.h",
             "source/core/x-platform/mat.cpp",
             "source/core/x-platform/mat.h",
             "source/core/x-platform/generatedscene.cpp",

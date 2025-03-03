@@ -13,6 +13,7 @@ public:
     Physics::IPhysics::HitBox *collisionBox;
 
     Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 1, float height = 1,
+         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
          String shaderVertPath = "data/simple.vert",
          String shaderFragPath = "data/simple.frag");
     ~Cube();
