@@ -23,6 +23,10 @@ private:
     VkCommandBufferBeginInfo commandBufferBeginInfo(VkCommandBufferUsageFlags flags = 0);
     VkSubmitInfo submitInfo(VkCommandBuffer* cmd);
 
+    AllocatedBuffer CreateBuffer(size_t allocSize,
+                                 VkBufferUsageFlags usage,
+                                 VmaMemoryUsage memoryUsage);
+
     void SetupUploadContext();
     void CreateInstance(const char *windowTitle);
     bool SelectPhysicalDevice();
@@ -39,6 +43,7 @@ private:
     void SetupVMA();
 
     void SetupDescriptionPool();
+    void SetupDescriptorSets();
 
     void CreateSemaphore(VkSemaphore *semaphore);
 
@@ -61,6 +66,9 @@ private:
 
     VkDevice device;
     VkImage image;
+
+    VkDescriptorSet descriptor;
+    AllocatedBuffer uniformBuffer;
 
     const std::vector<const char*> validationLayers;
 
@@ -112,6 +120,10 @@ private:
 
     uint32_t frameIndex;
 
+    VkPhysicalDeviceProperties gpuProperties;
+
+    size_t PadUniformBufferSize(size_t originalSize);
+
     // Shaders
     bool LoadShader(const char* filePath, VkShaderModule* outShaderModule);
 
@@ -143,6 +155,7 @@ private:
 
     // Descriptor Set Pool (to send uniforms to the GPU)
     VkDescriptorPool descriptorPool;
+    VkDescriptorSetLayout setLayout;
 
 protected:
 public:

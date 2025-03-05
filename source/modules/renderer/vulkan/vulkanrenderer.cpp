@@ -411,7 +411,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.flags = 0;
     pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &drawable->setLayout;
+    pipelineLayoutInfo.pSetLayouts = &setLayout;
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
@@ -850,6 +850,9 @@ VulkanRenderer::~VulkanRenderer()
     vkDestroyShaderModule(device, triangleVertShader, nullptr);
     vkDestroyShaderModule(device, triangleFragShader, nullptr);
 
+    vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
+    vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
+
     // Clean up the drawables
     LinkedList<VulkanDrawable*>::Iterator drawable = drawables.Begin();
 
@@ -952,7 +955,9 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
 
         // Bind descriptor set (shader uniforms)
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &(*drawable)->descriptor, 0, nullptr);
+        uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock)) * frameIndex;
+
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &descriptor, 1, &uniformOffset);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;
@@ -974,6 +979,17 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     QueuePresent();
 
     PostRender();
+}
+
+size_t VulkanRenderer::PadUniformBufferSize(size_t originalSize)
+{
+    // Calculate required alignment based on minimum device offset alignment
+    size_t minUboAlignment = gpuProperties.limits.minUniformBufferOffsetAlignment;
+    size_t alignedSize = originalSize;
+    if (minUboAlignment > 0) {
+        alignedSize = (alignedSize + minUboAlignment - 1) & ~(minUboAlignment - 1);
+    }
+    return alignedSize;
 }
 
 ITexture *VulkanRenderer::CreateTexture(String filename)
@@ -1146,12 +1162,109 @@ bool VulkanRenderer::SetupScreenAndCommand()
     CreateSemaphores();
     CreateFences();
 
+    vkGetPhysicalDeviceProperties(physicalDevice, &gpuProperties);
+
     SetupVMA();
     SetupDescriptionPool();
 
-    //SetupUploadBuffer();
+    SetupDescriptorSets();
 
     return true;
+}
+
+void VulkanRenderer::SetupDescriptorSets()
+{
+    // Information about the binding.
+    VkDescriptorSetLayoutBinding bufferBinding = {};
+    bufferBinding.binding = 0;
+    bufferBinding.descriptorCount = 1;
+    // it's a uniform buffer binding
+    bufferBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+
+    // we use it from the vertex shader
+    bufferBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+    VkDescriptorSetLayoutCreateInfo setinfo = {};
+    setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    setinfo.pNext = nullptr;
+
+    //we are going to have 1 binding
+    setinfo.bindingCount = 1;
+    //no flags
+    setinfo.flags = 0;
+    //point to the camera buffer binding
+    setinfo.pBindings = &bufferBinding;
+
+    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
+
+    // Allocate descriptor set
+    VkDescriptorSetAllocateInfo allocInfo ={};
+    allocInfo.pNext = nullptr;
+    allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    //using the pool we just set
+    allocInfo.descriptorPool = descriptorPool;
+    //only 1 descriptor
+    allocInfo.descriptorSetCount = 1;
+    //using the global data layout
+    allocInfo.pSetLayouts = &setLayout;
+
+    vkAllocateDescriptorSets(device, &allocInfo, &descriptor);
+
+    // Allocate buffer block data
+    uniformBuffer = CreateBuffer(sizeof(UniformBlock),
+                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
+
+    // Point descriptor set to uniform buffer
+    VkDescriptorBufferInfo binfo;
+    //it will be the uniform buffer
+    binfo.buffer = uniformBuffer.buffer;
+    //at 0 offset
+    binfo.offset = 0;
+    //of the size of a camera data struct
+    binfo.range = sizeof(UniformBlock);
+
+    VkWriteDescriptorSet setWrite = {};
+    setWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    setWrite.pNext = nullptr;
+
+    //we are going to write into binding number 0
+    setWrite.dstBinding = 0;
+    //of the global descriptor
+    setWrite.dstSet = descriptor;
+
+    setWrite.descriptorCount = 1;
+    //and the type is uniform buffer
+    setWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    setWrite.pBufferInfo = &binfo;
+
+    vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
+}
+
+AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
+                                             VkBufferUsageFlags usage,
+                                             VmaMemoryUsage memoryUsage)
+{
+    // Allocate buffer
+    VkBufferCreateInfo bufferInfo = {};
+    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+    bufferInfo.pNext = nullptr;
+
+    bufferInfo.size = allocSize;
+    bufferInfo.usage = usage;
+
+    VmaAllocationCreateInfo vmaallocInfo = {};
+    vmaallocInfo.usage = memoryUsage;
+
+    AllocatedBuffer newBuffer;
+
+    // Allocate the buffer
+    vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
+        &newBuffer.buffer,
+        &newBuffer.allocation,
+        nullptr);
+
+    return newBuffer;
 }
 
 IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
@@ -1168,7 +1281,9 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   textures,
                                                   allocator,
                                                   device,
-                                                  descriptorPool);
+                                                  descriptorPool,
+                                                  setLayout,
+                                                  uniformBuffer);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
@@ -1201,7 +1316,9 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   textures,
                                                   allocator,
                                                   device,
-                                                  descriptorPool);
+                                                  descriptorPool,
+                                                  setLayout,
+                                                  uniformBuffer);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],

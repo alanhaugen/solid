@@ -34,7 +34,6 @@ void Primitives::Update()
 
 void Primitives::UpdateAfterPhysics()
 {
-    cube->matrix.Rotate(0.1, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 int main(int argc, char **argv)

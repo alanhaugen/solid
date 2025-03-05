@@ -6,34 +6,29 @@
 
 #include "vk_mem_alloc.h"
 
+struct AllocatedBuffer
+{
+    VkBuffer buffer;
+    VmaAllocation allocation;
+};
+
+struct UniformBlock
+{
+    glm::mat4 MVP;	// combined modelview projection matrix
+    glm::vec4 colour;
+};
+
 class VulkanDrawable : public NullDrawable
 {
 private:
-    struct AllocatedBuffer
-    {
-        VkBuffer buffer;
-        VmaAllocation allocation;
-    };
-
-    struct UniformBlock
-    {
-        glm::mat4 MVP;	// combined modelview projection matrix
-        glm::vec4 colour;
-    };
-
-    AllocatedBuffer CreateBuffer(size_t allocSize,
-                                 VkBufferUsageFlags usage,
-                                 VmaMemoryUsage memoryUsage);
-
     AllocatedBuffer uniformBuffer;
 
     VkDevice device;
     VmaAllocator allocator;
+    VmaAllocation allocation;
 
 public:
     AllocatedBuffer vertexBuffer;
-    VkDescriptorSet descriptor;
-    VkDescriptorSetLayout setLayout;
 
     void UploadUniformBufferBlock(const glm::mat4& projViewMatrix);
 
@@ -51,7 +46,9 @@ public:
                    Array<ITexture *> &textures,
                    VmaAllocator allocator,
                    VkDevice device,
-                   VkDescriptorPool descriptorPool);
+                   VkDescriptorPool descriptorPool,
+                   VkDescriptorSetLayout setLayout,
+                   AllocatedBuffer uniformBuffer_);
 
     ~VulkanDrawable();
 

@@ -1,42 +1,19 @@
 #include "vulkandrawable.h"
 
-VulkanDrawable::AllocatedBuffer VulkanDrawable::CreateBuffer(size_t allocSize,
-                                                             VkBufferUsageFlags usage,
-                                                             VmaMemoryUsage memoryUsage)
-{
-    // Allocate buffer
-    VkBufferCreateInfo bufferInfo = {};
-    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    bufferInfo.pNext = nullptr;
-
-    bufferInfo.size = allocSize;
-    bufferInfo.usage = usage;
-
-    VmaAllocationCreateInfo vmaallocInfo = {};
-    vmaallocInfo.usage = memoryUsage;
-
-    AllocatedBuffer newBuffer;
-
-    // Allocate the buffer
-    vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-        &newBuffer.buffer,
-        &newBuffer.allocation,
-        nullptr);
-
-    return newBuffer;
-}
-
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
                                VulkanShader* shader_,
                                Array<ITexture *> &textures,
                                VmaAllocator allocator_,
                                VkDevice device_,
-                               VkDescriptorPool descriptorPool)
+                               VkDescriptorPool descriptorPool,
+                               VkDescriptorSetLayout setLayout,
+                               AllocatedBuffer uniformBuffer_)
 {
     // Set the Vulkan Memory Allocator (VMA)
     allocator = allocator_;
     device = device_;
+    uniformBuffer = uniformBuffer_;
 
     /*for (unsigned int i = 0; i < textures_.Size(); i++)
     {
@@ -106,73 +83,6 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
 
     vmaUnmapMemory(allocator, vertexBuffer.allocation);
-
-    // Allocate buffer block data
-    uniformBuffer = CreateBuffer(sizeof(UniformBlock),
-                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
-
-    // Information about the binding.
-    VkDescriptorSetLayoutBinding bufferBinding = {};
-    bufferBinding.binding = 0;
-    bufferBinding.descriptorCount = 1;
-    // it's a uniform buffer binding
-    bufferBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-
-    // we use it from the vertex shader
-    bufferBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-
-    VkDescriptorSetLayoutCreateInfo setinfo = {};
-    setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    setinfo.pNext = nullptr;
-
-    //we are going to have 1 binding
-    setinfo.bindingCount = 1;
-    //no flags
-    setinfo.flags = 0;
-    //point to the camera buffer binding
-    setinfo.pBindings = &bufferBinding;
-
-    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
-
-    // Allocate descriptor set
-    VkDescriptorSetAllocateInfo allocInfo ={};
-    allocInfo.pNext = nullptr;
-    allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-    //using the pool we just set
-    allocInfo.descriptorPool = descriptorPool;
-    //only 1 descriptor
-    allocInfo.descriptorSetCount = 1;
-    //using the global data layout
-    allocInfo.pSetLayouts = &setLayout;
-
-    vkAllocateDescriptorSets(device, &allocInfo, &descriptor);
-
-    // Point descriptor set to uniform buffer
-    VkDescriptorBufferInfo binfo;
-    //it will be the uniform buffer
-    binfo.buffer = uniformBuffer.buffer;
-    //at 0 offset
-    binfo.offset = 0;
-    //of the size of a camera data struct
-    binfo.range = sizeof(UniformBlock);
-
-    VkWriteDescriptorSet setWrite = {};
-    setWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    setWrite.pNext = nullptr;
-
-    //we are going to write into binding number 0
-    setWrite.dstBinding = 0;
-    //of the global descriptor
-    setWrite.dstSet = descriptor;
-
-    setWrite.descriptorCount = 1;
-    //and the type is uniform buffer
-    setWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    setWrite.pBufferInfo = &binfo;
-
-    vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
-
 }
 
 void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
@@ -198,8 +108,6 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
 
 VulkanDrawable::~VulkanDrawable()
 {
-    vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
-    vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
     vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     vkDestroyPipeline(device, pipeline, nullptr);
