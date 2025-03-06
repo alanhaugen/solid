@@ -122,8 +122,6 @@ private:
 
     VkPhysicalDeviceProperties gpuProperties;
 
-    size_t PadUniformBufferSize(size_t originalSize);
-
     // Shaders
     bool LoadShader(const char* filePath, VkShaderModule* outShaderModule);
 
@@ -170,6 +168,8 @@ public:
     std::vector<const char *> extensionNames;
     VkInstance instance;
     VkSurfaceKHR surface;
+
+    size_t PadUniformBufferSize(size_t originalSize);
 
     // Init renderer
     bool Init(bool openFullscreened,

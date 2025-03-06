@@ -1,3 +1,4 @@
+#include <core/application.h>
 #include "vulkandrawable.h"
 
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
@@ -8,12 +9,14 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                VkDevice device_,
                                VkDescriptorPool descriptorPool,
                                VkDescriptorSetLayout setLayout,
-                               AllocatedBuffer uniformBuffer_)
+                               AllocatedBuffer uniformBuffer_,
+                               int offset_)
 {
     // Set the Vulkan Memory Allocator (VMA)
     allocator = allocator_;
     device = device_;
     uniformBuffer = uniformBuffer_;
+    offset = offset_;
 
     /*for (unsigned int i = 0; i < textures_.Size(); i++)
     {
@@ -98,8 +101,10 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
     uniformData.colour = colorTint;
 
     //and copy it to the buffer
-    void* data;
-    vmaMapMemory(allocator, uniformBuffer.allocation, &data);
+    char* data;
+    vmaMapMemory(allocator, uniformBuffer.allocation, (void**)&data);
+
+    data += static_cast<VulkanRenderer*>(Application::renderer)->PadUniformBufferSize(sizeof(UniformBlock)) * offset;
 
     memcpy(data, &uniformData, sizeof(UniformBlock));
 

@@ -955,7 +955,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
 
         // Bind descriptor set (shader uniforms)
-        uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock)) * frameIndex;
+        uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
 
         vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &descriptor, 1, &uniformOffset);
 
@@ -1178,7 +1178,9 @@ void VulkanRenderer::SetupDescriptorSets()
     VkDescriptorSetLayoutBinding bufferBinding = {};
     bufferBinding.binding = 0;
     bufferBinding.descriptorCount = 1;
-    // it's a uniform buffer binding
+    // This is a dynamic uniform buffer binding
+    // We use dynamic because we will have per-object data, this is very popular in game engines
+    // 8 dynamic uniform buffers is required by the Vulkan specification, we will only use one
     bufferBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 
     // we use it from the vertex shader
@@ -1211,7 +1213,7 @@ void VulkanRenderer::SetupDescriptorSets()
     vkAllocateDescriptorSets(device, &allocInfo, &descriptor);
 
     // Allocate buffer block data
-    uniformBuffer = CreateBuffer(sizeof(UniformBlock),
+    uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(UniformBlock) * 2048),
                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                  VMA_MEMORY_USAGE_CPU_TO_GPU);
 
@@ -1283,7 +1285,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   device,
                                                   descriptorPool,
                                                   setLayout,
-                                                  uniformBuffer);
+                                                  uniformBuffer,
+                                                  drawables.Size() + 1);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
@@ -1318,7 +1321,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   device,
                                                   descriptorPool,
                                                   setLayout,
-                                                  uniformBuffer);
+                                                  uniformBuffer,
+                                                  drawables.Size() + 1);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],

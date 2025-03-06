@@ -32,6 +32,8 @@ public:
 
     void UploadUniformBufferBlock(const glm::mat4& projViewMatrix);
 
+    int offset;
+
     struct VertexInputDescription
     {
         std::vector<VkVertexInputBindingDescription> bindings;
@@ -48,7 +50,8 @@ public:
                    VkDevice device,
                    VkDescriptorPool descriptorPool,
                    VkDescriptorSetLayout setLayout,
-                   AllocatedBuffer uniformBuffer_);
+                   AllocatedBuffer uniformBuffer_,
+                   int offset_);
 
     ~VulkanDrawable();
 
