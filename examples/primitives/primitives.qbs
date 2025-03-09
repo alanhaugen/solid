@@ -3,6 +3,7 @@ import "../../../solid/solid.qbs" as solid
 solid {
     Application {
         name: "App"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "data/bg.frag",
@@ -72,9 +73,9 @@ solid {
             cpp.frameworks: macosFrameworks
 
             cpp.dynamicLibraries: macosSharedLibs
-            cpp.staticLibraries: staticLibs.concat("SDL2")
+            cpp.staticLibraries: staticLibs.concat("SDL2", "MoltenVK")
 
-            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/darwin/x86_64"]
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/darwin/arm64"]
             cpp.includePaths: includePaths.concat("../../../solid/include/darwin")
             cpp.defines: project.defines.concat(project.sdlDefines)
         }

@@ -11,6 +11,9 @@
 
 // Thanks to https://gist.github.com/YukiSnowy/dc31f47448ac61dd6aedee18b5d53858 and https://vkguide.dev
 
+// Sascha Willems has great resources for vulkan related things, such as for dynamic descriptor sets:
+// https://github.com/SaschaWillems/Vulkan/blob/master/examples/dynamicuniformbuffer/README.md
+
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 
 VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)
@@ -22,7 +25,6 @@ VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferU
     info.pInheritanceInfo = nullptr;
     info.flags = flags;
     return info;
-
 }
 
 VkSubmitInfo VulkanRenderer::submitInfo(VkCommandBuffer *cmd)
@@ -861,6 +863,9 @@ VulkanRenderer::~VulkanRenderer()
         delete (*drawable);
     }
 
+    // Destroy vma
+    vmaDestroyAllocator(allocator);
+
     // Clean up desciptor pool
     vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 
@@ -956,7 +961,6 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
         // Bind descriptor set (shader uniforms)
         uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
-
         vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &descriptor, 1, &uniformOffset);
 
         // Bind the mesh vertex buffer with offset 0

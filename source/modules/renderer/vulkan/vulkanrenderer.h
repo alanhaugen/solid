@@ -20,6 +20,17 @@ private:
 
     UploadContext uploadContext;
 
+    /*// Depth buffer
+    struct AllocatedImage {
+        VkImage image;
+        VmaAllocation allocation;
+    };
+
+    VkImageView depthImageView;
+    AllocatedImage depthImage;
+
+    VkFormat depthFormat; // The format for the depth image*/
+
     VkCommandBufferBeginInfo commandBufferBeginInfo(VkCommandBufferUsageFlags flags = 0);
     VkSubmitInfo submitInfo(VkCommandBuffer* cmd);
 
