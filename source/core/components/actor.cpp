@@ -1,6 +1,7 @@
 #include "actor.h"
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
+#include "core/components/sprite.h"
 
 Actor::Actor()
  //   : uniforms(DEFAULT_HASH_SIZE, Hash<String, UniformData*>::StringHash)
