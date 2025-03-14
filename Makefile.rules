@@ -24,7 +24,6 @@ ifeq ($(OS),Windows_NT)
     BISON = $(SOLIDCORE)/tools/mingw32/win_bison.exe
     
     BLENDER = ./$(TOOLS_DIR)/blender-3.3.21-windows-x64/blender.exe
-    CONVERT = $(SOLIDCORE)/tools/mingw32/convert.exe
 
     TARGET_PLATFORM = mingw32
     
