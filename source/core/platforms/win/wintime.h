@@ -8,9 +8,11 @@
 class WinTime : public ITime
 {
 private:
+    float amountPaused;
     bool paused;
     const char *name;
     double timeScale;
+    std::chrono::time_point<std::chrono::high_resolution_clock> pauseTime;
     std::chrono::time_point<std::chrono::high_resolution_clock> currentTime;
     std::chrono::time_point<std::chrono::high_resolution_clock> lastTime;
 

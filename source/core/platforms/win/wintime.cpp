@@ -20,16 +20,26 @@ float WinTime::TimeSinceStarted()
     }
 
     currentTime = std::chrono::high_resolution_clock::now();
-    return std::chrono::duration<double, std::milli>(currentTime - lastTime).count() * timeScale;
+    return std::chrono::duration<double, std::milli>(currentTime - lastTime).count() * timeScale - amountPaused;
 }
 
 void WinTime::Pause()
 {
-    paused = true;
+    paused = !paused;
+
+    if(paused)
+    {
+        pauseTime = std::chrono::high_resolution_clock::now();
+    }
+    else
+    {
+        amountPaused += std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now() - pauseTime).count() * timeScale;
+    }
 }
 
 void WinTime::Reset()
 {
     lastTime = std::chrono::high_resolution_clock::now();
     paused = false;
+    amountPaused = 0;
 }

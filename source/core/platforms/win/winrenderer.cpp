@@ -3,12 +3,12 @@
 #include <windows.h>
 #include <tchar.h>
 
-#ifndef USE_VULKAN
+//#ifndef USE_VULKAN
 #include <glad/wgl.h>
 #include <glad/gl.h>
-#else
-#include <vulkan/vulkan.h>
-#endif
+//#else
+//#include <vulkan/vulkan.h>
+//#endif
 
 WinRenderer::WinRenderer()
 {
