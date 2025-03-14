@@ -14,7 +14,7 @@ private:
     long filesize;
 
 public:
-    StdFile(URL filePath, const unsigned int fileType);
+    StdFile(String filePath, const unsigned int fileType);
     ~StdFile();
 
     char *Read();

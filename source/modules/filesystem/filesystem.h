@@ -8,7 +8,7 @@ class IFileSystem {
 public:
     virtual bool Init() = 0;
     virtual bool Shutdown() = 0;
-    virtual IFile *Open(URL url, const unsigned int fileType = DATA) = 0;
+    virtual IFile *Open(String  url, const unsigned int fileType = DATA) = 0;
 
     virtual ~IFileSystem() {}
 };

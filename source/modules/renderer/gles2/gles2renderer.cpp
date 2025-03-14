@@ -304,8 +304,8 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
 
     Array<String> shaderText(2);
 
-    IFile *simpleVertShader = Locator::filesystem->Open(URL(shadersInput[VERTEX_SHADER]), PLAIN_TEXT);
-    IFile *simpleFragShader = Locator::filesystem->Open(URL(shadersInput[FRAGMENT_SHADER]), PLAIN_TEXT);
+    IFile *simpleVertShader = Locator::filesystem->Open(shadersInput[VERTEX_SHADER], PLAIN_TEXT);
+    IFile *simpleFragShader = Locator::filesystem->Open(shadersInput[FRAGMENT_SHADER], PLAIN_TEXT);
 
     shaderText.Insert(simpleVertShader->Read(), VERTEX_SHADER);
     shaderText.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);

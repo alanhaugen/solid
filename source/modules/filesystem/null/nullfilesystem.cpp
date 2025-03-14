@@ -11,7 +11,7 @@ bool NullFileSystem::Shutdown() {
     return true;
 }
 
-NullFile *NullFileSystem::Open(URL path, const unsigned int fileType) {
+NullFile *NullFileSystem::Open(String path, const unsigned int fileType) {
     (void)path;
     NullFile *nullfile = new NullFile(fileType);
     return nullfile;

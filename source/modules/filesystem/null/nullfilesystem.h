@@ -13,7 +13,7 @@ public:
 
   virtual bool Shutdown();
 
-  virtual NullFile *Open(URL path, const unsigned int fileType = DATA);
+  virtual NullFile *Open(String path, const unsigned int fileType = DATA);
 };
 
 #endif

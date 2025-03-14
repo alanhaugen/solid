@@ -11,7 +11,7 @@ bool StdFileSystem::Shutdown()
     return true;
 }
 
-StdFile *StdFileSystem::Open(URL path, const unsigned int dataType)
+StdFile *StdFileSystem::Open(String path, const unsigned int dataType)
 {
     StdFile *stdfile = new StdFile(path, dataType);
     return stdfile;

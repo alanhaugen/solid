@@ -78,7 +78,7 @@ ifeq ($(RENDERER),VulkanRenderer)
 endif
 endif
 
-DATA = $(subst data,intermediate,$(FILES))
+DATA = $(subst data,intermediate/data,$(FILES))
 
 #############################################################################
 # TODO functions for conversions?
@@ -91,73 +91,73 @@ DATA = $(subst data,intermediate,$(FILES))
 print:
 	@echo $(FILES)
 
-intermediate/%.vert.spv: data/%.vert
+intermediate/data/%.vert.spv: data/%.vert
 	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	glslangValidator -V -S vert $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	glslangValidator -V -S vert $@ -o intermediate/$<
 
-intermediate/%.frag.spv: data/%.frag
+intermediate/data/%.frag.spv: data/%.frag
 	sed -e "1 s/#version 330 core/#version 450 core/" $< > $@
-	glslangValidator -V -S frag $@ -o intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	glslangValidator -V -S frag $@ -o intermediate/$<
 
-intermediate/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
-	@mkdir -p $@/..
+intermediate/data/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
+	@mkdir -p $@
 	@touch $@
-	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) "$(ENDIANNESS)" 
+	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$<) "$(ENDIANNESS)" 
 
-intermediate/%.mkv: data/%.mkv
-	@mkdir -p $@/..
+intermediate/data/%.mkv: data/%.mkv
+	@mkdir -p $@
 	@touch $@
-	./$(TOOLS_DIR)/ffmpeg -i $< -c:v libtheora -q:v 7 -c:a libvorbis -q:a 4 -f ogg -max_muxing_queue_size 1024 intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
-#	./$(TOOLS_DIR)/ffmpeg -i $< -vn -acodec copy intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+	./$(TOOLS_DIR)/ffmpeg -i $< -c:v libtheora -q:v 7 -c:a libvorbis -q:a 4 -f ogg -max_muxing_queue_size 1024 intermediate/$<
+#	./$(TOOLS_DIR)/ffmpeg -i $< -vn -acodec copy intermediate/$<
 
-intermediate/%.jpg: data/%.jpg 
-	@mkdir -p $@/..
-	@touch $@
-	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+intermediate/data/%.jpg: data/%.jpg 
+	@mkdir -p $@
+	@rmdir $@
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$<
 
-intermediate/%.png: data/%.png 
-	@mkdir -p $@/..
-	@touch $@
-	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+intermediate/data/%.png: data/%.png 
+	@mkdir -p $@
+	@rmdir $@
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$<
 
-intermediate/%.bmp: data/%.bmp 
-	@mkdir -p $@/..
-	@touch $@
-	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+intermediate/data/%.bmp: data/%.bmp 
+	@mkdir -p $@
+	@rmdir $@
+	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$<
 
-intermediate/%.3dformat: data/%.blend
-	@mkdir -p $@/..
+intermediate/data/%.3dformat: data/%.blend
+	@mkdir -p $@
 	@touch $@
-	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) "$(ENDIANNESS)"
+	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$< "$(ENDIANNESS)"
 
-intermediate/%.json: data/%.json
-	@mkdir -p $@/..
+intermediate/data/%.json: data/%.json
+	@mkdir -p $@
 	@touch $@
-	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+	cp $< intermediate/$<
 
 ifndef ES_PROFILE
-intermediate/%.vert: data/%.vert
-	@mkdir -p $@/..
-	@touch $@
-	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
-intermediate/%.frag: data/%.frag
-	@mkdir -p $@/..
-	@touch $@
-	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+intermediate/data/%.vert: data/%.vert
+	@mkdir -p $@
+	@rmdir $@
+	cp $< intermediate/$<
+intermediate/data/%.frag: data/%.frag
+	@mkdir -p $@
+	@rmdir $@
+	cp $< intermediate/$<
 else
-intermediate/%.vert: data/%.vert
-	@mkdir -p $@/..
-	@touch $@
-	sed -e "1 s/#version 330 core/#version 320 es/" $< > intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
-intermediate/%.frag: data/%.frag
-	@mkdir -p $@/..
-	@touch $@
-	sed -e "1 s/#version 330 core/#version 320 es/" $< > intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
+intermediate/data/%.vert: data/%.vert
+	@mkdir -p $@
+	@rmdir $@
+	sed -e "1 s/#version 330 core/#version 320 es/" $< > intermediate/$<
+intermediate/data/%.frag: data/%.frag
+	@mkdir -p $@
+	@rmdir $@
+	sed -e "1 s/#version 330 core/#version 320 es/" $< > intermediate/$<
 endif
 
-intermediate/%.wav: data/%.wav
-	@mkdir -p $@/..
-	@touch $@
-	cp $< intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<)
-#	./$(TOOLS_DIR)/audacity $< --output-dir=intermediate/$(shell ./$(TOOLS_DIR)/hashsum $<) 
+intermediate/data/%.wav: data/%.wav
+	@mkdir -p $@
+	@rmdir $@
+	cp $< intermediate/$<
+#	./$(TOOLS_DIR)/audacity $< --output-dir=intermediate/$<) 
 

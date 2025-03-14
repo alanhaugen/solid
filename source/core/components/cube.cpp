@@ -62,7 +62,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, g
 
     tag = "cube";
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
-    collisionBox = physics->CreateHitBox(glm::vec3(0.1f), &matrix, tag);
+    collisionBox = physics->CreateHitBox(glm::vec3(0.5f), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 

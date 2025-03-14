@@ -12,7 +12,7 @@ public:
 
 	bool Shutdown();
 
-    StdFile *Open(URL path, const unsigned int dataType = DATA);
+    StdFile *Open(String path, const unsigned int dataType = DATA);
 };
 
 #endif  // STDFILESYSTEM_H

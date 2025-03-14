@@ -2,7 +2,7 @@
 #include "core/x-platform/typedefs.h"
 #include <sys/stat.h> // For filesize
 
-StdFile::StdFile(URL filePath, const unsigned int fileType)
+StdFile::StdFile(String filePath, const unsigned int fileType)
 {
     const char *mode = "rb+";
 
@@ -10,14 +10,14 @@ StdFile::StdFile(URL filePath, const unsigned int fileType)
 
     if (file == NULL)
     {
-        LogWarning(String("Failed to open file " + filePath.raw + " (" + filePath + ")"));
+        LogWarning(String("Failed to open file " + filePath + " (" + filePath + ")"));
     }
 
     // Get filesize (as recommended here: https://dev.to/namantam1/ways-to-get-the-file-size-in-c-2mag)
     struct stat file_status;
 
     if (stat(filePath.ToChar(), &file_status) < 0) {
-        LogError("Filesize function failed on file " + filePath.raw + "(" + filePath.ToChar() + ")");
+        LogError("Filesize function failed on file " + filePath + "(" + filePath.ToChar() + ")");
     }
 
     filesize = file_status.st_size;
