@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(float x, float y, float z, float length, float width, float height, glm::vec4 color, String shaderVertPath, String shaderFragPath)
+Cube::Cube(float x, float y, float z, float length, float width, float height, String texturePath, glm::vec4 color, String shaderVertPath, String shaderFragPath)
 {
     *matrix.x = x;
     *matrix.y = y;
@@ -61,9 +61,16 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, g
     vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,1)));
 
     tag = "cube";
-    ITexture* texture = renderer->CreateTexture("data/block.png");
+
+    ITexture* texture = NULL;
+
+    if (texturePath.Empty() == false)
+    {
+        texture = renderer->CreateTexture(texturePath);
+    }
+
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
-    collisionBox = physics->CreateHitBox(glm::vec3(0.5f), &matrix, tag);
+    collisionBox = physics->CreateHitBox(glm::vec3(.5), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
 
