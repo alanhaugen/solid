@@ -19,12 +19,13 @@ Actor::~Actor()
 
 void Actor::Add(Component *component)
 {
-    uniforms.Lock();
+    //uniforms.Lock();
     //components.Append(component);
     //componentsMap.Insert(component->tag, component);
 
-    delete *component->uniforms;
-    component->uniforms = uniforms;
+    //delete *component->uniforms;
+    //component->uniforms = uniforms;
+    component->Uniform("colour", colour);
     components.Add(component);
 }
 

@@ -24,6 +24,8 @@ public:
     glm::vec3 up;
     glm::vec3 right;
 
+    glm::vec4 colour;
+
 private:
 
 public:

@@ -70,6 +70,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
     }
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
+    drawable->uniformData = uniforms;
     collisionBox = physics->CreateHitBox(glm::vec3(.5), &matrix, tag);
     drawable->matrix = matrix.matrix;
 }
@@ -97,8 +98,7 @@ bool Cube::isVisible()
 
 void Cube::Update()
 {
-    uniforms.Lock();
-    drawable->uniformData = uniforms;
+    //uniforms.Lock();
     drawable->matrix = matrix.subMatrix * matrix.matrix;
     pos = glm::vec3(drawable->matrix[3].x, drawable->matrix[3].y, drawable->matrix[3].z);
     collisionBox->position = pos;
