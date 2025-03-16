@@ -7,10 +7,10 @@ class Cube : public Component
 {
 private:
     IDrawable *drawable;
-    glm::vec3 pos;
 
 public:
     Physics::IPhysics::HitBox *collisionBox;
+    glm::vec3 pos;
 
     Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 0, float height = 1,
          String texturePath = "",

@@ -130,6 +130,11 @@ bool String::operator ==(const char* other) const
     return !strncmp(text, other, Length());
 }
 
+bool String::operator !=(const char* other) const
+{
+    return strncmp(text, other, Length());
+}
+
 bool String::operator ==(String& other) const
 {
     if (other.Length() != Length())
