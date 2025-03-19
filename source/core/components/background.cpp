@@ -74,8 +74,10 @@ Background::Background(glm::vec3 colour, Camera *camera)
     shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
-    drawable->hasDepth    = false; // Don't render as 3D
-    drawable->sendToFront = false; // Render behind everything else
+    //drawable->hasDepth    = false; // Don't render as 3D
+    //drawable->sendToFront = false; // Render behind everything else
+
+    matrix.Scale(glm::vec3(10.0f));
 
     Uniform("colour", glm::vec4(colour, 1.0f));
 }

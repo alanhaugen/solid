@@ -7,6 +7,8 @@
 #include "core/x-platform/mat.h"
 #include "core/x-platform/ptr.h"
 
+class Actor;
+
 class Component : public Locator
 {
 public:

@@ -25,7 +25,7 @@ private:
     //Animation *emptyAnimation;
 
     //void LoadFromGLTF(const URL filePath);
-    void LoadFromWavefront(const URL &filePath);
+    void LoadFromWavefront(const String &filePath);
     void LoadFrom3DFile(const String &filePath, const String vertexShaderPath = "data/simple.vert", const String fragmentShaderPath = "data/simple.frag");
 
     float time; // TODO: REMOVE when obj animation hack is obsolete
