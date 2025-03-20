@@ -183,6 +183,8 @@ bool GLFWApplication::Exec()
     // Time since application started
     ITime *runtime = GetTime("Runtime");
 
+    glfwSetWindowSize(window, renderer->windowWidth, renderer->windowHeight);
+
     while (!glfwWindowShouldClose(window))//isAlive)
     {
         float sleepMilliseconds;// = MainLoop();
@@ -206,4 +208,3 @@ bool GLFWApplication::Exec()
 
     return false;
 }
-
