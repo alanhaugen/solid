@@ -7,7 +7,7 @@
 #include <core/x-platform/parserjson.h>
 
 #define FAST_OBJ_IMPLEMENTATION	
-#include "3rdparty/fast_obj.h"	
+#include "3rdparty/fast_obj.h"
 
 //#define CGLTF_IMPLEMENTATION
 //#include "3rdparty/cgltf.h"
@@ -627,16 +627,16 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
     delete file;
 }
 
-void Mesh::LoadFromWavefront(const URL &filePath)
+void Mesh::LoadFromWavefront(const String &filePath)
 {
-    /*const bool left_handed = false;
+    const bool left_handed = false;
     const bool log_enable = false;
 
     fastObjMesh* m = fast_obj_read(filePath.ToChar());
     String textureFilePath("");
     if (!m)
     {
-        LogWarning(String("Failed to load: " + filePath.raw + " (" + filePath + ")"));
+        LogWarning(String("Failed to load: " + filePath + " (" + filePath + ")"));
         abort();
     }
 
@@ -676,14 +676,8 @@ void Mesh::LoadFromWavefront(const URL &filePath)
     Array<unsigned int> indices;
     Array<String> shaders(2);
 
-    IFile *simpleVertShader = filesystem->Open(URL("data/simple.vert"), PLAIN_TEXT);
-    IFile *simpleFragShader = filesystem->Open(URL("data/simple.frag"), PLAIN_TEXT);
-
-    shaders.Insert(simpleVertShader->Read(), VERTEX_SHADER);
-    shaders.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
-
-    delete simpleVertShader;
-    delete simpleFragShader;
+    shaders.Insert("data/simple.vert", VERTEX_SHADER);
+    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
 
     glm::vec4 color(255.0, 255.0, 255.0, 255.0);
     typedef IDrawable::Vertex Vertex;
@@ -778,19 +772,19 @@ void Mesh::LoadFromWavefront(const URL &filePath)
         Log(String("Mesh Ctor Load ")+String(vertices.Size())+" vertices, and "+String(indices.Size())+" indices from"+filePath );
     }
 
-    Array<Pixmap* > textures;
+    /*Array<Pixmap* > textures;
     if ( !(textureFilePath == "") )
     {
         Log(String("Loaded texture filename:")+textureFilePath );
         textures.Add( Pixmap::LoadAndCache(textureFilePath) );
-    }
+    }*/
 
     //textureFilePath = "data/player/player_colour.png";
     //textures.Add( Pixmap::LoadAndCache(textureFilePath) );
 
-    drawables.Add(Locator::renderer->CreateDrawable(vertices, indices, shaders, textures.Size() == 0 ? NULL : &textures));
+    drawables.Add(Locator::renderer->CreateDrawable(vertices, indices, shaders, NULL));
 
-    time = -1.0f;*/
+    time = -1.0f;
 }
 
 Mesh::Mesh(const String &filePath, const String vertexShaderPath, const String fragmentShaderPath)
@@ -804,7 +798,7 @@ Mesh::Mesh(const String &filePath, const String vertexShaderPath, const String f
     }
     else if (file_ext == ".obj")
     {
-        LoadFromWavefront(URL(filePath));
+        LoadFromWavefront(filePath);
     }
     else if (file_ext == ".3dformat")
     {

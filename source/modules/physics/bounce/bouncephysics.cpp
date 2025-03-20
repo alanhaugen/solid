@@ -91,6 +91,7 @@ Physics::IPhysics::HitBox *Physics::BouncePhysics::CreateHitBox(glm::vec3 dimens
     HitBox* hitbox = new HitBox;
     hitbox->dimensions = dimensions;
     hitbox->type = type;
+    hitbox->active = true;
     hitbox->position = matrix->position;
     hitbox->oldPosition = hitbox->position;
 
@@ -116,9 +117,19 @@ void Physics::BouncePhysics::Update()
                 continue;
             }
 
+            if ((*colliders[i]) == (*colliders[k]))
+            {
+                continue;
+            }
+
             // Collision detection
             HitBox *hitbox1 = (*colliders[i])->hitbox;
             HitBox *hitbox2 = (*colliders[k])->hitbox;
+
+            if (hitbox1->active == false || hitbox2->active == false)
+            {
+                continue;
+            }
 
             float x1 = hitbox1->position.x + hitbox1->dimensions.x; // first
             float x2 = hitbox1->position.x - hitbox1->dimensions.x;

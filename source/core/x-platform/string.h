@@ -31,6 +31,7 @@ public:
     ~String();
 
     bool operator==(const char* other) const; // Allow us to do String("mystring") == "a c string"
+    bool operator!=(const char* other) const; // Allow us to do String("mystring") == "a c string"
     bool operator==(String& other) const;
     bool operator==(const String& other) const;
     bool operator!=(String& other) const;

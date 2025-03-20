@@ -17,6 +17,7 @@ public:
         glm::vec3 dimensions;
         glm::vec3 position;
         glm::vec3 oldPosition;
+        bool active;
     };
 
     struct Collider
