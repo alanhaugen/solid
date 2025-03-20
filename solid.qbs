@@ -21,6 +21,11 @@ Project {
         "PLATFORM=SDLApplication"
     ]
 
+    property stringList glfwDefines: [
+        "PLATFORM_HEADER=core/platforms/glfw/glfwapplication.h",
+        "PLATFORM=GLFWApplication"
+    ]
+
     property stringList windowsDefines: [
         "PLATFORM_HEADER=core/platforms/win/winapplication.h",
         "PLATFORM=WinApplication",
@@ -199,10 +204,24 @@ Project {
         Properties {
             condition: qbs.targetOS.contains("linux")
 
-            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.defines: project.defines.concat(project.glfwDefines)
             cpp.includePaths: ["source", "include/linux"]
         }
 
+        Group {
+            name: "GLFW files"
+            condition: qbs.targetOS.contains("linux")
+
+            files: [
+                "source/core/platforms/glfw/gl.cpp",
+                "source/core/platforms/glfw/glfwapplication.cpp",
+                "source/core/platforms/glfw/glfwapplication.h",
+                "source/core/platforms/glfw/glfwdebug.cpp",
+                "source/core/platforms/glfw/glfwdebug.h",
+                "source/core/platforms/glfw/glfwtime.cpp",
+                "source/core/platforms/glfw/glfwtime.h"
+            ]
+        }
         Group {
             name: "Windows files"
 

@@ -38,6 +38,17 @@ ifeq ($(PLATFORM),SDLApplication)
     LIBS += -lSDL2
 endif
 
+ifeq ($(PLATFORM),GLFWApplication)
+    PLATFORM_HEADER = "core/platforms/glfw/glfwapplication.h"
+    LIBS += -lglfw3
+    PLATFORM_SOURCES ?= \
+        source/3rdparty/RtMidi.cpp \
+        source/core/platforms/glfw/gl.cpp \
+        source/core/platforms/glfw/glfwapplication.cpp \
+        source/core/platforms/glfw/glfwdebug.cpp \
+        source/core/platforms/glfw/glfwtime.cpp
+endif
+
 ifeq ($(AUDIO),fmod)
     LIBS += ./source/3rdparty/fmod/api/lowlevel/lib/$(PROCESSOR_ARCH)/libfmod.so
     INCLUDE += -I./source/3rdparty/fmod/lowlevel/inc

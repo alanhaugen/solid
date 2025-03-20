@@ -5,8 +5,8 @@
 Application::Application(int argumentQuantity, char *arguments[])
     : PLATFORM(), argument(argumentQuantity, arguments)
 {
-    LoadUserData();
     isAlive = Init();
+    LoadUserData();
 }
 
 Application::~Application()
