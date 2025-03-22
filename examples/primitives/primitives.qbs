@@ -3,7 +3,7 @@ import "../../../solid/solid.qbs" as solid
 solid {
     Application {
         name: "App"
-        cpp.cxxLanguageVersion: "c++23"
+//        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "data/bg.frag",
@@ -83,12 +83,12 @@ solid {
         Properties {
             condition: qbs.targetOS.contains("linux")
 
-            //cpp.dynamicLibraries: linuxSharedLibs
-            cpp.staticLibraries: staticLibs.concat("SDL2")
+            cpp.dynamicLibraries: linuxSharedLibs
+            cpp.staticLibraries: staticLibs.concat("glfw3")
 
-            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/linux/x86_64"]
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/linux/aarch64"]
             cpp.includePaths: includePaths.concat("../../../solid/include/linux")
-            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.defines: project.defines.concat(project.glfwDefines)
         }
 
         Properties {

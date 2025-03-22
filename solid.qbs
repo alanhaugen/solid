@@ -23,7 +23,8 @@ Project {
 
     property stringList glfwDefines: [
         "PLATFORM_HEADER=core/platforms/glfw/glfwapplication.h",
-        "PLATFORM=GLFWApplication"
+        "PLATFORM=GLFWApplication",
+        "ES_PROFILE"
     ]
 
     property stringList windowsDefines: [
@@ -68,6 +69,11 @@ Project {
     property stringList macosSharedLibs: [
         "m",
         "iconv"
+    ]
+
+    property stringList linuxSharedLibs: [
+        "dl",
+        "pthread"
     ]
 
     property stringList windowsSharedLibs: [

@@ -52,7 +52,7 @@ void GLES2Shader::Compile()
         char logg[MAX_STRING_LENGTH];
         glGetProgramInfoLog(program, MAX_STRING_LENGTH, NULL, logg);
         LogError(logg);
-
+        Log(name);
     }
     assert(status == GL_TRUE);
 
