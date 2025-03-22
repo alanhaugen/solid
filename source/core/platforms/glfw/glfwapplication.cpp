@@ -159,9 +159,14 @@ bool GLFWApplication::Init()
         return false;
     }
 
+#ifdef ES_PROFILE
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
     window = glfwCreateWindow(640, 480, "Solid", NULL, NULL);
 
     if (!window)
