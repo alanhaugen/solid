@@ -25,7 +25,7 @@ public:
 
     Datatype Front()
     {
-        return LinkedList<Datatype>::firstNode->element_;
+        return LinkedList<Datatype>::firstNode->element;
     }
 };
 

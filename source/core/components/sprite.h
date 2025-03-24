@@ -23,7 +23,8 @@ private:
               const int textureWidth_ = 0,
               const int textureHeight_ = 0,
               const unsigned int quadQuantity_ = 1,
-              const char *glyphs = "");
+              const char *glyphs = "",
+              const float distanceToNextGlyph = 1.0f);
 
     ITexture *texture;
 
@@ -37,7 +38,8 @@ public:
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
            const unsigned int quadQuantity_ = 1,
-           const char *glyphs = "");
+           const char *glyphs = "",
+           const float distanceToNextGlyph = 1.0f);
     Sprite(const int red,
            const int green,
            const int blue,
@@ -49,7 +51,8 @@ public:
            const int textureWidth_ = 0,
            const int textureHeight_ = 0,
            const unsigned int quadQuantity_ = 1,
-           const char *glyphs = "");
+           const char *glyphs = "",
+           const float distanceToNextGlyph = 1.0f);
     ~Sprite();
 
     void Update();

@@ -15,7 +15,8 @@ public:
          const float scaleX_ = 1.0f,
          const float scaleY_ = 1.0f,
          const glm::vec2 anchorPoint_ = glm::vec2(0,0),
-         String textureAtlasPath = "data/sheet.png");
+         String textureAtlasPath = "data/sheet.png",
+         const float distanceToNextGlyph = 1.0f);
     virtual ~Text() {};
     void Update();
     void UpdateAfterPhysics();

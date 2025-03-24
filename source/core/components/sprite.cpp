@@ -9,7 +9,8 @@ void Sprite::Init(const float x_,
                   const int textureWidth_,
                   const int textureHeight_,
                   const unsigned int quadQuantity_,
-                  const char *glyphs)
+                  const char *glyphs,
+                  const float distanceToNextGlyph)
 {
     anchorPoint = anchorPoint_;
     quadQuantity = quadQuantity_;
@@ -68,12 +69,12 @@ void Sprite::Init(const float x_,
             glyph = -1; // -1 will allow the shader to animate the sprite
         }
 
-        vertices[0 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.3f, -1.0f), glyph));
-        vertices[1 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.3f, -1.0f), glyph));
-        vertices[2 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.3f,  1.0f), glyph));
-        vertices[3 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * 1.3f,  1.0f), glyph));
-        vertices[4 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.3f, -1.0f), glyph));
-        vertices[5 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * 1.3f,  1.0f), glyph));
+        vertices[0 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * distanceToNextGlyph, -1.0f), glyph));
+        vertices[1 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * distanceToNextGlyph, -1.0f), glyph));
+        vertices[2 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * distanceToNextGlyph,  1.0f), glyph));
+        vertices[3 + i * 6] = (IDrawable::Vertex(glm::vec2(-1.0f + i * distanceToNextGlyph,  1.0f), glyph));
+        vertices[4 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * distanceToNextGlyph, -1.0f), glyph));
+        vertices[5 + i * 6] = (IDrawable::Vertex(glm::vec2( 1.0f + i * distanceToNextGlyph,  1.0f), glyph));
     }
 
     for (unsigned int i = 0; i < quadQuantity; i++)
@@ -133,11 +134,12 @@ Sprite::Sprite(String textureFilePath,
                const int _textureWidth,
                const int _textureHeight,
                const unsigned int quadQuantity_,
-               const char *glyphs)
+               const char *glyphs,
+               const float distanceToNextGlyph)
 {
     texture = renderer->CreateTexture(textureFilePath);
 
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph);
 }
 
 Sprite::Sprite(const int red,
@@ -151,11 +153,12 @@ Sprite::Sprite(const int red,
                const int _textureWidth,
                const int _textureHeight,
                const unsigned int quadQuantity_,
-               const char *glyphs)
+               const char *glyphs,
+               const float distanceToNextGlyph)
 {
     //textures.Add(new Pixmap(red, green, blue));
 
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph);
 }
 
 Sprite::~Sprite()
