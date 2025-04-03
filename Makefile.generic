@@ -197,5 +197,5 @@ $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).a: $(OBJS)
 	$(shell ar cr $(LIB_DIR)/$(OUTPUT_DIR)/$(TARGET).a $(OBJS))
 
 run: bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
-	cd ./bin/$(OUTPUT_DIR)/ && ./$(TARGET)$(EXE)
+	cd ./intermediate && ../bin/$(OUTPUT_DIR)/$(TARGET)$(EXE)
 
