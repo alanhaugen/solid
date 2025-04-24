@@ -12,7 +12,7 @@ public:
     Physics::IPhysics::HitBox *collisionBox;
     glm::vec3 pos;
 
-    Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 0, float height = 1,
+    Cube(float x = 0, float y = 0, float z = 0, float length = 1, float width = 1, float height = 1,
          String texturePath = "",
          bool hasCollision = true,
          glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
