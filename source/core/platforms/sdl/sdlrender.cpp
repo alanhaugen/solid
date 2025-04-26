@@ -32,9 +32,9 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 #else
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 #endif
 
     // Turn on double buffering with a 24bit Z buffer.
@@ -124,11 +124,11 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
     Log("OpenGL " + String(GLAD_VERSION_MAJOR(version)) + "." + String(GLAD_VERSION_MINOR(version)));
 
 #ifndef __WEBASM__ 
-    if (GLAD_VERSION_MAJOR(version) < 3)
+    /*if (GLAD_VERSION_MAJOR(version) < 3)
     {
         LogError("OpenGL core profile failed to load");
         return false;
-    }
+    }*/
 #endif
 #endif
 

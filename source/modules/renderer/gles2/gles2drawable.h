@@ -30,7 +30,7 @@ public:
     GLES2Shader* shader;
     Array<GLES2Texture *> textures;
 
-    GLuint vao, vbo, ibo;
+    GLuint vbo, ibo;
     GLsizei indicesQuantity;
     GLsizei verticesQuantity;
 

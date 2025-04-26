@@ -339,7 +339,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     }
     else if (topology == DRAW_LINES)
     {
-        inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+        inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_LINE_STRIP;
     }
     else if (topology == CUBEMAP)
     {

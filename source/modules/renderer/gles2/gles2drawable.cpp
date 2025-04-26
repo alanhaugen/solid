@@ -1,5 +1,4 @@
 #include "gles2drawable.h"
-#include "core/x-platform/typedefs.h"
 #include <glm/gtc/type_ptr.hpp>
 
 GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
@@ -7,6 +6,8 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         GLES2Shader *shader_,
         Array<ITexture *> &textures_)
 {
+    shader = shader_;
+
     for (unsigned int i = 0; i < textures_.Size(); i++)
     {
         GLES2Texture *gles2texture = dynamic_cast<GLES2Texture *>(textures_[i]);
@@ -23,7 +24,7 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         isTextured = false;
     }
 
-    /*if (textures.Size() != 0)
+    if (textures.Size() != 0)
     {
         // TODO: Fix, this code expects 6 textures => cubemap
         if (textures.Size() == 6)
@@ -45,7 +46,7 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
     else
     {
         isTextured = false;
-    }*/
+    }
 
     draw = false;
     lastFrame = 0;
@@ -66,18 +67,13 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
         }
     }
 
-    vao = 0;
     vbo = 0;
     ibo = 0;
 
     indicesQuantity  = indices.Size();
     verticesQuantity = vertices.Size();
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
     glGenBuffers(1, &vbo);
-    glBindVertexArray(vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
@@ -90,44 +86,40 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
                      &indices[0], GL_STATIC_DRAW);
     }
 
+    glBindAttribLocation(shader->program, 0, "vVertex");
+    glBindAttribLocation(shader->program, 1, "vColor");
+    glBindAttribLocation(shader->program, 2, "vNormal");
+    glBindAttribLocation(shader->program, 3, "vTexcoord");
+    glBindAttribLocation(shader->program, 4, "vWeights");
+    glBindAttribLocation(shader->program, 5, "vJoints");
+    glBindAttribLocation(shader->program, 6, "vGlyph");
+
     // vertex positions
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
     // vertex colours
-    glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
     // vertex normals
-    glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
     // texture coordinates
-    glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
 
     // weights for skinning
-    glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
 
     // joints for skinning
-    glEnableVertexAttribArray(5);
     glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, joints));
 
     // glyphs for text
-    glEnableVertexAttribArray(6);
     glVertexAttribIPointer(6, 1, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, glyph));
 
-    glBindVertexArray(0);
-
     DeActivate();
-
-    shader = shader_;
 }
 
 GLES2Drawable::~GLES2Drawable()
 {
-    glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ibo);
 }
@@ -136,8 +128,16 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
 {
     glUseProgram(shader->program);
 
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // Due to a bug on some cards, this is included
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
+    glEnableVertexAttribArray(4);
+    glEnableVertexAttribArray(5);
+    glEnableVertexAttribArray(6);
 
     if (textures.Empty() == false)
     {
@@ -288,8 +288,6 @@ void GLES2Drawable::DeActivate()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);
     glUseProgram(0);
 }
 

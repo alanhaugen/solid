@@ -78,7 +78,7 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
             //{
             //    lights[light].Activate(); // something like this ??
             //}
-
+/*
             // Render in 3D
             if (gles2drawable->hasDepth == true)
             {
@@ -124,7 +124,7 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
                     glDrawArrays(GL_LINES, 0, gles2drawable->verticesQuantity);
                 }
             }
-
+*/
             gles2drawable->DeActivate();
             gles2drawable->draw = false;
         }

@@ -1,19 +1,21 @@
 Project {
     property stringList defines: [
         "AUDIO_HEADER=modules/audio/null/nullaudio.h",
-        "RENDERER_HEADER=modules/renderer/gles2/gles2renderer.h",
+  //      "RENDERER_HEADER=modules/renderer/gles2/gles2renderer.h",
+        "RENDERER_HEADER=modules/renderer/vulkan/vulkanrenderer.h",
   //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
         "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
         "FILESYSTEM_HEADER=modules/filesystem/std/stdfilesystem.h",
         "AUDIO=Audio::NullAudio",
-        "RENDERER=GLES2Renderer",
+  //      "RENDERER=GLES2Renderer",
+        "RENDERER=VulkanRenderer",
   //      "PHYSICS=BulletPhysics",
         "PHYSICS=Physics::BouncePhysics",
         "SCRIPT=Script::NullScript",
         "FILESYSTEM=StdFileSystem",
-        "VIDEO=THEORA"
-  //      "USE_VULKAN=0"
+        "VIDEO=THEORA",
+        "USE_VULKAN=1"
     ]
 
     property stringList sdlDefines: [
@@ -57,13 +59,13 @@ Project {
         "OpenGL",
         "Metal",
         "IOKit",
-        "Cocoa"
-        //"CoreHaptics",
-        //"MediaPlayer",
-        //"GameController",
-        //"GameController",
-        //"QuartzCore",
-        //"IOSurface"
+        "Cocoa",
+        "CoreHaptics",
+        "MediaPlayer",
+        "GameController",
+        "GameController",
+        "QuartzCore",
+        "IOSurface"
     ]
 
     property stringList macosSharedLibs: [
@@ -87,7 +89,7 @@ Project {
     Product {
         name: "core"
         type: "staticlibrary"
-//        cpp.cxxLanguageVersion: "c++23"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "source/3rdparty/jsmn.cpp",
@@ -389,7 +391,7 @@ Project {
         name: "vulkanrenderer"
         type: "staticlibrary"
 
-//        cpp.cxxLanguageVersion: "c++23"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "source/modules/renderer/vulkan/vk_mem_alloc.h",

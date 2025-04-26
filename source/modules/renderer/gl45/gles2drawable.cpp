@@ -77,7 +77,6 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
     glBindVertexArray(vao);
 
     glGenBuffers(1, &vbo);
-    glBindVertexArray(vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
