@@ -6,6 +6,7 @@
 CC = EMCC_DEBUG=1 emcc
 NO_THEORA = true
 
+RENDERER ?= GLES2Renderer
 AUDIO ?= Audio::NullAudio
 AUDIO_HEADER ?= "modules/audio/null/nullaudio.h"
 
