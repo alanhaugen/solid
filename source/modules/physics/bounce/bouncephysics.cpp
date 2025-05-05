@@ -165,3 +165,8 @@ void Physics::BouncePhysics::Update()
         (*colliders[i])->hitbox->oldPosition = (*colliders[i])->hitbox->position;
     }
 }
+
+void Physics::BouncePhysics::Reset()
+{
+    colliders.Clear();
+}

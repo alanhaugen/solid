@@ -27,3 +27,7 @@ void Physics::NullPhysics::RemoveHitBox(HitBox *hitbox)
 void Physics::NullPhysics::Update()
 {
 }
+
+void Physics::NullPhysics::Reset()
+{
+}
