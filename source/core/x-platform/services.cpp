@@ -31,6 +31,7 @@ void Services::SetScene(IScene *_scene)
 
         // Flush input system
         input.Update();
+        input.Mouse.Pressed = false;
 
         // Run the game logic TODO: This is a copy of UpdateScene, duplicate. FIXME: just call UpdateScene
         scene->Update();

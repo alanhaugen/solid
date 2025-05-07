@@ -22,8 +22,4 @@ ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -framework OpenGL 
 endif
 
-ifeq ($(RENDERER),VulkanRenderer)
-    SPV_COMPILER = MoltenVKShaderConverter
-endif
-
 CFLAGS += -D__MACOSX_CORE__
