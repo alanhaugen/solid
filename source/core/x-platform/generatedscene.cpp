@@ -159,7 +159,7 @@ GeneratedScene::~GeneratedScene()
     audio->Stop();
 }
 
-void GeneratedScene::Update()
+void GeneratedScene::Update(float dt)
 {
 }
 

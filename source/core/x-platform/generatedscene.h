@@ -14,7 +14,7 @@ public:
     GeneratedScene(String &sceneJSON, int sceneID = -1);
     ~GeneratedScene();
 
-    void Update();
+    void Update(float dt);
     void UpdateAfterPhysics();
 
     Hash<String, Animation*> animations;

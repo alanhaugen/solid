@@ -26,7 +26,7 @@ void Splash::Init()
     id = Application::scenes.Size();
 }
 
-void Splash::Update()
+void Splash::Update(float dt)
 {
     if (timer->TimeSinceStarted() > 2000)
     {

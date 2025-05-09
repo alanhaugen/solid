@@ -15,7 +15,7 @@ public:
     ~Splash();
 
     void Init();
-    void Update();
+    void Update(float dt);
     void UpdateAfterPhysics();
 };
 

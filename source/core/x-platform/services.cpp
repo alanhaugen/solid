@@ -34,7 +34,7 @@ void Services::SetScene(IScene *_scene)
         input.Mouse.Pressed = false;
 
         // Run the game logic TODO: This is a copy of UpdateScene, duplicate. FIXME: just call UpdateScene
-        scene->Update();
+        scene->Update(deltaTime);
 
         // Update game components
         for (unsigned int i = 0; i < scene->components.Size(); i++)
@@ -47,7 +47,7 @@ void Services::SetScene(IScene *_scene)
 void Services::UpdateScene(IScene *scene)
 {
     // Run the game logic
-    scene->Update();
+    scene->Update(deltaTime);
 
     // Update game components
     for (unsigned int i = 0; i < scene->components.Size(); i++)

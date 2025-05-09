@@ -11,7 +11,7 @@ public:
     Primitives();
 
     void Init();
-    void Update();
+    void Update(float dt);
     void UpdateAfterPhysics();
 };
 
@@ -27,9 +27,9 @@ void Primitives::Init()
     components.Add(cube);
 }
 
-void Primitives::Update()
+void Primitives::Update(float dt)
 {
-    cube->matrix.Rotate(0.01f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
+    cube->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void Primitives::UpdateAfterPhysics()
