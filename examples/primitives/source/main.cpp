@@ -29,7 +29,7 @@ void Primitives::Init()
 
 void Primitives::Update()
 {
-    cube->matrix.Rotate(0.1, glm::vec3(1.0f, 1.0f, 1.0f));
+    cube->matrix.Rotate(0.01f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void Primitives::UpdateAfterPhysics()

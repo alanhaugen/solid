@@ -273,6 +273,7 @@ bool SDLApplication::Exec()
 #else
         float sleepMilliseconds = MainLoop();
 
+#ifdef FIXED_TIMESTEP
         // Release time back to other apps
         if (sleepMilliseconds > 0.0f)
         {
@@ -293,6 +294,7 @@ bool SDLApplication::Exec()
                 SDL_SetWindowFullscreen(SDLrender->GetDisplay(), 0);
             }
         }
+#endif
 #endif
     }
 
