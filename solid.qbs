@@ -243,9 +243,6 @@ Project {
                 "source/core/platforms/win/wintime.cpp",
                 "source/core/platforms/win/wintime.h",
                 "source/core/platforms/win/gl.cpp",
-                "source/core/platforms/win/gl.h",
-                "source/core/platforms/win/wgl.cpp",
-                "source/core/platforms/win/wgl.h",
             ]
         }
 

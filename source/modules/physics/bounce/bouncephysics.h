@@ -20,6 +20,7 @@ public:
     Collider *Collide(HitBox *hitbox = NULL, const char *type = "solid");
     HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
     void Update();
+    void Reset();
 };
 
 }

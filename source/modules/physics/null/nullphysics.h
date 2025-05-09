@@ -15,6 +15,7 @@ public:
     HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type);
     void RemoveHitBox(HitBox *hitbox);
     void Update();
+    void Reset();
 };
 
 }

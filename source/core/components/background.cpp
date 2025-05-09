@@ -147,7 +147,61 @@ Background::Background(String texturePath, Camera *camera)
     scrolling = false;
     activeCamera = camera;
 
-    Init();
+    Array<String> shaders(2);
+    Array<IDrawable::Vertex> vertices;
+    Array<unsigned int> indices;
+
+    // A cube which covers the entire screen
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(10.0f, -10.0f, -10.0f)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
+
+    shaders.Insert("data/simple.vert", VERTEX_SHADER);
+    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
+
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
+    //drawable->hasDepth    = false; // Don't render as 3D
+    //drawable->sendToFront = false; // Render behind everything else
+
+    matrix.Scale(glm::vec3(10.0f));
 }
 
 Background::Background(String texturePath, float scrollX_, float scrollY_, Camera *camera)

@@ -57,6 +57,7 @@ public:
     virtual HitBox *CreateHitBox(glm::vec3 dimensions, Mat *matrix, const char *type = "solid") = 0;
     virtual void RemoveHitBox(HitBox *hitbox) = 0;
     virtual void Update() = 0;
+    virtual void Reset() = 0;
 };
 
 }
