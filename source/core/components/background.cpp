@@ -70,8 +70,8 @@ Background::Background(glm::vec3 colour, Camera *camera)
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
 
-    shaders.Insert("data/simple.vert", VERTEX_SHADER);
-    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
+    shaders.Insert("data/bg.vert", VERTEX_SHADER);
+    shaders.Insert("data/bg.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders);
     //drawable->hasDepth    = false; // Don't render as 3D
@@ -194,8 +194,8 @@ Background::Background(String texturePath, Camera *camera)
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
 
-    shaders.Insert("data/simple.vert", VERTEX_SHADER);
-    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
+    shaders.Insert("data/bg.vert", VERTEX_SHADER);
+    shaders.Insert("data/bg.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     //drawable->hasDepth    = false; // Don't render as 3D
@@ -241,6 +241,8 @@ void Background::Update()
         Uniform("scrollX", static_cast<float>(scrollX += scrollSpeed));
         Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
     }
+
+    Uniform("time", static_cast<float>(f += 0.1f));
 
     // Note: hacky solution. We setup the uniforms and submatrix here
     drawable->uniformData = uniforms;
