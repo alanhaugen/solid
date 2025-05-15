@@ -57,13 +57,7 @@ Project {
         "OpenGL",
         "Metal",
         "IOKit",
-        "Cocoa"
-        //"CoreHaptics",
-        //"MediaPlayer",
-        //"GameController",
-        //"GameController",
-        //"QuartzCore",
-        //"IOSurface"
+        "Cocoa",
     ]
 
     property stringList macosSharedLibs: [

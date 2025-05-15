@@ -70,7 +70,16 @@ solid {
         Properties {
             condition: qbs.targetOS.contains("macos")
 
-            cpp.frameworks: macosFrameworks
+            cpp.frameworks: {
+                if (qbs.architecture.includes("arm64"))
+                    return macosFrameworks.concat(
+                           "CoreHaptics",
+                           "MediaPlayer",
+                           "GameController",
+                           "QuartzCore",
+                           "IOSurface")
+                return macosFrameworks
+            }
 
             cpp.dynamicLibraries: macosSharedLibs
             cpp.staticLibraries: staticLibs.concat("SDL2", "MoltenVK")
