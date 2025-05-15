@@ -66,8 +66,8 @@ endif
 
 ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -lgles2renderer
-    DEPS += gles2renderer  
-    RENDERER_HEADER ?= "modules/renderer/gles2/gles2renderer.h"
+    DEPS += gles3renderer  
+    RENDERER_HEADER ?= "modules/renderer/gles3/gles3renderer.h"
 endif
 ifeq ($(RENDERER),VulkanRenderer)
     LIBS += -lvulkanrenderer
