@@ -5,10 +5,10 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 #include "modules/renderer/drawable.h"
-#include "gles2shader.h"
+#include "gles3shader.h"
 #include "core/x-platform/string.h"
-#include "gles2shader.h"
-#include "gles2texture.h"
+#include "gles3shader.h"
+#include "gles3texture.h"
 #include <cstddef> // offsetof macro
 #include "modules/renderer/null/nulldrawable.h"
 

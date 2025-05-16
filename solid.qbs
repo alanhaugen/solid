@@ -1,7 +1,7 @@
 Project {
     property stringList defines: [
         "AUDIO_HEADER=modules/audio/null/nullaudio.h",
-        "RENDERER_HEADER=modules/renderer/gles2/gles2renderer.h",
+        "RENDERER_HEADER=modules/renderer/gles3/gles3renderer.h",
   //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
         "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
@@ -297,18 +297,18 @@ Project {
     }
 
     Product {
-        name: "gles2renderer"
+        name: "gles3renderer"
         type: "staticlibrary"
 
         files: [
-            "source/modules/renderer/gles2/gles2renderer.cpp",
-            "source/modules/renderer/gles2/gles2renderer.h",
-            "source/modules/renderer/gles2/gles2drawable.cpp",
-            "source/modules/renderer/gles2/gles2drawable.h",
-            "source/modules/renderer/gles2/gles2shader.cpp",
-            "source/modules/renderer/gles2/gles2shader.h",
-            "source/modules/renderer/gles2/gles2texture.cpp",
-            "source/modules/renderer/gles2/gles2texture.h",
+            "source/modules/renderer/gles3/gles3renderer.cpp",
+            "source/modules/renderer/gles3/gles3renderer.h",
+            "source/modules/renderer/gles3/gles3drawable.cpp",
+            "source/modules/renderer/gles3/gles3drawable.h",
+            "source/modules/renderer/gles3/gles3shader.cpp",
+            "source/modules/renderer/gles3/gles3shader.h",
+            "source/modules/renderer/gles3/gles3texture.cpp",
+            "source/modules/renderer/gles3/gles3texture.h",
         ]
     }
 
