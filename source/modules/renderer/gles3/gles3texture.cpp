@@ -1,4 +1,4 @@
-#include "gles2texture.h"
+#include "gles3texture.h"
 #include "core/x-platform/locator.h"
 
 //#define STBI_ONLY_PNG

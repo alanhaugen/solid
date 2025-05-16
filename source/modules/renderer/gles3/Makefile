@@ -10,10 +10,10 @@ SOLIDCORE = ../../../..
 #############################################################################
 
 SOURCES = \
-        gles2renderer.cpp \
-        gles2drawable.cpp \
-        gles2shader.cpp \
-        gles2texture.cpp
+        gles3renderer.cpp \
+        gles3drawable.cpp \
+        gles3shader.cpp \
+        gles3texture.cpp
 
 #############################################################################
 # Setup build platform rules 
