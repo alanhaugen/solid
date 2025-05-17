@@ -46,9 +46,9 @@ VkSubmitInfo VulkanRenderer::submitInfo(VkCommandBuffer *cmd)
 
 void VulkanRenderer::SetupUploadContext()
 {
-//    VkFenceCreateInfo uploadFenceCreateInfo = vkinit::fence_create_info();
+    VkFenceCreateInfo uploadFenceCreateInfo;// = vkinit::fence_create_info();
 
-//    vkCreateFence(device, &uploadFenceCreateInfo, nullptr, &uploadContext._uploadFence);
+    vkCreateFence(device, &uploadFenceCreateInfo, nullptr, &uploadContext.uploadFence);
 }
 
 void VulkanRenderer::CreateInstance(const char *windowTitle)
