@@ -256,6 +256,6 @@ void Background::UpdateAfterPhysics()
     if (activeCamera)
     {
         matrix.matrix[3] = glm::vec4(activeCamera->position, 1);
-        drawable->matrix = matrix.subMatrix * matrix.matrix;
+        //drawable->matrix = matrix.subMatrix * matrix.matrix;
     }
 }

@@ -103,20 +103,20 @@ void Sprite::Init(const float x_,
     Uniform("scaleY", static_cast<float>(scaleY));
 
     // Let shaders know the desired section to be used of the sprite sheet
-    Uniform("width", static_cast<int>(width));
-    Uniform("height", static_cast<int>(height));
+    Uniform("width", static_cast<float>(width));
+    Uniform("height", static_cast<float>(height));
 
     // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
-    Uniform("totalWidth", static_cast<int>(texture->width));
-    Uniform("totalHeight", static_cast<int>(texture->height));
+    Uniform("totalWidth", static_cast<float>(texture->width));
+    Uniform("totalHeight", static_cast<float>(texture->height));
 
     // To get graphics placed correctly, the viewport resolution is sent to the shader program
-    Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
-    Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
+    Uniform("screenWidth", static_cast<float>(renderer->windowWidth));
+    Uniform("screenHeight", static_cast<float>(renderer->windowHeight));
 
     // Setup if sprite is flipped or not
-    Uniform("flip", static_cast<int>(isFlipped));
-    Uniform("flipVertical", static_cast<int>(isFlippedVertical));
+    Uniform("flip", static_cast<float>(isFlipped));
+    Uniform("flipVertical", static_cast<float>(isFlippedVertical));
 
     // Create drawable
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
@@ -176,11 +176,11 @@ void Sprite::Update()
     transformedY = *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET;
 
     Uniform("pos", static_cast<glm::vec2>(glm::vec2(transformedX, transformedY)));
-    Uniform("index", static_cast<int>(index));
-    Uniform("flip", static_cast<int>(isFlipped));
-    Uniform("flipVertical", static_cast<int>(isFlippedVertical));
-    Uniform("screenWidth", static_cast<int>(renderer->windowWidth));
-    Uniform("screenHeight", static_cast<int>(renderer->windowHeight));
+    Uniform("index", static_cast<float>(index));
+    Uniform("flip", static_cast<float>(isFlipped));
+    Uniform("flipVertical", static_cast<float>(isFlippedVertical));
+    Uniform("screenWidth", static_cast<float>(renderer->windowWidth));
+    Uniform("screenHeight", static_cast<float>(renderer->windowHeight));
     Uniform("time", static_cast<float>(Application::time->TimeSinceStarted()));
     Uniform("scaleX", static_cast<float>(scaleX));
     Uniform("scaleY", static_cast<float>(scaleY));

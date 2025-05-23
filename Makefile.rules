@@ -82,6 +82,8 @@ INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(TARGET_PLATFORM)
 
 ifeq ($(COMPILE_PLATFORM),webasm)
     include $(SOLIDCORE)/Makefile.webasm
+else ifeq ($(COMPILE_PLATFORM),ndk)
+    include $(SOLIDCORE)/Makefile.ndk
 else ifeq ($(COMPILE_PLATFORM),mingw32)
     include $(SOLIDCORE)/Makefile.mingw-w64
 else ifeq ($(COMPILE_PLATFORM),darwin)

@@ -25,6 +25,7 @@ public:
     glm::vec3 right;
 
     glm::vec4 colour;
+    Physics::IPhysics::HitBox *collisionBox;
 
 private:
 

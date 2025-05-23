@@ -1,7 +1,7 @@
 #ifndef NULLPHYSICS_H
 #define NULLPHYSICS_H
 
-#include "../physics.h"
+#include <modules/physics/physics.h>
 
 namespace Physics
 {

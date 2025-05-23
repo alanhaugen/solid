@@ -1,21 +1,100 @@
 #############################################################################
 # Setup libraries and compiler for this platform
-# Type make PLATFORM=linux to use, don't change filename
+# Type make COMPILE_PLATFORM=ndk to use, don't change filename
 #############################################################################
 
 BUILDSCRIPT = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build-scripts/androidbuild.sh
 
 CFLAGS += -DES_PROFILE
-
-#############################################################################
-# Add platform specific dependencies
-#############################################################################
-
-LIBS += 
-
-#############################################################################
-# Add platform specific CFLAGS
-#############################################################################
-
 CFLAGS += -DANDROID 
 
+SOURCES += \
+    $(SOLIDCORE)/source/core/components/actor.cpp \
+    $(SOLIDCORE)/source/core/components/component.cpp \
+    $(SOLIDCORE)/source/core/components/fpscounter.cpp \
+    $(SOLIDCORE)/source/core/components/background.cpp \
+    $(SOLIDCORE)/source/core/components/command.cpp \
+    $(SOLIDCORE)/source/core/components/cell.cpp \
+    $(SOLIDCORE)/source/core/components/cube.cpp \
+    $(SOLIDCORE)/source/core/components/grid.cpp \
+    $(SOLIDCORE)/source/core/components/snowglobecamera.cpp \
+    $(SOLIDCORE)/source/core/components/fpscamera.cpp \
+    $(SOLIDCORE)/source/core/components/arealight.cpp \
+    $(SOLIDCORE)/source/core/components/directionallight.cpp \
+    $(SOLIDCORE)/source/core/components/pointlight.cpp \
+    $(SOLIDCORE)/source/core/components/spotlight.cpp \
+    $(SOLIDCORE)/source/core/components/camera.cpp \
+    $(SOLIDCORE)/source/core/components/text.cpp \
+    $(SOLIDCORE)/source/core/components/mesh.cpp \
+    $(SOLIDCORE)/source/core/components/sprite.cpp \
+    $(SOLIDCORE)/source/core/components/sphere.cpp \
+    $(SOLIDCORE)/source/core/components/triangle.cpp \
+    $(SOLIDCORE)/source/core/components/rectangle.cpp \
+    $(SOLIDCORE)/source/core/components/circle.cpp \
+    $(SOLIDCORE)/source/core/components/line.cpp \
+    $(SOLIDCORE)/source/core/components/sound.cpp \
+    $(SOLIDCORE)/source/core/components/videocapture.cpp \
+    $(SOLIDCORE)/source/core/components/tankcontrols.cpp \
+    $(SOLIDCORE)/source/core/components/laddercontrols.cpp \
+    $(SOLIDCORE)/source/core/components/skipcutscene.cpp \
+    $(SOLIDCORE)/source/core/x-platform/mat.cpp \
+    $(SOLIDCORE)/source/core/x-platform/uniform.cpp \
+    $(SOLIDCORE)/source/core/x-platform/generatedscene.cpp \
+    $(SOLIDCORE)/source/core/x-platform/parserjson.cpp \
+    $(SOLIDCORE)/source/core/x-platform/parserjsmn.cpp \
+    $(SOLIDCORE)/source/core/x-platform/input.cpp \
+    $(SOLIDCORE)/source/core/x-platform/locator.cpp \
+    $(SOLIDCORE)/source/core/x-platform/services.cpp \
+    $(SOLIDCORE)/source/core/x-platform/splash.cpp \
+    $(SOLIDCORE)/source/core/x-platform/memory.cpp \
+    $(SOLIDCORE)/source/core/x-platform/random.cpp \
+    $(SOLIDCORE)/source/core/x-platform/string.cpp \
+    $(SOLIDCORE)/source/core/x-platform/url.cpp \
+    $(SOLIDCORE)/source/core/x-platform/keyframe.cpp \
+    $(SOLIDCORE)/source/core/x-platform/animation.cpp \
+    $(SOLIDCORE)/source/core/x-platform/joint.cpp \
+    $(SOLIDCORE)/source/core/application.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/core/platforms/sdl/gl.cpp \
+    $(SOLIDCORE)/source/core/platforms/sdl/sdlapplication.cpp \
+    $(SOLIDCORE)/source/core/platforms/sdl/sdldebug.cpp \
+    $(SOLIDCORE)/source/core/platforms/sdl/sdltime.cpp \
+    $(SOLIDCORE)/source/core/platforms/sdl/sdlrender.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/renderer/null/nullrenderer.cpp \
+    $(SOLIDCORE)/source/modules/renderer/null/nulldrawable.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/renderer/gles3/gles3renderer.cpp \
+    $(SOLIDCORE)/source/modules/renderer/gles3/gles3drawable.cpp \
+    $(SOLIDCORE)/source/modules/renderer/gles3/gles3shader.cpp \
+    $(SOLIDCORE)/source/modules/renderer/gles3/gles3texture.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/filesystem/null/nullfilesystem.cpp \
+    $(SOLIDCORE)/source/modules/filesystem/null/nullfile.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/filesystem/std/stdfilesystem.cpp \
+    $(SOLIDCORE)/source/modules/filesystem/std/stdfile.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/audio/null/nullaudio.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/physics/null/nullphysics.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/physics/bounce/bouncephysics.cpp
+
+SOURCES += \
+    $(SOLIDCORE)/source/modules/script/null/nullscript.cpp
+
+HEADERS = $(subst .cpp,.h,$(SOURCES))
+
+debug: 
+	$(shell ./$(BUILDSCRIPT) org.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+release: 
+	$(shell ./$(BUILDSCRIPT) org.huldra.$(TARGET) $(SOURCES) $(HEADERS))

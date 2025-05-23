@@ -464,6 +464,22 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#ifndef PLATFORM
+// Setup standard platform for ndk (android tablets and phones)
+#define PLATFORM_HEADER core/platforms/sdl/sdlapplication.h
+#define RENDERER_HEADER modules/renderer/gles3/gles3renderer.h
+#define FILESYSTEM_HEADER modules/filesystem/std/stdfilesystem.h
+#define AUDIO_HEADER modules/audio/null/nullaudio.h
+#define SCRIPT_HEADER modules/script/null/nullscript.h
+#define PHYSICS_HEADER modules/physics/bounce/bouncephysics.h
+#define PLATFORM SDLApplication
+#define RENDERER GLES2Renderer
+#define AUDIO Audio::NullAudio
+#define SCRIPT Script::NullScript
+#define FILESYSTEM StdFileSystem
+#define PHYSICS Physics::BouncePhysics
+#endif
+
 #include "core/x-platform/memory.h"
 #include "core/x-platform/splash.h"
 #include "core/x-platform/arguments.h"

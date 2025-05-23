@@ -1,7 +1,7 @@
 #ifndef NULLAUDIO_H
 #define NULLAUDIO_H
 
-#include "../audio.h"
+#include <modules/audio/audio.h>
 
 namespace Audio
 {

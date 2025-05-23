@@ -83,7 +83,8 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
             if (gles2drawable->hasDepth == true)
             {
                 glDepthMask(GL_TRUE);
-                glDepthRange(0, 1.00);
+                glDepthFunc(GL_LESS);
+                //glDepthRange(0, 1.00);
             }
             // Render on either on top of everything else or behind everything else
             else
@@ -91,14 +92,16 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
                 if (gles2drawable->sendToFront)
                 {
                     glDepthMask(GL_TRUE);
-                    glDepthRange(0, 0.01);
+                    glDepthFunc(GL_ALWAYS);
+                    //glDepthRange(0, 0.01);
                 }
                 // Make sure the stuff you want to render on top of everything else is rendered last
                 // and the stuff you want at the back (like backgrounds) are rendered first!
                 else
                 {
                     glDepthMask(GL_FALSE);
-                    glDepthRange(0, 1.00);
+                    glDepthFunc(GL_LESS);
+                    //glDepthRange(0, 1.00);
                 }
             }
 

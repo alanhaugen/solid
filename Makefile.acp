@@ -102,7 +102,7 @@ intermediate/data/%.frag.spv: data/%.frag
 intermediate/data/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@
 	@touch $@
-	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$<) "$(ENDIANNESS)" 
+	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$< "$(ENDIANNESS)" 
 
 intermediate/data/%.mkv: data/%.mkv
 	@mkdir -p $@
