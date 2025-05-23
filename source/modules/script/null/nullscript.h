@@ -1,7 +1,7 @@
 #ifndef NULLSCRIPT_H
 #define NULLSCRIPT_H
 
-#include "../script.h"
+#include <modules/script/script.h>
 
 namespace Script
 {

@@ -11,6 +11,8 @@ Actor::Actor()
     up = glm::vec3(0.0f, 1.0f, 0.0f);
     forward = glm::vec3(0.0f, 0.0f, -1.0f);
     right = glm::vec3(1.0f, 0.0f, 0.0f);
+
+    collisionBox = NULL;//= physics->CreateHitBox(glm::vec3(.5), &matrix, tag);
 }
 
 Actor::~Actor()
@@ -19,7 +21,9 @@ Actor::~Actor()
 
 void Actor::Add(Component *component)
 {
-    component->Uniform("colour", colour);
+    //uniforms.Lock();
+    //component->Uniform("colour", colour);
+    //component->uniforms = uniforms;
     components.Add(component);
 }
 
@@ -53,7 +57,7 @@ void Actor::Update()
     {
         (*components[i])->matrix.subMatrix = matrix.matrix;
         (*components[i])->Update();
-        //components[i]->matrix = components[i]->matrix.matrix * glm::affineInverse(matrix.matrix); // pop
+        //(*components[i])->matrix = (*components[i])->matrix.matrix * glm::affineInverse(matrix.matrix); // pop
     }
 
     glm::quat rotation = glm::quat_cast(matrix.matrix);

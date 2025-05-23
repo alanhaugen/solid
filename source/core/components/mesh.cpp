@@ -488,7 +488,7 @@ void Mesh::Show()
 
 void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath, const String fragmentShaderPath)
 {
-    IFile *file = filesystem->Open(URL(filePath));
+    IFile *file = filesystem->Open(filePath);
 
     enum
     {
@@ -507,14 +507,8 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
 
     Array<String> shaders(2);
 
-    IFile *simpleVertShader = filesystem->Open(URL(vertexShaderPath), PLAIN_TEXT);
-    IFile *simpleFragShader = filesystem->Open(URL(fragmentShaderPath), PLAIN_TEXT);
-
-    shaders.Insert(simpleVertShader->Read(), VERTEX_SHADER);
-    shaders.Insert(simpleFragShader->Read(), FRAGMENT_SHADER);
-
-    delete simpleFragShader;
-    delete simpleVertShader;
+    shaders[VERTEX_SHADER]   = vertexShaderPath;
+    shaders[FRAGMENT_SHADER] = fragmentShaderPath;
 
     Array<ITexture *> textures;
 

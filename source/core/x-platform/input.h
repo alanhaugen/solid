@@ -7,7 +7,7 @@
 
 const unsigned int KEYS_QUANTITY = 256;
 
-#define MIDI true
+//#define MIDI true
 #ifdef MIDI
 #include "3rdparty/RtMidi.h"
 #endif
