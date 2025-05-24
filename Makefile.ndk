@@ -93,8 +93,8 @@ SOURCES += \
     $(SOLIDCORE)/source/modules/filesystem/null/nullfile.cpp
 
 SOURCES += \
-    $(SOLIDCORE)/source/modules/filesystem/std/stdfilesystem.cpp \
-    $(SOLIDCORE)/source/modules/filesystem/std/stdfile.cpp
+    $(SOLIDCORE)/source/modules/filesystem/sdl/sdlfilesystem.cpp \
+    $(SOLIDCORE)/source/modules/filesystem/sdl/sdlfile.cpp
 
 SOURCES += \
     $(SOLIDCORE)/source/modules/audio/null/nullaudio.cpp
@@ -110,7 +110,7 @@ SOURCES += \
 
 HEADERS = $(subst .cpp,.h,$(SOURCES))
 
-CFLAGS = -DRENDERER_HEADER="modules/renderer/gles3/gles3renderer.h" -DFILESYSTEM_HEADER="modules/filesystem/std/stdfilesystem.h" -DSCRIPT_HEADER="modules/script/null/nullscript.h" -DPHYSICS_HEADER="modules/physics/bounce/bouncephysics.h" -DPLATFORM=SDLApplication -DPLATFORM_HEADER="core/platforms/sdl/sdlapplication.h" -DRENDERER=GLES2Renderer -DAUDIO=Audio::NullAudio -DAUDIO_HEADER="modules/audio/null/nullaudio.h" -DSCRIPT=Script::NullScript -DFILESYSTEM=StdFileSystem -DPHYSICS=Physics::BouncePhysics -DES_PROFILE=1
+CFLAGS = -DRENDERER_HEADER="modules/renderer/gles3/gles3renderer.h" -DFILESYSTEM_HEADER="modules/filesystem/sdl/sdlfilesystem.h" -DSCRIPT_HEADER="modules/script/null/nullscript.h" -DPHYSICS_HEADER="modules/physics/bounce/bouncephysics.h" -DPLATFORM=SDLApplication -DPLATFORM_HEADER="core/platforms/sdl/sdlapplication.h" -DRENDERER=GLES2Renderer -DAUDIO=Audio::NullAudio -DAUDIO_HEADER="modules/audio/null/nullaudio.h" -DSCRIPT=Script::NullScript -DFILESYSTEM=StdFileSystem -DPHYSICS=Physics::BouncePhysics -DES_PROFILE=1 -DNDK=1
 
 SDL_BUILD_DIR = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build/com.huldra.$(TARGET)
 
