@@ -1,7 +1,7 @@
 #ifndef URL_H
 #define URL_H
 
-#include "string.h"
+#include "core/x-platform/string.h"
 
 /*!
  * \brief The URL class

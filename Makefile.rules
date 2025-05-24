@@ -80,18 +80,16 @@ INCLUDE = -I$(SOLIDCORE)/source -I$(SOLIDCORE)/include/$(TARGET_PLATFORM)
 # Set target platform libs and compiler
 #############################################################################
 
-ifeq ($(COMPILE_PLATFORM),webasm)
+ifeq ($(TARGET_PLATFORM),webasm)
     include $(SOLIDCORE)/Makefile.webasm
-else ifeq ($(COMPILE_PLATFORM),ndk)
+else ifeq ($(TARGET_PLATFORM),ndk)
     include $(SOLIDCORE)/Makefile.ndk
 else ifeq ($(COMPILE_PLATFORM),mingw32)
     include $(SOLIDCORE)/Makefile.mingw-w64
 else ifeq ($(COMPILE_PLATFORM),darwin)
     include $(SOLIDCORE)/Makefile.osx
 else ifeq ($(COMPILE_PLATFORM),linux)
-    ifeq ($(PLATFORM),ndk)
-        include $(SOLIDCORE)/Makefile.ndk
-    else ifeq ($(PLATFORM),WinApplication)
+    ifeq ($(TARGET_PLATFORM),WinApplication)
         include $(SOLIDCORE)/Makefile.mingw-w64
     else
         include $(SOLIDCORE)/Makefile.linux

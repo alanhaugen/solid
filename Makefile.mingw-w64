@@ -18,7 +18,7 @@ NO_THEORA = true
 #RENDERER        ?= DX11Renderer
 #RENDERER_HEADER ?= "modules/renderer/dx11/dx11renderer.h"
 
-DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles2renderer solid dx11renderer
+DEPS ?= nullaudio nullscript portaudioaudio stdfilesystem nullfilesystem nullphysics nullrenderer gles3renderer solid dx11renderer
 
 ifdef MSVC2022
     CC = cl.exe

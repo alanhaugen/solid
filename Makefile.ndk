@@ -1,6 +1,22 @@
 #############################################################################
 # Setup libraries and compiler for this platform
-# Type make COMPILE_PLATFORM=ndk to use, don't change filename
+# Type make TARGET_PLATFORM=ndk to use, don't change filename
+#############################################################################
+
+#############################################################################
+# See https://wiki.libsdl.org/SDL2/Android
+#############################################################################
+
+#############################################################################
+# Don't forget to set the environment variables below
+# Note: On windows it seems ANDROID_SDK_ROOT has to be an absolute path
+#############################################################################
+# PATH="/usr/src/android-ndk-rXXx:$PATH"                  # for 'ndk-build'
+# PATH="/usr/src/android-sdk-linux/tools:$PATH"           # for 'android'
+# PATH="/usr/src/android-sdk-linux/platform-tools:$PATH"  # for 'adb'
+# export ANDROID_HOME="/usr/src/android-sdk-linux"        # for gradle
+# export ANDROID_SDK_ROOT="/usr/src/android-sdk-linux"    # for this script
+# export ANDROID_NDK_HOME="/usr/src/android-ndk-rXXx"     # for gradle
 #############################################################################
 
 BUILDSCRIPT = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build-scripts/androidbuild.sh
@@ -94,7 +110,38 @@ SOURCES += \
 
 HEADERS = $(subst .cpp,.h,$(SOURCES))
 
+CFLAGS = -DRENDERER_HEADER="modules/renderer/gles3/gles3renderer.h" -DFILESYSTEM_HEADER="modules/filesystem/std/stdfilesystem.h" -DSCRIPT_HEADER="modules/script/null/nullscript.h" -DPHYSICS_HEADER="modules/physics/bounce/bouncephysics.h" -DPLATFORM=SDLApplication -DPLATFORM_HEADER="core/platforms/sdl/sdlapplication.h" -DRENDERER=GLES2Renderer -DAUDIO=Audio::NullAudio -DAUDIO_HEADER="modules/audio/null/nullaudio.h" -DSCRIPT=Script::NullScript -DFILESYSTEM=StdFileSystem -DPHYSICS=Physics::BouncePhysics -DES_PROFILE=1
+
+SDL_BUILD_DIR = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build/com.huldra.$(TARGET)
+
 debug: 
-	$(shell ./$(BUILDSCRIPT) org.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	-$(shell ./$(BUILDSCRIPT) com.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	cp -rf $(SOLIDCORE)/source/core $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/source/modules $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/source/glm $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/include/linux/* $(SDL_BUILD_DIR)/app/jni/src
+	mkdir $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/cgltf.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/stb_image.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/fast_obj.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp -rf data $(SDL_BUILD_DIR)/app
+	cp source/*h $(SDL_BUILD_DIR)/app/jni/src
+	echo "APP_CPPFLAGS := -frtti $(CFLAGS)" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
+	echo "APP_STL := c++_shared" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
+	rm $(SDL_BUILD_DIR)/app/jni/src/string.h
+	echo "sdk.dir=$(ANDROID_SDK_ROOT)"> $(SDL_BUILD_DIR)/local.properties
 release: 
-	$(shell ./$(BUILDSCRIPT) org.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	-$(shell ./$(BUILDSCRIPT) com.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	cp -rf $(SOLIDCORE)/source/core $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/source/modules $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/source/glm $(SDL_BUILD_DIR)/app/jni/src
+	cp -rf $(SOLIDCORE)/include/linux/* $(SDL_BUILD_DIR)/app/jni/src
+	mkdir $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/cgltf.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/stb_image.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp $(SOLIDCORE)/source/3rdparty/fast_obj.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
+	cp source/*h $(SDL_BUILD_DIR)/app/jni/src
+	echo "APP_CPPFLAGS := -frtti $(CFLAGS)" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
+	echo "APP_STL := c++_shared" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
+	rm $(SDL_BUILD_DIR)/app/jni/src/string.h
+	echo "sdk.dir=$(ANDROID_SDK_ROOT)"> $(SDL_BUILD_DIR)/local.properties

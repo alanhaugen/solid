@@ -2,8 +2,8 @@
 #define LOCATOR_H
 
 #include <cstddef>
-#include "time.h"
-#include "debug.h"
+#include "core/x-platform/time.h"
+#include "core/x-platform/debug.h"
 #include "core/x-platform/ptr.h"
 #include "core/x-platform/string.h"
 #include "core/x-platform/input.h"

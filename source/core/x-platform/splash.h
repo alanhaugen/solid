@@ -1,7 +1,7 @@
 #ifndef SPLASH_H
 #define SPLASH_H
 
-#include "scene.h"
+#include "core/x-platform/scene.h"
 #include "core/components/sprite.h"
 #include "core/components/text.h"
 
