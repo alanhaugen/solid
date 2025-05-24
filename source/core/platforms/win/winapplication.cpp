@@ -5,6 +5,12 @@
 
 //#define TILTFIVE
 
+// For improving Sleep performance, we set a few constants here. See https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleep?redirectedfrom=MSDN
+#define TARGET_RESOLUTION 1         // 1-millisecond target resolution
+
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+#define min(x, y) (((x) < (y)) ? (x) : (y))
+
 #ifdef TILTFIVE
 // Tilt5 setup
 #include "tilt5/TiltFiveNative.h"
