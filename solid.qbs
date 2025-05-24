@@ -377,6 +377,16 @@ Project {
     }
 
     Product {
+        name: "sdlaudio"
+        type: "staticlibrary"
+
+        files: [
+            "source/modules/audio/sdl/sdlaudio.cpp",
+            "source/modules/audio/sdl/sdlaudio.h",
+        ]
+    }
+
+    Product {
         name: "vulkanrenderer"
         type: "staticlibrary"
 

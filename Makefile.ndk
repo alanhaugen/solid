@@ -116,6 +116,7 @@ SDL_BUILD_DIR = $(SOLIDCORE)/source/3rdparty/SDL-2.26.5/build/com.huldra.$(TARGE
 
 debug: 
 	-$(shell ./$(BUILDSCRIPT) com.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	cp $(SOLIDCORE)/build.gradle $(SDL_BUILD_DIR)/app
 	cp -rf $(SOLIDCORE)/source/core $(SDL_BUILD_DIR)/app/jni/src
 	cp -rf $(SOLIDCORE)/source/modules $(SDL_BUILD_DIR)/app/jni/src
 	cp -rf $(SOLIDCORE)/source/glm $(SDL_BUILD_DIR)/app/jni/src
@@ -124,7 +125,8 @@ debug:
 	cp $(SOLIDCORE)/source/3rdparty/cgltf.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
 	cp $(SOLIDCORE)/source/3rdparty/stb_image.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
 	cp $(SOLIDCORE)/source/3rdparty/fast_obj.h $(SDL_BUILD_DIR)/app/jni/src/3rdparty
-	cp -rf data $(SDL_BUILD_DIR)/app
+	mkdir $(SDL_BUILD_DIR)/app/assets
+	cp -rf data $(SDL_BUILD_DIR)/app/assets
 	cp source/*h $(SDL_BUILD_DIR)/app/jni/src
 	echo "APP_CPPFLAGS := -frtti $(CFLAGS)" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
 	echo "APP_STL := c++_shared" >> $(SDL_BUILD_DIR)/app/jni/Application.mk
@@ -132,6 +134,7 @@ debug:
 	echo "sdk.dir=$(ANDROID_SDK_ROOT)"> $(SDL_BUILD_DIR)/local.properties
 release: 
 	-$(shell ./$(BUILDSCRIPT) com.huldra.$(TARGET) $(SOURCES) $(HEADERS))
+	cp $(SOLIDCORE)/build.gradle $(SDL_BUILD_DIR)/app
 	cp -rf $(SOLIDCORE)/source/core $(SDL_BUILD_DIR)/app/jni/src
 	cp -rf $(SOLIDCORE)/source/modules $(SDL_BUILD_DIR)/app/jni/src
 	cp -rf $(SOLIDCORE)/source/glm $(SDL_BUILD_DIR)/app/jni/src

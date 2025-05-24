@@ -2,12 +2,16 @@
 #define SDLAUDIO_H
 
 #include <modules/audio/audio.h>
+#include <SDL_audio.h>
 
 namespace Audio
 {
 
 class SDLAudio : public IAudio
 {
+private:
+    SDL_AudioStream *stream;
+
 public:
     SDLAudio();
     virtual ~SDLAudio();
