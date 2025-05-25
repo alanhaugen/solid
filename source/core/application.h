@@ -495,7 +495,7 @@
 class Application : public PLATFORM
 {
 public:
-    Application(int argumentQuantity, char *arguments[], String appName = "Solid", int resX = 1024, int resY = 1080 * 0.75);
+    Application(int argumentQuantity, char *arguments[], String appName = "Solid", int resX = 1280, int resY = 800);
     ~Application();
 
 protected:
