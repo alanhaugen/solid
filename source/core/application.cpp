@@ -2,11 +2,11 @@
 #include "core/x-platform/parserjson.h"
 #include <time.h> // TODO: Remove?
 
-Application::Application(int argumentQuantity, char *arguments[], String appName)
+Application::Application(int argumentQuantity, char *arguments[], String appName, int resX, int resY)
     : PLATFORM(), argument(argumentQuantity, arguments)
 {
     isAlive = Init();
-    LoadUserData(appName);
+    LoadUserData(appName, resX, resY);
 }
 
 Application::~Application()
@@ -26,11 +26,11 @@ Application::~Application()
     physics    = NULL;
 }
 
-void Application::LoadUserData(String appName)
+void Application::LoadUserData(String appName, int resX, int resY)
 {
     String name = appName;
-    int windowLength = 1024;
-    int windowHeight = 1083*0.75;
+    int windowLength = resX;
+    int windowHeight = resY;
 
     bool fullscreen  = false;
     float timeScale  = 1.0;

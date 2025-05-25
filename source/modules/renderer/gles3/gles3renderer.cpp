@@ -288,18 +288,18 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     String shaderName = shadersInput[VERTEX_SHADER] + shadersInput[FRAGMENT_SHADER];
 
     // See if shader is already created before
-    /*if (shaders.Empty() == false)
+    if (shaders.Empty() == false)
     {
         LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
 
-        for (; (*iterator) != NULL; ++iterator)
+        for (; iterator.curNode != NULL; ++iterator)
         {
             if ((*iterator)->name == shaderName)
             {
                 return (*iterator);
             }
         }
-    }*/
+    }
 
     // Create a new shader
     shader = new GLES2Shader();
