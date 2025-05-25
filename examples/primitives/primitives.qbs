@@ -61,7 +61,7 @@ solid {
         Depends { name: "nullaudio"  }
         Depends { name: "nullphysics"  }
         Depends { name: "nullfilesystem"  }
-        Depends { name: "gles2renderer"  }
+        Depends { name: "gles3renderer"  }
         Depends { name: "stdfilesystem"  }
         Depends { name: "portaudioaudio"  }
 

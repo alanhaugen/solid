@@ -495,14 +495,14 @@
 class Application : public PLATFORM
 {
 public:
-    Application(int argumentQuantity, char *arguments[]);
+    Application(int argumentQuantity, char *arguments[], String appName = "Solid");
     ~Application();
 
 protected:
     Arguments<String> argument;
 
 private:
-    void LoadUserData();
+    void LoadUserData(String appName);
     void ParseSettings(String &name, int &windowLength, int &windowHeight,  bool &fullscreen, float &timeScale);
     void ParseScenes();
 };

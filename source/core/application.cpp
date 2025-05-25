@@ -2,11 +2,11 @@
 #include "core/x-platform/parserjson.h"
 #include <time.h> // TODO: Remove?
 
-Application::Application(int argumentQuantity, char *arguments[])
+Application::Application(int argumentQuantity, char *arguments[], String appName)
     : PLATFORM(), argument(argumentQuantity, arguments)
 {
     isAlive = Init();
-    LoadUserData();
+    LoadUserData(appName);
 }
 
 Application::~Application()
@@ -26,9 +26,9 @@ Application::~Application()
     physics    = NULL;
 }
 
-void Application::LoadUserData()
+void Application::LoadUserData(String appName)
 {
-    String name = "LexiBlocks";
+    String name = appName;
     int windowLength = 1024;
     int windowHeight = 1083*0.75;
 
