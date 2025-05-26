@@ -5,7 +5,9 @@
 class Primitives : public IScene
 {
 private:
-    Cube *cube;
+    Cube *red;
+    Cube *green;
+    Cube *blue;
 
 public:
     Primitives();
@@ -21,15 +23,21 @@ Primitives::Primitives()
 
 void Primitives::Init()
 {
-    cube = new Cube(0.0f, 0.0f, -10.0f);
+    red = new Cube(-2.0f, 0.0f, -10.0f);
+    green = new Cube(2.0f, 0.0f, -10.0f);
+    blue = new Cube(0.0f, -2.5f, -10.0f);
 
     components.Add(new Camera());
-    components.Add(cube);
+    components.Add(red);
+    components.Add(green);
+    components.Add(blue);
 }
 
 void Primitives::Update(float dt)
 {
-    cube->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
+    red->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
+    green->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
+    blue->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void Primitives::UpdateAfterPhysics()

@@ -1002,7 +1002,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
 
     if (texture == NULL)
     {
-        texture = new VulkanTexture(filename);
+        texture = new VulkanTexture(filename, device, physicalDevice);
 
         //textures.Add(texture);
     }

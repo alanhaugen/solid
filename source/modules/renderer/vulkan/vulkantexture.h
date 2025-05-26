@@ -1,13 +1,14 @@
 #ifndef VULKANTEXTURE_H
 #define VULKANTEXTURE_H
 
+#include "vk_mem_alloc.h"
 #include "modules/renderer/texture.h"
 
 class VulkanTexture : public ITexture
 {
 public:
     VulkanTexture();
-    VulkanTexture(String filename);
+    VulkanTexture(String filename, VkDevice device, VkPhysicalDevice physicalDevice);
     VulkanTexture(String front, String back, String top, String bottom, String left, String right);
 
     U8 At(unsigned int x, unsigned int y, U8 data);
@@ -19,6 +20,16 @@ public:
     ~VulkanTexture();
 
 private:
+    VkImage textureImage;
+    VkDeviceMemory textureImageMemory;
+
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    VkDevice device;
+    VkPhysicalDevice physicalDevice;
+    void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+    uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 };
 
 #endif // VULKANTEXTURE_H

@@ -14,6 +14,24 @@ layout(set = 0, binding = 0) uniform UniformBlock
 {
   mat4 MVP;	// combined modelview projection matrix
   vec4 colour;
+  float time;
+  float index;
+  vec2 pos;
+  float scaleX;
+  float scaleY;
+  float width;
+  float height;
+  float totalWidth;
+  float totalHeight;
+  float screenWidth;
+  float screenHeight;
+  float flip;
+  float flipVertical;
+  vec4 colourTint;
+  mat4 modelMat;
+  mat3 normalMat;
+  vec3 lightPosition;
+  vec3 cameraPosition;
 } uniformBuffer;
 
 layout(location = 0) out vec4 vSmoothColor;		//smooth colour to fragment shader

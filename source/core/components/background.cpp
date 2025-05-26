@@ -79,6 +79,10 @@ Background::Background(glm::vec3 colour, Camera *camera)
 
     matrix.Scale(glm::vec3(10.0f));
 
+#ifdef USE_VULKAN
+    drawable->colorTint = glm::vec4(colour, 1.0f);
+#endif
+
     Uniform("colour", glm::vec4(colour, 1.0f));
 }
 

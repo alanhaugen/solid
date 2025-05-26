@@ -5,6 +5,9 @@
 #include "vulkanshader.h"
 
 #include "vk_mem_alloc.h"
+#include <vector>
+
+static float fTime = 0.0f;
 
 struct AllocatedBuffer
 {
@@ -16,6 +19,24 @@ struct UniformBlock
 {
     glm::mat4 MVP;	// combined modelview projection matrix
     glm::vec4 colour;
+    glm::vec4 time;
+    glm::vec4 index;
+    glm::vec4 pos;
+    glm::vec4 scaleX;
+    glm::vec4 scaleY;
+    glm::vec4 width;
+    glm::vec4 height;
+    glm::vec4 totalWidth;
+    glm::vec4 totalHeight;
+    glm::vec4 screenWidth;
+    glm::vec4 screenHeight;
+    glm::vec4 flip;
+    glm::vec4 flipVertical;
+    glm::vec4 colourTint;
+    glm::mat4 modelMat;
+    glm::mat4 normalMat;
+    glm::vec4 lightPosition;
+    glm::vec4 cameraPosition;
 };
 
 class VulkanDrawable : public NullDrawable

@@ -94,11 +94,27 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
     //glm::mat4 projection = glm::perspective(glm::radians(70.f), 1700.f / 900.f, 0.1f, 200.0f);
     //glm::mat4 view = glm::translate(glm::mat4(1.f), camPos);
     //projection[1][1] *= -1; // Flip projection because of Vulkan's -Y axis (?)
+    //projViewMatrix[1][1] *= -1;
 
-    // Fill a GPU camera data struct
+    // Fill a uniform data struct
     UniformBlock uniformData;
     uniformData.MVP = projViewMatrix * matrix;
     uniformData.colour = colorTint;
+    uniformData.time.x = fTime += 0.1;
+    uniformData.index.x = 1;
+    uniformData.pos.x = 1;
+    uniformData.pos.y = 1;
+    uniformData.scaleX.x = 1;
+    uniformData.scaleY.x = 1;
+    uniformData.width.x = 1;
+    uniformData.height.x = 1;
+    uniformData.totalWidth.x = 1;
+    uniformData.totalHeight.x = 1;
+    uniformData.screenWidth.x = 1;
+    uniformData.screenHeight.x = 1;
+    uniformData.flip.x = 1;
+    uniformData.flipVertical.x = 1;
+    uniformData.colourTint = colorTint;
 
     //and copy it to the buffer
     char* data;
