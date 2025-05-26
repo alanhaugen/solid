@@ -1,4 +1,7 @@
 #include "sdldebug.h"
+#ifdef NDK
+#include <android/log.h>
+#endif
 
 SDLDebug::SDLDebug() : IDebug()
 {
@@ -20,6 +23,9 @@ void SDLDebug::Write(const char *text)
 #ifndef NDEBUG
     std::cout << text;
     std::cout << std::endl;
+#ifdef NDK
+    __android_log_print(ANDROID_LOG_DEBUG, "Solid", "Log: %s", text);
+#endif
 #endif
 }
 

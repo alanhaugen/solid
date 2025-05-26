@@ -12,12 +12,6 @@
 #include COMPUTED_INCLUDE(PHYSICS_HEADER)
 #include COMPUTED_INCLUDE(FILESYSTEM_HEADER)
 
-// For improving Sleep performance, we set a few constants here. See https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleep?redirectedfrom=MSDN
-#define TARGET_RESOLUTION 1         // 1-millisecond target resolution
-
-#define max(x, y) (((x) > (y)) ? (x) : (y))
-#define min(x, y) (((x) < (y)) ? (x) : (y))
-
 class WinApplication : public Services
 {
 public:

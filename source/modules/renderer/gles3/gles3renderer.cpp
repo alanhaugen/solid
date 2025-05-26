@@ -63,10 +63,9 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
     // TODO: Test if it is better to sort by shader... although, simplicity usually does the trick
     //for(unsigned drawable = 0; drawable < drawables.Size(); drawable++)
     //{
-    // NOTE: Remove please, I am going backwards through the array (slower!) to make sure new things are drawn first
-    LinkedList<GLES2Drawable*>::Iterator drawable = drawables.End();
+    LinkedList<GLES2Drawable*>::Iterator drawable = drawables.Begin();
 
-    for (; drawable != NULL; --drawable)
+    for (; drawable != NULL; ++drawable)
     {
         GLES2Drawable *gles2drawable = (*drawable);
 
@@ -100,7 +99,7 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
                 else
                 {
                     glDepthMask(GL_FALSE);
-                    glDepthFunc(GL_LESS);
+                    glDepthFunc(GL_ALWAYS);
                     //glDepthRange(0, 1.00);
                 }
             }
@@ -289,18 +288,18 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     String shaderName = shadersInput[VERTEX_SHADER] + shadersInput[FRAGMENT_SHADER];
 
     // See if shader is already created before
-    /*if (shaders.Empty() == false)
+    if (shaders.Empty() == false)
     {
         LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
 
-        for (; (*iterator) != NULL; ++iterator)
+        for (; iterator.curNode != NULL; ++iterator)
         {
             if ((*iterator)->name == shaderName)
             {
                 return (*iterator);
             }
         }
-    }*/
+    }
 
     // Create a new shader
     shader = new GLES2Shader();

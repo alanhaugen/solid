@@ -3,7 +3,7 @@
 
 #include "modules/filesystem/filesystem.h"
 #include "core/x-platform/string.h"
-#include "stdfile.h"
+#include "sdlfile.h"
 
 class StdFileSystem : public NullFileSystem
 {

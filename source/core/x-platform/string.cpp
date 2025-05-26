@@ -1,4 +1,4 @@
-#include "string.h"
+#include "core/x-platform/string.h"
 
 #include <assert.h>
 #include <stdio.h> // vsnprintf
@@ -155,6 +155,11 @@ bool String::operator !=(String& other) const
     return strncmp(text, other.ToChar(), Length());
 }
 
+char String::At(unsigned int index) const
+{
+    return text[index];
+}
+
 char String::operator[](unsigned int index) const
 {
     return text[index];
@@ -251,13 +256,13 @@ int String::IndexOf(String string, unsigned int searchStart) const
 {
     for (unsigned int i = searchStart; i < Length(); i++)
     {
-        if (text[i] == string[0])
+        if (text[i] == string.At(0))
         {
             bool isFound = true;
 
             for (unsigned int j = 0; j < string.Length(); j++)
             {
-                if (string[j] != text[i + j])
+                if (string.At(j) != text[i + j])
                 {
                     isFound = false;
                 }

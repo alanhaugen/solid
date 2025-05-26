@@ -1,6 +1,6 @@
 #############################################################################
 # Setup libraries and compiler for this platform
-# Type make COMPILE_PLATFORM=webasm to use, don't change filename
+# Type make TARGET_PLATFORM=webasm to use, don't change filename
 #############################################################################
 
 CC = EMCC_DEBUG=1 emcc

@@ -36,6 +36,7 @@ public:
     bool operator==(const String& other) const;
     bool operator!=(String& other) const;
     char operator[](unsigned int index) const;
+    char At(unsigned int index) const;
     //operator const char*() const; // testing implicit conversion to const char* as alternative to char *ToChar() (so you can shoot yourself in the foot with conversions!)
     // We already got a bug where compiler decides to implicitly convert a class String to const char* on input to operator+ (we got 3 operator+s here and want both)
 
