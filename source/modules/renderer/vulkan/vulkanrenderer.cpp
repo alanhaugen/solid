@@ -967,7 +967,17 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         VkDeviceSize offset = 0;
         vkCmdBindVertexBuffers(commandBuffer, 0, 1, &(*drawable)->vertexBuffer.buffer, &offset);
 
-        vkCmdDraw(commandBuffer, (*drawable)->verticesQuantity, 1, 0, 0);
+        if ((*drawable)->indicesQuantity != 0)
+        {
+            // Bind index buffer
+            vkCmdBindIndexBuffer(commandBuffer, (*drawable)->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
+
+            vkCmdDrawIndexed(commandBuffer, (*drawable)->indicesQuantity, 1, 0, 0, 0);
+        }
+        else
+        {
+            vkCmdDraw(commandBuffer, (*drawable)->verticesQuantity, 1, 0, 0);
+        }
     }
 
     // End render pass (Remember, we are currently targeting Vulkan before Vulkan 1.3)

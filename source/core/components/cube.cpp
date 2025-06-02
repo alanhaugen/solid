@@ -70,7 +70,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
     }
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
-    drawable->uniformData = uniforms;
+    //drawable->uniformData = uniforms;
 
     if (hasCollision == true)
     {

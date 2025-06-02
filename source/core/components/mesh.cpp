@@ -821,7 +821,7 @@ void Mesh::Update()
 
     for (unsigned int i = 0; i < drawables.Size(); i++)
     {
-        drawables[i]->uniformData = uniforms;
+        //drawables[i]->uniformData = uniforms;
         drawables[i]->matrix = matrix.subMatrix * matrix.matrix;
         renderer->Draw(drawables[i]);
     }

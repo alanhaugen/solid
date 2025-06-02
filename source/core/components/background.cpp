@@ -249,8 +249,8 @@ void Background::Update()
     Uniform("time", static_cast<float>(f += 0.1f));
 
     // Note: hacky solution. We setup the uniforms and submatrix here
-    drawable->uniformData = uniforms;
-    drawable->matrix = matrix.subMatrix * matrix.matrix;
+    //drawable->uniformData = uniforms;
+    //drawable->matrix = matrix.subMatrix * matrix.matrix;
 
     renderer->Draw(drawable);
 }

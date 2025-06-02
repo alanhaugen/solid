@@ -29,8 +29,7 @@ class IDrawable
 {
 public:
     IDrawable()
-        : colorTint(1.f),
-        uniforms(DEFAULT_HASH_SIZE, Hash<String, int>::StringHash)
+        : colorTint(1.f)
     {
         type = DRAW_TRIANGLES;
         colorTint.x = 1.0f;
@@ -70,47 +69,36 @@ public:
 
     glm::mat4 matrix; // Matrix is shorter to write than transform :)
     glm::vec4 colorTint; // Multiply by texture or vertex color
-    Hash<String, int> uniforms;
     glm::mat4 *animatedMatrices;
     unsigned int frame, verticesPerFrameQuantity, lastFrame;
     virtual ~IDrawable() {}
 
-    Ptr<Array<Ptr<UniformData *> > *> uniformData;
+    struct UniformBlock
+    {
+        glm::mat4 MVP;	// combined modelview projection matrix
+        glm::vec4 colour;
+        glm::vec4 time;
+        glm::vec4 index;
+        glm::vec4 pos;
+        glm::vec4 scaleX;
+        glm::vec4 scaleY;
+        glm::vec4 width;
+        glm::vec4 height;
+        glm::vec4 totalWidth;
+        glm::vec4 totalHeight;
+        glm::vec4 screenWidth;
+        glm::vec4 screenHeight;
+        glm::vec4 flip;
+        glm::vec4 flipVertical;
+        glm::vec4 colourTint;
+        glm::mat4 modelMat;
+        glm::mat4 normalMat;
+        glm::vec4 lightPosition;
+        glm::vec4 cameraPosition;
+    };
 
+    UniformBlock uniforms;
 private:
-    virtual void Uniform(String location, glm::f32   uniform) = 0;
-    virtual void Uniform(String location, glm::vec2  uniform) = 0;
-    virtual void Uniform(String location, glm::vec3  uniform) = 0;
-    virtual void Uniform(String location, glm::vec4  uniform) = 0;
-    virtual void Uniform(String location, glm::int32 uniform) = 0;
-    virtual void Uniform(String location, glm::ivec2 uniform) = 0;
-    virtual void Uniform(String location, glm::ivec3 uniform) = 0;
-    virtual void Uniform(String location, glm::ivec4 uniform) = 0;
-    virtual void Uniform(String location, glm::uint  uniform) = 0;
-    virtual void Uniform(String location, glm::uvec2 uniform) = 0;
-    virtual void Uniform(String location, glm::uvec3 uniform) = 0;
-    virtual void Uniform(String location, glm::uvec4 uniform) = 0;
-    virtual void Uniform(String location, glm::f32   &uniform) = 0;
-    virtual void Uniform(String location, glm::vec2  &uniform) = 0;
-    virtual void Uniform(String location, glm::vec3  &uniform) = 0;
-    virtual void Uniform(String location, glm::vec4  &uniform) = 0;
-    virtual void Uniform(String location, glm::int32 &uniform) = 0;
-    virtual void Uniform(String location, glm::ivec2 &uniform) = 0;
-    virtual void Uniform(String location, glm::ivec3 &uniform) = 0;
-    virtual void Uniform(String location, glm::ivec4 &uniform) = 0;
-    virtual void Uniform(String location, glm::uint  &uniform) = 0;
-    virtual void Uniform(String location, glm::uvec2 &uniform) = 0;
-    virtual void Uniform(String location, glm::uvec3 &uniform) = 0;
-    virtual void Uniform(String location, glm::uvec4 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat2  &uniform) = 0;
-    virtual void Uniform(String location, glm::mat3  &uniform) = 0;
-    virtual void Uniform(String location, glm::mat4  &uniform) = 0;
-    virtual void Uniform(String location, glm::mat2x3 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat3x2 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat2x4 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat4x2 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat3x4 &uniform) = 0;
-    virtual void Uniform(String location, glm::mat4x3 &uniform) = 0;
 };
 
 #endif // DRAWABLE_H

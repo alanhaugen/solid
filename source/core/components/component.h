@@ -15,8 +15,6 @@ public:
     Component();
     ~Component();
 
-    Ptr<Array<Ptr<UniformData *> > *> uniforms;
-
     Mat matrix;
     String tag;
 

@@ -98,31 +98,30 @@ void Sprite::Init(const float x_,
     shaders.Insert("data/gui.vert", VERTEX_SHADER);
     shaders.Insert("data/gui.frag", FRAGMENT_SHADER);
 
-    // Send scale uniforms
-    Uniform("scaleX", static_cast<float>(scaleX));
-    Uniform("scaleY", static_cast<float>(scaleY));
-
-    // Let shaders know the desired section to be used of the sprite sheet
-    Uniform("width", static_cast<float>(width));
-    Uniform("height", static_cast<float>(height));
-
-    // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
-    Uniform("totalWidth", static_cast<float>(texture->width));
-    Uniform("totalHeight", static_cast<float>(texture->height));
-
-    // To get graphics placed correctly, the viewport resolution is sent to the shader program
-    Uniform("screenWidth", static_cast<float>(renderer->windowWidth));
-    Uniform("screenHeight", static_cast<float>(renderer->windowHeight));
-
-    // Setup if sprite is flipped or not
-    Uniform("flip", static_cast<float>(isFlipped));
-    Uniform("flipVertical", static_cast<float>(isFlippedVertical));
-
     // Create drawable
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     drawable->hasDepth    = false;
     drawable->sendToFront = true;
-    drawable->uniformData = uniforms;
+
+    // Send scale uniforms
+    drawable->uniforms.scaleX[0] = scaleX;
+    drawable->uniforms.scaleY[0] = scaleY;
+
+    // Let shaders know the desired section to be used of the sprite sheet
+    drawable->uniforms.width[0] = width;
+    drawable->uniforms.height[0] = height;
+
+    // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
+    drawable->uniforms.totalWidth[0] = texture->width;
+    drawable->uniforms.totalHeight[0] = texture->height;
+
+    // To get graphics placed correctly, the viewport resolution is sent to the shader program
+    drawable->uniforms.screenWidth[0] = renderer->windowWidth;
+    drawable->uniforms.screenHeight[0] = renderer->windowHeight;
+
+    // Setup if sprite is flipped or not
+    drawable->uniforms.flip[0] = isFlipped;
+    drawable->uniforms.flipVertical[0] = isFlippedVertical;
 }
 
 Sprite::Sprite(String textureFilePath,
@@ -175,15 +174,16 @@ void Sprite::Update()
     transformedX = *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2);
     transformedY = *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET;
 
-    Uniform("pos", static_cast<glm::vec2>(glm::vec2(transformedX, transformedY)));
-    Uniform("index", static_cast<float>(index));
-    Uniform("flip", static_cast<float>(isFlipped));
-    Uniform("flipVertical", static_cast<float>(isFlippedVertical));
-    Uniform("screenWidth", static_cast<float>(renderer->windowWidth));
-    Uniform("screenHeight", static_cast<float>(renderer->windowHeight));
-    Uniform("time", static_cast<float>(Application::time->TimeSinceStarted()));
-    Uniform("scaleX", static_cast<float>(scaleX));
-    Uniform("scaleY", static_cast<float>(scaleY));
+    //drawable->uniformData = uniforms;
+    drawable->uniforms.pos = glm::vec4(transformedX, transformedY, 0, 0);
+    drawable->uniforms.index[0] = index;
+    drawable->uniforms.flip[0] = isFlipped;
+    drawable->uniforms.flipVertical[0] = isFlippedVertical;
+    drawable->uniforms.screenWidth[0] = renderer->windowWidth;
+    drawable->uniforms.screenHeight[0] = renderer->windowHeight;
+    drawable->uniforms.time[0] = Application::time->TimeSinceStarted();
+    drawable->uniforms.scaleX[0] = scaleX;
+    drawable->uniforms.scaleY[0] = scaleY;
     //Uniform("rotation", static_cast<glm::vec2>(glm::vec2(0.0f, 1.0f)));
 
     if (timer->TimeSinceStarted() > 100.0f)

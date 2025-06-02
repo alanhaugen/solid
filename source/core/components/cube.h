@@ -6,9 +6,10 @@
 class Cube : public Component
 {
 private:
-    IDrawable *drawable;
 
 public:
+    IDrawable *drawable;
+
     Physics::IPhysics::HitBox *collisionBox;
     glm::vec3 pos;
 

@@ -14,8 +14,8 @@ Triangle::Triangle(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex
 
 void Triangle::Update()
 {
-    uniforms.Lock();
-    drawable->uniformData = uniforms;
+    //uniforms.Lock();
+    //drawable->uniformData = uniforms;
     drawable->matrix = matrix.subMatrix * matrix.matrix;
 
     renderer->Draw(drawable);

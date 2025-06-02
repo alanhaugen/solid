@@ -50,6 +50,7 @@ private:
 
 public:
     AllocatedBuffer vertexBuffer;
+    AllocatedBuffer indexBuffer;
 
     void UploadUniformBufferBlock(const glm::mat4& projViewMatrix);
 

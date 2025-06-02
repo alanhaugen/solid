@@ -86,6 +86,19 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
 
     vmaUnmapMemory(allocator, vertexBuffer.allocation);
+
+    // Upload index buffer
+    if (indicesQuantity != 0)
+    {
+        vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
+            &indexBuffer.buffer,
+            &indexBuffer.allocation,
+            nullptr);
+
+        memcpy(data, &indices[0], indices.Size() * sizeof(unsigned int));
+
+        vmaUnmapMemory(allocator, indexBuffer.allocation);
+    }
 }
 
 void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
