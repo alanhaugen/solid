@@ -102,9 +102,6 @@ glm::vec2 Camera::WorldPointToScreen(glm::vec3 worldPos, bool &culled ) const
     glm::vec2 screen_center(halfWidth, halfHeight); // Needed for vertex transform
     glm::vec4 ndc = glm::vec4( worldPos.x, worldPos.y, worldPos.z, 1.0f );
     glm::vec4 proj = getProjectionViewMatrix() * ndc;
-#ifdef USE_VULKAN
-    proj.w *= -1;
-#endif
     culled = false;
     if ( proj.x < -proj.w || proj.x > proj.w) culled = true;
     if ( proj.y < -proj.w || proj.y > proj.w) culled = true;
@@ -122,6 +119,9 @@ glm::mat4 Camera::getProjectionMatrix() const
 {
     float aspectXY = viewPortSize.x / viewPortSize.y;
     glm::mat4 projMatrix = glm::perspectiveRH(glm::radians(fovDegrees), aspectXY, nearField, farField);
+#ifdef USE_VULKAN
+    projMatrix[1][1] *= -1;
+#endif
     return projMatrix;
 }
 

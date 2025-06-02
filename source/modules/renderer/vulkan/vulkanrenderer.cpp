@@ -155,7 +155,10 @@ VkBool32 VulkanRenderer::GetSupportedDepthFormat(VkPhysicalDevice physicalDevice
 
 void VulkanRenderer::SetupDepthStencil()
 {
-    VkBool32 validDepthFormat = GetSupportedDepthFormat(physicalDevice, &depthFormat);
+    if (GetSupportedDepthFormat(physicalDevice, &depthFormat) == false)
+    {
+        LogError("Failed to find legal depth format");
+    }
 
     // We will ask for the image tiling OPTIMAL,
     // which means that we allow the GPU to shuffle the data however it sees fit
@@ -419,6 +422,20 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
 
     vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &drawable->pipelineLayout);
 
+
+    // Depth test
+    VkPipelineDepthStencilStateCreateInfo depthStencilInfo = {};
+    depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+    depthStencilInfo.pNext = nullptr;
+
+    depthStencilInfo.depthTestEnable = VK_TRUE;
+    depthStencilInfo.depthWriteEnable = VK_TRUE;
+    depthStencilInfo.depthCompareOp = VK_COMPARE_OP_ALWAYS;
+    depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
+    depthStencilInfo.minDepthBounds = 0.0f; // Optional
+    depthStencilInfo.maxDepthBounds = 1.0f; // Optional
+    depthStencilInfo.stencilTestEnable = VK_FALSE;
+
     // Build the actual pipeline
     // We now use all of the info structs we have been writing into into this one to create the pipeline
     VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -434,6 +451,7 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     pipelineInfo.pMultisampleState = &multisampling;
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.layout = drawable->pipelineLayout;
+    pipelineInfo.pDepthStencilState = &depthStencilInfo;
     pipelineInfo.renderPass = pass;
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
@@ -915,7 +933,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
     vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
-    VkClearColorValue clear_color = { 1.0f, 0.0f, 0.0f, 1.0f };
+    VkClearColorValue clear_color = { {1.0f, 0.0f, 0.0f, 1.0f} };
     VkClearDepthStencilValue clear_depth_stencil = { 1.0f, 0 };
 
     PreRender();
@@ -929,6 +947,9 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     render_pass_info.renderArea.offset = { 0, 0 };
     render_pass_info.renderArea.extent = swapchainSize;
     render_pass_info.clearValueCount   = 1;
+
+    VkClearValue depthClear;
+    depthClear.depthStencil.depth = 1.f;
 
     std::vector<VkClearValue> clearValues(2);
     clearValues[0].color = clear_color;
