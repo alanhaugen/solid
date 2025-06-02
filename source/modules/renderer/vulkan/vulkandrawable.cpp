@@ -82,9 +82,7 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     // Upload vertex buffer data
     void* data;
     vmaMapMemory(allocator, vertexBuffer.allocation, &data);
-
     memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
-
     vmaUnmapMemory(allocator, vertexBuffer.allocation);
 
     // Upload index buffer
@@ -95,8 +93,9 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
             &indexBuffer.allocation,
             nullptr);
 
+        void* data;
+        vmaMapMemory(allocator, indexBuffer.allocation, &data);
         memcpy(data, &indices[0], indices.Size() * sizeof(unsigned int));
-
         vmaUnmapMemory(allocator, indexBuffer.allocation);
     }
 }
@@ -143,6 +142,12 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
 VulkanDrawable::~VulkanDrawable()
 {
     vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
+
+    if (indicesQuantity != 0)
+    {
+        vmaDestroyBuffer(allocator, indexBuffer.buffer, indexBuffer.allocation);
+    }
+
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     vkDestroyPipeline(device, pipeline, nullptr);
 }

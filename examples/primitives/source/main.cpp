@@ -1,6 +1,8 @@
 #include <core/application.h>
 #include <core/components/cube.h>
 #include <core/components/camera.h>
+#include <core/components/mesh.h>
+#include <core/components/fpscamera.h>
 
 class Primitives : public IScene
 {
@@ -8,6 +10,7 @@ private:
     Cube *red;
     Cube *green;
     Cube *blue;
+    Mesh *monkey;
 
 public:
     Primitives();
@@ -27,10 +30,15 @@ void Primitives::Init()
     green = new Cube(2.0f, 0.0f, -10.0f);
     blue = new Cube(0.0f, -2.5f, -10.0f);
 
-    components.Add(new Camera());
+    monkey = new Mesh("data/monkey.obj");
+    Camera* cam = new Camera();
+
+    components.Add(cam);
     components.Add(red);
     components.Add(green);
     components.Add(blue);
+    components.Add(monkey);
+    components.Add(new FPSCamera(cam));
 }
 
 void Primitives::Update(float dt)

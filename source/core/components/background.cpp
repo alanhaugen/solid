@@ -1,3 +1,4 @@
+#include <core/application.h>
 #include "background.h"
 
 Background::Background()
@@ -78,12 +79,7 @@ Background::Background(glm::vec3 colour, Camera *camera)
     //drawable->sendToFront = false; // Render behind everything else
 
     matrix.Scale(glm::vec3(10.0f));
-
-#ifdef USE_VULKAN
-    drawable->colorTint = glm::vec4(colour, 1.0f);
-#endif
-
-    Uniform("colour", glm::vec4(colour, 1.0f));
+    drawable->uniforms.colour = glm::vec4(colour, 1.0f);
 }
 
 void Background::Init()
@@ -242,11 +238,11 @@ void Background::Update()
 {
     if (scrolling)
     {
-        Uniform("scrollX", static_cast<float>(scrollX += scrollSpeed));
-        Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
+        //Uniform("scrollX", static_cast<float>(scrollX += scrollSpeed));
+        //Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
     }
 
-    Uniform("time", static_cast<float>(f += 0.1f));
+    drawable->uniforms.time[0] = Application::time->TimeSinceStarted();
 
     // Note: hacky solution. We setup the uniforms and submatrix here
     //drawable->uniformData = uniforms;

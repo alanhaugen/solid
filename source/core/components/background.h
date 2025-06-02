@@ -36,8 +36,6 @@ private:
 
     float scrollSpeed;
 
-    float f = 0.0f;
-
     Camera *activeCamera;
 
     ITexture *texture;

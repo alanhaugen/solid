@@ -970,7 +970,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         if ((*drawable)->indicesQuantity != 0)
         {
             // Bind index buffer
-            vkCmdBindIndexBuffer(commandBuffer, (*drawable)->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
+            vkCmdBindIndexBuffer(commandBuffer, (*drawable)->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
 
             vkCmdDrawIndexed(commandBuffer, (*drawable)->indicesQuantity, 1, 0, 0, 0);
         }
