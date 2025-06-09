@@ -73,6 +73,9 @@ void Mat::SetXYZ()
     x = &matrix[3].x;
     y = &matrix[3].y;
     z = &matrix[3].z;
+
+    glm::mat4 inverted = glm::inverse(matrix);
+    forward = normalize(glm::vec3(inverted[2]));
 }
 
 /*void Mat::Rotate(glm::mat4 rotation)
