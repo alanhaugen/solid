@@ -52,6 +52,8 @@ public:
     AllocatedBuffer vertexBuffer;
     AllocatedBuffer indexBuffer;
 
+    VkDescriptorSet* descriptors[2];
+
     void UploadUniformBufferBlock(const glm::mat4& projViewMatrix);
 
     int offset;
@@ -73,7 +75,8 @@ public:
                    VkDescriptorPool descriptorPool,
                    VkDescriptorSetLayout setLayout,
                    AllocatedBuffer uniformBuffer_,
-                   int offset_);
+                   int offset_,
+                   VkDescriptorSet* mainDescriptor);
 
     ~VulkanDrawable();
 

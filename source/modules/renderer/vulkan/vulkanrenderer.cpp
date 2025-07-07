@@ -749,6 +749,7 @@ bool VulkanRenderer::CreateDevice()
     // Let us request the extension VK_KHR_SWAPCHAIN for backbuffer support
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
+//        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
     };
 
     const float queue_priority[] = { 1.0f };
@@ -982,7 +983,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
         // Bind descriptor set (shader uniforms)
         uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &descriptor, 1, &uniformOffset);
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, (*drawable)->descriptors[0], 1, &uniformOffset);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;
@@ -1321,7 +1322,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   descriptorPool,
                                                   setLayout,
                                                   uniformBuffer,
-                                                  drawables.Size() + 1);
+                                                  drawables.Size() + 1,
+                                                  &descriptor);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
@@ -1357,7 +1359,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   descriptorPool,
                                                   setLayout,
                                                   uniformBuffer,
-                                                  drawables.Size() + 1);
+                                                  drawables.Size() + 1,
+                                                  &descriptor);
 
     drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
