@@ -16,6 +16,11 @@
 
 #define CLAMP(x, lo, hi)    ((x) < (lo) ? (lo) : (x) > (hi) ? (hi) : (x))
 
+void VulkanRenderer::ImmediateSubmit(std::function<void (VkCommandBuffer)> &&function)
+{
+
+}
+
 VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)
 {
     VkCommandBufferBeginInfo info = {};
@@ -983,7 +988,15 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
         // Bind descriptor set (shader uniforms)
         uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, (*drawable)->descriptors[0], 1, &uniformOffset);
+
+        int descriptorQuantity = 1;
+
+        if ((*drawable)->isTextured)
+        {
+            descriptorQuantity++;
+        }
+
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, descriptorQuantity, (*drawable)->descriptors[0], 1, &uniformOffset);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;

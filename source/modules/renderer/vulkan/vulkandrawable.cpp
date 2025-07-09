@@ -1,5 +1,6 @@
 #include <core/application.h>
 #include "vulkandrawable.h"
+#include "vulkantexture.h"
 
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
@@ -21,12 +22,12 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
     descriptors[0] = mainDescriptor;
 
-    /*for (unsigned int i = 0; i < textures_.Size(); i++)
+    for (unsigned int i = 0; i < textures.Size(); i++)
     {
-        GLES2Texture *gles2texture = dynamic_cast<GLES2Texture *>(textures_[i]);
+        VulkanTexture *vulkantexture = dynamic_cast<VulkanTexture *>(textures[i]);
 
-        textures.Add(gles2texture);
-    }*/
+        textures.Add(vulkantexture);
+    }
 
     if (textures.Size() != 0)
     {

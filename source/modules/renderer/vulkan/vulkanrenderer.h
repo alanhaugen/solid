@@ -1,6 +1,7 @@
 #ifndef VULKANRENDERER_H
 #define VULKANRENDERER_H
 
+#include <functional>
 #include <vulkan/vulkan.hpp>
 #include <vector>
 #include "modules/renderer/null/nullrenderer.h"
@@ -19,6 +20,8 @@ private:
     };
 
     UploadContext uploadContext;
+
+    void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 
     // Depth buffer
     struct AllocatedImage {

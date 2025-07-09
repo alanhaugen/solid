@@ -8,7 +8,7 @@ class VulkanTexture : public ITexture
 {
 public:
     VulkanTexture();
-    VulkanTexture(String filename, VkDevice device, VkPhysicalDevice physicalDevice);
+    VulkanTexture(String filename, VkDevice device, VkPhysicalDevice physicalDevice, VmaAllocator allocator);
     VulkanTexture(String front, String back, String top, String bottom, String left, String right);
 
     U8 At(unsigned int x, unsigned int y, U8 data);
@@ -20,6 +20,11 @@ public:
     ~VulkanTexture();
 
 private:
+    struct AllocatedImage {
+        VkImage image;
+        VmaAllocation allocation;
+    };
+
     VkImage textureImage;
     VkDeviceMemory textureImageMemory;
 
