@@ -47,7 +47,20 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     imageExtent.height = static_cast<uint32_t>(height);
     imageExtent.depth = 1;
 
-    VkImageCreateInfo dimg_info;// = vkinit::image_create_info(image_format, VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT, imageExtent);
+    VkImageCreateInfo imageInfo = {};
+    imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+    imageInfo.imageType = VK_IMAGE_TYPE_2D;
+    imageInfo.extent.width = width;
+    imageInfo.extent.height = height;
+    imageInfo.extent.depth = 1;
+    imageInfo.mipLevels = 1; // Use mipmapping
+    imageInfo.arrayLayers = 1;
+    imageInfo.format = format;
+    imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+    imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    imageInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT; // Most important property
+    imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+    imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
     AllocatedImage newImage;
 
@@ -55,7 +68,7 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     dimg_allocinfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
 
     //allocate and create the image
-    vmaCreateImage(allocator, &dimg_info, &dimg_allocinfo, &newImage.image, &newImage.allocation, nullptr);
+    vmaCreateImage(allocator, &imageInfo, &dimg_allocinfo, &newImage.image, &newImage.allocation, nullptr);
 
     stbi_image_free(img);
 
