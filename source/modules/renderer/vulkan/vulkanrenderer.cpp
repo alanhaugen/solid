@@ -18,7 +18,12 @@
 
 void VulkanRenderer::ImmediateSubmit(std::function<void (VkCommandBuffer)> &&function)
 {
+    /*VkFenceCreateInfo uploadFenceCreateInfo = vkinit::fence_create_info();
 
+    VK_CHECK(vkCreateFence(_device, &uploadFenceCreateInfo, nullptr, &_uploadContext._uploadFence));
+    _mainDeletionQueue.push_function([=]() {
+        vkDestroyFence(_device, _uploadContext._uploadFence, nullptr);
+    });*/
 }
 
 VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)
@@ -1047,7 +1052,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
 
     if (texture == NULL)
     {
-        texture = new VulkanTexture(filename, device, physicalDevice);
+        texture = new VulkanTexture(filename, device, physicalDevice, allocator);
 
         //textures.Add(texture);
     }

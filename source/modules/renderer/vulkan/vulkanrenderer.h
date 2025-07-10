@@ -32,10 +32,6 @@ private:
     VkCommandBufferBeginInfo commandBufferBeginInfo(VkCommandBufferUsageFlags flags = 0);
     VkSubmitInfo submitInfo(VkCommandBuffer* cmd);
 
-    AllocatedBuffer CreateBuffer(size_t allocSize,
-                                 VkBufferUsageFlags usage,
-                                 VmaMemoryUsage memoryUsage);
-
     void SetupUploadContext();
     void CreateInstance(const char *windowTitle);
     bool SelectPhysicalDevice();
@@ -118,8 +114,6 @@ private:
 
     std::vector<VkFence> fences;
 
-    VkCommandBuffer commandBuffer;
-
     void AcquireNextImage();
 
     void QueueSubmit();
@@ -167,6 +161,12 @@ private:
 protected:
 public:
     ~VulkanRenderer();
+
+    AllocatedBuffer CreateBuffer(size_t allocSize,
+                                 VkBufferUsageFlags usage,
+                                 VmaMemoryUsage memoryUsage);
+
+    VkCommandBuffer commandBuffer;
 
     void Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
     ITexture* CreateTexture(String filename);
