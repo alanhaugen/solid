@@ -18,12 +18,24 @@
 
 void VulkanRenderer::ImmediateSubmit(std::function<void (VkCommandBuffer)> &&function)
 {
-    /*VkFenceCreateInfo uploadFenceCreateInfo = vkinit::fence_create_info();
+    VkCommandBuffer cmd = uploadContext.commandBuffer;
 
-    VK_CHECK(vkCreateFence(_device, &uploadFenceCreateInfo, nullptr, &_uploadContext._uploadFence));
-    _mainDeletionQueue.push_function([=]() {
-        vkDestroyFence(_device, _uploadContext._uploadFence, nullptr);
-    });*/
+    //begin the command buffer recording. We will use this command buffer exactly once before resetting, so we tell vulkan that
+    VkCommandBufferBeginInfo cmdBeginInfo = {};//vkinit::command_buffer_begin_info(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+    //execute the function
+    function(cmd);
+
+    VkSubmitInfo submit = {};// vkinit::submit_info(&cmd);
+
+    //submit command buffer to the queue and execute it.
+    // _uploadFence will now block until the graphic commands finish execution
+
+    vkWaitForFences(device, 1, &uploadContext.uploadFence, true, 9999999999);
+    vkResetFences(device, 1, &uploadContext.uploadFence);
+
+    // reset the command buffers inside the command pool
+    vkResetCommandPool(device, uploadContext.commandPool, 0);
 }
 
 VkCommandBufferBeginInfo VulkanRenderer::commandBufferBeginInfo(VkCommandBufferUsageFlags flags)

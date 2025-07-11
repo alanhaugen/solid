@@ -21,8 +21,6 @@ private:
 
     UploadContext uploadContext;
 
-    void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
-
     // Depth buffer
     struct AllocatedImage {
         VkImage image;
@@ -167,6 +165,8 @@ public:
                                  VmaMemoryUsage memoryUsage);
 
     VkCommandBuffer commandBuffer;
+
+    void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 
     void Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray);
     ITexture* CreateTexture(String filename);

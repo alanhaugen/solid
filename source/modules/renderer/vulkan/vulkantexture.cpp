@@ -44,7 +44,16 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     VulkanRenderer* renderer = dynamic_cast<VulkanRenderer*>(Locator::renderer);
 
     VkDeviceSize imageSize = width * height * 4;
-    //renderer->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+    // Allocate temporary buffer for holding texture data to upload
+    AllocatedBuffer stagingBuffer = renderer->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY);
+
+    // Copy data to buffer
+    void* data;
+    vmaMapMemory(allocator, stagingBuffer.allocation, &data);
+    memcpy(data, img, static_cast<size_t>(imageSize));
+
+    vmaUnmapMemory(allocator, stagingBuffer.allocation);
 
     VkExtent3D imageExtent;
     imageExtent.width = static_cast<uint32_t>(width);
@@ -76,7 +85,8 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
 
     stbi_image_free(img);
 
-    /*engine.immediate_submit([&](VkCommandBuffer cmd) {
+    renderer->ImmediateSubmit([&](VkCommandBuffer cmd)
+    {
         VkImageSubresourceRange range;
         range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
         range.baseMipLevel = 0;
@@ -89,15 +99,15 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
 
         imageBarrier_toTransfer.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         imageBarrier_toTransfer.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        imageBarrier_toTransfer.image = newImage._image;
+        imageBarrier_toTransfer.image = newImage.image;
         imageBarrier_toTransfer.subresourceRange = range;
 
         imageBarrier_toTransfer.srcAccessMask = 0;
         imageBarrier_toTransfer.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 
-        //barrier the image into the transfer-receive layout
+        // Barrier the image into the transfer-receive layout
         vkCmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 0, nullptr, 0, nullptr, 1, &imageBarrier_toTransfer);
-    });*/
+    });
 
     VkBufferImageCopy copyRegion = {};
     copyRegion.bufferOffset = 0;
@@ -111,7 +121,7 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     copyRegion.imageExtent = imageExtent;
 
     //copy the buffer into the image
-    //vkCmdCopyBufferToImage(renderer->commandBuffer, stagingBuffer.buffer, newImage.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
+    vkCmdCopyBufferToImage(renderer->commandBuffer, stagingBuffer.buffer, newImage.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
 
     VkImageMemoryBarrier imageBarrier_toReadable;// = imageBarrier_toTransfer;
 
