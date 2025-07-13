@@ -22,14 +22,33 @@ void VulkanRenderer::ImmediateSubmit(std::function<void (VkCommandBuffer)> &&fun
 
     //begin the command buffer recording. We will use this command buffer exactly once before resetting, so we tell vulkan that
     VkCommandBufferBeginInfo cmdBeginInfo = {};//vkinit::command_buffer_begin_info(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+    cmdBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    cmdBeginInfo.pNext = nullptr;
+
+    cmdBeginInfo.pInheritanceInfo = nullptr;
+    cmdBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+    vkBeginCommandBuffer(cmd, &cmdBeginInfo);
 
     //execute the function
     function(cmd);
 
-    VkSubmitInfo submit = {};// vkinit::submit_info(&cmd);
+    VkSubmitInfo info = {};// vkinit::submit_info(&cmd);
+
+    info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    info.pNext = nullptr;
+
+    info.waitSemaphoreCount = 0;
+    info.pWaitSemaphores = nullptr;
+    info.pWaitDstStageMask = nullptr;
+    info.commandBufferCount = 1;
+    info.pCommandBuffers = &cmd;
+    info.signalSemaphoreCount = 0;
+    info.pSignalSemaphores = nullptr;
 
     //submit command buffer to the queue and execute it.
     // _uploadFence will now block until the graphic commands finish execution
+    vkQueueSubmit(graphicsQueue, 1, &info, uploadContext.uploadFence);
 
     vkWaitForFences(device, 1, &uploadContext.uploadFence, true, 9999999999);
     vkResetFences(device, 1, &uploadContext.uploadFence);
