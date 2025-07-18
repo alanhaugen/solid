@@ -88,6 +88,8 @@ VkSubmitInfo VulkanRenderer::submitInfo(VkCommandBuffer *cmd)
 void VulkanRenderer::SetupUploadContext()
 {
     VkFenceCreateInfo uploadFenceCreateInfo;// = vkinit::fence_create_info();
+    uploadFenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+    //uploadFenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
     vkCreateFence(device, &uploadFenceCreateInfo, nullptr, &uploadContext.uploadFence);
 
@@ -98,7 +100,7 @@ void VulkanRenderer::SetupUploadContext()
     allocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     allocateInfo.commandPool = uploadContext.commandPool;
     allocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    allocateInfo.commandBufferCount = swapchainImageCount;
+    allocateInfo.commandBufferCount = 1;
 
     vkAllocateCommandBuffers(device, &allocateInfo, &uploadContext.commandBuffer);
 }

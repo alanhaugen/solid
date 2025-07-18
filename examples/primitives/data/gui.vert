@@ -1,4 +1,6 @@
 #version 330 core
+// es
+//core
 
 // ES requires setting precision qualifier
 // Can be mediump or highp
@@ -13,92 +15,91 @@ layout(location = 3) in vec2 vTexcoord;	//per-vertex texcoord
 layout(location = 6) in int  vGlyph;	//glyph per vertex
 
 #ifdef VULKAN
-layout(std140, binding = 0) uniform UniformBlock
+layout(set = 0, binding = 0) uniform UniformBlock
 {
-  vec2 pos;
-  float scaleX;
-  float scaleY;
-  int width;
-  int height;
-  int totalWidth;
-  int totalHeight;
-  int index;
-  int screenWidth;
-  int screenHeight;
-  int flip;
-  int flipVertical;
-  float time;
+  mat4 MVP;	// combined modelview projection matrix
+  vec4 colour;
+  vec4 time;
+  vec4 index;
+  vec4 pos;
+  vec4 scaleX;
+  vec4 scaleY;
+  vec4 width;
+  vec4 height;
+  vec4 totalWidth;
+  vec4 totalHeight;
+  vec4 screenWidth;
+  vec4 screenHeight;
+  vec4 flip;
+  vec4 flipVertical;
+  vec4 colourTint;
+  mat4 modelMat;
+  mat4 normalMat;
+  vec4 lightPosition;
+  vec4 cameraPosition;
 } uniformBuffer;
 
-// data for fragment shader
-/*out gl_PerVertex
-{
-  vec2 vSmoothTexcoord;
-  float o_index;
-  float o_width;
-  float o_height;
-  float o_totalwidth;
-  float o_totalheight;
-  float o_flip;
-  float o_flipVertical;
-  float o_time;
-}*/
-
-layout(location = 0) out vec2 vSmoothTexcoord;
-layout(location = 1) out float o_index;
-layout(location = 2) out float o_width;
-layout(location = 3) out float o_height;
-layout(location = 4) out float o_totalwidth;
-layout(location = 5) out float o_totalheight;
-layout(location = 6) out float o_flip;
-layout(location = 7) out float o_flipVertical;
-layout(location = 8) out float o_time;
-
+layout(location = 0) out vec4 vSmoothColor;		//smooth colour to fragment shader
+layout(location = 1) out vec2 vSmoothTexcoord;
+layout(location = 2) out float vTime;
+layout(location = 3) out float vIndex;
+layout(location = 4) out float vWidth;
+layout(location = 5) out float vHeight;
+layout(location = 6) out float vTotalwidth;
+layout(location = 7) out float vTotalheight;
+layout(location = 8) out float vFlip;
+layout(location = 9) out float vFlipVertical;
+layout(location = 10) out vec4 vColourTint;
 #else
 smooth out vec2 vSmoothTexcoord;
 
 uniform vec2 pos;
 uniform float scaleX;
 uniform float scaleY;
-uniform int width;
-uniform int height;
-uniform int totalWidth;
-uniform int totalHeight;
-uniform int index;
-uniform int screenWidth;
-uniform int screenHeight;
-uniform int flip;
-uniform int flipVertical;
+uniform float width;
+uniform float height;
+uniform float totalWidth;
+uniform float totalHeight;
+uniform float index;
+uniform float screenWidth;
+uniform float screenHeight;
+uniform float flip;
+uniform float flipVertical;
 uniform float time;
+uniform vec4 colourTint;
 //uniform vec2 rotation;
 
-out float o_index;
-out float o_width;
-out float o_height;
-out float o_totalwidth;
-out float o_totalheight;
-out float o_flip;
-out float o_flipVertical;
-out float o_time;
+out float vIndex;
+out float vWidth;
+out float vHeight;
+out float vTotalwidth;
+out float vTotalheight;
+out float vFlip;
+out float vFlipVertical;
+out float vTime;
+out vec4 vColourTint;
 //out vec2 o_rotation;
 #endif
 
 void main()
 {
 #ifdef VULKAN
-    vec2 pos = uniformBuffer.pos;
-    float scaleX = uniformBuffer.scaleX;
-    float scaleY = uniformBuffer.scaleY;
-    int width = uniformBuffer.width;
-    int height = uniformBuffer.height;
-    int totalWidth = uniformBuffer.totalWidth;
-    int totalHeight = uniformBuffer.totalHeight;
-    int index = uniformBuffer.index;
-    int screenWidth = uniformBuffer.screenWidth;
-    int screenHeight = uniformBuffer.screenHeight;
-    int flip = uniformBuffer.flip;
-    int flipVertical = uniformBuffer.flipVertical;
-    float time = uniformBuffer.time;
+    vec4 colour = uniformBuffer.colour;
+    mat4 MVP = uniformBuffer.MVP;
+    float time = uniformBuffer.time.x;
+    float index = uniformBuffer.index.x;
+    vec2 pos = uniformBuffer.pos.xy;
+    float scaleX = uniformBuffer.scaleX.x;
+    float scaleY = uniformBuffer.scaleY.x;
+    float width = uniformBuffer.width.x;
+    float height = uniformBuffer.height.x;
+    float totalWidth = uniformBuffer.totalWidth.x;
+    float totalHeight = uniformBuffer.totalHeight.x;
+    float screenWidth = uniformBuffer.screenWidth.x;
+    float screenHeight = uniformBuffer.screenHeight.x;
+    float flip = uniformBuffer.flip.x;
+    float flipVertical = uniformBuffer.flipVertical.x;
+    vec4 colourTint = uniformBuffer.colourTint;
 #endif
     float aspectRatio = float(screenWidth) / float(screenHeight);
 
@@ -121,19 +122,20 @@ void main()
 
     if (vGlyph == -1)
     {
-        o_index = float(index);
+        vIndex = float(index);
     }
     else
     {
-        o_index = float(vGlyph);
+        vIndex = float(vGlyph);
     }
 
-    o_width = float(width);
-    o_height = float(height);
-    o_totalwidth = float(totalWidth);
-    o_totalheight = float(totalHeight);
-    o_flip = float(flip);
-    o_flipVertical = float(flipVertical);
-    o_time = float(time);
+    vWidth = float(width);
+    vHeight = float(height);
+    vTotalwidth = float(totalWidth);
+    vTotalheight = float(totalHeight);
+    vFlip = float(flip);
+    vFlipVertical = float(flipVertical);
+    vTime = float(time);
+    vColourTint = colourTint;
     //o_rotation = rotation;
 }

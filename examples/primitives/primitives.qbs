@@ -3,7 +3,7 @@ import "../../../solid/solid.qbs" as solid
 solid {
     Application {
         name: "App"
-//        cpp.cxxLanguageVersion: "c++23"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "data/bg.frag",

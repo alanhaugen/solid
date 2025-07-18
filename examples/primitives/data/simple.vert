@@ -54,8 +54,8 @@ void main()
 #endif
     // assign the per-vertex colour to vSmoothColor varying
     //vSmoothColor = vec4(vColor) * colour;
-    vSmoothColor = vec4(vColor);
-    //vSmoothColor = colour;
+    //vSmoothColor = vec4(vColor);
+    vSmoothColor = colour;
     vSmoothTexcoord = vTexcoord;
 
     //get the clip space position by multiplying the combined MVP matrix with the object space

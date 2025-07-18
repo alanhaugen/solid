@@ -1,4 +1,5 @@
 #include <core/application.h>
+#include <core/components/text.h>
 #include <core/components/cube.h>
 #include <core/components/camera.h>
 #include <core/components/mesh.h>
@@ -26,18 +27,23 @@ Primitives::Primitives()
 
 void Primitives::Init()
 {
-    red = new Cube(-2.0f, 0.0f, -10.0f);
+    red   = new Cube(-2.0f, 0.0f, -10.0f);
     green = new Cube(2.0f, 0.0f, -10.0f);
-    blue = new Cube(0.0f, -2.5f, -10.0f);
+    blue  = new Cube(0.0f, -2.5f, -10.0f);
 
-    monkey = new Mesh("data/monkey.obj");
+    red->drawable->uniforms.colour   = glm::vec4(1, 0.1, 0.1, 1);
+    green->drawable->uniforms.colour = glm::vec4(0, 1, 0, 1);
+    blue->drawable->uniforms.colour  = glm::vec4(0, 0, 1, 1);
+
+//    monkey = new Mesh("data/monkey.obj");
     Camera* cam = new Camera();
 
     components.Add(cam);
     components.Add(red);
     components.Add(green);
     components.Add(blue);
-    components.Add(monkey);
+ //   components.Add(monkey);
+    components.Add(new Text("Solid Game Engine"));
     components.Add(new FPSCamera(cam));
 }
 
@@ -59,4 +65,3 @@ int main(int argc, char **argv)
 
     return application.Exec();
 }
-

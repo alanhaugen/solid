@@ -22,13 +22,6 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
     descriptors[0] = mainDescriptor;
 
-    for (unsigned int i = 0; i < textures.Size(); i++)
-    {
-        VulkanTexture *vulkantexture = dynamic_cast<VulkanTexture *>(textures[i]);
-
-        textures.Add(vulkantexture);
-    }
-
     if (textures.Size() != 0)
     {
         isTextured = true;
@@ -113,24 +106,22 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
     //projViewMatrix[1][1] *= -1;
 
     // Fill a uniform data struct
-    UniformBlock uniformData;
-    uniformData.MVP = projViewMatrix * matrix;
-    uniformData.colour = colorTint;
-    uniformData.time.x = fTime += 0.1;
-    uniformData.index.x = 1;
-    uniformData.pos.x = 1;
-    uniformData.pos.y = 1;
-    uniformData.scaleX.x = 1;
-    uniformData.scaleY.x = 1;
-    uniformData.width.x = 1;
-    uniformData.height.x = 1;
-    uniformData.totalWidth.x = 1;
-    uniformData.totalHeight.x = 1;
-    uniformData.screenWidth.x = 1;
-    uniformData.screenHeight.x = 1;
-    uniformData.flip.x = 1;
-    uniformData.flipVertical.x = 1;
-    uniformData.colourTint = colorTint;
+    uniforms.MVP = projViewMatrix * matrix;
+    uniforms.time.x = fTime += 0.1;
+    uniforms.index.x = 1;
+    uniforms.pos.x = 1;
+    uniforms.pos.y = 1;
+    uniforms.scaleX.x = 1;
+    uniforms.scaleY.x = 1;
+    uniforms.width.x = 1;
+    uniforms.height.x = 1;
+    uniforms.totalWidth.x = 1;
+    uniforms.totalHeight.x = 1;
+    uniforms.screenWidth.x = 1;
+    uniforms.screenHeight.x = 1;
+    uniforms.flip.x = 1;
+    uniforms.flipVertical.x = 1;
+    uniforms.colourTint = colorTint;
 
     //and copy it to the buffer
     char* data;
@@ -138,7 +129,7 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
 
     data += static_cast<VulkanRenderer*>(Application::renderer)->PadUniformBufferSize(sizeof(UniformBlock)) * offset;
 
-    memcpy(data, &uniformData, sizeof(UniformBlock));
+    memcpy(data, &uniforms, sizeof(UniformBlock));
 
     vmaUnmapMemory(allocator, uniformBuffer.allocation);
 }
