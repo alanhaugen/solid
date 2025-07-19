@@ -135,6 +135,9 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     });
 
     VkImageViewCreateInfo imageinfo = {};//vkinit::imageview_create_info(VK_FORMAT_R8G8B8A8_SRGB, lostEmpire.image._image, VK_IMAGE_ASPECT_COLOR_BIT);
+    imageinfo.format = VK_FORMAT_R8G8B8A8_SRGB;
+    imageinfo.image = newImage.image;
+    imageinfo.flags = VK_IMAGE_ASPECT_COLOR_BIT;
     vkCreateImageView(device, &imageinfo, nullptr, &imageView);
 
     //_loadedTextures["empire_diffuse"] = lostEmpire;
