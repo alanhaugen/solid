@@ -133,6 +133,12 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
         //barrier the image into the shader readable layout
         vkCmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &imageBarrier_toReadable);
     });
+
+    VkImageViewCreateInfo imageinfo = {};//vkinit::imageview_create_info(VK_FORMAT_R8G8B8A8_SRGB, lostEmpire.image._image, VK_IMAGE_ASPECT_COLOR_BIT);
+    vkCreateImageView(device, &imageinfo, nullptr, &imageView);
+
+    //_loadedTextures["empire_diffuse"] = lostEmpire;
+
 }
 
 VulkanTexture::VulkanTexture(String front, String back, String top, String bottom, String left, String right)

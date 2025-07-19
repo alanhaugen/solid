@@ -19,6 +19,8 @@ public:
 
     ~VulkanTexture();
 
+    VkImageView imageView;
+
 private:
     struct AllocatedImage {
         VkImage image;
