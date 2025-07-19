@@ -46,6 +46,7 @@ solid {
             "data/phong.frag",
             "data/phong.vert",
             "data/project.json",
+            "data/sheet.png",
             "data/simple.frag",
             "data/simple.vert",
             "data/solid.ico",

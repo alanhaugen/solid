@@ -76,7 +76,7 @@ void main ()
     coords.x = x;
     coords.y = y;
 
-    //final = texture(textureSampler, coords);
+    final = texture(textureSampler, coords);
 
     if (final.a < 0.9f)
         discard;

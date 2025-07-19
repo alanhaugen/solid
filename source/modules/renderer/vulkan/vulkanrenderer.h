@@ -71,6 +71,7 @@ private:
     VkImage image;
 
     VkDescriptorSet descriptor;
+    VkDescriptorSet textureDescriptor;
     AllocatedBuffer uniformBuffer;
 
     const std::vector<const char*> validationLayers;
@@ -155,6 +156,7 @@ private:
     // Descriptor Set Pool (to send uniforms to the GPU)
     VkDescriptorPool descriptorPool;
     VkDescriptorSetLayout setLayout;
+    VkDescriptorSetLayout singleTextureSetLayout;
 
 protected:
 public:

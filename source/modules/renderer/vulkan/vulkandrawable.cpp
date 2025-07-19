@@ -11,16 +11,13 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                VkDescriptorPool descriptorPool,
                                VkDescriptorSetLayout setLayout,
                                AllocatedBuffer uniformBuffer_,
-                               int offset_,
-                               VkDescriptorSet* mainDescriptor)
+                               int offset_)
 {
     // Set the Vulkan Memory Allocator (VMA)
     allocator = allocator_;
     device = device_;
     uniformBuffer = uniformBuffer_;
     offset = offset_;
-
-    descriptors[0] = mainDescriptor;
 
     if (textures.Size() != 0)
     {
