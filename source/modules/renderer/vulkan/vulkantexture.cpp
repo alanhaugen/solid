@@ -75,13 +75,11 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
     imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
     imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-    AllocatedImage newImage;
-
     VmaAllocationCreateInfo dimg_allocinfo = {};
     dimg_allocinfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
 
     //allocate and create the image
-    vmaCreateImage(allocator, &imageInfo, &dimg_allocinfo, &newImage.image, &newImage.allocation, nullptr);
+    vmaCreateImage(allocator, &imageInfo, &dimg_allocinfo, &textureImage.image, &textureImage.allocation, nullptr);
 
     stbi_image_free(img);
 
@@ -99,7 +97,7 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
 
         imageBarrier_toTransfer.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         imageBarrier_toTransfer.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        imageBarrier_toTransfer.image = newImage.image;
+        imageBarrier_toTransfer.image = textureImage.image;
         imageBarrier_toTransfer.subresourceRange = range;
 
         imageBarrier_toTransfer.srcAccessMask = 0;
@@ -120,7 +118,7 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
         copyRegion.imageExtent = imageExtent;
 
         //copy the buffer into the image
-        vkCmdCopyBufferToImage(cmd, stagingBuffer.buffer, newImage.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
+        vkCmdCopyBufferToImage(cmd, stagingBuffer.buffer, textureImage.image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
 
         VkImageMemoryBarrier imageBarrier_toReadable = imageBarrier_toTransfer;
 
@@ -134,14 +132,25 @@ VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice
         vkCmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &imageBarrier_toReadable);
     });
 
-    VkImageViewCreateInfo imageinfo = {};//vkinit::imageview_create_info(VK_FORMAT_R8G8B8A8_SRGB, lostEmpire.image._image, VK_IMAGE_ASPECT_COLOR_BIT);
+
+    VkImageViewCreateInfo imageinfo = {};
+    imageinfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+    imageinfo.image = textureImage.image;
+    imageinfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
     imageinfo.format = VK_FORMAT_R8G8B8A8_SRGB;
-    imageinfo.image = newImage.image;
-    imageinfo.flags = VK_IMAGE_ASPECT_COLOR_BIT;
+    imageinfo.components = {
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY
+    };
+    imageinfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    imageinfo.subresourceRange.baseMipLevel = 0;
+    imageinfo.subresourceRange.levelCount = 1;
+    imageinfo.subresourceRange.baseArrayLayer = 0;
+    imageinfo.subresourceRange.layerCount = 1;
+
     vkCreateImageView(device, &imageinfo, nullptr, &imageView);
-
-    //_loadedTextures["empire_diffuse"] = lostEmpire;
-
 }
 
 VulkanTexture::VulkanTexture(String front, String back, String top, String bottom, String left, String right)
@@ -170,6 +179,7 @@ void VulkanTexture::ReUpload(String filePath)
 
 VulkanTexture::~VulkanTexture()
 {
-    vkDestroyImage(device, textureImage, nullptr);
-    vkFreeMemory(device, textureImageMemory, nullptr);
+    vkDestroyImage(device, textureImage.image, nullptr);
+    //vkFreeMemory(device, textureImage.allocation, nullptr);
+    //vmaDestroyBuffer(allocator, uniformBuffer.buffer, textureImage.allocation);
 }

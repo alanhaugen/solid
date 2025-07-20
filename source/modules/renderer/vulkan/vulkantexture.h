@@ -27,8 +27,7 @@ private:
         VmaAllocation allocation;
     };
 
-    VkImage textureImage;
-    VkDeviceMemory textureImageMemory;
+    AllocatedImage textureImage;
 
     VkDevice device;
     VkPhysicalDevice physicalDevice;

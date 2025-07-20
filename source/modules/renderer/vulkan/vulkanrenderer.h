@@ -10,6 +10,8 @@
 #include "vulkanshader.h"
 #include "vk_mem_alloc.h"
 
+const std::vector<const char*> validationLayers;
+
 class VulkanRenderer : public Renderer::NullRenderer
 {
 private:
@@ -73,8 +75,6 @@ private:
     VkDescriptorSet descriptor;
     VkDescriptorSet textureDescriptor;
     AllocatedBuffer uniformBuffer;
-
-    const std::vector<const char*> validationLayers;
 
     uint32_t graphics_QueueFamilyIndex;
     uint32_t present_QueueFamilyIndex;

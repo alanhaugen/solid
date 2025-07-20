@@ -205,6 +205,7 @@ VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()
     glyphAttribute.format = VK_FORMAT_R8_SINT;
     glyphAttribute.offset = offsetof(Vertex, glyph);
 
+    // Glyph for text will be stored at Location 6
     description.attributes.push_back(positionAttribute);
     description.attributes.push_back(colorAttribute);
     description.attributes.push_back(normalAttribute);
