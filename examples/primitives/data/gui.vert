@@ -53,20 +53,20 @@ layout(location = 10) out vec4 vColourTint;
 #else
 smooth out vec2 vSmoothTexcoord;
 
-uniform vec2 pos;
-uniform float scaleX;
-uniform float scaleY;
-uniform float width;
-uniform float height;
-uniform float totalWidth;
-uniform float totalHeight;
-uniform float index;
-uniform float screenWidth;
-uniform float screenHeight;
-uniform float flip;
-uniform float flipVertical;
-uniform float time;
-uniform vec4 colourTint;
+uniform vec2 i_pos;
+uniform vec4 i_scaleX;
+uniform vec4 i_scaleY;
+uniform vec4 i_width;
+uniform vec4 i_height;
+uniform vec4 i_totalWidth;
+uniform vec4 i_totalHeight;
+uniform vec4 i_index;
+uniform vec4 i_screenWidth;
+uniform vec4 i_screenHeight;
+uniform vec4 i_flip;
+uniform vec4 i_flipVertical;
+uniform vec4 i_time;
+uniform vec4 i_colourTint;
 //uniform vec2 rotation;
 
 out float vIndex;
@@ -83,6 +83,21 @@ out vec4 vColourTint;
 
 void main()
 {
+    float time = i_time.x;
+    float index = i_index.x;
+    vec2 pos = i_pos.xy;
+    float scaleX = i_scaleX.x;
+    float scaleY = i_scaleY.x;
+    float width = i_width.x;
+    float height = i_height.x;
+    float totalWidth = i_totalWidth.x;
+    float totalHeight = i_totalHeight.x;
+    float screenWidth = i_screenWidth.x;
+    float screenHeight = i_screenHeight.x;
+    float flip = i_flip.x;
+    float flipVertical = i_flipVertical.x;
+    vec4 colourTint = i_colourTint;
+
 #ifdef VULKAN
     vec4 colour = uniformBuffer.colour;
     mat4 MVP = uniformBuffer.MVP;

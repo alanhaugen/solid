@@ -29,9 +29,9 @@ void Primitives::Init()
 {
     red   = new Cube(-2.0f, 0.0f, -10.0f);
     green = new Cube(2.0f, 0.0f, -10.0f);
-    blue  = new Cube(0.0f, -2.5f, -10.0f, 1, 1, 1, "data/sheet.png");
+    blue  = new Cube(0.0f, -2.5f, -10.0f);
 
-    red->drawable->uniforms.colour   = glm::vec4(1, 0.1, 0.1, 1);
+    red->drawable->uniforms.colour   = glm::vec4(0.1, 0.1, 0.1, 1);
     green->drawable->uniforms.colour = glm::vec4(0, 1, 0, 1);
     blue->drawable->uniforms.colour  = glm::vec4(0, 0, 1, 1);
 
@@ -49,9 +49,9 @@ void Primitives::Init()
 
 void Primitives::Update(float dt)
 {
-    red->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
-    green->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
-    blue->matrix.Rotate(0.01f * dt, glm::vec3(1.0f, 1.0f, 1.0f));
+    red->matrix.Rotate(0.01f, glm::vec3(1.0f, 1.0f, 1.0f));
+    green->matrix.Rotate(0.01f, glm::vec3(1.0f, 1.0f, 1.0f));
+    blue->matrix.Rotate(0.01f, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void Primitives::UpdateAfterPhysics()

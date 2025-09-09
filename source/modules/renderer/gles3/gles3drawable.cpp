@@ -153,6 +153,20 @@ void GLES3Drawable::Activate(const glm::mat4& projViewMatrix)
     Uniform("frame", static_cast<glm::uint>(frame));
     Uniform("verticesQuantity", static_cast<glm::uint>(verticesPerFrameQuantity));
     Uniform("colour", static_cast<glm::vec4>(uniforms.colour));
+    Uniform("i_time", static_cast<glm::vec4>(0.0f));
+    Uniform("i_index", static_cast<glm::vec4>(uniforms.index));
+    Uniform("i_pos", static_cast<glm::vec4>(uniforms.pos));
+    Uniform("i_scaleX", static_cast<glm::vec4>(uniforms.scaleX));
+    Uniform("i_scaleY", static_cast<glm::vec4>(uniforms.scaleY));
+    Uniform("i_width", static_cast<glm::vec4>(uniforms.width));
+    Uniform("i_height", static_cast<glm::vec4>(uniforms.height));
+    Uniform("i_totalWidth", static_cast<glm::vec4>(uniforms.totalWidth));
+    Uniform("i_totalHeight", static_cast<glm::vec4>(uniforms.totalHeight));
+    Uniform("i_screenWidth", static_cast<glm::vec4>(uniforms.screenWidth));
+    Uniform("i_screenHeight", static_cast<glm::vec4>(uniforms.screenHeight));
+    Uniform("i_flip", static_cast<glm::vec4>(uniforms.flip));
+    Uniform("i_flipVertical", static_cast<glm::vec4>(uniforms.flipVertical));
+    Uniform("i_colourTint", static_cast<glm::vec4>(uniforms.colourTint));
 
     if (animatedMatrices != NULL)
     {
