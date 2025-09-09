@@ -4,6 +4,7 @@
 #include <core/components/camera.h>
 #include <core/components/mesh.h>
 #include <core/components/fpscamera.h>
+#include <core/components/background.h>
 
 class Primitives : public IScene
 {
@@ -31,7 +32,7 @@ void Primitives::Init()
     green = new Cube(2.0f, 0.0f, -10.0f);
     blue  = new Cube(0.0f, -2.5f, -10.0f);
 
-    red->drawable->uniforms.colour   = glm::vec4(0.1, 0.1, 0.1, 1);
+    red->drawable->uniforms.colour   = glm::vec4(1, 0, 0, 1);
     green->drawable->uniforms.colour = glm::vec4(0, 1, 0, 1);
     blue->drawable->uniforms.colour  = glm::vec4(0, 0, 1, 1);
 
@@ -43,6 +44,7 @@ void Primitives::Init()
     components.Add(green);
     components.Add(blue);
     components.Add(monkey);
+//    components.Add(new Background(glm::vec3(1.0f), cam)); // white bg
     components.Add(new Text("Solid Game Engine"));
     components.Add(new FPSCamera(cam));
 }
