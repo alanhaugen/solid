@@ -152,7 +152,7 @@ void GLES3Drawable::Activate(const glm::mat4& projViewMatrix)
     Uniform("MVP", static_cast<glm::mat4&>(mvp));
     Uniform("frame", static_cast<glm::uint>(frame));
     Uniform("verticesQuantity", static_cast<glm::uint>(verticesPerFrameQuantity));
-    Uniform("colour", static_cast<glm::float32>(uniforms.colour.x));
+    Uniform("colour", static_cast<glm::vec4>(uniforms.colour));
 
     if (animatedMatrices != NULL)
     {
