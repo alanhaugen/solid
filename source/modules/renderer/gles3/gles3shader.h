@@ -1,5 +1,5 @@
-#ifndef GLES2SHADER_H
-#define GLES2SHADER_H
+#ifndef GLES3SHADER_H
+#define GLES3SHADER_H
 
 #include <glad/gl.h>
 #include "core/x-platform/locator.h"
@@ -7,11 +7,11 @@
 #include "core/containers/hash.h"
 #include "modules/renderer/drawable.h"
 
-class GLES2Shader
+class GLES3Shader
 {
 public:
-    GLES2Shader();
-    ~GLES2Shader();
+    GLES3Shader();
+    ~GLES3Shader();
 
     unsigned int program;
     bool isCompiled;
@@ -25,4 +25,4 @@ private:
     Array<GLuint> shaders;
 };
 
-#endif // GLES2SHADER_H
+#endif // GLES3SHADER_H

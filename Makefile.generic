@@ -64,8 +64,8 @@ ifeq ($(PHYSICS),Physics::BouncePhysics)
     DEPS += bouncephysics  
 endif
 
-ifeq ($(RENDERER),GLES2Renderer)
-    LIBS += -lgles2renderer
+ifeq ($(RENDERER),GLES3Renderer)
+    LIBS += -lgles3renderer
     DEPS += gles3renderer  
     RENDERER_HEADER ?= "modules/renderer/gles3/gles3renderer.h"
 endif
@@ -79,7 +79,7 @@ endif
     CFLAGS += -DUSE_VULKAN
 endif
 ifeq ($(RENDERER),SoftwareRenderer)
-    LIBS += -lgles2renderer -lsoftwarerenderer
+    LIBS += -lgles3renderer -lsoftwarerenderer
 endif
 
 ifeq ($(FILESYSTEM),ZlibFileSystem)

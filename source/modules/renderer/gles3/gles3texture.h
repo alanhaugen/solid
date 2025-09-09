@@ -1,5 +1,5 @@
-#ifndef GLES2TEXTURE_H
-#define GLES2TEXTURE_H
+#ifndef GLES3TEXTURE_H
+#define GLES3TEXTURE_H
 
 #include <glad/gl.h>
 #include "modules/renderer/texture.h"
@@ -8,12 +8,12 @@
 
 const int STANDARD = 0;
 
-class GLES2Texture : public ITexture
+class GLES3Texture : public ITexture
 {
 public:
-    GLES2Texture();
-    GLES2Texture(String filename);
-    GLES2Texture(String front, String back, String top, String bottom, String left, String right);
+    GLES3Texture();
+    GLES3Texture(String filename);
+    GLES3Texture(String front, String back, String top, String bottom, String left, String right);
 
     virtual U8 At(unsigned int x, unsigned int y, U8 data);
     virtual U8 At(unsigned int index, U8 data);
@@ -25,7 +25,7 @@ public:
 
     void Activate();
 
-    ~GLES2Texture();
+    ~GLES3Texture();
 
     GLuint textureID;
 
@@ -34,4 +34,4 @@ private:
     int bitDepth;
 };
 
-#endif // GLES2TEXTURE_H
+#endif // GLES3TEXTURE_H

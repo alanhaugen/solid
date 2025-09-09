@@ -5,10 +5,8 @@
 
 class Text : public Sprite
 {
-private:
-    String text;
-
 public:
+    String text;
     Text(String text_,
          const float x_ = 0.0f,
          const float y_ = 50.0f,

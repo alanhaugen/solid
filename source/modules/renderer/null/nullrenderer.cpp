@@ -53,7 +53,8 @@ void Renderer::NullRenderer::Windowed()
     fullscreen = false;
 }
 
-IDrawable *Renderer::NullRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+IDrawable *Renderer::NullRenderer::CreateDrawable(
+        Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
         Array<ITexture *> textures,

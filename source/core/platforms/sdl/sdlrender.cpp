@@ -137,7 +137,7 @@ bool SDLRender::Init(bool fullscreen, const char *windowTitle, const unsigned in
 
 void SDLRender::PreRender()
 {
-#ifndef USE_VULKAN
+/*#ifndef USE_VULKAN
 #ifdef __APPLE__
     GLint                       sync = 0;
     CGLContextObj               ctx = CGLGetCurrentContext();
@@ -145,7 +145,7 @@ void SDLRender::PreRender()
     CGLSetParameter(ctx, kCGLCPSwapInterval, &sync);
 #endif
 #endif
-}
+*/}
 
 void SDLRender::PostRender()
 {

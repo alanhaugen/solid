@@ -2,14 +2,14 @@
 #include "core/x-platform/typedefs.h"
 #include <glm/gtc/type_ptr.hpp>
 
-GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
+GLES3Drawable::GLES3Drawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
-        GLES2Shader *shader_,
+        GLES3Shader *shader_,
         Array<ITexture *> &textures_)
 {
     for (unsigned int i = 0; i < textures_.Size(); i++)
     {
-        GLES2Texture *gles2texture = dynamic_cast<GLES2Texture *>(textures_[i]);
+        GLES3Texture *gles2texture = dynamic_cast<GLES3Texture *>(textures_[i]);
 
         textures.Add(gles2texture);
     }
@@ -125,14 +125,14 @@ GLES2Drawable::GLES2Drawable(Array<IDrawable::Vertex> &vertices,
     shader = shader_;
 }
 
-GLES2Drawable::~GLES2Drawable()
+GLES3Drawable::~GLES3Drawable()
 {
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ibo);
 }
 
-void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
+void GLES3Drawable::Activate(const glm::mat4& projViewMatrix)
 {
     glUseProgram(shader->program);
 
@@ -152,7 +152,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
     Uniform("MVP", static_cast<glm::mat4&>(mvp));
     Uniform("frame", static_cast<glm::uint>(frame));
     Uniform("verticesQuantity", static_cast<glm::uint>(verticesPerFrameQuantity));
-    Uniform("color", static_cast<glm::float>(block.colour));
+    Uniform("colour", static_cast<glm::float32>(uniforms.colour.x));
 
     if (animatedMatrices != NULL)
     {
@@ -169,7 +169,7 @@ void GLES2Drawable::Activate(const glm::mat4& projViewMatrix)
     }
 }
 
-void GLES2Drawable::DeActivate()
+void GLES3Drawable::DeActivate()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -178,18 +178,18 @@ void GLES2Drawable::DeActivate()
     glUseProgram(0);
 }
 
-/*void GLES2Drawable::UploadBuffer(datatype, elements, data, offset)
+/*void GLES3Drawable::UploadBuffer(datatype, elements, data, offset)
 {
     glEnableVertexAttribArray(index);
     glVertexAttribPointer(index, elements, datatype, GL_FALSE, sizeof(Vertex), (void*)offsetof(data, offset));
     index++;
 }*/
 
-int GLES2Drawable::GetUniform(String location)
+int GLES3Drawable::GetUniform(String location)
 {
     int uniformLocation;
 
-    if (uniforms.Find(location) == NULL)
+    /*if (uniforms.Find(location) == NULL)
     {
         uniformLocation = glGetUniformLocation(shader->program, location.ToChar());
         uniforms.Insert(location, uniformLocation);
@@ -197,172 +197,173 @@ int GLES2Drawable::GetUniform(String location)
     else
     {
         uniformLocation = uniforms.Find(location)->data_;
-    }
+    }*/
 
+    uniformLocation = glGetUniformLocation(shader->program, location.ToChar());
     return uniformLocation;
 }
 
-void GLES2Drawable::Uniform(String location, glm::f32 uniform)
+void GLES3Drawable::Uniform(String location, glm::f32 uniform)
 {
     glUniform1f(GetUniform(location), uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec2 uniform)
+void GLES3Drawable::Uniform(String location, glm::vec2 uniform)
 {
     glUniform2f(GetUniform(location), uniform.x, uniform.y);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec3 uniform)
+void GLES3Drawable::Uniform(String location, glm::vec3 uniform)
 {
     glUniform3f(GetUniform(location), uniform.x, uniform.y, uniform.z);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec4 uniform)
+void GLES3Drawable::Uniform(String location, glm::vec4 uniform)
 {
     glUniform4f(GetUniform(location), uniform.x, uniform.y, uniform.z, uniform.w);
 }
 
-void GLES2Drawable::Uniform(String location, glm::int32 uniform)
+void GLES3Drawable::Uniform(String location, glm::int32 uniform)
 {
     glUniform1i(GetUniform(location), uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec2 uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec2 uniform)
 {
     glUniform2i(GetUniform(location), uniform.x, uniform.y);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec3 uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec3 uniform)
 {
     glUniform3i(GetUniform(location), uniform.x, uniform.y, uniform.z);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec4 uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec4 uniform)
 {
     glUniform4i(GetUniform(location), uniform.x, uniform.y, uniform.z, uniform.w);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uint uniform)
+void GLES3Drawable::Uniform(String location, glm::uint uniform)
 {
     glUniform1ui(GetUniform(location), uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec2 uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec2 uniform)
 {
     glUniform2ui(GetUniform(location), uniform.x, uniform.y);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec3 uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec3 uniform)
 {
     glUniform3ui(GetUniform(location), uniform.x, uniform.y, uniform.z);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec4 uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec4 uniform)
 {
     glUniform4ui(GetUniform(location), uniform.x, uniform.y, uniform.z, uniform.w);
 }
 
-void GLES2Drawable::Uniform(String location, glm::f32 &uniform)
+void GLES3Drawable::Uniform(String location, glm::f32 &uniform)
 {
     glUniform1fv(GetUniform(location), 1, &uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::vec2 &uniform)
 {
     glUniform2fv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::vec3 &uniform)
 {
     glUniform3fv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::vec4 &uniform)
+void GLES3Drawable::Uniform(String location, glm::vec4 &uniform)
 {
     glUniform4fv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::int32 &uniform)
+void GLES3Drawable::Uniform(String location, glm::int32 &uniform)
 {
     glUniform1iv(GetUniform(location), 1, &uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec2 &uniform)
 {
     glUniform2iv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec3 &uniform)
 {
     glUniform3iv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::ivec4 &uniform)
+void GLES3Drawable::Uniform(String location, glm::ivec4 &uniform)
 {
     glUniform4iv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uint &uniform)
+void GLES3Drawable::Uniform(String location, glm::uint &uniform)
 {
     glUniform1uiv(GetUniform(location), 1, &uniform);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec2 &uniform)
 {
     glUniform2uiv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec3 &uniform)
 {
     glUniform3uiv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::uvec4 &uniform)
+void GLES3Drawable::Uniform(String location, glm::uvec4 &uniform)
 {
     glUniform4uiv(GetUniform(location), 1, &uniform[0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat2 &uniform)
 {
     glUniformMatrix2fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat3 &uniform)
 {
     glUniformMatrix3fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat4 &uniform, int arraySize)
+void GLES3Drawable::Uniform(String location, glm::mat4 &uniform, int arraySize)
 {
     glUniformMatrix4fv(GetUniform(location), arraySize, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat2x3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat2x3 &uniform)
 {
     glUniformMatrix4fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat3x2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat3x2 &uniform)
 {
     glUniformMatrix3x2fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat2x4 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat2x4 &uniform)
 {
     glUniformMatrix2x4fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat4x2 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat4x2 &uniform)
 {
     glUniformMatrix4x2fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat3x4 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat3x4 &uniform)
 {
     glUniformMatrix3x4fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }
 
-void GLES2Drawable::Uniform(String location, glm::mat4x3 &uniform)
+void GLES3Drawable::Uniform(String location, glm::mat4x3 &uniform)
 {
     glUniformMatrix4x3fv(GetUniform(location), 1, GL_FALSE, &uniform[0][0]);
 }

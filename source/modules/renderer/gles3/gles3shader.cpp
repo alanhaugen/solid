@@ -1,6 +1,6 @@
 #include "gles3shader.h"
 
-GLES2Shader::GLES2Shader() :
+GLES3Shader::GLES3Shader() :
       shaders(2)
 {
     shaders[VERTEX_SHADER]   = 0;
@@ -8,12 +8,12 @@ GLES2Shader::GLES2Shader() :
     isCompiled = false;
 }
 
-GLES2Shader::~GLES2Shader()
+GLES3Shader::~GLES3Shader()
 {
     glDeleteProgram(program);
 }
 
-void GLES2Shader::Compile()
+void GLES3Shader::Compile()
 {
     // Attach shaders to the shader program
     if (isCompiled)
@@ -62,7 +62,7 @@ void GLES2Shader::Compile()
     isCompiled = true;
 }
 
-bool GLES2Shader::LoadGLSL(GLenum type, const char *source)
+bool GLES3Shader::LoadGLSL(GLenum type, const char *source)
 {
     GLuint shader = glCreateShader(type);
 

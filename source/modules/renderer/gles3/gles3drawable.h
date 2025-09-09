@@ -1,5 +1,5 @@
-#ifndef GLES2DRAWABLE_H
-#define GLES2DRAWABLE_H
+#ifndef GLES3DRAWABLE_H
+#define GLES3DRAWABLE_H
 
 #define _USE_MATH_DEFINES
 #include "glm/glm.hpp"
@@ -12,23 +12,23 @@
 #include <cstddef> // offsetof macro
 #include "modules/renderer/null/nulldrawable.h"
 
-class GLES2Drawable : public NullDrawable
+class GLES3Drawable : public NullDrawable
 {
 private:
     int GetUniform(String location);
 
 public:
-    GLES2Drawable(Array<IDrawable::Vertex> &vertices,
+    GLES3Drawable(Array<IDrawable::Vertex> &vertices,
             Array<unsigned int> &indices,
-            GLES2Shader* shader_,
+            GLES3Shader* shader_,
             Array<ITexture *> &textures);
-    ~GLES2Drawable();
+    ~GLES3Drawable();
 
     void Activate(const glm::mat4 &projViewMatrix);
     void DeActivate();
 
-    GLES2Shader* shader;
-    Array<GLES2Texture *> textures;
+    GLES3Shader* shader;
+    Array<GLES3Texture *> textures;
 
     GLuint vao, vbo, ibo;
     GLsizei indicesQuantity;
@@ -69,4 +69,4 @@ public:
     void Uniform(String location, glm::mat4x3 &uniform);
 };
 
-#endif // GLES2DRAWABLE_H
+#endif // GLES3DRAWABLE_H

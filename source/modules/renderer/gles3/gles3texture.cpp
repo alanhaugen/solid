@@ -6,14 +6,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "3rdparty/stb_image.h"
 
-GLES2Texture::GLES2Texture()
+GLES3Texture::GLES3Texture()
     : textureID(0u)
     , bitDepth(0)
 {
     glGenTextures(1, &textureID); // number of texture names, texture name array
 }
 
-GLES2Texture::GLES2Texture(String filePath)
+GLES3Texture::GLES3Texture(String filePath)
     :
       textureID(0u),
       bitDepth(0)
@@ -24,7 +24,7 @@ GLES2Texture::GLES2Texture(String filePath)
     Load();
 }
 
-GLES2Texture::GLES2Texture(String front, String back, String top, String bottom, String left, String right)
+GLES3Texture::GLES3Texture(String front, String back, String top, String bottom, String left, String right)
 {
     name = front;
 
@@ -36,27 +36,27 @@ GLES2Texture::GLES2Texture(String front, String back, String top, String bottom,
     Load(right, CUBEMAP, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
 }
 
-U8 GLES2Texture::At(unsigned int x, unsigned int y, U8 data)
+U8 GLES3Texture::At(unsigned int x, unsigned int y, U8 data)
 {
     return 0;
 }
 
-U8 GLES2Texture::At(unsigned int index, U8 data)
+U8 GLES3Texture::At(unsigned int index, U8 data)
 {
     return 0;
 }
 
-void GLES2Texture::ReUpload()
+void GLES3Texture::ReUpload()
 {
 
 }
 
-void GLES2Texture::ReUpload(String filePath)
+void GLES3Texture::ReUpload(String filePath)
 {
     name = filePath;
 }
 
-void GLES2Texture::Load(String path, int type, GLenum sideTarget)
+void GLES3Texture::Load(String path, int type, GLenum sideTarget)
 {
     IFile *file;
 
@@ -139,7 +139,7 @@ void GLES2Texture::Load(String path, int type, GLenum sideTarget)
     stbi_image_free(img);
 }
 
-void GLES2Texture::Activate()
+void GLES3Texture::Activate()
 {
     // TODO: Add multitexture support (GL_TEXTURE1 etc?)
     if (textureID != 0u)
@@ -149,7 +149,7 @@ void GLES2Texture::Activate()
     }
 }
 
-GLES2Texture::~GLES2Texture()
+GLES3Texture::~GLES3Texture()
 {
     glDeleteTextures(1, &textureID);
 }

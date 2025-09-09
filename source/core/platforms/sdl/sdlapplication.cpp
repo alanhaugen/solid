@@ -1,6 +1,8 @@
 #include "sdlapplication.h"
 #include "core/x-platform/splash.h"
 
+#define FIXED_TIMESTEP 1
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif

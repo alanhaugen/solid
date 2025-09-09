@@ -1,5 +1,5 @@
-#ifndef GLES2RENDERER_H
-#define GLES2RENDERER_H
+#ifndef GLES3RENDERER_H
+#define GLES3RENDERER_H
 
 //namespace Renderer
 //{
@@ -11,20 +11,20 @@
 #include "core/containers/array.h"
 #include "gles3drawable.h"
 
-class GLES2Renderer : public Renderer::NullRenderer
+class GLES3Renderer : public Renderer::NullRenderer
 {
 protected:
     void GetError();
 
 private:
-    LinkedList<GLES2Drawable*> drawables;
-    Array<GLES2Texture*> textures;
+    LinkedList<GLES3Drawable*> drawables;
+    Array<GLES3Texture*> textures;
     Array<ILight*> lights;
-    LinkedList<GLES2Shader*> shaders;
+    LinkedList<GLES3Shader*> shaders;
 
     void renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize);
 
-    GLES2Texture *FindTexture(String texturePath);
+    GLES3Texture *FindTexture(String texturePath);
 
 public:
     virtual bool Init(bool fullscreen, const char *windowTitle, const unsigned int windowLength, const unsigned int windowHeight);
@@ -49,14 +49,14 @@ public:
     ITexture* CreateTexture(int width, int height);
     void RemoveTexture(ITexture* texture);
 
-    GLES2Shader *CreateShader(Array<String> &shaders);
+    GLES3Shader *CreateShader(Array<String> &shaders);
 
     void ClearDrawables();
     void ClearTextures();
 
-    ~GLES2Renderer();
+    ~GLES3Renderer();
 };
 
 //}
 
-#endif // GLES2RENDERER_H
+#endif // GLES3RENDERER_H

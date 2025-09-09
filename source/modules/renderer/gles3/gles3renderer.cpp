@@ -4,7 +4,7 @@
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include "stbi_image_write.h" // TODO: remove, hack
 
-bool GLES2Renderer::Init(
+bool GLES3Renderer::Init(
         bool fullscreen_,
         const char *windowTitle,
         const unsigned int windowLength,
@@ -29,14 +29,14 @@ bool GLES2Renderer::Init(
     return true;
 }
 
-void GLES2Renderer::DrawDebugText(float x, float y, const char* str)
+void GLES3Renderer::DrawDebugText(float x, float y, const char* str)
 {
     UNUSED(x);
     UNUSED(y);
     UNUSED(str);
 }
 
-void GLES2Renderer::Resize(int width, int height)
+void GLES3Renderer::Resize(int width, int height)
 {
     //Log(String("HW Window Resize Event to " + String(width)+"x"+String(height)));
     // windowWidth  = width;
@@ -50,7 +50,7 @@ void GLES2Renderer::Resize(int width, int height)
     globalScaleHeight = windowHeight / height;
 }
 
-void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize)
+void GLES3Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOffset, glm::vec2 viewSize)
 {
     //glScissor(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y); // TODO: Readd
     //glViewport(viewOffset.x, viewOffset.y, viewSize.x, viewSize.y);
@@ -63,11 +63,11 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
     // TODO: Test if it is better to sort by shader... although, simplicity usually does the trick
     //for(unsigned drawable = 0; drawable < drawables.Size(); drawable++)
     //{
-    LinkedList<GLES2Drawable*>::Iterator drawable = drawables.Begin();
+    LinkedList<GLES3Drawable*>::Iterator drawable = drawables.Begin();
 
     for (; drawable != NULL; ++drawable)
     {
-        GLES2Drawable *gles2drawable = (*drawable);
+        GLES3Drawable *gles2drawable = (*drawable);
 
         if (gles2drawable->draw)
         {
@@ -133,7 +133,7 @@ void GLES2Renderer::renderView(const glm::mat4& projViewMatrix, glm::vec2 viewOf
     }
 }
 
-void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
+void GLES3Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Array<glm::vec4>& viewBoundsArray)
 {
     PreRender();
 
@@ -172,15 +172,15 @@ void GLES2Renderer::Render(const Array<glm::mat4>& projViewMatrixArray, const Ar
     PostRender();
 }
 
-IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+IDrawable *GLES3Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         Array<unsigned int> &indices,
         Array<String> &shaders,
         Array<ITexture *> textures,
         int topology)
 {
-    GLES2Shader* shader = CreateShader(shaders);
+    GLES3Shader* shader = CreateShader(shaders);
 
-    GLES2Drawable *drawable = new GLES2Drawable(vertices, indices, shader, textures);
+    GLES3Drawable *drawable = new GLES3Drawable(vertices, indices, shader, textures);
 
     drawable->type = topology;
 
@@ -189,7 +189,7 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     return drawable;
 }
 
-IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
+IDrawable *GLES3Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                          Array<unsigned int> &indices,
                                          Array<String> &shaders,
                                          ITexture *texture,
@@ -202,9 +202,9 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
         textures.Add(texture);
     }
 
-    GLES2Shader* shader = CreateShader(shaders);
+    GLES3Shader* shader = CreateShader(shaders);
 
-    GLES2Drawable* drawable = new GLES2Drawable(vertices, indices, shader, textures);
+    GLES3Drawable* drawable = new GLES3Drawable(vertices, indices, shader, textures);
 
     drawable->type = topology;
 
@@ -213,13 +213,13 @@ IDrawable *GLES2Renderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
     return drawable;
 }
 
-void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
+void GLES3Renderer::RemoveDrawable(IDrawable *drawable)
 {
-    LinkedList<GLES2Drawable*>::Iterator drawableIterator = drawables.Begin();
+    LinkedList<GLES3Drawable*>::Iterator drawableIterator = drawables.Begin();
 
     for (int i = 0; drawableIterator != drawables.End(); ++drawableIterator)
     {
-        GLES2Drawable *gles2drawable = (*drawableIterator);
+        GLES3Drawable *gles2drawable = (*drawableIterator);
         if (gles2drawable == drawable)
         {
             drawables.RemoveAt(i);
@@ -231,7 +231,7 @@ void GLES2Renderer::RemoveDrawable(IDrawable *drawable)
     }
 }
 
-GLES2Texture *GLES2Renderer::FindTexture(String texturePath)
+GLES3Texture *GLES3Renderer::FindTexture(String texturePath)
 {
     for (unsigned int i = 0; i < textures.Size(); i++)
     {
@@ -244,18 +244,18 @@ GLES2Texture *GLES2Renderer::FindTexture(String texturePath)
     return NULL;
 }
 
-ITexture *GLES2Renderer::CreateTexture(int width, int height)
+ITexture *GLES3Renderer::CreateTexture(int width, int height)
 {
     return NULL;
 }
 
-ITexture *GLES2Renderer::CreateTexture(String filename)
+ITexture *GLES3Renderer::CreateTexture(String filename)
 {
-    GLES2Texture *texture = FindTexture(filename);
+    GLES3Texture *texture = FindTexture(filename);
 
     if (texture == NULL)
     {
-        texture = new GLES2Texture(filename);
+        texture = new GLES3Texture(filename);
 
         textures.Add(texture);
     }
@@ -263,13 +263,13 @@ ITexture *GLES2Renderer::CreateTexture(String filename)
     return texture;
 }
 
-ITexture *GLES2Renderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
+ITexture *GLES3Renderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
-    GLES2Texture *texture = FindTexture(front);
+    GLES3Texture *texture = FindTexture(front);
 
     if (texture == NULL)
     {
-        texture = new GLES2Texture(front, back, top, bottom, left, right);
+        texture = new GLES3Texture(front, back, top, bottom, left, right);
 
         textures.Add(texture);
     }
@@ -277,20 +277,20 @@ ITexture *GLES2Renderer::CreateTexture(String front, String back, String top, St
     return texture;
 }
 
-void GLES2Renderer::RemoveTexture(ITexture *texture)
+void GLES3Renderer::RemoveTexture(ITexture *texture)
 {
 
 }
 
-GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
+GLES3Shader* GLES3Renderer::CreateShader(Array<String> &shadersInput)
 {
-    GLES2Shader* shader;
+    GLES3Shader* shader;
     String shaderName = shadersInput[VERTEX_SHADER] + shadersInput[FRAGMENT_SHADER];
 
     // See if shader is already created before
     if (shaders.Empty() == false)
     {
-        LinkedList<GLES2Shader*>::Iterator iterator = shaders.Begin();
+        LinkedList<GLES3Shader*>::Iterator iterator = shaders.Begin();
 
         for (; iterator.curNode != NULL; ++iterator)
         {
@@ -302,7 +302,7 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     }
 
     // Create a new shader
-    shader = new GLES2Shader();
+    shader = new GLES3Shader();
 
     Array<String> shaderText(2);
 
@@ -326,20 +326,20 @@ GLES2Shader* GLES2Renderer::CreateShader(Array<String> &shadersInput)
     return shader;
 }
 
-void GLES2Renderer::ClearDrawables()
+void GLES3Renderer::ClearDrawables()
 {
-    /*LinkedList<GLES2Drawable*>::Iterator drawable = drawables.Begin();
+    /*LinkedList<GLES3Drawable*>::Iterator drawable = drawables.Begin();
 
     for (int i = 0; drawable != drawables.End(); ++drawable)
     {
-        GLES2Drawable *gles2drawable = (*drawable);
+        GLES3Drawable *gles2drawable = (*drawable);
         drawables.RemoveAt(i);
         delete gles2drawable;
         i++;
     }*/
 }
 
-void GLES2Renderer::ClearTextures()
+void GLES3Renderer::ClearTextures()
 {
     for (unsigned i = 0; i < textures.Size(); i++)
     {
@@ -348,7 +348,7 @@ void GLES2Renderer::ClearTextures()
     }
 }
 
-void GLES2Renderer::GetError()
+void GLES3Renderer::GetError()
 {
     //! https://www.khronos.org/opengl/wiki/OpenGL_Error
     switch(glGetError())
@@ -417,7 +417,7 @@ void GLES2Renderer::GetError()
     }
 }
 
-GLES2Renderer::~GLES2Renderer()
+GLES3Renderer::~GLES3Renderer()
 {
     ClearDrawables();
     ClearTextures();

@@ -18,6 +18,9 @@ ifeq ($(PROCESSOR_ARCH),arm64)
     LIBS += -framework CoreHaptics -framework MediaPlayer -framework GameController
 endif
 
+ifeq ($(RENDERER),GLES3Renderer)
+    LIBS += -framework OpenGL 
+endif
 ifeq ($(RENDERER),GLES2Renderer)
     LIBS += -framework OpenGL 
 endif
