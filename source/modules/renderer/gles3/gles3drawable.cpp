@@ -153,7 +153,7 @@ void GLES3Drawable::Activate(const glm::mat4& projViewMatrix)
     Uniform("frame", static_cast<glm::uint>(frame));
     Uniform("verticesQuantity", static_cast<glm::uint>(verticesPerFrameQuantity));
     Uniform("colour", static_cast<glm::vec4>(uniforms.colour));
-    Uniform("i_time", static_cast<glm::vec4>(0.0f));
+    Uniform("i_time", static_cast<glm::vec4>(uniforms.time.x));
     Uniform("i_index", static_cast<glm::vec4>(uniforms.index));
     Uniform("i_pos", static_cast<glm::vec4>(uniforms.pos));
     Uniform("i_scaleX", static_cast<glm::vec4>(uniforms.scaleX));

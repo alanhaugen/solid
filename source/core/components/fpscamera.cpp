@@ -3,7 +3,7 @@
 FPSCamera::FPSCamera(Camera *_camera)
 {
     camera = _camera;
-    speed = 1.0;
+    speed = 0.2;
 }
 
 void FPSCamera::UpdateAfterPhysics()

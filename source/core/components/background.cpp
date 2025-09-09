@@ -198,8 +198,8 @@ Background::Background(String texturePath, Camera *camera)
     shaders.Insert("data/bg.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
-    //drawable->hasDepth    = false; // Don't render as 3D
-    //drawable->sendToFront = false; // Render behind everything else
+    drawable->hasDepth    = false; // Don't render as 3D
+    drawable->sendToFront = false; // Render behind everything else
 
     matrix.Scale(glm::vec3(10.0f));
 }
@@ -242,12 +242,12 @@ void Background::Update()
         //Uniform("scrollY", static_cast<float>(scrollY += scrollSpeed));
     }
 
-    drawable->uniforms.time[0] = Application::time->TimeSinceStarted();
+    //drawable->uniforms.time[0] = Application::time->TimeSinceStarted();
+    drawable->uniforms.time[0] = 20.0f;
 
     // Note: hacky solution. We setup the uniforms and submatrix here
     //drawable->uniformData = uniforms;
     //drawable->matrix = matrix.subMatrix * matrix.matrix;
-
     renderer->Draw(drawable);
 }
 
@@ -255,7 +255,7 @@ void Background::UpdateAfterPhysics()
 {
     if (activeCamera)
     {
-        matrix.matrix[3] = glm::vec4(activeCamera->position, 1);
+        drawable->matrix[3] = glm::vec4(activeCamera->position, 1.0f);
         //drawable->matrix = matrix.subMatrix * matrix.matrix;
     }
 }

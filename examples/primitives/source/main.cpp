@@ -29,7 +29,9 @@ Primitives::Primitives()
 void Primitives::Init()
 {
     red   = new Cube(-2.0f, 0.0f, -10.0f);
-    green = new Cube(2.0f, 0.0f, -10.0f);
+    green = new Cube(2.0f, 0.0f, -10.0f, 1, 1, 1, "", false, glm::vec4(),
+"data/bg.vert",
+"data/bg.frag");
     blue  = new Cube(0.0f, -2.5f, -10.0f);
 
     red->drawable->uniforms.colour   = glm::vec4(1, 0, 0, 1);
@@ -43,10 +45,10 @@ void Primitives::Init()
     components.Add(red);
     components.Add(green);
     components.Add(blue);
-    components.Add(monkey);
-//    components.Add(new Background(glm::vec3(1.0f), cam)); // white bg
+    //components.Add(monkey);
     components.Add(new Text("Solid Game Engine"));
     components.Add(new FPSCamera(cam));
+    components.Add(new Background(glm::vec3(1.0f), cam));
 }
 
 void Primitives::Update(float dt)

@@ -94,6 +94,7 @@ bool GLES3Shader::LoadGLSL(GLenum type, const char *source)
         glGetShaderInfoLog(shader, MAX_STRING_LENGTH, NULL, logg);
 
         LogError(logg);
+        Log(name);
 
         return false;
     }
