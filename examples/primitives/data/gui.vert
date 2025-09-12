@@ -83,6 +83,7 @@ out vec4 vColourTint;
 
 void main()
 {
+#ifndef VULKAN
     float time = i_time.x;
     float index = i_index.x;
     vec2 pos = i_pos.xy;
@@ -97,6 +98,7 @@ void main()
     float flip = i_flip.x;
     float flipVertical = i_flipVertical.x;
     vec4 colourTint = i_colourTint;
+#endif
 
 #ifdef VULKAN
     vec4 colour = uniformBuffer.colour;

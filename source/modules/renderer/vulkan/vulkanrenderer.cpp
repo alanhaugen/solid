@@ -946,7 +946,7 @@ VulkanRenderer::~VulkanRenderer()
     }
 
     // Destroy vma
-    vmaDestroyAllocator(allocator);
+    //vmaDestroyAllocator(allocator);
 
     // Clean up desciptor pool
     vkDestroyDescriptorPool(device, descriptorPool, nullptr);

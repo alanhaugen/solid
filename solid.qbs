@@ -81,7 +81,7 @@ Project {
     Product {
         name: "core"
         type: "staticlibrary"
-//        cpp.cxxLanguageVersion: "c++23"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "source/3rdparty/jsmn.cpp",
@@ -390,7 +390,7 @@ Project {
         name: "vulkanrenderer"
         type: "staticlibrary"
 
-//        cpp.cxxLanguageVersion: "c++23"
+        cpp.cxxLanguageVersion: "c++23"
 
         files: [
             "source/modules/renderer/vulkan/vk_mem_alloc.h",
