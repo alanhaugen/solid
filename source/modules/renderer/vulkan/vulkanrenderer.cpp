@@ -1,5 +1,4 @@
 #include "vulkanrenderer.h"
-#include "vulkantexture.h"
 #include <set>
 #include <fstream>
 
@@ -1043,7 +1042,6 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         (*drawable)->UploadUniformBufferBlock(projViewMatrixArray[0]);
 
         // TODO: Only bind pipeline and bind descriptor sets when the pipeline actually needs to change (per shader)
-        // Draw triangle
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
 
         // Bind descriptor set (shader uniforms)
@@ -1099,6 +1097,26 @@ size_t VulkanRenderer::PadUniformBufferSize(size_t originalSize)
     return alignedSize;
 }
 
+void VulkanRenderer::UploadTexturesToGPU()
+{
+    for (unsigned i = 0; i < textures.Size(); i++) //NumDescriptorsNonUniform; i++)
+    {
+        VkDescriptorImageInfo image_info = {};
+        image_info.sampler = VK_NULL_HANDLE;
+        image_info.imageView = textures[i]->imageView;
+        image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+        VkWriteDescriptorSet write = {};
+        write.dstSet = descriptor;
+        write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+        write.dstBinding = 0;
+        write.pImageInfo = &image_info;
+
+        write.dstArrayElement = i;
+        vkUpdateDescriptorSets(device, 1, &write, 0, nullptr);
+    }
+}
+
 ITexture *VulkanRenderer::CreateTexture(String filename)
 {
     VulkanTexture *texture = NULL;//; FindTexture(filename);
@@ -1107,8 +1125,10 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
     {
         texture = new VulkanTexture(filename, device, physicalDevice, allocator);
 
-        //textures.Add(texture);
+        textures.Add(texture);
     }
+
+    UploadTexturesToGPU();
 
     return texture;
 }
@@ -1121,8 +1141,10 @@ ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, S
     {
         texture = new VulkanTexture(front, back, top, bottom, left, right);
 
-        //textures.Add(texture);
+        textures.Add(texture);
     }
+
+    UploadTexturesToGPU();
 
     return texture;
 }
@@ -1480,7 +1502,8 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   uniformBuffer,
                                                   drawables.Size() + 1);
 
-    drawable->pipeline = CreateGraphicsPipeline(device, render_pass,
+    drawable->pipeline = CreateGraphicsPipeline(device,
+                                                render_pass,
                                                 shaders[FRAGMENT_SHADER], shaders[VERTEX_SHADER],
                                                 drawable,
                                                 topology);

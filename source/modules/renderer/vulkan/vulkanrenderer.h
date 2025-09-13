@@ -9,6 +9,7 @@
 #include "vulkandrawable.h"
 #include "vulkanshader.h"
 #include "vk_mem_alloc.h"
+#include "vulkantexture.h"
 
 const std::vector<const char*> validationLayers;
 
@@ -157,6 +158,10 @@ private:
     VkDescriptorPool descriptorPool;
     VkDescriptorSetLayout setLayout;
     //VkDescriptorSetLayout singleTextureSetLayout;
+
+    void UploadTexturesToGPU();
+
+    Array<VulkanTexture *> textures;
 
 protected:
 public:
