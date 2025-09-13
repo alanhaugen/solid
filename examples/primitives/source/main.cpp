@@ -14,6 +14,8 @@ private:
     Cube *blue;
     Mesh *monkey;
 
+
+
 public:
     Primitives();
 
@@ -28,13 +30,11 @@ Primitives::Primitives()
 
 void Primitives::Init()
 {
-    red   = new Cube(-2.0f, 0.0f, -10.0f, 1, 1, 1, "data/sheet.png");
-    green = new Cube(2.0f, 0.0f, -10.0f, 1, 1, 1, "data/sheet.png", false, glm::vec4(),
-"data/bg.vert",
-"data/bg.frag");
-    blue  = new Cube(0.0f, -2.5f, -10.0f, 1, 1, 1, "data/sheet.png");
+    red   = new Cube(-2.0f, 0.0f, -10.0f);
+    green = new Cube(2.0f, 0.0f, -10.0f);
+    blue  = new Cube(0.0f, -2.5f, -10.0f);
 
-    red->drawable->uniforms.colour   = glm::vec4(1, 0, 0, 1);
+    red->drawable->uniforms.colour   = glm::vec4(1, 0.3, 0.3, 1);
     green->drawable->uniforms.colour = glm::vec4(0, 1, 0, 1);
     blue->drawable->uniforms.colour  = glm::vec4(0, 0, 1, 1);
 
@@ -64,6 +64,7 @@ void Primitives::UpdateAfterPhysics()
 
 int main(int argc, char **argv)
 {
+
     Application application(argc, argv);
     application.AddScene(new Primitives());
 

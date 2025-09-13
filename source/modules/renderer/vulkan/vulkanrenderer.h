@@ -156,7 +156,7 @@ private:
     // Descriptor Set Pool (to send uniforms to the GPU)
     VkDescriptorPool descriptorPool;
     VkDescriptorSetLayout setLayout;
-    VkDescriptorSetLayout singleTextureSetLayout;
+    //VkDescriptorSetLayout singleTextureSetLayout;
 
 protected:
 public:

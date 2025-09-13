@@ -477,9 +477,10 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-    if (drawable->isTextured == false)
+    if (drawable->isTextured)
     {
-        pipelineLayoutInfo.pSetLayouts = &singleTextureSetLayout;
+        // Set texture
+        //drawable->
     }
 
     vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &drawable->pipelineLayout);
@@ -745,7 +746,7 @@ void VulkanRenderer::SetupDescriptionPool()
 
     VkDescriptorPoolCreateInfo pool_info = {};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-    pool_info.flags = 0;
+    pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_UPDATE_AFTER_BIND_BIT_EXT;
     pool_info.maxSets = 10;
     pool_info.poolSizeCount = (uint32_t)sizes.size();
     pool_info.pPoolSizes = sizes.data();
@@ -810,8 +811,8 @@ bool VulkanRenderer::CreateDevice()
     // Once we have the VkPhysicalDevice of the GPU we are going to use, we can create a VkDevice from it
     // Let us request the extension VK_KHR_SWAPCHAIN for backbuffer support
     const std::vector<const char*> deviceExtensions = {
-        VK_KHR_SWAPCHAIN_EXTENSION_NAME
-//        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
     };
 
     const float queue_priority[] = { 1.0f };
@@ -934,7 +935,7 @@ VulkanRenderer::~VulkanRenderer()
     vkDestroyShaderModule(device, triangleFragShader, nullptr);
 
     vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
-    vkDestroyDescriptorSetLayout(device, singleTextureSetLayout, nullptr);
+    //vkDestroyDescriptorSetLayout(device, singleTextureSetLayout, nullptr);
     vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
 
     // Clean up the drawables
@@ -946,7 +947,7 @@ VulkanRenderer::~VulkanRenderer()
     }
 
     // Destroy vma
-    //vmaDestroyAllocator(allocator);
+    //vmaDestroyAllocator(allocator); // FIXME: I get a segmentation error for some reason
 
     // Clean up desciptor pool
     vkDestroyDescriptorPool(device, descriptorPool, nullptr);
@@ -1295,17 +1296,34 @@ void VulkanRenderer::SetupDescriptorSets()
     // we use it from the vertex shader
     bufferBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
+    // We will try to have descriptor indexing
+    // This is because I can't figure out textures in Vulkan
+    // I think the descritor indexing extension makes more sense
+    // than the other ways of doing textures (one descriptor per texture??)
     VkDescriptorSetLayoutCreateInfo setinfo = {};
     setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    setinfo.pNext = nullptr;
+    setinfo.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT_EXT;
 
-    //we are going to have 1 binding
+    const VkDescriptorBindingFlagsEXT flags = VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT;
+        /*VK_DESCRIPTOR_BINDING_VARIABLE_DESCRIPTOR_COUNT_BIT_EXT |
+        VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT_EXT |
+        VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT |
+        VK_DESCRIPTOR_BINDING_UPDATE_UNUSED_WHILE_PENDING_BIT_EXT;*/
+
+    VkDescriptorSetLayoutBindingFlagsCreateInfoEXT binding_flags = {};
+    binding_flags.sType          = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO_EXT;
+    binding_flags.bindingCount   = 1;
+    binding_flags.pBindingFlags  = &flags;
+
+    // Set the binding flags above (for descriptor indexing: VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT)
+    setinfo.pNext = &binding_flags;
+
+    // We are going to have 1 binding
     setinfo.bindingCount = 1;
-    //no flags
-    setinfo.flags = 0;
-    //point to the camera buffer binding
+    // Point to the camera buffer binding
     setinfo.pBindings = &bufferBinding;
 
+    // Setup the only descriptor set to be used for our applications
     vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
 
     // Allocate descriptor set
@@ -1351,7 +1369,7 @@ void VulkanRenderer::SetupDescriptorSets()
 
     vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
 
-    VkSamplerCreateInfo samplerInfo = {};
+    /*VkSamplerCreateInfo samplerInfo = {};
     samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
     samplerInfo.pNext = nullptr;
     samplerInfo.magFilter = VK_FILTER_NEAREST;
@@ -1414,7 +1432,7 @@ void VulkanRenderer::SetupDescriptorSets()
     texture.pBufferInfo = 0;
     texture.pImageInfo = &imageBufferInfo;
 
-    vkUpdateDescriptorSets(device, 1, &texture, 0, nullptr);
+    vkUpdateDescriptorSets(device, 1, &texture, 0, nullptr);*/
 }
 
 AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
