@@ -471,8 +471,9 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     // Setup descriptor layout which is the uniform buffer block for the shader
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.flags = 0;
-    pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &setLayout;
+    pipelineLayoutInfo.setLayoutCount = 2;
+    VkDescriptorSetLayout layouts[2] = { uniformSetLayout, textureSetLayout };
+    pipelineLayoutInfo.pSetLayouts = layouts;
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
@@ -736,17 +737,17 @@ void VulkanRenderer::SetupVMA()
 
 void VulkanRenderer::SetupDescriptionPool()
 {
-    // Create a descriptor pool that will hold the uniform buffers and image samples
+    // Create a descriptor pool that will hold the dynamic uniform buffer and image sampler+textures
     std::vector<VkDescriptorPoolSize> sizes =
     {
         { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1 },
-        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 10 }
+        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 }
     };
 
     VkDescriptorPoolCreateInfo pool_info = {};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_UPDATE_AFTER_BIND_BIT_EXT;
-    pool_info.maxSets = 10;
+    pool_info.maxSets = 2;
     pool_info.poolSizeCount = (uint32_t)sizes.size();
     pool_info.pPoolSizes = sizes.data();
 
@@ -933,7 +934,7 @@ VulkanRenderer::~VulkanRenderer()
     vkDestroyShaderModule(device, triangleVertShader, nullptr);
     vkDestroyShaderModule(device, triangleFragShader, nullptr);
 
-    vkDestroyDescriptorSetLayout(device, setLayout, nullptr);
+    vkDestroyDescriptorSetLayout(device, uniformSetLayout, nullptr);
     //vkDestroyDescriptorSetLayout(device, singleTextureSetLayout, nullptr);
     vmaDestroyBuffer(allocator, uniformBuffer.buffer, uniformBuffer.allocation);
 
@@ -1047,12 +1048,14 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         // Bind descriptor set (shader uniforms)
         uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
 
+        // Descriptor set 0 has the uniforms
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &uniformDescriptor, 1, &uniformOffset);
+
+        // Descriptor set 1 has the texture and sampler
         if ((*drawable)->isTextured)
         {
-            //vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 1, 1, &textureDescriptor, 0, nullptr);
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 1, 1, &textureDescriptor, 0, nullptr);
         }
-
-        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &descriptor, 1, &uniformOffset);
 
         // Bind the mesh vertex buffer with offset 0
         VkDeviceSize offset = 0;
@@ -1107,8 +1110,8 @@ void VulkanRenderer::UploadTexturesToGPU()
         image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
         VkWriteDescriptorSet write = {};
-        write.dstSet = descriptor;
-        write.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+        write.dstSet = textureDescriptor;
+        write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         write.dstBinding = 0;
         write.pImageInfo = &image_info;
 
@@ -1128,7 +1131,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
         textures.Add(texture);
     }
 
-    UploadTexturesToGPU();
+    //UploadTexturesToGPU();
 
     return texture;
 }
@@ -1144,7 +1147,7 @@ ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, S
         textures.Add(texture);
     }
 
-    UploadTexturesToGPU();
+    //UploadTexturesToGPU();
 
     return texture;
 }
@@ -1346,7 +1349,7 @@ void VulkanRenderer::SetupDescriptorSets()
     setinfo.pBindings = &bufferBinding;
 
     // Setup the only descriptor set to be used for our applications
-    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &setLayout);
+    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &uniformSetLayout);
 
     // Allocate descriptor set
     VkDescriptorSetAllocateInfo allocInfo ={};
@@ -1356,10 +1359,10 @@ void VulkanRenderer::SetupDescriptorSets()
     allocInfo.descriptorPool = descriptorPool;
     //only 1 descriptor
     allocInfo.descriptorSetCount = 1;
-    //using the global data layout
-    allocInfo.pSetLayouts = &setLayout;
+    //using the uniform data layout
+    allocInfo.pSetLayouts = &uniformSetLayout;
 
-    vkAllocateDescriptorSets(device, &allocInfo, &descriptor);
+    vkAllocateDescriptorSets(device, &allocInfo, &uniformDescriptor);
 
     // Allocate buffer block data
     uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(UniformBlock) * 2048),
@@ -1382,7 +1385,7 @@ void VulkanRenderer::SetupDescriptorSets()
     //we are going to write into binding number 0
     setWrite.dstBinding = 0;
     //of the global descriptor
-    setWrite.dstSet = descriptor;
+    setWrite.dstSet = uniformDescriptor;
 
     setWrite.descriptorCount = 1;
     //and the type is uniform buffer
@@ -1391,7 +1394,7 @@ void VulkanRenderer::SetupDescriptorSets()
 
     vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
 
-    /*VkSamplerCreateInfo samplerInfo = {};
+    VkSamplerCreateInfo samplerInfo = {};
     samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
     samplerInfo.pNext = nullptr;
     samplerInfo.magFilter = VK_FILTER_NEAREST;
@@ -1403,58 +1406,42 @@ void VulkanRenderer::SetupDescriptorSets()
     VkSampler blockySampler;
     vkCreateSampler(device, &samplerInfo, nullptr, &blockySampler);
 
-    VkDescriptorSetLayoutBinding textureBind;// = vkinit::descriptorset_layout_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 0);
-    textureBind.binding = 0;
-    textureBind.descriptorCount = 1;
-    textureBind.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    textureBind.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-    textureBind.pImmutableSamplers = nullptr;
+    VkDescriptorSetLayoutBinding textureBinding = {};// = vkinit::descriptorset_layout_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 0);
+    textureBinding.binding = 0;
+    textureBinding.descriptorCount = 1;
+    textureBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    textureBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+    textureBinding.pImmutableSamplers = nullptr;
 
-    VkDescriptorSetLayoutCreateInfo setinfo2 = {};
-    setinfo2.bindingCount = 1;
-    setinfo2.flags = 0;
-    setinfo2.pNext = nullptr;
-    setinfo2.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    setinfo2.pBindings = &textureBind;
+    // Texture binding
+    setinfo.pBindings = &textureBinding;
 
-    vkCreateDescriptorSetLayout(device, &setinfo2, nullptr, &singleTextureSetLayout);
+    vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &textureSetLayout);
 
-    //allocate the descriptor set for single-texture to use on the material
-    VkDescriptorSetAllocateInfo allocInfo2 = {};
-    allocInfo2.pNext = nullptr;
-    allocInfo2.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-    allocInfo2.descriptorPool = descriptorPool;
-    allocInfo2.descriptorSetCount = 1;
-    allocInfo2.pSetLayouts = &singleTextureSetLayout;
+    allocInfo.pSetLayouts = &textureSetLayout;
 
-    ITexture* vulkanTexture = CreateTexture("data/sheet.png");
+    vkAllocateDescriptorSets(device, &allocInfo, &textureDescriptor);
 
-    VulkanTexture* tex = dynamic_cast<VulkanTexture*>(vulkanTexture);
 
-    vkAllocateDescriptorSets(device, &allocInfo2, &textureDescriptor);
+    ITexture* tex = CreateTexture("data/sheet.png");
 
-    //write to the descriptor set so that it points to our empire_diffuse texture
-    VkDescriptorImageInfo imageBufferInfo;
-    imageBufferInfo.sampler = blockySampler;
-    imageBufferInfo.imageView = tex->imageView; //_loadedTextures["empire_diffuse"].imageView;
-    imageBufferInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    VulkanTexture* vTex = static_cast<VulkanTexture*>(tex);
 
-    VkWriteDescriptorSet texture = {}; //vkinit::write_descriptor_image(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, texturedMat->textureSet, &imageBufferInfo, 0);
-    texture.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    texture.pNext = nullptr;
+    VkDescriptorImageInfo imageInfo{};
+    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    imageInfo.imageView = vTex->imageView;   // created earlier
+    imageInfo.sampler   = blockySampler;     // created earlier
 
-    //we are going to write into binding number 0
-    texture.dstBinding = 0;
-    //of the texture descriptor
-    texture.dstSet = textureDescriptor;
+    VkWriteDescriptorSet texWrite{};
+    texWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    texWrite.dstSet = textureDescriptor;
+    texWrite.dstBinding = 0;
+    texWrite.descriptorCount = 1;
+    texWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    texWrite.pImageInfo = &imageInfo;
 
-    texture.descriptorCount = 1;
-    //and the type is uniform buffer
-    texture.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    texture.pBufferInfo = 0;
-    texture.pImageInfo = &imageBufferInfo;
+    vkUpdateDescriptorSets(device, 1, &texWrite, 0, nullptr);
 
-    vkUpdateDescriptorSets(device, 1, &texture, 0, nullptr);*/
 }
 
 AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
@@ -1498,7 +1485,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   allocator,
                                                   device,
                                                   descriptorPool,
-                                                  setLayout,
+                                                  uniformSetLayout,
                                                   uniformBuffer,
                                                   drawables.Size() + 1);
 
@@ -1535,7 +1522,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   allocator,
                                                   device,
                                                   descriptorPool,
-                                                  setLayout,
+                                                  uniformSetLayout,
                                                   uniformBuffer,
                                                   drawables.Size() + 1);
 

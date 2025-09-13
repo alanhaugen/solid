@@ -9,9 +9,11 @@ precision highp float; // affects all floats (vec3, vec4 etc)
 //layout(location=0)
 
 #ifdef VULKAN
+#extension GL_EXT_nonuniform_qualifier : require
 //input form the vertex shader
 layout(location = 0) out vec4 vFragColor;	//fragment shader output
-layout(binding=0) uniform sampler2D textureSampler;
+//layout(set=1, binding=0) uniform sampler2D Combined[];
+layout(set=1, binding=0) uniform sampler2D textureSampler;
 
 layout(location = 0) in vec4 vSmoothColor;		//smooth colour to fragment shader
 layout(location = 1) in vec2 vSmoothTexcoord;
@@ -76,6 +78,12 @@ void main ()
     coords.x = x;
     coords.y = y;
 
+#ifndef VULKAN
+    //final = texture(textureSampler, coords);
+#else
+    //int i = 0;
+    //final = texture(Combined[nonuniformEXT(i)], coords, 0.0);
+#endif
     final = texture(textureSampler, coords);
 
     if (final.a < 0.9f)

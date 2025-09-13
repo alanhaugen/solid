@@ -73,7 +73,7 @@ private:
     VkDevice device;
     VkImage image;
 
-    VkDescriptorSet descriptor;
+    VkDescriptorSet uniformDescriptor;
     VkDescriptorSet textureDescriptor;
     AllocatedBuffer uniformBuffer;
 
@@ -156,8 +156,8 @@ private:
 
     // Descriptor Set Pool (to send uniforms to the GPU)
     VkDescriptorPool descriptorPool;
-    VkDescriptorSetLayout setLayout;
-    //VkDescriptorSetLayout singleTextureSetLayout;
+    VkDescriptorSetLayout uniformSetLayout;
+    VkDescriptorSetLayout textureSetLayout;
 
     void UploadTexturesToGPU();
 

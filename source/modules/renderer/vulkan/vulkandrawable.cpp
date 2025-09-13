@@ -105,20 +105,6 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
     // Fill a uniform data struct
     uniforms.MVP = projViewMatrix * matrix;
     uniforms.time.x = fTime += 0.1;
-    uniforms.index.x = 1;
-    uniforms.pos.x = 1;
-    uniforms.pos.y = 1;
-    uniforms.scaleX.x = 1;
-    uniforms.scaleY.x = 1;
-    uniforms.width.x = 1;
-    uniforms.height.x = 1;
-    uniforms.totalWidth.x = 1;
-    uniforms.totalHeight.x = 1;
-    uniforms.screenWidth.x = 1;
-    uniforms.screenHeight.x = 1;
-    uniforms.flip.x = 1;
-    uniforms.flipVertical.x = 1;
-    uniforms.colourTint = colorTint;
 
     //and copy it to the buffer
     char* data;

@@ -14,8 +14,6 @@ private:
     Cube *blue;
     Mesh *monkey;
 
-
-
 public:
     Primitives();
 
@@ -64,7 +62,6 @@ void Primitives::UpdateAfterPhysics()
 
 int main(int argc, char **argv)
 {
-
     Application application(argc, argv);
     application.AddScene(new Primitives());
 
