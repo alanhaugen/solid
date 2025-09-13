@@ -20,6 +20,11 @@ void Sprite::Init(const float x_,
     float x = x_;
     float y = y_;
 
+#ifdef USE_VULKAN
+    //drawable->uniforms.scaleY[0] = -scaleY;
+    y = renderer->windowHeight - y; // Alter because of Vulkan's -Y axis
+#endif
+
     matrix.Translate(glm::vec3(x, y, 0.0f));
 
     timer = Application::GetTime("animation");

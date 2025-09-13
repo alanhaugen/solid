@@ -1105,15 +1105,18 @@ void VulkanRenderer::UploadTexturesToGPU()
     for (unsigned i = 0; i < textures.Size(); i++) //NumDescriptorsNonUniform; i++)
     {
         VkDescriptorImageInfo image_info = {};
-        image_info.sampler = VK_NULL_HANDLE;
-        image_info.imageView = textures[i]->imageView;
+        image_info.sampler     = VK_NULL_HANDLE;
+        image_info.imageView   = textures[i]->imageView;
+        image_info.sampler     = blockySampler;
         image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
         VkWriteDescriptorSet write = {};
-        write.dstSet = textureDescriptor;
-        write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        write.dstBinding = 0;
-        write.pImageInfo = &image_info;
+        write.sType           = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write.dstSet          = textureDescriptor;
+        write.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        write.dstBinding      = 0;
+        write.descriptorCount = 1;
+        write.pImageInfo      = &image_info;
 
         write.dstArrayElement = i;
         vkUpdateDescriptorSets(device, 1, &write, 0, nullptr);
@@ -1131,7 +1134,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
         textures.Add(texture);
     }
 
-    //UploadTexturesToGPU();
+    UploadTexturesToGPU();
 
     return texture;
 }
@@ -1147,7 +1150,7 @@ ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, S
         textures.Add(texture);
     }
 
-    //UploadTexturesToGPU();
+    UploadTexturesToGPU();
 
     return texture;
 }
@@ -1182,7 +1185,7 @@ VkSurfaceFormatKHR VulkanRenderer::ChooseSwapSurfaceFormat(const std::vector<VkS
     for (const auto& availableFormat : availableFormats)
     {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
-                availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+            availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
         {
             return availableFormat;
         }
@@ -1330,7 +1333,7 @@ void VulkanRenderer::SetupDescriptorSets()
     setinfo.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT_EXT;
 
     const VkDescriptorBindingFlagsEXT flags = VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT;
-        /*VK_DESCRIPTOR_BINDING_VARIABLE_DESCRIPTOR_COUNT_BIT_EXT |
+    /*VK_DESCRIPTOR_BINDING_VARIABLE_DESCRIPTOR_COUNT_BIT_EXT |
         VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT_EXT |
         VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT |
         VK_DESCRIPTOR_BINDING_UPDATE_UNUSED_WHILE_PENDING_BIT_EXT;*/
@@ -1403,7 +1406,6 @@ void VulkanRenderer::SetupDescriptorSets()
     samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
     samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 
-    VkSampler blockySampler;
     vkCreateSampler(device, &samplerInfo, nullptr, &blockySampler);
 
     VkDescriptorSetLayoutBinding textureBinding = {};// = vkinit::descriptorset_layout_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 0);
@@ -1421,27 +1423,6 @@ void VulkanRenderer::SetupDescriptorSets()
     allocInfo.pSetLayouts = &textureSetLayout;
 
     vkAllocateDescriptorSets(device, &allocInfo, &textureDescriptor);
-
-
-    ITexture* tex = CreateTexture("data/sheet.png");
-
-    VulkanTexture* vTex = static_cast<VulkanTexture*>(tex);
-
-    VkDescriptorImageInfo imageInfo{};
-    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    imageInfo.imageView = vTex->imageView;   // created earlier
-    imageInfo.sampler   = blockySampler;     // created earlier
-
-    VkWriteDescriptorSet texWrite{};
-    texWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    texWrite.dstSet = textureDescriptor;
-    texWrite.dstBinding = 0;
-    texWrite.descriptorCount = 1;
-    texWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    texWrite.pImageInfo = &imageInfo;
-
-    vkUpdateDescriptorSets(device, 1, &texWrite, 0, nullptr);
-
 }
 
 AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
@@ -1463,18 +1444,18 @@ AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
 
     // Allocate the buffer
     vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-        &newBuffer.buffer,
-        &newBuffer.allocation,
-        nullptr);
+                    &newBuffer.buffer,
+                    &newBuffer.allocation,
+                    nullptr);
 
     return newBuffer;
 }
 
 IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
-        Array<unsigned int> &indices,
-        Array<String> &shaders,
-        Array<ITexture *> textures,
-        int topology)
+                                          Array<unsigned int> &indices,
+                                          Array<String> &shaders,
+                                          Array<ITexture *> textures,
+                                          int topology)
 {
     VulkanShader* shader = new VulkanShader();
 

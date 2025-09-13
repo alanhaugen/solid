@@ -73,6 +73,8 @@ private:
     VkDevice device;
     VkImage image;
 
+    VkSampler blockySampler;
+
     VkDescriptorSet uniformDescriptor;
     VkDescriptorSet textureDescriptor;
     AllocatedBuffer uniformBuffer;

@@ -243,7 +243,6 @@ void Background::Update()
     }
 
     //drawable->uniforms.time[0] = Application::time->TimeSinceStarted();
-    drawable->uniforms.time[0] = 20.0f;
 
     // Note: hacky solution. We setup the uniforms and submatrix here
     //drawable->uniformData = uniforms;

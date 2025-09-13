@@ -124,7 +124,12 @@ void main()
     float h = float(height) * float(scaleY);
 
     // not sure if aspectRatio stuff makes any sense
-    gl_Position = vec4((vVertex.x / float(screenWidth)) * w, (vVertex.y / float(screenHeight)) * h, 0.0, 1.0);
+#ifdef VULKAN
+    float y = -vVertex.y; // Flip because of Vulkan's -Y axis
+#else
+    float y = vVertex.y;
+#endif
+    gl_Position = vec4((vVertex.x / float(screenWidth)) * w, (y / float(screenHeight)) * h, 0.0, 1.0);
     vSmoothTexcoord = vTexcoord;
 
     float halfScreenWidth  = float(screenWidth)  / 2.0f;
