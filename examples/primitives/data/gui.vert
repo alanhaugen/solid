@@ -54,7 +54,7 @@ layout(location = 11) out float vTextureIndex;
 #else
 smooth out vec2 vSmoothTexcoord;
 
-uniform vec2 i_pos;
+uniform vec4 i_pos;
 uniform vec4 i_scaleX;
 uniform vec4 i_scaleY;
 uniform vec4 i_width;

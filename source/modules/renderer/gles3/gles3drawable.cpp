@@ -23,6 +23,8 @@ GLES3Drawable::GLES3Drawable(Array<IDrawable::Vertex> &vertices,
         isTextured = false;
     }
 
+    fTime = 0.0f;
+
     /*if (textures.Size() != 0)
     {
         // TODO: Fix, this code expects 6 textures => cubemap
@@ -147,6 +149,9 @@ void GLES3Drawable::Activate(const glm::mat4& projViewMatrix)
     glm::mat4 mvp;
 
     mvp = projViewMatrix * matrix;
+
+    fTime += 0.03f;
+    uniforms.time.x = fTime;
 
     // Upload uniform block
     Uniform("MVP", static_cast<glm::mat4&>(mvp));
