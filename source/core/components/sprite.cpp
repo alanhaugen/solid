@@ -20,11 +20,6 @@ void Sprite::Init(const float x_,
     float x = x_;
     float y = y_;
 
-#ifdef USE_VULKAN
-    //drawable->uniforms.scaleY[0] = -scaleY;
-    y = renderer->windowHeight - y; // Alter because of Vulkan's -Y axis
-#endif
-
     matrix.Translate(glm::vec3(x, y, 0.0f));
 
     timer = Application::GetTime("animation");
@@ -175,6 +170,11 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
+#ifdef USE_VULKAN
+    //drawable->uniforms.scaleY[0] = -scaleY;
+    y = renderer->windowHeight - y; // Alter because of Vulkan's -Y axis
+#endif
+
     //quadQuantity/2 because each character's given space is half of its width
     transformedX = *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2);
     transformedY = *matrix.y - anchorPoint.y * height * scaleY + Y_OFFSET;
