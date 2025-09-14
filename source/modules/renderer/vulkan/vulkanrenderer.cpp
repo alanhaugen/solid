@@ -1022,9 +1022,9 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
     vkCmdBeginRenderPass(commandBuffer, &render_pass_info, VK_SUBPASS_CONTENTS_INLINE);
 
     // Rendering commands go here
-    LinkedList<VulkanDrawable*>::Iterator drawable = drawables.End();
+    LinkedList<VulkanDrawable*>::Iterator drawable = drawables.Begin();
 
-    for (; drawable != NULL; --drawable)
+    for (; drawable != NULL; ++drawable)
     {
         if ((*drawable)->draw == false)
         {

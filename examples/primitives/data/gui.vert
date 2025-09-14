@@ -101,6 +101,7 @@ void main()
     vec4 colourTint = i_colourTint;
 #endif
 
+    float y = vVertex.y;
 #ifdef VULKAN
     vec4 colour = uniformBuffer.colour;
     mat4 MVP = uniformBuffer.MVP;
@@ -119,18 +120,17 @@ void main()
     float flipVertical = uniformBuffer.flipVertical.x;
     vec4 colourTint = uniformBuffer.colourTint;
     float textureIndex = uniformBuffer.index.y;
+    // not sure if aspectRatio stuff makes any sense
+    // Flip y-related variables because of Vulkan's inverted Y axis
+    //y = -y;
+    pos.y = screenHeight-pos.y;
+    scaleY = -scaleY;
 #endif
     float aspectRatio = float(screenWidth) / float(screenHeight);
 
     float w = float(width)  * float(scaleX);
     float h = float(height) * float(scaleY);
 
-    // not sure if aspectRatio stuff makes any sense
-#ifdef VULKAN
-    float y = -vVertex.y; // Flip because of Vulkan's -Y axis
-#else
-    float y = vVertex.y;
-#endif
     gl_Position = vec4((vVertex.x / float(screenWidth)) * w, (y / float(screenHeight)) * h, 0.0, 1.0);
     vSmoothTexcoord = vTexcoord;
 
