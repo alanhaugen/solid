@@ -1026,7 +1026,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
 
     for (; drawable != NULL; ++drawable)
     {
-        if ((*drawable)->draw == false)
+        if ((*drawable)->draw == false || (*drawable)->verticesQuantity == 0)
         {
             continue;
         }

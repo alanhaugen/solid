@@ -97,47 +97,50 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     indicesQuantity  = indices.Size();
     verticesQuantity = vertices.Size();
 
-    // Allocate vertex buffer
-    VkBufferCreateInfo bufferInfo = {};
-    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    // This is the total size, in bytes, of the buffer we are allocating
-    bufferInfo.size = verticesQuantity * sizeof(Vertex);
-    // This buffer is going to be used as a Vertex Buffer
-    bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-
-    // let the VMA library know that this data should be writeable by CPU, but also readable by GPU
-    VmaAllocationCreateInfo vmaallocInfo = {};
-    vmaallocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
-
-    // Allocate the buffer
-    vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-                    &vertexBuffer.buffer,
-                    &vertexBuffer.allocation,
-                    nullptr);
-
-    //add the destruction of triangle mesh buffer to the deletion queue
-    //_mainDeletionQueue.push_function([=]() {
-    //    vmaDestroyBuffer(_allocator, mesh._vertexBuffer._buffer, mesh._vertexBuffer._allocation);
-    //});
-
-    // Upload vertex buffer data
-    void* data;
-    vmaMapMemory(allocator, vertexBuffer.allocation, &data);
-    memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
-    vmaUnmapMemory(allocator, vertexBuffer.allocation);
-
-    // Upload index buffer
-    if (indicesQuantity != 0)
+    if (verticesQuantity > 0)
     {
+        // Allocate vertex buffer
+        VkBufferCreateInfo bufferInfo = {};
+        bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        // This is the total size, in bytes, of the buffer we are allocating
+        bufferInfo.size = verticesQuantity * sizeof(Vertex);
+        // This buffer is going to be used as a Vertex Buffer
+        bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+
+        // let the VMA library know that this data should be writeable by CPU, but also readable by GPU
+        VmaAllocationCreateInfo vmaallocInfo = {};
+        vmaallocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+
+        // Allocate the buffer
         vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-                        &indexBuffer.buffer,
-                        &indexBuffer.allocation,
+                        &vertexBuffer.buffer,
+                        &vertexBuffer.allocation,
                         nullptr);
 
+        //add the destruction of triangle mesh buffer to the deletion queue
+        //_mainDeletionQueue.push_function([=]() {
+        //    vmaDestroyBuffer(_allocator, mesh._vertexBuffer._buffer, mesh._vertexBuffer._allocation);
+        //});
+
+        // Upload vertex buffer data
         void* data;
-        vmaMapMemory(allocator, indexBuffer.allocation, &data);
-        memcpy(data, &indices[0], indices.Size() * sizeof(unsigned int));
-        vmaUnmapMemory(allocator, indexBuffer.allocation);
+        vmaMapMemory(allocator, vertexBuffer.allocation, &data);
+        memcpy(data, &vertices[0], vertices.Size() * sizeof(Vertex));
+        vmaUnmapMemory(allocator, vertexBuffer.allocation);
+
+        // Upload index buffer
+        if (indicesQuantity != 0)
+        {
+            vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
+                            &indexBuffer.buffer,
+                            &indexBuffer.allocation,
+                            nullptr);
+
+            void* data;
+            vmaMapMemory(allocator, indexBuffer.allocation, &data);
+            memcpy(data, &indices[0], indices.Size() * sizeof(unsigned int));
+            vmaUnmapMemory(allocator, indexBuffer.allocation);
+        }
     }
 }
 
@@ -149,28 +152,34 @@ void VulkanDrawable::UploadUniformBufferBlock(const glm::mat4 &projViewMatrix)
     //projection[1][1] *= -1; // Flip projection because of Vulkan's -Y axis (?)
     //projViewMatrix[1][1] *= -1;
 
-    // Fill a uniform data struct
-    uniforms.MVP = projViewMatrix * matrix;
-    uniforms.time.x = 20.0f;//fTime += 0.1;
+    if (verticesQuantity > 0)
+    {
+        // Fill a uniform data struct
+        uniforms.MVP = projViewMatrix * matrix;
+        uniforms.time.x = fTime += 0.03;
 
-    //and copy it to the buffer
-    char* data;
-    vmaMapMemory(allocator, uniformBuffer.allocation, (void**)&data);
+        //and copy it to the buffer
+        char* data;
+        vmaMapMemory(allocator, uniformBuffer.allocation, (void**)&data);
 
-    data += static_cast<VulkanRenderer*>(Application::renderer)->PadUniformBufferSize(sizeof(UniformBlock)) * offset;
+        data += static_cast<VulkanRenderer*>(Application::renderer)->PadUniformBufferSize(sizeof(UniformBlock)) * offset;
 
-    memcpy(data, &uniforms, sizeof(UniformBlock));
+        memcpy(data, &uniforms, sizeof(UniformBlock));
 
-    vmaUnmapMemory(allocator, uniformBuffer.allocation);
+        vmaUnmapMemory(allocator, uniformBuffer.allocation);
+    }
 }
 
 VulkanDrawable::~VulkanDrawable()
 {
-    vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
-
-    if (indicesQuantity != 0)
+    if (verticesQuantity > 0)
     {
-        vmaDestroyBuffer(allocator, indexBuffer.buffer, indexBuffer.allocation);
+        vmaDestroyBuffer(allocator, vertexBuffer.buffer, vertexBuffer.allocation);
+
+        if (indicesQuantity != 0)
+        {
+            vmaDestroyBuffer(allocator, indexBuffer.buffer, indexBuffer.allocation);
+        }
     }
 
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
