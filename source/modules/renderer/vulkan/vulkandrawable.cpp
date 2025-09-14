@@ -2,6 +2,8 @@
 #include "vulkandrawable.h"
 #include "vulkantexture.h"
 
+//static float TexturesQuantity = 0;
+
 VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                Array<unsigned int> &indices,
                                VulkanShader* shader_,
@@ -22,10 +24,14 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     if (textures.Size() != 0)
     {
         isTextured = true;
+
+        uniforms.index.y = 1.0f;
+        //TexturesQuantity++;
     }
     else
     {
         isTextured = false;
+        uniforms.index.y = -1.0f;
     }
 
     draw = false;

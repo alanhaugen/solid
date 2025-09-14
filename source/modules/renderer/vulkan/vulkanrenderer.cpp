@@ -477,12 +477,6 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-    if (drawable->isTextured)
-    {
-        // Set texture
-        //drawable->
-    }
-
     vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &drawable->pipelineLayout);
 
     // Depth test
@@ -811,8 +805,8 @@ bool VulkanRenderer::CreateDevice()
     // Once we have the VkPhysicalDevice of the GPU we are going to use, we can create a VkDevice from it
     // Let us request the extension VK_KHR_SWAPCHAIN for backbuffer support
     const std::vector<const char*> deviceExtensions = {
-        VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+//        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME
     };
 
     const float queue_priority[] = { 1.0f };
@@ -1100,27 +1094,31 @@ size_t VulkanRenderer::PadUniformBufferSize(size_t originalSize)
     return alignedSize;
 }
 
+// This was for descritor indexing, which I have abandoned
 void VulkanRenderer::UploadTexturesToGPU()
 {
-    for (unsigned i = 0; i < textures.Size(); i++) //NumDescriptorsNonUniform; i++)
+    /*for (unsigned i = texturesUploaded; i < textures.Size(); i++) //NumDescriptorsNonUniform; i++)
     {
         VkDescriptorImageInfo image_info = {};
-        image_info.sampler     = VK_NULL_HANDLE;
-        image_info.imageView   = textures[i]->imageView;
-        image_info.sampler     = blockySampler;
-        image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        image_info.sampler               = VK_NULL_HANDLE;
+        image_info.imageView             = textures[i]->imageView;
+        image_info.sampler               = blockySampler;
+        image_info.imageLayout           = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
         VkWriteDescriptorSet write = {};
-        write.sType           = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        write.dstSet          = textureDescriptor;
-        write.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        write.dstBinding      = 0;
-        write.descriptorCount = 1;
-        write.pImageInfo      = &image_info;
+        write.sType                = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write.dstSet               = textureDescriptor;
+        write.descriptorType       = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        write.dstBinding           = 0;
+        write.descriptorCount      = 1;
+        write.pImageInfo           = &image_info;
 
         write.dstArrayElement = i;
+
         vkUpdateDescriptorSets(device, 1, &write, 0, nullptr);
-    }
+
+        texturesUploaded++;
+    }*/
 }
 
 ITexture *VulkanRenderer::CreateTexture(String filename)
@@ -1134,7 +1132,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
         textures.Add(texture);
     }
 
-    UploadTexturesToGPU();
+    //UploadTexturesToGPU();
 
     return texture;
 }
@@ -1150,7 +1148,7 @@ ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, S
         textures.Add(texture);
     }
 
-    UploadTexturesToGPU();
+    //UploadTexturesToGPU();
 
     return texture;
 }
@@ -1330,21 +1328,10 @@ void VulkanRenderer::SetupDescriptorSets()
     // than the other ways of doing textures (one descriptor per texture??)
     VkDescriptorSetLayoutCreateInfo setinfo = {};
     setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    setinfo.flags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT_EXT;
-
-    const VkDescriptorBindingFlagsEXT flags = VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT;
-    /*VK_DESCRIPTOR_BINDING_VARIABLE_DESCRIPTOR_COUNT_BIT_EXT |
-        VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT_EXT |
-        VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT |
-        VK_DESCRIPTOR_BINDING_UPDATE_UNUSED_WHILE_PENDING_BIT_EXT;*/
-
-    VkDescriptorSetLayoutBindingFlagsCreateInfoEXT binding_flags = {};
-    binding_flags.sType          = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO_EXT;
-    binding_flags.bindingCount   = 1;
-    binding_flags.pBindingFlags  = &flags;
+    setinfo.flags = 0;
 
     // Set the binding flags above (for descriptor indexing: VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT)
-    setinfo.pNext = &binding_flags;
+    setinfo.pNext = nullptr;
 
     // We are going to have 1 binding
     setinfo.bindingCount = 1;
@@ -1408,14 +1395,15 @@ void VulkanRenderer::SetupDescriptorSets()
 
     vkCreateSampler(device, &samplerInfo, nullptr, &blockySampler);
 
-    VkDescriptorSetLayoutBinding textureBinding = {};// = vkinit::descriptorset_layout_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 0);
+    VkDescriptorSetLayoutBinding textureBinding = {};
     textureBinding.binding = 0;
-    textureBinding.descriptorCount = 1;
+    textureBinding.descriptorCount = 1; // number of textures
     textureBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     textureBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
     textureBinding.pImmutableSamplers = nullptr;
 
     // Texture binding
+    setinfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT;
     setinfo.pBindings = &textureBinding;
 
     vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &textureSetLayout);
@@ -1423,6 +1411,24 @@ void VulkanRenderer::SetupDescriptorSets()
     allocInfo.pSetLayouts = &textureSetLayout;
 
     vkAllocateDescriptorSets(device, &allocInfo, &textureDescriptor);
+
+    ITexture* tex = CreateTexture("data/sheet.png");
+    VulkanTexture* vTex = static_cast<VulkanTexture*>(tex);
+
+    VkDescriptorImageInfo imageInfo{};
+    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    imageInfo.imageView = vTex->imageView;   // created earlier
+    imageInfo.sampler   = blockySampler;     // created earlier
+
+    VkWriteDescriptorSet texWrite{};
+    texWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    texWrite.dstSet = textureDescriptor;
+    texWrite.dstBinding = 0;
+    texWrite.descriptorCount = 1;
+    texWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    texWrite.pImageInfo = &imageInfo;
+
+    vkUpdateDescriptorSets(device, 1, &texWrite, 0, nullptr);
 }
 
 AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,

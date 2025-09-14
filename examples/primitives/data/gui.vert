@@ -50,6 +50,7 @@ layout(location = 7) out float vTotalheight;
 layout(location = 8) out float vFlip;
 layout(location = 9) out float vFlipVertical;
 layout(location = 10) out vec4 vColourTint;
+layout(location = 11) out float vTextureIndex;
 #else
 smooth out vec2 vSmoothTexcoord;
 
@@ -117,6 +118,7 @@ void main()
     float flip = uniformBuffer.flip.x;
     float flipVertical = uniformBuffer.flipVertical.x;
     vec4 colourTint = uniformBuffer.colourTint;
+    float textureIndex = uniformBuffer.index.y;
 #endif
     float aspectRatio = float(screenWidth) / float(screenHeight);
 
@@ -159,5 +161,9 @@ void main()
     vFlipVertical = float(flipVertical);
     vTime = float(time);
     vColourTint = colourTint;
+
+#ifdef VULKAN
+    vTextureIndex = textureIndex;
+#endif
     //o_rotation = rotation;
 }
