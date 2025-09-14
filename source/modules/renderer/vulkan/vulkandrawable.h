@@ -71,7 +71,7 @@ public:
                    VmaAllocator allocator,
                    VkDevice device,
                    VkDescriptorPool descriptorPool,
-                   VkDescriptorSetLayout setLayout,
+                   VkDescriptorSetLayout& textureSetLayout,
                    AllocatedBuffer uniformBuffer_,
                    int offset_);
 
@@ -79,6 +79,9 @@ public:
 
     int indicesQuantity;
     int verticesQuantity;
+
+    VkSampler blockySampler;
+    VkDescriptorSet textureDescriptor;
 
     VkPipeline pipeline;
     VkPipelineLayout pipelineLayout;

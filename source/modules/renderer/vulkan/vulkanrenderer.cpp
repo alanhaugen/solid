@@ -735,13 +735,13 @@ void VulkanRenderer::SetupDescriptionPool()
     std::vector<VkDescriptorPoolSize> sizes =
     {
         { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1 },
-        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 }
+        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2048 }
     };
 
     VkDescriptorPoolCreateInfo pool_info = {};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_UPDATE_AFTER_BIND_BIT_EXT;
-    pool_info.maxSets = 2;
+    pool_info.maxSets = 2049;
     pool_info.poolSizeCount = (uint32_t)sizes.size();
     pool_info.pPoolSizes = sizes.data();
 
@@ -1048,7 +1048,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         // Descriptor set 1 has the texture and sampler
         if ((*drawable)->isTextured)
         {
-            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 1, 1, &textureDescriptor, 0, nullptr);
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 1, 1, &(*drawable)->textureDescriptor, 0, nullptr);
         }
 
         // Bind the mesh vertex buffer with offset 0
@@ -1384,17 +1384,6 @@ void VulkanRenderer::SetupDescriptorSets()
 
     vkUpdateDescriptorSets(device, 1, &setWrite, 0, nullptr);
 
-    VkSamplerCreateInfo samplerInfo = {};
-    samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-    samplerInfo.pNext = nullptr;
-    samplerInfo.magFilter = VK_FILTER_NEAREST;
-    samplerInfo.minFilter = VK_FILTER_NEAREST;
-    samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-    samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-    samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-
-    vkCreateSampler(device, &samplerInfo, nullptr, &blockySampler);
-
     VkDescriptorSetLayoutBinding textureBinding = {};
     textureBinding.binding = 0;
     textureBinding.descriptorCount = 1; // number of textures
@@ -1407,28 +1396,6 @@ void VulkanRenderer::SetupDescriptorSets()
     setinfo.pBindings = &textureBinding;
 
     vkCreateDescriptorSetLayout(device, &setinfo, nullptr, &textureSetLayout);
-
-    allocInfo.pSetLayouts = &textureSetLayout;
-
-    vkAllocateDescriptorSets(device, &allocInfo, &textureDescriptor);
-
-    ITexture* tex = CreateTexture("data/sheet.png");
-    VulkanTexture* vTex = static_cast<VulkanTexture*>(tex);
-
-    VkDescriptorImageInfo imageInfo{};
-    imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    imageInfo.imageView = vTex->imageView;   // created earlier
-    imageInfo.sampler   = blockySampler;     // created earlier
-
-    VkWriteDescriptorSet texWrite{};
-    texWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    texWrite.dstSet = textureDescriptor;
-    texWrite.dstBinding = 0;
-    texWrite.descriptorCount = 1;
-    texWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    texWrite.pImageInfo = &imageInfo;
-
-    vkUpdateDescriptorSets(device, 1, &texWrite, 0, nullptr);
 }
 
 AllocatedBuffer VulkanRenderer::CreateBuffer(size_t allocSize,
@@ -1472,7 +1439,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   allocator,
                                                   device,
                                                   descriptorPool,
-                                                  uniformSetLayout,
+                                                  textureSetLayout,
                                                   uniformBuffer,
                                                   drawables.Size() + 1);
 
@@ -1509,7 +1476,7 @@ IDrawable *VulkanRenderer::CreateDrawable(Array<IDrawable::Vertex> &vertices,
                                                   allocator,
                                                   device,
                                                   descriptorPool,
-                                                  uniformSetLayout,
+                                                  textureSetLayout,
                                                   uniformBuffer,
                                                   drawables.Size() + 1);
 

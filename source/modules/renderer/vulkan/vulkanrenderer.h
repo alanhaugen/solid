@@ -73,13 +73,10 @@ private:
     VkDevice device;
     VkImage image;
 
-    VkSampler blockySampler;
-
     //unsigned texturesUploaded = 0;
     std::vector<VkDescriptorImageInfo> imageInfos;
 
     VkDescriptorSet uniformDescriptor;
-    VkDescriptorSet textureDescriptor;
     AllocatedBuffer uniformBuffer;
 
     uint32_t graphics_QueueFamilyIndex;

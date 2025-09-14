@@ -11,7 +11,7 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
                                VmaAllocator allocator_,
                                VkDevice device_,
                                VkDescriptorPool descriptorPool,
-                               VkDescriptorSetLayout setLayout,
+                               VkDescriptorSetLayout& textureSetLayout,
                                AllocatedBuffer uniformBuffer_,
                                int offset_)
 {
@@ -27,6 +27,47 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
         uniforms.index.y = 1.0f;
         //TexturesQuantity++;
+
+        // Create image sampler (filtering)
+        VkSamplerCreateInfo samplerInfo = {};
+        samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+        samplerInfo.pNext = nullptr;
+        samplerInfo.magFilter = VK_FILTER_NEAREST;
+        samplerInfo.minFilter = VK_FILTER_NEAREST;
+        samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+        vkCreateSampler(device, &samplerInfo, nullptr, &blockySampler);
+
+        // Allocate descriptor set
+        VkDescriptorSetAllocateInfo allocInfo ={};
+        allocInfo.pNext = nullptr;
+        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        //using the pool we just set
+        allocInfo.descriptorPool = descriptorPool;
+        //only 1 descriptor
+        allocInfo.descriptorSetCount = 1;
+        //using the uniform data layout
+        allocInfo.pSetLayouts = &textureSetLayout;
+
+        vkAllocateDescriptorSets(device, &allocInfo, &textureDescriptor);
+
+        VulkanTexture* vTex = static_cast<VulkanTexture*>(textures[0]);
+
+        VkDescriptorImageInfo imageInfo{};
+        imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        imageInfo.imageView = vTex->imageView;   // created earlier
+        imageInfo.sampler   = blockySampler;     // created earlier
+
+        VkWriteDescriptorSet texWrite{};
+        texWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        texWrite.dstSet = textureDescriptor;
+        texWrite.dstBinding = 0;
+        texWrite.descriptorCount = 1;
+        texWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        texWrite.pImageInfo = &imageInfo;
+
+        vkUpdateDescriptorSets(device, 1, &texWrite, 0, nullptr);
     }
     else
     {
@@ -70,9 +111,9 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
 
     // Allocate the buffer
     vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-        &vertexBuffer.buffer,
-        &vertexBuffer.allocation,
-        nullptr);
+                    &vertexBuffer.buffer,
+                    &vertexBuffer.allocation,
+                    nullptr);
 
     //add the destruction of triangle mesh buffer to the deletion queue
     //_mainDeletionQueue.push_function([=]() {
@@ -89,9 +130,9 @@ VulkanDrawable::VulkanDrawable(Array<IDrawable::Vertex> &vertices,
     if (indicesQuantity != 0)
     {
         vmaCreateBuffer(allocator, &bufferInfo, &vmaallocInfo,
-            &indexBuffer.buffer,
-            &indexBuffer.allocation,
-            nullptr);
+                        &indexBuffer.buffer,
+                        &indexBuffer.allocation,
+                        nullptr);
 
         void* data;
         vmaMapMemory(allocator, indexBuffer.allocation, &data);
