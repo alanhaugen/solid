@@ -30,6 +30,8 @@ public:
     GLES3Shader* shader;
     Array<GLES3Texture *> textures;
 
+    float fTime;
+
     GLuint vao, vbo, ibo;
     GLsizei indicesQuantity;
     GLsizei verticesQuantity;
