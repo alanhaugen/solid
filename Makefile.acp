@@ -118,7 +118,7 @@ intermediate/data/%.jpg: data/%.jpg
 intermediate/data/%.png: data/%.png 
 	@mkdir -p $@
 	@rmdir $@
-	$(CONVERT) $< -colorspace sRGB -type truecolor PNG32:intermediate/$<
+	$(CONVERT) $< -alpha set -colorspace sRGB -channel RGBA PNG32:intermediate/$<
 
 intermediate/data/%.bmp: data/%.bmp 
 	@mkdir -p $@
