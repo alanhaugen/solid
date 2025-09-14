@@ -735,13 +735,13 @@ void VulkanRenderer::SetupDescriptionPool()
     std::vector<VkDescriptorPoolSize> sizes =
     {
         { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1 },
-        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2048 }
+        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 8000 }
     };
 
     VkDescriptorPoolCreateInfo pool_info = {};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_UPDATE_AFTER_BIND_BIT_EXT;
-    pool_info.maxSets = 2049;
+    pool_info.maxSets = 8001;
     pool_info.poolSizeCount = (uint32_t)sizes.size();
     pool_info.pPoolSizes = sizes.data();
 
@@ -1355,7 +1355,7 @@ void VulkanRenderer::SetupDescriptorSets()
     vkAllocateDescriptorSets(device, &allocInfo, &uniformDescriptor);
 
     // Allocate buffer block data
-    uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(UniformBlock) * 2048),
+    uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(UniformBlock) * 8000),
                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                  VMA_MEMORY_USAGE_CPU_TO_GPU);
 

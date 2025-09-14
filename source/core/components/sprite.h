@@ -10,7 +10,6 @@
 class Sprite : public Component
 {
 protected:
-    IDrawable *drawable;
 
 private:
     ITime *timer;
@@ -54,6 +53,8 @@ public:
            const char *glyphs = "",
            const float distanceToNextGlyph = 1.0f);
     ~Sprite();
+
+    IDrawable *drawable;
 
     void Update();
     void UpdateAfterPhysics();
