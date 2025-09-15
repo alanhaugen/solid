@@ -1,5 +1,5 @@
-#include "nullaudio.h"
-#include <application.h>
+#include "sdlaudio.h"
+#include <core/application.h>
 
 Audio::SDLAudio::SDLAudio()
 {
@@ -15,7 +15,7 @@ bool Audio::SDLAudio::Init()
 
     if (stream == NULL)
     {
-        Log("Uhoh, stream failed to create: " + SDL_GetError());
+        //Log("Uhoh, stream failed to create: " + SDL_GetError());
 
         return false;
     }
@@ -44,12 +44,12 @@ void Audio::SDLAudio::PlaySound(const char* sound, int type = Audio::SFX)
     //int num_samples = read_more_samples_from_disk(samples); // whatever.
     // you tell it the number of _bytes_, not samples, you're putting!
 
-    int rc = SDL_AudioStreamPut(stream, samples, num_samples * sizeof (Sint16));
+    /*int rc = SDL_AudioStreamPut(stream, samples, num_samples * sizeof (Sint16));
     if (rc == -1)
     {
         Log("Uhoh, failed to put samples in stream: " + SDL_GetError());
         return;
-    }
+    }*/
 }
 
 void Audio::SDLAudio::Update()

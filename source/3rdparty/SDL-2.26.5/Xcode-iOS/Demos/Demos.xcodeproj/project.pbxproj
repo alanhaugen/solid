@@ -511,7 +511,7 @@
 						DevelopmentTeam = MXGJJ98X76;
 					};
 					FD15FCB10E086866003BDF25 = {
-						DevelopmentTeam = MXGJJ98X76;
+						DevelopmentTeam = TRRZ3C499K;
 					};
 					FD5F9BE30E0DEBEA008E885B = {
 						DevelopmentTeam = MXGJJ98X76;
@@ -523,11 +523,11 @@
 						DevelopmentTeam = MXGJJ98X76;
 					};
 					FDC52EC60E2843D6008D768C = {
-						DevelopmentTeam = MXGJJ98X76;
+						DevelopmentTeam = TRRZ3C499K;
 						ProvisioningStyle = Automatic;
 					};
 					FDF0D6920E12D05400247964 = {
-						DevelopmentTeam = MXGJJ98X76;
+						DevelopmentTeam = TRRZ3C499K;
 					};
 				};
 			};
@@ -894,6 +894,9 @@
 		FD15FCB50E086866003BDF25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huldragames.Happy;
 				PRODUCT_NAME = Happy;
 			};
 			name = Debug;
@@ -901,6 +904,9 @@
 		FD15FCB60E086866003BDF25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huldragames.Happy;
 				PRODUCT_NAME = Happy;
 			};
 			name = Release;
@@ -950,6 +956,9 @@
 		FDC52EDC0E2843D6008D768C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huldragames.Fireworks;
 				PRODUCT_NAME = Fireworks;
 			};
 			name = Debug;
@@ -957,6 +966,9 @@
 		FDC52EDD0E2843D6008D768C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huldragames.Fireworks;
 				PRODUCT_NAME = Fireworks;
 			};
 			name = Release;
@@ -964,6 +976,7 @@
 		FDF0D6A20E12D05400247964 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
 				PRODUCT_NAME = Mixer;
 			};
 			name = Debug;
@@ -971,6 +984,7 @@
 		FDF0D6A30E12D05400247964 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = TRRZ3C499K;
 				PRODUCT_NAME = Mixer;
 			};
 			name = Release;

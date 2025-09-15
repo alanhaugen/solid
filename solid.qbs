@@ -34,15 +34,6 @@ Project {
     ]
 
     property stringList staticLibs: [
-        "core",
-        "vulkanrenderer",
-        "stdfilesystem",
-        "nullscript",
-        "nullaudio",
-        "nullrenderer",
-        "nullfilesystem",
-        "bouncephysics",
-        "nullphysics"
     ]
 
     property stringList macosFrameworks: [
@@ -255,14 +246,37 @@ Project {
                 "source/core/platforms/sdl/sdltime.cpp",
                 "source/core/platforms/sdl/sdltime.h",
                 "source/core/platforms/sdl/gl.cpp",
-                "source/core/platforms/sdl/gl.h",
             ]
         }
     }
 
     Product {
         name: "portaudioaudio"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/audio/portaudioaudio/portaudioaudio.cpp",
@@ -274,7 +288,31 @@ Project {
 
     Product {
         name: "stdfilesystem"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/filesystem/std/stdfile.cpp",
@@ -286,7 +324,31 @@ Project {
 
     Product {
         name: "dx11renderer"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/renderer/dx11/dx11renderer.cpp",
@@ -298,7 +360,31 @@ Project {
 
     Product {
         name: "gles3renderer"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/renderer/gles3/gles3renderer.cpp",
@@ -314,7 +400,31 @@ Project {
 
     Product {
         name: "nullfilesystem"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/filesystem/null/nullfile.cpp",
@@ -325,8 +435,66 @@ Project {
     }
 
     Product {
-        name: "nullrenderer"
+        name: "nullscript"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
+
+        files: [
+            "source/modules/script/null/nullscript.cpp",
+            "source/modules/script/null/nullscript.h",
+        ]
+    }
+
+    Product {
+        name: "nullrenderer"
+        cpp.cxxLanguageVersion: "c++23"
+        type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/renderer/null/nullrenderer.cpp",
@@ -338,7 +506,31 @@ Project {
 
     Product {
         name: "nullaudio"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/audio/null/nullaudio.cpp",
@@ -348,7 +540,31 @@ Project {
 
     Product {
         name: "nullphysics"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/physics/null/nullphysics.cpp",
@@ -358,7 +574,31 @@ Project {
 
     Product {
         name: "bouncephysics"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/physics/bounce/bouncephysics.cpp",
@@ -368,7 +608,31 @@ Project {
 
     Product {
         name: "bulletphysics"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/physics/bullet/bulletphysics.cpp",
@@ -378,7 +642,31 @@ Project {
 
     Product {
         name: "sdlaudio"
+        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/audio/sdl/sdlaudio.cpp",
@@ -388,9 +676,32 @@ Project {
 
     Product {
         name: "vulkanrenderer"
+        cpp.cxxLanguageVersion: "c++23"
+
         type: "staticlibrary"
 
-        cpp.cxxLanguageVersion: "c++23"
+        Depends { name: "cpp" }
+
+        Properties {
+            condition: qbs.targetOS.contains("windows")
+
+            cpp.defines: project.defines.concat(project.windowsDefines)
+            cpp.includePaths: ["source", "include/mingw32"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("macos")
+
+            cpp.defines: project.defines.concat(project.sdlDefines)
+            cpp.includePaths: ["source", "include/darwin"]
+        }
+
+        Properties {
+            condition: qbs.targetOS.contains("linux")
+
+            cpp.defines: project.defines.concat(project.glfwDefines)
+            cpp.includePaths: ["source", "include/linux"]
+        }
 
         files: [
             "source/modules/renderer/vulkan/vk_mem_alloc.h",
