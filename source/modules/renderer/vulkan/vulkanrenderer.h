@@ -24,6 +24,15 @@ private:
 
     UploadContext uploadContext;
 
+    struct Pipeline
+    {
+        std::string name;
+        VkPipeline pipeline;
+        VkPipelineLayout pipelineLayout;
+    };
+
+    std::vector<Pipeline> pipelines;
+
     // Depth buffer
     struct AllocatedImage {
         VkImage image;
@@ -164,6 +173,8 @@ private:
     void UploadTexturesToGPU();
 
     Array<VulkanTexture *> textures;
+
+    VulkanTexture* FindTexture(String filename);
 
 protected:
 public:

@@ -338,6 +338,20 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
                                                   VulkanDrawable* drawable,
                                                   int topology)
 {
+    // Name of the pipeline based on the vertex and fragment shader paths
+    std::string name = std::string(fragShaderPath) + std::string(vertShaderPath);
+
+    // Look for pipeline
+    for (unsigned i = 0; i < pipelines.size(); i++)
+    {
+        if (pipelines[i].name == name)
+        {
+            drawable->pipelineLayout = pipelines[i].pipelineLayout;
+            return pipelines[i].pipeline;
+        }
+    }
+
+    // Make a shader
     bool success = LoadShader(URL(vertShaderPath), &triangleVertShader);
 
     if (success == false)
@@ -522,6 +536,9 @@ VkPipeline VulkanRenderer::CreateGraphicsPipeline(VkDevice device, VkRenderPass 
     }
     else
     {
+        Pipeline pipe { name, newPipeline, drawable->pipelineLayout };
+        pipelines.push_back(pipe);
+
         return newPipeline;
     }
 }
@@ -1121,9 +1138,22 @@ void VulkanRenderer::UploadTexturesToGPU()
     }*/
 }
 
+VulkanTexture* VulkanRenderer::FindTexture(String filename)
+{
+    for (unsigned int i = 0; i < textures.Size(); i++)
+    {
+        if (textures[i]->name == filename)
+        {
+            return textures[i];
+        }
+    }
+
+    return NULL;
+}
+
 ITexture *VulkanRenderer::CreateTexture(String filename)
 {
-    VulkanTexture *texture = NULL;//; FindTexture(filename);
+    VulkanTexture* texture = FindTexture(filename);
 
     if (texture == NULL)
     {
@@ -1139,7 +1169,7 @@ ITexture *VulkanRenderer::CreateTexture(String filename)
 
 ITexture *VulkanRenderer::CreateTexture(String front, String back, String top, String bottom, String left, String right)
 {
-    VulkanTexture *texture = NULL;//; FindTexture(filename);
+    VulkanTexture *texture = NULL; // FindTexture(filename);
 
     if (texture == NULL)
     {

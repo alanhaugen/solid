@@ -182,8 +182,8 @@ VulkanDrawable::~VulkanDrawable()
         }
     }
 
-    vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-    vkDestroyPipeline(device, pipeline, nullptr);
+    //vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+    //vkDestroyPipeline(device, pipeline, nullptr);
 }
 
 VulkanDrawable::VertexInputDescription VulkanDrawable::GetVertexDescription()

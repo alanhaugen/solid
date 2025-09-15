@@ -14,6 +14,7 @@ VulkanTexture::VulkanTexture()
 
 VulkanTexture::VulkanTexture(String filePath, VkDevice device_, VkPhysicalDevice physicalDevice_, VmaAllocator allocator)
 {
+    name = filePath;
     device = device_;
     physicalDevice = physicalDevice_;
 
