@@ -621,7 +621,7 @@ void Mesh::LoadFrom3DFile(const String &filePath, const String vertexShaderPath,
     delete file;
 }
 
-void Mesh::LoadFromWavefront(const String &filePath)
+void Mesh::LoadFromWavefront(const String &filePath, const String vertexShaderPath, const String fragmentShaderPath)
 {
     const bool left_handed = false;
     const bool log_enable = false;
@@ -670,8 +670,8 @@ void Mesh::LoadFromWavefront(const String &filePath)
     Array<unsigned int> indices;
     Array<String> shaders(2);
 
-    shaders.Insert("data/simple.vert", VERTEX_SHADER);
-    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
+    shaders.Insert(vertexShaderPath, VERTEX_SHADER);
+    shaders.Insert(fragmentShaderPath, FRAGMENT_SHADER);
 
     glm::vec4 color(255.0, 255.0, 255.0, 255.0);
     typedef IDrawable::Vertex Vertex;
@@ -792,7 +792,7 @@ Mesh::Mesh(const String &filePath, const String vertexShaderPath, const String f
     }
     else if (file_ext == ".obj")
     {
-        LoadFromWavefront(filePath);
+        LoadFromWavefront(filePath, vertexShaderPath, fragmentShaderPath);
     }
     else if (file_ext == ".3dformat")
     {

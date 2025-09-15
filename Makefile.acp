@@ -40,7 +40,7 @@ TEXT_EXTENSIONS = vert|frag|json
 #############################################################################
 
 #FORMATS = $(CONVERT_FORMATS)|$(ASSIMP_FORMATS)|$(AUDACITY_FORMATS)|$(TEXT_EXTENSIONS)
-FORMATS = vert|frag|json|blend|wav|mkv|png|bmp|jpg
+FORMATS = vert|frag|json|blend|wav|mkv|png|bmp|jpg|obj
 
 #PROJECT_FILES ?= $(SOURCES)
 
@@ -101,7 +101,7 @@ intermediate/data/%.frag.spv: data/%.frag
 
 intermediate/data/%.blend: data/%.blend $(SOLIDCORE)/source/tools/3dformat.py
 	@mkdir -p $@
-	@touch $@
+	@rmdir $@
 	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$< "$(ENDIANNESS)" 
 
 intermediate/data/%.mkv: data/%.mkv
@@ -127,12 +127,17 @@ intermediate/data/%.bmp: data/%.bmp
 
 intermediate/data/%.3dformat: data/%.blend
 	@mkdir -p $@
-	@touch $@
+	@rmdir $@
 	$(BLENDER) --background $< --python $(SOLIDCORE)/source/tools/3dformat.py -- intermediate/$< "$(ENDIANNESS)"
 
 intermediate/data/%.json: data/%.json
 	@mkdir -p $@
 	@touch $@
+	cp $< intermediate/$<
+
+intermediate/data/%.obj: data/%.obj
+	@mkdir -p $@
+	@rmdir $@
 	cp $< intermediate/$<
 
 ifndef ES_PROFILE

@@ -36,14 +36,14 @@ void Primitives::Init()
     green->drawable->uniforms.colour = glm::vec4(0, 1, 0, 1);
     blue->drawable->uniforms.colour  = glm::vec4(0, 0, 1, 1);
 
-    //monkey = new Mesh("data/monkey.obj");
+    monkey = new Mesh("data/monkey.obj");
     Camera* cam = new Camera();
 
     components.Add(cam);
     components.Add(red);
     components.Add(green);
     components.Add(blue);
-    //components.Add(monkey);
+    components.Add(monkey);
     components.Add(new Text("Solid Game Engine"));
     components.Add(new FPSCamera(cam));
     components.Add(new Background(glm::vec3(1.0f), cam));

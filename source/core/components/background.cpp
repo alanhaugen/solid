@@ -234,6 +234,70 @@ Background::Background(String front,
     Init();
 }
 
+Background::Background(String vertexShaderPath, String fragmentShaderPath)
+{
+    Array<String> shaders(2);
+    Array<IDrawable::Vertex> vertices;
+    Array<unsigned int> indices;
+
+    float length = 10.0f;
+    float height = 10.0f;
+    float width = 10.0f;
+    glm::vec4 color;
+
+    // A cube which covers the entire screen
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,0)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,0)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height,  1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length,  1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height, -1.0f*width), color, glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 1.0f*length, -1.0f*height,  1.0f*width), color, glm::vec2(0,0)));
+
+    shaders.Insert(vertexShaderPath, VERTEX_SHADER);
+    shaders.Insert(fragmentShaderPath, FRAGMENT_SHADER);
+
+    drawable = renderer->CreateDrawable(vertices, indices, shaders, NULL);
+    drawable->hasDepth    = false; // Don't render as 3D
+    drawable->sendToFront = false; // Render behind everything else
+
+    matrix.Scale(glm::vec3(10.0f));
+}
+
 void Background::Update()
 {
     if (scrolling)

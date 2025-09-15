@@ -29,6 +29,15 @@ void Mat::Translate(glm::vec3 pos)
     SetXYZ();
 }
 
+void Mat::SetPosition(glm::vec3 pos)
+{
+    matrix[3].x = pos.x;
+    matrix[3].y = pos.y;
+    matrix[3].z = pos.z;
+
+    SetXYZ();
+}
+
 /*void Mat::Translate(glm::vec4 pos)
 {
     //matrix[3] += pos; // Not correct???

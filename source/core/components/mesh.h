@@ -16,7 +16,6 @@
 class Mesh : public Component
 {
 private:
-    Array<IDrawable*> drawables;
     Joint *rootJoint;
 
     ITime *framerate;
@@ -25,13 +24,14 @@ private:
     //Animation *emptyAnimation;
 
     //void LoadFromGLTF(const URL filePath);
-    void LoadFromWavefront(const String &filePath);
+    void LoadFromWavefront(const String &filePath, const String vertexShaderPath = "data/simple.vert", const String fragmentShaderPath = "data/simple.frag");
     void LoadFrom3DFile(const String &filePath, const String vertexShaderPath = "data/simple.vert", const String fragmentShaderPath = "data/simple.frag");
 
     float time; // TODO: REMOVE when obj animation hack is obsolete
     //Array<Animation*> animations;
 
 public:
+    Array<IDrawable*> drawables;
     Mesh(const String &type, glm::vec4 vertexColor);
     Mesh(const String &filePath, const String vertexShaderPath = "data/simple.vert", const String fragmentShaderPath = "data/simple.frag");
     Mesh(Array<IDrawable::Vertex> &vertices, Array<unsigned int> &indices, Actor *actor = NULL);

@@ -20,6 +20,7 @@ public:
     //void Rotation();
     //void Scale();
     void Translate(glm::vec3);
+    void SetPosition(glm::vec3);
     //void Translate(glm::vec4);
 
     void Scale(glm::vec3);

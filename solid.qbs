@@ -252,8 +252,8 @@ Project {
 
     Product {
         name: "portaudioaudio"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -288,8 +288,8 @@ Project {
 
     Product {
         name: "stdfilesystem"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -324,8 +324,8 @@ Project {
 
     Product {
         name: "dx11renderer"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -360,8 +360,8 @@ Project {
 
     Product {
         name: "gles3renderer"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -400,8 +400,8 @@ Project {
 
     Product {
         name: "nullfilesystem"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -436,8 +436,8 @@ Project {
 
     Product {
         name: "nullscript"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -470,8 +470,8 @@ Project {
 
     Product {
         name: "nullrenderer"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -506,8 +506,8 @@ Project {
 
     Product {
         name: "nullaudio"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -540,8 +540,8 @@ Project {
 
     Product {
         name: "nullphysics"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -574,8 +574,8 @@ Project {
 
     Product {
         name: "bouncephysics"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -608,8 +608,8 @@ Project {
 
     Product {
         name: "bulletphysics"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -642,8 +642,8 @@ Project {
 
     Product {
         name: "sdlaudio"
-        cpp.cxxLanguageVersion: "c++23"
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 
@@ -676,9 +676,8 @@ Project {
 
     Product {
         name: "vulkanrenderer"
-        cpp.cxxLanguageVersion: "c++23"
-
         type: "staticlibrary"
+        cpp.cxxLanguageVersion: "c++23"
 
         Depends { name: "cpp" }
 

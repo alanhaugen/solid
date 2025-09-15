@@ -24,6 +24,8 @@ public:
                String right,
                Camera *camera);
 
+    Background(String vertexShaderPath, String fragmentShaderPath);
+
     void Update();
     void UpdateAfterPhysics();
 
