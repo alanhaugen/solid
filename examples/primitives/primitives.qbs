@@ -6,67 +6,25 @@ solid {
         cpp.cxxLanguageVersion: "c++23"
 
         files: [
-            "data/bg.frag",
-            "data/bg.vert",
-            "data/cubemap.frag",
-            "data/cubemap.vert",
-            "data/gouraud.frag",
-            "data/gouraud.vert",
-            "data/app.rc",
-            "data/app.res",
-            "data/blender/bishop.blend",
-            "data/blender/bishop.blend1",
-            "data/blender/board.blend",
-            "data/blender/boardandpieces.blend",
-            "data/blender/boardandpieces.blend1",
-            "data/blender/king.blend",
-            "data/blender/king.blend1",
-            "data/blender/knight.blend",
-            "data/blender/knight.blend1",
-            "data/blender/pawn.blend",
-            "data/blender/pawn.blend1",
-            "data/blender/queen.blend",
-            "data/blender/queen.blend1",
-            "data/blender/rook.blend",
-            "data/blender/rook.blend1",
-            "data/blender/shogi.blend",
-            "data/blender/shogi.blend1",
-            "data/gui.frag",
-            "data/gui.vert",
-            "data/icon.png",
-            "data/icon_1024x1024.png",
-            "data/icon_128x128.png",
-            "data/icon_16x16.png",
-            "data/icon_256x256.png",
-            "data/icon_32x32.png",
-            "data/icon_512x512.png",
-            "data/icon_64x64.png",
-            "data/icon_96x96.png",
-            "data/logo_inv_jpg.jpg",
-            "data/phong.frag",
-            "data/phong.vert",
-            "data/project.json",
-            "data/sheet.png",
-            "data/simple.frag",
-            "data/simple.vert",
-            "data/solid.ico",
-            "data/vertexanimation.frag",
-            "data/vertexanimation.vert",
             "source/main.cpp",
             "source/main.h",
         ]
 
-        Depends { name: "core"  }
+        property stringList includePaths: "../../../solid/source"
+
+        Depends { name: "cpp" }
+        Depends { name: "core" }
         Depends { name: "nullrenderer"  }
         Depends { name: "nullphysics"  }
         Depends { name: "nullaudio"  }
         Depends { name: "nullphysics"  }
         Depends { name: "nullfilesystem"  }
-        Depends { name: "gles3renderer"  }
+        Depends { name: "nullscript" }
+        Depends { name: "vulkanrenderer"  }
         Depends { name: "stdfilesystem"  }
         Depends { name: "portaudioaudio"  }
-
-        property stringList includePaths: "../../../solid/source"
+        Depends { name: "nullphysics" }
+        Depends { name: "bouncephysics" }
 
         Properties {
             condition: qbs.targetOS.contains("macos")
@@ -85,8 +43,8 @@ solid {
             cpp.dynamicLibraries: macosSharedLibs
             cpp.staticLibraries: staticLibs.concat("SDL2", "MoltenVK")
 
-            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/darwin/" + qbs.architecture]
-            cpp.includePaths: includePaths.concat("../../../solid/include/darwin")
+            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/darwin/" + qbs.architecture]
+            cpp.includePaths: includePaths.concat("../solid/include/darwin")
             cpp.defines: project.defines.concat(project.sdlDefines)
         }
 
@@ -96,8 +54,8 @@ solid {
             cpp.dynamicLibraries: linuxSharedLibs
             cpp.staticLibraries: staticLibs.concat("glfw3")
 
-            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/linux" + qbs.architecture]
-            cpp.includePaths: includePaths.concat("../../../solid/include/linux")
+            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/linux" + qbs.architecture]
+            cpp.includePaths: includePaths.concat("../solid/include/linux")
             cpp.defines: project.defines.concat(project.glfwDefines)
         }
 
@@ -111,10 +69,5 @@ solid {
             cpp.includePaths: includePaths.concat("../../../solid/include/mingw32")
             cpp.defines: project.defines.concat(project.windowsDefines)
         }
-
-        Depends { name: "cpp" }
-        Depends { name: "core" }
-        Depends { name: "nullphysics" }
-        Depends { name: "bulletphysics" }
     }
 }
