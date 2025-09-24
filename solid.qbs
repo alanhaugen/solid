@@ -1,19 +1,18 @@
 Project {
     property stringList defines: [
         "AUDIO_HEADER=modules/audio/null/nullaudio.h",
-        "RENDERER_HEADER=modules/renderer/vulkan/vulkanrenderer.h",
+        "RENDERER_HEADER=modules/renderer/gles3/gles3renderer.h",
   //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
         "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
         "FILESYSTEM_HEADER=modules/filesystem/std/stdfilesystem.h",
         "AUDIO=Audio::NullAudio",
-        "RENDERER=VulkanRenderer",
+        "RENDERER=GLES3Renderer",
   //      "PHYSICS=BulletPhysics",
         "PHYSICS=Physics::BouncePhysics",
         "SCRIPT=Script::NullScript",
         "FILESYSTEM=StdFileSystem",
-        "VIDEO=THEORA",
-        "USE_VULKAN=1"
+        "VIDEO=THEORA"
     ]
 
     property stringList sdlDefines: [
@@ -73,6 +72,18 @@ Project {
         name: "core"
         type: "staticlibrary"
         cpp.cxxLanguageVersion: "c++23"
+
+        Depends { name: "nullrenderer"  }
+        Depends { name: "nullphysics"  }
+        Depends { name: "nullaudio"  }
+        Depends { name: "nullphysics"  }
+        Depends { name: "nullfilesystem"  }
+        Depends { name: "nullscript" }
+        Depends { name: "gles3renderer"  }
+        Depends { name: "stdfilesystem"  }
+        Depends { name: "portaudioaudio"  }
+        Depends { name: "nullphysics" }
+        Depends { name: "bouncephysics" }
 
         files: [
             "source/3rdparty/jsmn.cpp",
@@ -228,6 +239,7 @@ Project {
                 "source/core/platforms/win/wintime.cpp",
                 "source/core/platforms/win/wintime.h",
                 "source/core/platforms/win/gl.cpp",
+                "source/core/platforms/win/wgl.cpp",
             ]
         }
 
@@ -644,6 +656,7 @@ Project {
         name: "sdlaudio"
         type: "staticlibrary"
         cpp.cxxLanguageVersion: "c++23"
+        condition: qbs.targetOS.includes("unix")
 
         Depends { name: "cpp" }
 
@@ -678,6 +691,8 @@ Project {
         name: "vulkanrenderer"
         type: "staticlibrary"
         cpp.cxxLanguageVersion: "c++23"
+
+        condition: qbs.targetOS.contains("macos")
 
         Depends { name: "cpp" }
 
