@@ -43,7 +43,7 @@ void Primitives::Init()
     components.Add(red);
     components.Add(green);
     components.Add(blue);
-    components.Add(monkey);
+//    components.Add(monkey);
     components.Add(new Text("Solid Game Engine"));
     components.Add(new FPSCamera(cam));
     components.Add(new Background(glm::vec3(1.0f), cam));

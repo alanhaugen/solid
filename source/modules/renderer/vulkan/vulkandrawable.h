@@ -7,8 +7,6 @@
 #include "vk_mem_alloc.h"
 #include <vector>
 
-static float fTime = 0.0f;
-
 struct AllocatedBuffer
 {
     VkBuffer buffer;
@@ -47,6 +45,7 @@ private:
     VkDevice device;
     VmaAllocator allocator;
     VmaAllocation allocation;
+    float fTime = 0.0f;
 
 public:
     AllocatedBuffer vertexBuffer;

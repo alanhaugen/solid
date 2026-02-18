@@ -13,7 +13,6 @@ class Component : public Locator
 {
 public:
     Component();
-    ~Component();
 
     Mat matrix;
     String tag;

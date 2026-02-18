@@ -116,8 +116,8 @@ public:
     void Swap(Ptr &o)
     {
         T *temp  = data;
-        data     = o.object;
-        o.object = temp;
+        //data     = o.object; // FIXME: This suddenly broke on macos with clang++ 17.0.0
+        //o.object = temp;
 
         bool tempEmpty = empty;
         empty = o.empty;
