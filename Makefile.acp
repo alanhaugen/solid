@@ -78,6 +78,10 @@ ifeq ($(RENDERER),VulkanRenderer)
 endif
 endif
 
+ifdef DISABLE_ACP
+    FILES = 
+endif
+
 DATA = $(subst data,intermediate/data,$(FILES))
 
 #############################################################################
