@@ -1,18 +1,19 @@
 Project {
     property stringList defines: [
         "AUDIO_HEADER=modules/audio/null/nullaudio.h",
-        "RENDERER_HEADER=modules/renderer/gles3/gles3renderer.h",
+        "RENDERER_HEADER=modules/renderer/vulkan/vulkanrenderer.h",
   //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
         "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
         "FILESYSTEM_HEADER=modules/filesystem/std/stdfilesystem.h",
         "AUDIO=Audio::NullAudio",
-        "RENDERER=GLES3Renderer",
+        "RENDERER=VulkanRenderer",
   //      "PHYSICS=BulletPhysics",
         "PHYSICS=Physics::BouncePhysics",
         "SCRIPT=Script::NullScript",
         "FILESYSTEM=StdFileSystem",
-        "VIDEO=THEORA"
+        "VIDEO=THEORA",
+        "USE_VULKAN=1"
     ]
 
     property stringList sdlDefines: [

@@ -1,0 +1,165 @@
+# =================================================================
+# Qt AI Assistant .aiignore File
+# =================================================================
+# This file tells Qt AI Assistant which files and directories to ignore
+# when scanning your project for context. Use patterns similar to .gitignore.
+#
+# IMPORTANT DISTINCTION:
+# - Binary files (images, executables, etc.) are automatically detected and
+#   excluded from AI context, but may still appear in the project index
+# - .aiignore patterns exclude files from BOTH the project index AND content reading
+# - Use .aiignore if you want to completely hide certain files from the LLM context
+#
+# PERFORMANCE BENEFITS:
+# - Save money: Fewer tokens consumed by excluding irrelevant files
+# - Faster processing: Less data to scan, read, and transmit
+# - Better responses: Smaller, more focused context improves AI accuracy
+#
+# Examples of specific file exclusions:
+#   # Exclude a specific file: my_secret_key.txt
+#   # Exclude filename in any directory: debug.log
+#   # Exclude by pattern: *.key, local.*
+#   # Exclude entire directory: temp, cache
+#   # Exclude filename globally: file.txt (excludes ALL files named 'file.txt')
+#
+# IMPORTANT: Current implementation behavior:
+#   - File patterns match ONLY the filename (global): 'file.txt' excludes ALL files named 'file.txt'
+#   - Path-based patterns with '/' like 'build/*' or 'docs/**' are NOT supported
+#     for files or directories (only component/filename matching is used)
+#   - Use simple patterns: 'build', 'docs', '*.log', 'generated' for global exclusions
+#
+# The .aiignore file should be placed in your project root directory to be found.
+# =================================================================
+
+# Qt AI Assistant related files (including this .aiignore file)
+.aiignore
+
+# =================================================================
+# Version Control - Source control system directories
+# =================================================================
+# Git repository data
+.git
+# Subversion repository data
+.svn
+# Mercurial repository data
+.hg
+
+# =================================================================
+# Build Directories - Generated build artifacts and output folders
+# =================================================================
+# Common build directory names across different build systems
+build
+build-*
+install
+out
+dist
+target
+bin
+obj
+
+# =================================================================
+# Dependencies - Third-party libraries and package manager directories
+# =================================================================
+# Node.js dependencies (npm/yarn)
+node_modules
+# PHP Composer dependencies
+vendor
+
+# =================================================================
+# IDE/Editor Directories - Development environment specific files
+# =================================================================
+# Visual Studio Code settings
+.vscode
+# IntelliJ IDEA / Android Studio settings
+.idea
+# Visual Studio settings
+.vs
+
+# =================================================================
+# Python - Python-specific cache and artifact directories
+# =================================================================
+# Python bytecode cache
+__pycache__
+# pytest cache
+.pytest_cache
+# MyPy type checker cache
+.mypy_cache
+# Coverage report data
+.coverage
+
+# =================================================================
+# Compiled Files - Binary executables and object files
+# =================================================================
+# Common compiled object files
+*.o
+*.obj
+# Executables
+*.exe
+# Dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# =================================================================
+# Temporary Files - Files that are often auto-generated or temporary
+# =================================================================
+# Log files
+*.log
+# Temporary files
+*.tmp
+*.temp
+# User-specific files (Qt Creator, etc.)
+*.user
+# Auto-save files
+*.autosave
+# Backup files (original versions)
+*.orig
+# Backup files
+*.bak
+*.backup
+
+# =================================================================
+# Additional Examples (uncomment to use)
+# =================================================================
+# Exclude specific sensitive files
+# secret_config.json
+# api_keys.txt
+#
+# Exclude generated documentation (saves tokens and processing time)
+docs
+*.html
+#
+# Exclude large data files (significant token savings)
+data/*.csv
+*.zip
+*.tar.gz
+*.pdf
+#
+# Exclude platform-specific files
+Thumbs.db
+.DS_Store
+# desktop.ini
+#
+# Exclude large binary files from project index (even though they're auto-detected)
+*.iso
+*.dmg
+# large_binary_file.bin
+#
+# Performance-focused exclusions (uncomment for maximum efficiency):
+.cache        # Cache directories
+dist          # Distribution files
+coverage      # Test coverage reports
+*.min.js      # Minified JavaScript files
+*.min.css     # Minified CSS files
+
+# Currently supported patterns (directory component matching):
+# build         # Exclude any directory named 'build'
+# obj           # Exclude any directory named 'obj'
+# generated     # Exclude any directory named 'generated'
+# build-*       # Exclude directories starting with 'build-'
+#
+# NOT currently supported:
+# docs/api/     # Full path patterns don't work (use 'docs' or 'api' instead)
+# build/*/obj/  # Complex path patterns don't work
+# docs/**/temp/ # Double wildcards don't work for files
+# src/**/generated/ # Arbitrary depth patterns don't work
