@@ -23,9 +23,6 @@ void Splash::Init()
     components.Add(new Background(glm::vec3(1,1,1)));
 
     timer = Application::GetTime();
-
-    // Set scene ID
-    id = Application::scenes.Size();
 }
 
 void Splash::Update(float dt)
