@@ -2,8 +2,6 @@
 #define SPLASH_H
 
 #include "core/x-platform/scene.h"
-#include "core/components/sprite.h"
-#include "core/components/text.h"
 
 class Splash : public IScene
 {

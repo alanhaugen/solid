@@ -11,7 +11,7 @@ public:
     ~Background();
 
     Background(Camera *camera);
-    Background(glm::vec3 colour, Camera *camera);
+    Background(glm::vec3 colour, Camera *camera = nullptr);
 
     Background(String texture, Camera *camera);
     Background(String texture, float scrollX_, float scrollY_, Camera *camera);
