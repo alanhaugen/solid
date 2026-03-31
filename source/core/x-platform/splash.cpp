@@ -28,7 +28,7 @@ void Splash::Init()
 
 void Splash::Update(float dt)
 {
-    if (timer->TimeSinceStarted() > 2000)
+    if (timer->TimeSinceStarted() > 2000.0f)
     {
         Application::NextScene();
     }

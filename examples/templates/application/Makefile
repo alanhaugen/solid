@@ -15,8 +15,8 @@ LIBS = \
 # Source and header files
 #############################################################################
 
-SOURCES = \
-    $(wildcard source/*.cpp)
+# Recursively find all .cpp source files under source/ 
+SOURCES := $(shell find source -type f -name '*.cpp')
 
 #############################################################################
 # Setup Asset Conditioning Pipeline
