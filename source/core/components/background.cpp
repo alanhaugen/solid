@@ -152,12 +152,12 @@ Background::Background(String texturePath, Camera *camera)
     Array<unsigned int> indices;
 
     // A cube which covers the entire screen
-    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f)));
-    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f), glm::vec2(0,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec2(0,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f), glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f, -10.0f), glm::vec2(1,1)));
+    vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f,  10.0f, -10.0f), glm::vec2(1,0)));
+    vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f,  10.0f, -10.0f), glm::vec2(0,0)));
 
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f, -10.0f)));
@@ -194,8 +194,8 @@ Background::Background(String texturePath, Camera *camera)
     vertices.Add(IDrawable::Vertex(glm::vec3(-10.0f, -10.0f,  10.0f)));
     vertices.Add(IDrawable::Vertex(glm::vec3( 10.0f, -10.0f,  10.0f)));
 
-    shaders.Insert("data/bg.vert", VERTEX_SHADER);
-    shaders.Insert("data/bg.frag", FRAGMENT_SHADER);
+    shaders.Insert("data/simple.vert", VERTEX_SHADER);
+    shaders.Insert("data/simple.frag", FRAGMENT_SHADER);
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     drawable->hasDepth    = false; // Don't render as 3D
