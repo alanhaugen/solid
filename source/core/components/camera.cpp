@@ -3,7 +3,7 @@
 Camera::Camera()
 {
     Init();
-    Update();
+    Update(0.0f);
 }
 
 Camera::Camera(float x, float y, float z)
@@ -11,7 +11,7 @@ Camera::Camera(float x, float y, float z)
     Init();
 
     position = glm::vec3(x, y, z);
-    Update();
+    Update(0.0f);
 }
 
 Camera::Camera(glm::vec3 _position, glm::vec3 _worldUp, float _yaw, float _pitch, float _roll)
@@ -24,7 +24,7 @@ Camera::Camera(glm::vec3 _position, glm::vec3 _worldUp, float _yaw, float _pitch
     pitch = _pitch;
     roll = _roll;
 
-    Update();
+    Update(0.0f);
 }
 
 Camera::Camera(glm::vec3 _position, glm::vec3 _worldUp, glm::vec3 lookAt, float fov)
@@ -55,7 +55,7 @@ void Camera::UpdateAfterPhysics()
 
 }
 
-void Camera::Update()
+void Camera::Update(float deltaTime)
 {
     LookAt(right, up, forward);
     //viewProjections[viewProjectionPosition] = getProjectionViewMatrix(); // TODO: Check if this actually makes sense??

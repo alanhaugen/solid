@@ -141,6 +141,8 @@ Project {
             "source/core/components/sprite.h",
             "source/core/components/sphere.cpp",
             "source/core/components/sphere.h",
+            "source/core/components/terrain.cpp",
+            "source/core/components/terrain.h",
             "source/core/components/triangle.cpp",
             "source/core/components/triangle.h",
             "source/core/components/sound.cpp",

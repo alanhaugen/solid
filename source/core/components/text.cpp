@@ -7,9 +7,9 @@ Text::Text(String text_, float x_, float y_, const float scaleX_, const float sc
     tag = "Text";
 }
 
-void Text::Update()
+void Text::Update(float deltaTime)
 {
-    Sprite::Update();
+    Sprite::Update(deltaTime);
 }
 
 void Text::UpdateAfterPhysics()

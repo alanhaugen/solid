@@ -30,6 +30,7 @@ SOURCES = \
     source/core/components/mesh.cpp \
     source/core/components/sprite.cpp \
     source/core/components/sphere.cpp \
+    source/core/components/terrain.cpp \
     source/core/components/triangle.cpp \
     source/core/components/rectangle.cpp \
     source/core/components/circle.cpp \

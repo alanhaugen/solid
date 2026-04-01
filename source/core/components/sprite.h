@@ -56,7 +56,7 @@ public:
 
     IDrawable *drawable;
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
     // Add animation

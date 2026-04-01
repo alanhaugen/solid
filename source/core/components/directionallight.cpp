@@ -14,7 +14,7 @@ DirectionalLight::DirectionalLight(glm::vec3 _colour, float aIntensity, float dI
     diffuseIntensity = dIntensity;
 }
 
-void DirectionalLight::Update()
+void DirectionalLight::Update(float deltaTime)
 {
 }
 

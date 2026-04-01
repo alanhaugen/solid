@@ -298,7 +298,7 @@ Background::Background(String vertexShaderPath, String fragmentShaderPath)
     matrix.Scale(glm::vec3(10.0f));
 }
 
-void Background::Update()
+void Background::Update(float deltaTime)
 {
     if (scrolling)
     {

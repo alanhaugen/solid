@@ -50,13 +50,13 @@ void Actor::UpdateAfterPhysics()
     }
 }
 
-void Actor::Update()
+void Actor::Update(float deltaTime)
 {
     // Update game components
     for (unsigned int i = 0; i < components.Size(); i++)
     {
         (*components[i])->matrix.subMatrix = matrix.matrix;
-        (*components[i])->Update();
+        (*components[i])->Update(deltaTime);
         //(*components[i])->matrix = (*components[i])->matrix.matrix * glm::affineInverse(matrix.matrix); // pop
     }
 

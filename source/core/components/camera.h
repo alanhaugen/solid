@@ -17,7 +17,7 @@ public:
     void SetViewPort( glm::vec2 offset, glm::vec2 size ) { viewPortOffset = offset; viewPortSize = size; }
     glm::vec2 getViewPortOffset() { return viewPortOffset; }
     glm::vec2 getViewPortSize() { return viewPortSize; }
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
     void LookAt(glm::vec3 right, glm::vec3 up, glm::vec3 forward);
     Physics::IPhysics::Ray ScreenPointToRay( float x, float y ) const;

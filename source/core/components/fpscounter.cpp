@@ -17,13 +17,13 @@ void FPSCounter::UpdateAfterPhysics()
 {
 }
 
-void FPSCounter::Update()
+void FPSCounter::Update(float deltaTime)
 {
     float hz = 1.0f / counter->TimeSinceStarted() * 1000.0f; // 1 frame / elapsed sec
 
     delete text;
     text = new Text("FPS: " + String(hz));
-    text->Update();
+    text->Update(deltaTime);
 
     counter->Reset();
 }

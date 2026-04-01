@@ -13,7 +13,7 @@ public:
     ITime *counter;
     Text *text;
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

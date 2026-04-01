@@ -10,7 +10,7 @@ void SkipCutscene::UpdateAfterPhysics()
 {
 }
 
-void SkipCutscene::Update()
+void SkipCutscene::Update(float deltaTime)
 {
     if (video->isDone)
     {

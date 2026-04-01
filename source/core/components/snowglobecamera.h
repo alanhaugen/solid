@@ -23,7 +23,7 @@ public:
     SnowGlobeCamera();
     SnowGlobeCamera(Actor *target_, Camera *camera_);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

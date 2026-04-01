@@ -39,7 +39,7 @@ void Services::SetScene(IScene *_scene)
         // Update game components
         for (unsigned int i = 0; i < scene->components.Size(); i++)
         {
-            (*scene->components[i])->Update();
+            (*scene->components[i])->Update(deltaTime);
         }
     }
 }
@@ -52,7 +52,7 @@ void Services::UpdateScene(IScene *scene)
     // Update game components
     for (unsigned int i = 0; i < scene->components.Size(); i++)
     {
-        (*scene->components[i])->Update();
+        (*scene->components[i])->Update(deltaTime);
     }
 }
 

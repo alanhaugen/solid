@@ -12,7 +12,7 @@ private:
 public:
     SkipCutscene(VideoCapture *video_);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

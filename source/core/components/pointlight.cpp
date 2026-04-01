@@ -11,7 +11,7 @@ PointLight::PointLight(glm::vec3 pos, glm::vec3 colour_)
     colour = colour_;
 }
 
-void PointLight::Update()
+void PointLight::Update(float deltaTime)
 {
 
 }

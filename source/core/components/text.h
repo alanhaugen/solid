@@ -16,7 +16,7 @@ public:
          String textureAtlasPath = "data/sheet.png",
          const float distanceToNextGlyph = 1.0f);
     virtual ~Text() {};
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

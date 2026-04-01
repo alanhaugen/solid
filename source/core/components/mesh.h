@@ -39,7 +39,7 @@ public:
     Mesh();
     ~Mesh();
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
     void Hide();

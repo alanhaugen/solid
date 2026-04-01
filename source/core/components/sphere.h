@@ -11,7 +11,7 @@ public:
     ~Sphere();
     Sphere(glm::vec3 position, float radius);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
 private:

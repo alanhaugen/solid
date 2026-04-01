@@ -301,7 +301,7 @@ void theoraToRGB(theora_info ti, yuv_buffer yuv, U8 *texture)
 #endif
 
 
-void VideoCapture::Update()
+void VideoCapture::Update(float deltaTime)
 {
 #ifdef THEORA
     if (fps->TimeSinceStarted() >= (1000.0f / 60.0f))// (double)ti.fps_numerator/ti.fps_denominator))

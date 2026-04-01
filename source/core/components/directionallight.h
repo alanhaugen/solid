@@ -13,7 +13,7 @@ public:
     DirectionalLight();
     DirectionalLight(glm::vec3 colour, float aIntensity, float dIntensity);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

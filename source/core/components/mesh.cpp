@@ -815,7 +815,7 @@ void Mesh::UpdateAfterPhysics()
 
 }
 
-void Mesh::Update()
+void Mesh::Update(float deltaTime)
 {
     //animation->Update(rootJoint);
 

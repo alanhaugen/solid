@@ -168,7 +168,7 @@ Sprite::~Sprite()
     }
 }
 
-void Sprite::Update()
+void Sprite::Update(float deltaTime)
 {
     //quadQuantity/2 because each character's given space is half of its width
     transformedX = *matrix.x - (anchorPoint.x * width * scaleX + anchorPoint.x * width * scaleX * (quadQuantity-1)/2);

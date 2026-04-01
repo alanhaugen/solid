@@ -26,7 +26,7 @@ public:
 
     Background(String vertexShaderPath, String fragmentShaderPath);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
 private:

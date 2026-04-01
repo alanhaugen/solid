@@ -9,7 +9,7 @@ public:
     Triangle();
     Triangle(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex v3);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
 private:

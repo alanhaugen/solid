@@ -12,7 +12,7 @@ Triangle::Triangle(IDrawable::Vertex v1, IDrawable::Vertex v2, IDrawable::Vertex
     Init(v1, v2, v3);
 }
 
-void Triangle::Update()
+void Triangle::Update(float deltaTime)
 {
     //uniforms.Lock();
     //drawable->uniformData = uniforms;

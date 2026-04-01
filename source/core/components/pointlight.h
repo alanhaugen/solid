@@ -15,7 +15,7 @@ public:
     PointLight();
     PointLight(glm::vec3 pos, glm::vec3 colour_ = glm::vec3(1.0));
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

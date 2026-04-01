@@ -17,7 +17,7 @@ public:
 
     Component *FindComponent(const char *tag);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
     glm::vec3 forward;

@@ -20,7 +20,7 @@ void TankControls::Init()
     turnSpeed = 0.003f;
 }
 
-void TankControls::Update()
+void TankControls::Update(float deltaTime)
 {
     idle = dynamic_cast<Mesh*>(actor->FindComponent("idle"));
     walk = dynamic_cast<Mesh*>(actor->FindComponent("walk"));

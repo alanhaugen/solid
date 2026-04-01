@@ -15,7 +15,7 @@ void SnowGlobeCamera::UpdateAfterPhysics()
 {
 }
 
-void SnowGlobeCamera::Update()
+void SnowGlobeCamera::Update(float deltaTime)
 {
     if (input.Mouse.Down)
     {

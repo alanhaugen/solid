@@ -22,7 +22,7 @@ Sphere::Sphere(glm::vec3 pos, float _radius)
     mesh = NULL;
 }
 
-void Sphere::Update()
+void Sphere::Update(float deltaTime)
 {
     //mesh->SetPosition(position);
 }
