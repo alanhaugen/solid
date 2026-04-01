@@ -1,14 +1,20 @@
 # AGENTS.md
+
+## Agent framework
+
+The coding agent harness is called pi
+
+A model has access to four tools only: read, write, edit, and bash
  
 ## Project Overview
 
-This is a C++ game engine project.
+This is a C++ game project.
 
 - Language: C++
 - Build system: Make (Makefile)
-- Output: Native libraries (.a)
+- Output: Native executable
 
-The project is intended to be compiled locally.
+The project is intended to be compiled and run locally.
 
 ## Build Instructions
 
@@ -20,15 +26,11 @@ To clean build artifacts:
 
 > make clean
 
-The engine has a release and debug target, to build both run:
+## Run Instructions
 
-> make all
+After building, run the executable:
 
-## Testing
-
-After building, try testing the example project and run the executable:
-
-> cd examples/primitives && make run
+> make run
 
 ## Code Guidelines
 - Use modern C++ (C++17 or newer if possible)
@@ -39,11 +41,12 @@ After building, try testing the example project and run the executable:
 
 ## Project Structure
 
-./source          -> Source files (.cpp and .h)
-./source/core     -> Core platforms and x-platform code
-./source/modules  -> Swappable renderer, audio, ai, filesystem, physics and scripting implementations
-./build           -> Build output
-Makefile*         -> Build configuration
+./source       -> Source files (.cpp and .h)
+./data         -> Game assets (textures, audio, etc.)
+./build        -> Build output
+./bin          -> Binary files output
+./intermediate -> Intermediate files from the Asset Conditioning Pipeline
+Makefile       -> Build configuration
 
 ## Agent Instructions
 
