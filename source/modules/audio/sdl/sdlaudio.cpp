@@ -1,6 +1,7 @@
 #include "sdlaudio.h"
+#include "core/x-platform/locator.h"
+#include "core/x-platform/string.h"
 #include <SDL.h>
-#include <iostream>
 
 Audio::SDLAudio::SDLAudio()
 {
@@ -10,7 +11,9 @@ Audio::SDLAudio::SDLAudio()
 Audio::SDLAudio::~SDLAudio()
 {
     if (device)
+    {
         SDL_CloseAudioDevice(device);
+    }
 }
 
 bool Audio::SDLAudio::Init()
@@ -54,22 +57,27 @@ void Audio::SDLAudio::PlaySound(const char *sound, int type)
 {
     (void)type;
     if (!device)
+    {
         return;
+    }
 
     SDL_AudioSpec spec;
     Uint8 *wav_buffer = NULL;
     Uint32 wav_length = 0;
     if (SDL_LoadWAV(sound, &spec, &wav_buffer, &wav_length) == NULL)
     {
-        SDL_Log("Failed to load WAV %s: %s", sound, SDL_GetError());
+        LogError("Failed to load WAV " + String(sound) + SDL_GetError());
         return;
     }
-    if (spec.format != AUDIO_F32SYS) {
-        SDL_Log("Unsupported audio format for %s", sound);
-    } else {
+    if (spec.format != AUDIO_F32SYS)
+    {
+        LogError("Unsupported audio format for " + String(sound));
+    }
+    else
+    {
         if (SDL_QueueAudio(device, wav_buffer, wav_length) < 0)
         {
-            SDL_Log("Failed to queue audio: %s", SDL_GetError());
+            LogError("Failed to queue audio: " + String(SDL_GetError()));
         }
     }
 
