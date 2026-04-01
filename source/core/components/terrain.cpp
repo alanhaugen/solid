@@ -1,5 +1,4 @@
 #include "terrain.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include "3rdparty/stb_image.h"
 
 Terrain::Terrain(const char *filePath,
@@ -18,7 +17,7 @@ Terrain::Terrain(const char *filePath,
 
     if (n != 1)
     {
-        LogError("The texture used for the terrain has to many colour channles. Only images with one 8-bit grayscale channel are supported");
+        LogError("The texture used for the terrain has too many colour channles. Only images with one 8-bit grayscale channel are supported");
     }
 
     vertices.Resize(width * height);
@@ -92,6 +91,10 @@ Terrain::Terrain(const char *filePath,
 }
 
 void Terrain::Update(float deltaTime)
+{
+}
+
+void Terrain::UpdateAfterPhysics()
 {
 }
 

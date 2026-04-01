@@ -18,6 +18,7 @@ public:
             const char* vertexShaderPath = "shaders/phong.vert.spv",
             const char* fragmentShaderPath = "shaders/phong.frag.spv");
     void Update(float deltaTime);
+    void UpdateAfterPhysics();
 
     float GetHeightAt(float x, float z) const;
     float GetHeightAt(glm::vec3 positionXZ) const;

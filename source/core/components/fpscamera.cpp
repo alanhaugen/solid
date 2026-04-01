@@ -10,7 +10,7 @@ void FPSCamera::UpdateAfterPhysics()
 {
 }
 
-void FPSCamera::Update()
+void FPSCamera::Update(float deltaTime)
 {
     if (input.Mouse.Down)
     {

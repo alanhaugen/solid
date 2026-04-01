@@ -13,7 +13,7 @@ private:
 public:
     FPSCamera(Camera *_camera);
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 
     void UpdateCamera();
