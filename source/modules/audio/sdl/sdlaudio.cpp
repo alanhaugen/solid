@@ -1,58 +1,78 @@
 #include "sdlaudio.h"
-#include <core/application.h>
+#include <SDL.h>
+#include <iostream>
 
 Audio::SDLAudio::SDLAudio()
 {
+    device = 0;
 }
 
 Audio::SDLAudio::~SDLAudio()
 {
+    if (device)
+        SDL_CloseAudioDevice(device);
 }
 
 bool Audio::SDLAudio::Init()
 {
-    stream = SDL_NewAudioStream(AUDIO_S16, 1, 22050, AUDIO_F32, 2, 48000);
+    SDL_AudioSpec wanted;
+    SDL_zero(wanted);
+    wanted.freq = 44100;
+    wanted.format = AUDIO_F32SYS;
+    wanted.channels = 2;
+    wanted.samples = 4096;
+    wanted.callback = NULL;
+    wanted.userdata = NULL;
 
-    if (stream == NULL)
+    SDL_AudioSpec obtained;
+    device = SDL_OpenAudioDevice(NULL, 0, &wanted, &obtained, 0);
+    if (device == 0)
     {
-        //Log("Uhoh, stream failed to create: " + SDL_GetError());
-
+        SDL_Log("SDLAudio Init error: %s", SDL_GetError());
         return false;
     }
-
     return true;
 }
 
 bool Audio::SDLAudio::Shutdown()
 {
-    SDL_FreeAudioStream(stream);
-
+    if (device)
+    {
+        SDL_CloseAudioDevice(device);
+        device = 0;
+    }
     return true;
 }
 
 void Audio::SDLAudio::Stop()
 {
-    SDL_AudioStreamClear(stream);
+    if (device)
+        SDL_ClearQueuedAudio(device);
 }
 
-void Audio::SDLAudio::PlaySound(const char* sound, int type = Audio::SFX)
+void Audio::SDLAudio::PlaySound(const char *sound, int type)
 {
-    (void)(sound);
-    (void)(type);
-
-    Sint16 samples[1024];
-    //int num_samples = read_more_samples_from_disk(samples); // whatever.
-    // you tell it the number of _bytes_, not samples, you're putting!
-
-    /*int rc = SDL_AudioStreamPut(stream, samples, num_samples * sizeof (Sint16));
-    if (rc == -1)
-    {
-        Log("Uhoh, failed to put samples in stream: " + SDL_GetError());
+    (void)type;
+    if (!device)
         return;
-    }*/
-}
 
-void Audio::SDLAudio::Update()
-{
-    SDL_AudioStreamFlush(stream); // remove?
+    SDL_AudioSpec spec;
+    Uint8 *wav_buffer = NULL;
+    Uint32 wav_length = 0;
+    if (SDL_LoadWAV(sound, &spec, &wav_buffer, &wav_length) == NULL)
+    {
+        SDL_Log("Failed to load WAV %s: %s", sound, SDL_GetError());
+        return;
+    }
+    if (spec.format != AUDIO_F32SYS) {
+        SDL_Log("Unsupported audio format for %s", sound);
+    } else {
+        if (SDL_QueueAudio(device, wav_buffer, wav_length) < 0)
+        {
+            SDL_Log("Failed to queue audio: %s", SDL_GetError());
+        }
+    }
+
+    SDL_FreeWAV(wav_buffer);
+    SDL_PauseAudioDevice(device, 0); // start playback
 }

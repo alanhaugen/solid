@@ -16,14 +16,14 @@ DEPS ?= nullaudio nullscript nullfilesystem nullphysics nullrenderer solid
 #############################################################################
 
 PLATFORM   ?= SDLApplication
-AUDIO      ?= Audio::NullAudio
+AUDIO      ?= Audio::SDLAudio
 RENDERER   ?= VulkanRenderer
 PHYSICS    ?= Physics::BouncePhysics
 SCRIPT     ?= Script::NullScript
 FILESYSTEM ?= StdFileSystem
 
 PLATFORM_HEADER   ?= "core/platforms/sdl/sdlapplication.h"
-AUDIO_HEADER      ?= "modules/audio/null/nullaudio.h"
+AUDIO_HEADER      ?= "modules/audio/sdl/sdlaudio.h"
 PHYSICS_HEADER    ?= "modules/physics/bounce/bouncephysics.h"
 SCRIPT_HEADER     ?= "modules/script/null/nullscript.h"
 FILESYSTEM_HEADER ?= "modules/filesystem/std/stdfilesystem.h"
@@ -57,6 +57,11 @@ endif
 ifeq ($(AUDIO),PortaudioAudio)
     LIBS += -lvorbisenc -lvorbisfile -lvorbis -logg -lportaudioaudio -lportaudio -lsndfile 
     DEPS += portaudioaudio  
+endif
+
+ifeq ($(AUDIO),Audio::SDLAudio)
+    LIBS += -lsdlaudio
+    DEPS += sdlaudio  
 endif
 
 ifeq ($(PHYSICS),Physics::BouncePhysics)

@@ -152,6 +152,10 @@ portaudioaudio:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/audio/portaudioaudio
 	$(MAKE) release -C $(SOLIDCORE)/source/modules/audio/portaudioaudio
 
+sdlaudio:
+	$(MAKE) debug -C $(SOLIDCORE)/source/modules/audio/sdl
+	$(MAKE) release -C $(SOLIDCORE)/source/modules/audio/sdl
+
 bulletphysics:
 	$(MAKE) debug -C $(SOLIDCORE)/source/modules/physics/bullet
 	$(MAKE) release -C $(SOLIDCORE)/source/modules/physics/bullet

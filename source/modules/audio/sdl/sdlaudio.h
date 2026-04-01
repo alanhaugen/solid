@@ -2,15 +2,16 @@
 #define SDLAUDIO_H
 
 #include <modules/audio/audio.h>
+#include <modules/audio/null/nullaudio.h>
 #include <SDL_audio.h>
 
 namespace Audio
 {
 
-class SDLAudio : public IAudio
+class SDLAudio : public NullAudio
 {
 private:
-    SDL_AudioStream *stream;
+    SDL_AudioDeviceID device;
 
 public:
     SDLAudio();
@@ -19,7 +20,6 @@ public:
     virtual bool Shutdown();
     virtual void Stop();
     virtual void PlaySound(const char *sound, int type);
-    virtual void Update();
 };
 
 }

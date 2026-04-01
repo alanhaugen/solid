@@ -1,12 +1,12 @@
 Project {
     property stringList defines: [
-        "AUDIO_HEADER=modules/audio/null/nullaudio.h",
+        "AUDIO_HEADER=modules/audio/sdl/sdlaudio.h",
         "RENDERER_HEADER=modules/renderer/vulkan/vulkanrenderer.h",
   //      "PHYSICS_HEADER=modules/physics/bullet/bulletphysics.h",
         "PHYSICS_HEADER=modules/physics/bounce/bouncephysics.h",
         "SCRIPT_HEADER=modules/script/null/nullscript.h",
         "FILESYSTEM_HEADER=modules/filesystem/std/stdfilesystem.h",
-        "AUDIO=Audio::NullAudio",
+        "AUDIO=Audio::SDLAudio",
         "RENDERER=VulkanRenderer",
   //      "PHYSICS=BulletPhysics",
         "PHYSICS=Physics::BouncePhysics",
@@ -74,15 +74,17 @@ Project {
         type: "staticlibrary"
         cpp.cxxLanguageVersion: "c++23"
 
-        Depends { name: "nullrenderer"  }
-        Depends { name: "nullphysics"  }
-        Depends { name: "nullaudio"  }
-        Depends { name: "nullphysics"  }
-        Depends { name: "nullfilesystem"  }
+        Depends { name: "nullrenderer" }
+        Depends { name: "nullphysics" }
+        Depends { name: "nullaudio" }
+        Depends { name: "nullphysics" }
+        Depends { name: "nullfilesystem" }
         Depends { name: "nullscript" }
-        Depends { name: "gles3renderer"  }
-        Depends { name: "stdfilesystem"  }
-        Depends { name: "portaudioaudio"  }
+        Depends { name: "gles3renderer" }
+        Depends { name: "vulkanrenderer" }
+        Depends { name: "sdlaudio" }
+        Depends { name: "stdfilesystem" }
+        Depends { name: "portaudioaudio" }
         Depends { name: "nullphysics" }
         Depends { name: "bouncephysics" }
 
