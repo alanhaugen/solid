@@ -47,7 +47,7 @@ solid {
             cpp.includePaths: includePaths.concat("../solid/include/darwin")
             cpp.defines: project.defines.concat(project.sdlDefines)
 
-            workingDirectory: project.sourceDirectory + "/intermediate"
+            workingDirectory: project.sourceDirectory + "/data"
         }
 
         Properties {
@@ -60,7 +60,7 @@ solid {
             cpp.includePaths: includePaths.concat("../solid/include/linux")
             cpp.defines: project.defines.concat(project.glfwDefines)
 
-            workingDirectory: project.sourceDirectory + "/intermediate"
+            workingDirectory: project.sourceDirectory + "/data"
         }
 
         Properties {
@@ -73,7 +73,7 @@ solid {
             cpp.includePaths: includePaths.concat("../../../solid/include/mingw32")
             cpp.defines: project.defines.concat(project.windowsDefines)
 
-            workingDirectory: project.sourceDirectory + "/intermediate"
+            workingDirectory: project.sourceDirectory + "/data"
         }
     }
 }
