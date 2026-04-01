@@ -44,13 +44,16 @@ bool Audio::SDLAudio::Shutdown()
         SDL_CloseAudioDevice(device);
         device = 0;
     }
+
     return true;
 }
 
 void Audio::SDLAudio::Stop()
 {
     if (device)
+    {
         SDL_ClearQueuedAudio(device);
+    }
 }
 
 void Audio::SDLAudio::PlaySound(const char *sound, int type)

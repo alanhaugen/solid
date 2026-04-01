@@ -7,11 +7,12 @@ class Terrain : public Component
 {
 private:
     int width,height;
+    IDrawable* drawable;
 
-    void Init();
+    Array<IDrawable::Vertex> vertices;
+    Array<unsigned int> indices;
 
 public:
-    Terrain();
     Terrain(const char* filePath,
             const char* texturePath = "",
             const char* vertexShaderPath = "shaders/phong.vert.spv",
