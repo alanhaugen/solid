@@ -74,7 +74,7 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     if (hasCollision == true)
     {
-        collisionBox = physics->CreateHitBox(glm::vec3(.5), &matrix, tag);
+        collisionBox = physics->CreateHitBox(glm::vec3(1.0), &matrix, tag);
     }
     else
     {
@@ -105,7 +105,7 @@ bool Cube::isVisible()
     return drawable->visible;
 }
 
-void Cube::Update()
+void Cube::Update(float deltaTime)
 {
     //uniforms.Lock();
     drawable->matrix = matrix.subMatrix * matrix.matrix;

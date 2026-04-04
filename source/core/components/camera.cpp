@@ -80,7 +80,7 @@ Physics::IPhysics::Ray Camera::ScreenPointToRay(float x, float y) const
 
     glm::vec3 rayNDC(Px, Py, Pz);
 
-    glm::vec4 rayClip(rayNDC.x, rayNDC.y, -1.0, 1.0);
+    glm::vec4 rayClip(rayNDC.x, -rayNDC.y, -1.0, 1.0);
 
     glm::vec4 rayEye = glm::inverse(getProjectionMatrix()) * rayClip;
 

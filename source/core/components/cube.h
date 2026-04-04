@@ -26,7 +26,7 @@ public:
 
     bool isVisible();
 
-    void Update();
+    void Update(float deltaTime);
     void UpdateAfterPhysics();
 };
 

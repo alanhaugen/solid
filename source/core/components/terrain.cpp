@@ -17,7 +17,7 @@ Terrain::Terrain(const char *filePath,
 
     if (n != 1)
     {
-        LogError("The texture used for the terrain has too many colour channles. Only images with one 8-bit grayscale channel are supported");
+        LogError("The texture used for the terrain has too many colour channels. Only images with a single 8-bit channel are supported");
     }
 
     vertices.Resize(width * height);
