@@ -1,15 +1,13 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "core/components/component.h"
+#include "core/components/drawable.h"
 
-class Cube : public Component
+class Cube : public Drawable
 {
 private:
 
 public:
-    IDrawable *drawable;
-
     Physics::IPhysics::HitBox *collisionBox;
     glm::vec3 pos;
 
