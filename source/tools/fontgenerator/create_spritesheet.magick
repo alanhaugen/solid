@@ -1,0 +1,6 @@
+for filename in output*;
+#do convert "${filename}" -resize 64x64 -background magenta -gravity center -extent 64x64 "generated_${filename}"
+do convert "${filename}" -resize 64x64 -gravity center -extent 64x64 "generated_${filename}"
+done
+
+convert -append generated*.bmp -fuzz 2% -transparent white sheet.png
