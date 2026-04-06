@@ -826,7 +826,7 @@ void Mesh::Update(float deltaTime)
         renderer->Draw(drawables[i]);
     }
 
-    if (framerate->TimeSinceStarted() >= 1000.0f / 28.0f)
+    if (framerate && framerate->TimeSinceStarted() >= 1000.0f / 28.0f)
     {
         for (unsigned int i = 0; i < drawables.Size(); i++)
         {

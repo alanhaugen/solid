@@ -15,7 +15,7 @@
 
 class Mesh : public Component
 {
-private:
+protected:
     Joint *rootJoint;
 
     ITime *framerate;
@@ -44,9 +44,6 @@ public:
 
     void Hide();
     void Show();
-
-    void Scale();
-    void Rotate();
 
     void PlayAnimation(Animation *anim, int blend = 1.0, bool reset = false);
 };
