@@ -1,5 +1,8 @@
-INCLUDES = -I /usr/local/Cellar/sdl2/2.0.12_1/include/SDL2 -I /usr/local/Cellar/sdl2_ttf/2.0.15/include/SDL2
-LIBS = -L /usr/local/Cellar/sdl2/2.0.12_1/lib -L /usr/local/Cellar/sdl2_ttf/2.0.15/lib
+INCLUDES = -I ../../../include/darwin
+LIBS = -L ../../../lib/debug/darwin/arm64
+
+LIBS += -lm -liconv -framework CoreMIDI -framework CoreFoundation -framework AudioToolbox -framework CoreAudio -framework Carbon -framework ForceFeedback -framework CoreVideo -framework AppKit -framework Metal -framework IOKit -framework Cocoa
+LIBS += -framework CoreHaptics -framework MediaPlayer -framework GameController
 
 fontgenerator: source/main.cpp
-	clang++ source/main.cpp $(INCLUDES) $(LIBS) -lsdl2 -lsdl2_ttf -o fontgenerator
+	clang++ source/main.cpp $(INCLUDES) $(LIBS) -lsdl2 -lsdl2_ttf -lfreetype -o fontgenerator 
