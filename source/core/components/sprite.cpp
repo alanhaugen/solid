@@ -269,11 +269,11 @@ void Sprite::Hide()
     drawable->visible = false;
 }
 
-void Sprite::Rotate(int radians)
+/*void Sprite::Rotate(int radians)
 {
 
 }
 
 void Sprite::Scale(const float scale, bool x, bool y)
 {
-}
+}*/

@@ -78,10 +78,10 @@ public:
     void Hide();
 
     // Rotation
-    void Rotate(int radians);
+    //void Rotate(int radians);
 
     // Scale a certain amount in x, y or both
-    void Scale(const float scale, bool x = true, bool y = true);
+    //void Scale(const float scale, bool x = true, bool y = true);
 
     glm::vec2 anchorPoint;
     int quadQuantity;
