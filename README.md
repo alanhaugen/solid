@@ -29,6 +29,9 @@ After building, run the executable:
 
 **Note:** An example application can be found in examples/templates/application
 
+> cd examples/templates/application
+> make run
+
 # Project Overview
 
 This is a C++ game project.
@@ -51,7 +54,9 @@ Avoid unnecessary dependencies
 
 # Project Structure
 
-./source -> Source files (.cpp and .h) ./data -> Game assets (textures, audio, etc.)
+./source -> Source files (.cpp and .h)
+
+./data -> Game assets (textures, audio, etc.)
 
 ./build -> Build output
 
