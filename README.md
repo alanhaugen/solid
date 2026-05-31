@@ -8,6 +8,8 @@ MinGW-w64 from Git for Windows recommended for the Windows platform.
 
 Macos 10.13 supports OpenGL, Vulkan via MoltenVK on newer releases.
 
+> make all
+
 QtCreator qbs also supported and recommended. Simply open the Qt .qbs file instead of using the Makefiles.
 
 # Build Instructions
@@ -25,17 +27,18 @@ After building, run the executable:
 
 > make run
 
-**Note:** An example application can be found in examples/templates/app
-
-> make all
+**Note:** An example application can be found in examples/templates/application
 
 # Project Overview
 
 This is a C++ game project.
 
 Language: C++
+
 Build system: Make (Makefile)
+
 Output: Native executable
+
 The project is intended to be compiled and run locally.
 
 # Code Guidelines
@@ -47,7 +50,11 @@ Use meaningful variable and function names
 Avoid unnecessary dependencies
 
 # Project Structure
+
 ./source -> Source files (.cpp and .h) ./data -> Game assets (textures, audio, etc.)
+
 ./build -> Build output
+
 ./bin -> Binary files output
+
 ./intermediate -> Intermediate files from the Asset Conditioning Pipeline Makefile -> Build configuration
