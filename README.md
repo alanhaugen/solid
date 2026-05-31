@@ -30,6 +30,7 @@ After building, run the executable:
 **Note:** An example application can be found in examples/templates/application
 
 > cd examples/templates/application
+> 
 > make run
 
 # Project Overview
@@ -47,9 +48,13 @@ The project is intended to be compiled and run locally.
 # Code Guidelines
 
 Use C++
+
 Prefer clear, readable code over clever optimizations
+
 Keep functions small and focused
+
 Use meaningful variable and function names
+
 Avoid unnecessary dependencies
 
 # Project Structure
@@ -62,4 +67,6 @@ Avoid unnecessary dependencies
 
 ./bin -> Binary files output
 
-./intermediate -> Intermediate files from the Asset Conditioning Pipeline Makefile -> Build configuration
+./intermediate -> Intermediate files from the Asset Conditioning Pipeline
+
+Makefile -> Build configuration
