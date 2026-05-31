@@ -45,6 +45,20 @@ Output: Native executable
 
 The project is intended to be compiled and run locally.
 
+# Platform support
+
+This project support linux, windows, macos, android and ios
+
+OpenGL ES 2.0 is used for mobile ndk android and ios.
+
+OpenGL Core profile is used for Windows (currently must be configured manually if you use qbs)
+
+Vulkan is used via MoltenVK on Macos > 13.0
+
+OpenGL Core profile is used for older Macos releases
+
+Both x86_64 and arm64 macos is supported via SDL2
+
 # Code Guidelines
 
 Use C++
