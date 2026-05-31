@@ -6,27 +6,48 @@ MinGW-w64 from Git for Windows recommended for the Windows platform.
 
 > mingw32-make.exe all
 
-Macos 10.13 is the last supported release at the moment, since OpenGL was removed from newer releases of macos.
-
-> make all
+Macos 10.13 supports OpenGL, Vulkan via MoltenVK on newer releases.
 
 QtCreator qbs also supported and recommended. Simply open the Qt .qbs file instead of using the Makefiles.
 
-## Valkeryie support
+# Build Instructions
 
-On arch linux you need qt4 to run valkeryie in tools/linux (64-bit)
+To compile the project, run:
 
-Downlioad qt4 from AUR: https://aur.archlinux.org/packages/qt4
+> make
 
-> tar xfv qt4
-> cd qt4
-> makepkg
-> pacman -U qt4.pkg.tar.szt
+To clean build artifacts:
 
-Remember to install valgrind
+> make clean
 
-> pacman -S valgrind
+Run Instructions
+After building, run the executable:
 
-You may also want imagemagick
+> make run
 
-> pacman -S imagemagick
+**Note:** An example application can be found in examples/templates/app
+
+> make all
+
+# Project Overview
+
+This is a C++ game project.
+
+Language: C++
+Build system: Make (Makefile)
+Output: Native executable
+The project is intended to be compiled and run locally.
+
+# Code Guidelines
+
+Use C++
+Prefer clear, readable code over clever optimizations
+Keep functions small and focused
+Use meaningful variable and function names
+Avoid unnecessary dependencies
+
+# Project Structure
+./source -> Source files (.cpp and .h) ./data -> Game assets (textures, audio, etc.)
+./build -> Build output
+./bin -> Binary files output
+./intermediate -> Intermediate files from the Asset Conditioning Pipeline Makefile -> Build configuration
