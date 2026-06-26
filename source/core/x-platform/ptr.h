@@ -13,17 +13,16 @@ private:
     {
         T object;
         Ptr *ptrWithDeleteResponsibility;
+        int refCount;
 
         Data(T object_, Ptr *ptr_)
-        {
-            object = object_;
-            ptrWithDeleteResponsibility = ptr_;
-        }
+            : object(object_), ptrWithDeleteResponsibility(ptr_), refCount(1)
+        {}
         ~Data()
         {
             if (object != NULL)
             {
-                //delete object;
+                delete object;
                 object = NULL;
             }
         }
@@ -62,38 +61,60 @@ public:
         }
     }
 
-    ~Ptr() // I
+    ~Ptr()
     {
-        /*if (this == data->ptrWithDeleteResponsibility) // TODO:  FIXME!!! MAJOR MEMORY LEAK!!1 (even when not commented out)
+        if (data != NULL)
+        {
+            if (isLocked == false)
+            {
+                data->refCount--;
+                if (data->refCount == 0 && this == data->ptrWithDeleteResponsibility)
+                {
+                    delete data;
+                    data  = NULL;
+                    empty = true;
+                }
+            }
+        }
+    };
+
+    Ptr(const Ptr &other)
+    {
+        data = other.data;
+        empty = !other.empty;
+        isLocked = other.isLocked;
+        if (data != NULL)
+        {
+            data->refCount++;
+        }
+    }
+
+    Ptr operator=(const Ptr &rhs)
+    {
+        if (this != &rhs)
         {
             if (data != NULL)
             {
-                delete data;
-                data  = NULL;
-                empty = true;
+                if (isLocked == false)
+                {
+                    data->refCount--;
+                    if (data->refCount == 0 && this == data->ptrWithDeleteResponsibility)
+                    {
+                        delete data;
+                        data  = NULL;
+                        empty = true;
+                    }
+                }
             }
-        }*/
-    };
 
-    Ptr(const Ptr &other) // II
-    {
-        data = other.data;
-        empty = false;
-    }
-
-    Ptr operator=(const Ptr &rhs) // III
-    {
-        Ptr *lhs = this;
-
-        // Guard self assignment
-        if (lhs == &rhs)
-            return *this;
-
-        // Take responsibility for object
-        data = rhs.data;
-        isLocked = rhs.isLocked;
-        ChangeResponsibility(lhs);
-        empty = false;
+            data = rhs.data;
+            empty = !rhs.empty;
+            isLocked = rhs.isLocked;
+            if (data != NULL)
+            {
+                data->refCount++;
+            }
+        }
 
         return *this;
     }
@@ -115,13 +136,17 @@ public:
 
     void Swap(Ptr &o)
     {
-        T *temp  = data;
-        //data     = o.object; // FIXME: This suddenly broke on macos with clang++ 17.0.0
-        //o.object = temp;
+        Data* temp = data;
+        data = o.data;
+        o.data = temp;
 
         bool tempEmpty = empty;
         empty = o.empty;
         o.empty = tempEmpty;
+
+        bool tempLocked = isLocked;
+        isLocked = o.isLocked;
+        o.isLocked = tempLocked;
     }
 };
 
