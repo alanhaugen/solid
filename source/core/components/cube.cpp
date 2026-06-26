@@ -71,10 +71,11 @@ Cube::Cube(float x, float y, float z, float length, float width, float height, S
 
     drawable = renderer->CreateDrawable(vertices, indices, shaders, texture);
     //drawable->uniformData = uniforms;
+    drawable->uniforms.colour = color;
 
     if (hasCollision == true)
     {
-        collisionBox = physics->CreateHitBox(glm::vec3(1.0), &matrix, tag);
+        collisionBox = physics->CreateHitBox(glm::vec3(0.5), &matrix, tag);
     }
     else
     {

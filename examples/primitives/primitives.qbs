@@ -43,8 +43,8 @@ solid {
             cpp.dynamicLibraries: macosSharedLibs
             cpp.staticLibraries: staticLibs.concat("SDL2", "MoltenVK")
 
-            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/darwin/" + qbs.architecture]
-            cpp.includePaths: includePaths.concat("../solid/include/darwin")
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/darwin/" + qbs.architecture]
+            cpp.includePaths: includePaths.concat("../../../solid/include/darwin")
             cpp.defines: project.defines.concat(project.sdlDefines)
 
             workingDirectory: project.sourceDirectory + "/data"
@@ -56,8 +56,8 @@ solid {
             cpp.dynamicLibraries: linuxSharedLibs
             cpp.staticLibraries: staticLibs.concat("glfw3")
 
-            cpp.libraryPaths: [project.buildDirectory, "../solid/lib/debug/linux" + qbs.architecture]
-            cpp.includePaths: includePaths.concat("../solid/include/linux")
+            cpp.libraryPaths: [project.buildDirectory, "../../../solid/lib/debug/linux" + qbs.architecture]
+            cpp.includePaths: includePaths.concat("../../../solid/include/linux")
             cpp.defines: project.defines.concat(project.glfwDefines)
 
             workingDirectory: project.sourceDirectory + "/data"
