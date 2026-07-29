@@ -25,9 +25,9 @@ private:
               const char *glyphs = "",
               const float distanceToNextGlyph = 1.0f);
 
+public:
     ITexture *texture;
 
-public:
     Sprite(String textureFilePath,
            const float x_ = 0.0,
            const float y_ = 0.0,
