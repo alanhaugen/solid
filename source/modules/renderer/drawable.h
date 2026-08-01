@@ -95,6 +95,7 @@ public:
         glm::mat4 normalMat;
         glm::vec4 lightPosition;
         glm::vec4 cameraPosition;
+        glm::vec4 uvOffsets;
     };
 
     UniformBlock uniforms;

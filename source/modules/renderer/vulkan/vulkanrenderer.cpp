@@ -1057,7 +1057,7 @@ void VulkanRenderer::Render(const Array<glm::mat4> &projViewMatrixArray, const A
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipeline);
 
         // Bind descriptor set (shader uniforms)
-        uint32_t uniformOffset = PadUniformBufferSize(sizeof(UniformBlock) * (*drawable)->offset);
+        uint32_t uniformOffset = PadUniformBufferSize(sizeof(IDrawable::UniformBlock) * (*drawable)->offset);
 
         // Descriptor set 0 has the uniforms
         vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, (*drawable)->pipelineLayout, 0, 1, &uniformDescriptor, 1, &uniformOffset);
@@ -1385,7 +1385,7 @@ void VulkanRenderer::SetupDescriptorSets()
     vkAllocateDescriptorSets(device, &allocInfo, &uniformDescriptor);
 
     // Allocate buffer block data
-    uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(UniformBlock) * 8000),
+    uniformBuffer = CreateBuffer(PadUniformBufferSize(sizeof(IDrawable::UniformBlock) * 8000),
                                  VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                                  VMA_MEMORY_USAGE_CPU_TO_GPU);
 
@@ -1396,7 +1396,7 @@ void VulkanRenderer::SetupDescriptorSets()
     //at 0 offset
     binfo.offset = 0;
     //of the size of a camera data struct
-    binfo.range = sizeof(UniformBlock);
+    binfo.range = sizeof(IDrawable::UniformBlock);
 
     VkWriteDescriptorSet setWrite = {};
     setWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

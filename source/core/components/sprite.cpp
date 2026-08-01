@@ -14,8 +14,10 @@ void Sprite::Init(const float x_,
                   const float uOffset_,
                   const float vOffset_)
 {
-    uOffset = uOffset_;
-    vOffset = vOffset_;
+    if (uOffset_ != 0 || vOffset_ != 0)
+    {
+        isAnimating = false;
+    }
 
     anchorPoint = anchorPoint_;
     quadQuantity = quadQuantity_;
@@ -107,8 +109,6 @@ void Sprite::Init(const float x_,
     // Let shaders know the desired section to be used of the sprite sheet
     drawable->uniforms.width[0] = width;
     drawable->uniforms.height[0] = height;
-
-    // To get graphics placed correctly, the total sprite sheet size is sent to the shader program
     drawable->uniforms.totalWidth[0] = texture->width;
     drawable->uniforms.totalHeight[0] = texture->height;
 
@@ -119,6 +119,10 @@ void Sprite::Init(const float x_,
     // Setup if sprite is flipped or not
     drawable->uniforms.flip[0] = isFlipped;
     drawable->uniforms.flipVertical[0] = isFlippedVertical;
+    
+    // Add UV offsets for carving up images
+    drawable->uniforms.uvOffsets[0] = uOffset_;
+    drawable->uniforms.uvOffsets[1] = vOffset_;
 }
 
 Sprite::Sprite(String textureFilePath,
@@ -138,8 +142,6 @@ Sprite::Sprite(String textureFilePath,
     texture = renderer->CreateTexture(textureFilePath);
 
     Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph, _uOffset, _vOffset);
-    uOffset = _uOffset;
-    vOffset = _vOffset;
 }
 
 Sprite::Sprite(const int red,
@@ -187,7 +189,7 @@ void Sprite::Update(float deltaTime)
     drawable->uniforms.scaleY[0] = scaleY;
     //Uniform("rotation", static_cast<glm::vec2>(glm::vec2(0.0f, 1.0f)));
 
-    if (timer->TimeSinceStarted() > 100.0f)
+    if (isAnimating && timer->TimeSinceStarted() > 100.0f)
     {
         if (width != texture->width || height != texture->height)
         {

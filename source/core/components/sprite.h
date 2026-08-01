@@ -29,8 +29,6 @@ private:
 
 public:
     ITexture *texture;
-    float uOffset;
-    float vOffset;
 
     Sprite(String textureFilePath,
            const float x_ = 0.0,

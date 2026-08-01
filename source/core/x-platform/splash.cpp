@@ -17,9 +17,7 @@ void Splash::Init()
     components.Add(new Camera);
     components.Add(new Sprite("data/logo.png",
                               (renderer->windowWidth/2.0f) - 124.0f,
-                              (renderer->windowHeight/2.0f) - 36.0f,
-                              1.0f,
-                              1.0f));
+                              (renderer->windowHeight/2.0f) - 36.0f));
     components.Add(new Background(glm::vec3(1,1,1)));
 
     timer = Application::GetTime();
