@@ -122,7 +122,7 @@ intermediate/data/%.jpg: data/%.jpg
 intermediate/data/%.png: data/%.png 
 	@mkdir -p $@
 	@rmdir $@
-	$(CONVERT) $< -alpha set -colorspace sRGB -channel RGBA PNG32:intermediate/$<
+	$(CONVERT) $< -colorspace sRGB -channel RGBA PNG32:intermediate/$<
 
 intermediate/data/%.bmp: data/%.bmp 
 	@mkdir -p $@

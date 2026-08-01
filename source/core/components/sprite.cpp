@@ -10,8 +10,13 @@ void Sprite::Init(const float x_,
                   const int textureHeight_,
                   const unsigned int quadQuantity_,
                   const char *glyphs,
-                  const float distanceToNextGlyph)
+                  const float distanceToNextGlyph,
+                  const float uOffset_,
+                  const float vOffset_)
 {
+    uOffset = uOffset_;
+    vOffset = vOffset_;
+
     anchorPoint = anchorPoint_;
     quadQuantity = quadQuantity_;
 
@@ -85,14 +90,6 @@ void Sprite::Init(const float x_,
         vertices[3 + i * 6].textureCoordinates = glm::vec2(0, 0);
         vertices[4 + i * 6].textureCoordinates = glm::vec2(1, 1);
         vertices[5 + i * 6].textureCoordinates = glm::vec2(1, 0);
-
-        // NOTE: For some strange reason, the code works (without errors or warnings) without this
-        //indices.Add(0 + i * 6);
-        //indices.Add(1 + i * 6);
-        //indices.Add(2 + i * 6);
-        //indices.Add(3 + i * 6);
-        //indices.Add(4 + i * 6);
-        //indices.Add(5 + i * 6);
     }
 
     shaders.Insert("data/gui.vert", VERTEX_SHADER);
@@ -134,11 +131,15 @@ Sprite::Sprite(String textureFilePath,
                const int _textureHeight,
                const unsigned int quadQuantity_,
                const char *glyphs,
-               const float distanceToNextGlyph)
+               const float distanceToNextGlyph,
+               const float _uOffset,
+               const float _vOffset)
 {
     texture = renderer->CreateTexture(textureFilePath);
 
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph, _uOffset, _vOffset);
+    uOffset = _uOffset;
+    vOffset = _vOffset;
 }
 
 Sprite::Sprite(const int red,
@@ -153,11 +154,11 @@ Sprite::Sprite(const int red,
                const int _textureHeight,
                const unsigned int quadQuantity_,
                const char *glyphs,
-               const float distanceToNextGlyph)
+               const float distanceToNextGlyph,
+               const float _uOffset,
+               const float _vOffset)
 {
-    //textures.Add(new Pixmap(red, green, blue));
-
-    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph);
+    Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph, _uOffset, _vOffset);
 }
 
 Sprite::~Sprite()

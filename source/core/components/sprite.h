@@ -14,19 +14,23 @@ protected:
 private:
     ITime *timer;
 
-    void Init(const float x_ = 0.0,
-              const float y_ = 0.0,
-              const float scaleX_ = 1.0f,
-              const float scaleY_ = 1.0f,
-              const glm::vec2 anchorPoint = glm::vec2(0,0),
+    void Init(const float x_,
+              const float y_,
+              const float scaleX_,
+              const float scaleY_,
+              const glm::vec2 anchorPoint_,
               const int textureWidth_ = 0,
               const int textureHeight_ = 0,
               const unsigned int quadQuantity_ = 1,
               const char *glyphs = "",
-              const float distanceToNextGlyph = 1.0f);
+              const float distanceToNextGlyph = 1.0f,
+              const float uOffset_ = 0.0f,
+              const float vOffset_ = 0.0f);
 
 public:
     ITexture *texture;
+    float uOffset;
+    float vOffset;
 
     Sprite(String textureFilePath,
            const float x_ = 0.0,
@@ -38,7 +42,9 @@ public:
            const int textureHeight_ = 0,
            const unsigned int quadQuantity_ = 1,
            const char *glyphs = "",
-           const float distanceToNextGlyph = 1.0f);
+           const float distanceToNextGlyph = 1.0f,
+           const float uOffset_ = 0.0f,
+           const float vOffset_ = 0.0f);
     Sprite(const int red,
            const int green,
            const int blue,
@@ -51,7 +57,9 @@ public:
            const int textureHeight_ = 0,
            const unsigned int quadQuantity_ = 1,
            const char *glyphs = "",
-           const float distanceToNextGlyph = 1.0f);
+           const float distanceToNextGlyph = 1.0f,
+           const float uOffset_ = 0.0f,
+           const float vOffset_ = 0.0f);
     ~Sprite();
 
     IDrawable *drawable;
@@ -95,6 +103,7 @@ public:
     float transformedX, transformedY;
     bool isFlipped;
     bool isFlippedVertical;
+    bool isAnimating = true;
 };
 
 #endif // SPRITE_H
