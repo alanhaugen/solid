@@ -144,6 +144,13 @@ Sprite::Sprite(String textureFilePath,
     Init(_x, _y, scaleX_, scaleY_, anchorPoint_, _textureWidth, _textureHeight, quadQuantity_, glyphs, distanceToNextGlyph, _uOffset, _vOffset);
 }
 
+Sprite::Sprite(const float x_, const float y_, const float uOffset_, const float vOffset_, const int textureWidth_, const int textureHeight_, const String textureFilePath, const float scaleX_, const float scaleY_)
+{
+    texture = renderer->CreateTexture(textureFilePath);
+
+    Init(x_, y_, scaleX_, scaleY_, glm::vec2(), textureWidth_, textureHeight_, 1, "", 0, uOffset_, vOffset_);
+}
+
 Sprite::Sprite(const int red,
                const int green,
                const int blue,

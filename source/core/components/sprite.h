@@ -43,6 +43,15 @@ public:
            const float distanceToNextGlyph = 1.0f,
            const float uOffset_ = 0.0f,
            const float vOffset_ = 0.0f);
+    Sprite(const float x_,
+           const float y_,
+           const float uOffset_,
+           const float vOffset_,
+           const int textureWidth_,
+           const int textureHeight_,
+           const String textureFilePath,
+           const float scaleX_ = 1.0f,
+           const float scaleY_ = 1.0f);
     Sprite(const int red,
            const int green,
            const int blue,
